@@ -1,1 +1,1 @@
-## Vào folder GUI chạy file Main
+# Vào folder GUI chạy file Main
