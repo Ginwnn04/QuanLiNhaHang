@@ -51,7 +51,7 @@ public class TableBook extends javax.swing.JPanel {
             panelBackground.setBackground(new Color(0, 51, 51, 255));
             lbIcon.setIcon(new ImageIcon(getClass().getResource("/GUI/Comp/Icon/user.png")));
         
-            lbStatus.setText("Được sử dụng");
+            lbStatus.setText("Đang sử dụng");
         }
     }
     
@@ -73,29 +73,31 @@ public class TableBook extends javax.swing.JPanel {
         panelBackground.setBackground(new java.awt.Color(103, 199, 143));
         panelBackground.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lbNumberTable.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        lbNumberTable.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         lbNumberTable.setForeground(new java.awt.Color(255, 255, 255));
         lbNumberTable.setText("B.111");
         panelBackground.add(lbNumberTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         lbStatus.setBackground(new java.awt.Color(255, 255, 255));
-        lbStatus.setFont(new java.awt.Font("Roboto Condensed", 3, 20)); // NOI18N
+        lbStatus.setFont(new java.awt.Font("Roboto Condensed", 3, 24)); // NOI18N
         lbStatus.setForeground(new java.awt.Color(255, 255, 255));
         lbStatus.setText("Bàn trống");
-        panelBackground.add(lbStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 43, -1, -1));
+        panelBackground.add(lbStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, -1, -1));
 
         lbIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Comp/Icon/check.png"))); // NOI18N
-        panelBackground.add(lbIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
+        panelBackground.add(lbIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBackground, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+            .addComponent(panelBackground, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
 

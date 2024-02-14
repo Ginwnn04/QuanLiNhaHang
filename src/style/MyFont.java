@@ -14,10 +14,9 @@ import java.awt.Font;
  * @author quang
  */
 public class MyFont {
-    public static Font fontMenu = new Font(FlatRobotoFont.FAMILY_LIGHT, Font.ITALIC, 14);
-    public static Font zzz = new Font(FlatRobotoFont.FAMILY_LIGHT, Font.PLAIN, 14);
-    public static Font fontComponent = new Font(FlatRobotoFont.FAMILY, Font.BOLD, 14);
-    public static Font fontRole = new Font(FlatRobotoFont.STYLE_SEMIBOLD_ITALIC, Font.ITALIC, 14);
+    public static Font fontHeader = new Font(FlatRobotoFont.FAMILY_LIGHT, Font.BOLD, 16);
+    public static Font fontMenuBar = new Font(FlatRobotoFont.FAMILY, Font.BOLD, 18);
+
     
 
     

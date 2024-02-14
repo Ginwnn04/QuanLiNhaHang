@@ -21,7 +21,7 @@ public class Header extends javax.swing.JPanel {
     public Header() {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
-        lbTitle.setFont(style.MyFont.fontComponent);
+        lbTitle.setFont(style.MyFont.fontHeader);
     }
     
     
