@@ -16,6 +16,7 @@ import java.awt.Font;
 public class MyFont {
     public static Font fontHeader = new Font(FlatRobotoFont.FAMILY_LIGHT, Font.BOLD, 16);
     public static Font fontMenuBar = new Font(FlatRobotoFont.FAMILY, Font.BOLD, 18);
+    public static Font fontText = new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 15);
 
     
 

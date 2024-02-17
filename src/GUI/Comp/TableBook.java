@@ -34,7 +34,7 @@ public class TableBook extends javax.swing.JPanel {
         initComponents();
         setBackground(new Color(0,0,0,0));
         init();
-        lbNumberTable.setText("B." + numberTable);
+        lbNumberTable.setText("Bàn " + numberTable);
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
     }

@@ -204,7 +204,7 @@ public class Menu extends javax.swing.JPanel {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Admin");
 
-        imageAvatar1.setImage(new javax.swing.ImageIcon(getClass().getResource("/GUI/Comp/Icon/logo.jpg"))); // NOI18N
+        imageAvatar1.setImage(new javax.swing.ImageIcon(getClass().getResource("/GUI/Comp/Icon/R.jpg"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

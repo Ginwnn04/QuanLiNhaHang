@@ -44,6 +44,7 @@ public class Main extends javax.swing.JFrame {
         a.setStatusTable(8, false);
         test(this);
         
+        
     }
     
     public void test(Frame frame) {
@@ -128,9 +129,17 @@ public class Main extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         FlatMacLightLaf.registerCustomDefaultsSource("style");
+        FlatRobotoFont.install();
         FlatMacLightLaf.setPreferredFontFamily(FlatRobotoFont.FAMILY);
-        FlatMacLightLaf.setPreferredLightFontFamily(FlatRobotoFont.FAMILY_LIGHT);
         FlatMacLightLaf.setPreferredSemiboldFontFamily(FlatRobotoFont.STYLE_SEMIBOLD);
+        FlatMacLightLaf.setPreferredLightFontFamily(FlatRobotoFont.FAMILY_LIGHT);
+        UIManager.put("TextField.font", style.MyFont.fontText);
+        UIManager.put("Label.font", style.MyFont.fontText);
+        UIManager.put("Button.font", style.MyFont.fontText);
+        UIManager.put("Table.font", style.MyFont.fontText);
+        UIManager.put("TableHeader.font", style.MyFont.fontText);
+        UIManager.put("TableHeader.background", new Color(103, 188, 143, 255));
+        UIManager.put("Table.alternateRowColor", new Color(240, 240, 240));
         
         FlatMacLightLaf.setup();
 

@@ -98,7 +98,7 @@
     <Container class="GUI.Comp.Menu.ImageAvatar" name="imageAvatar1">
       <Properties>
         <Property name="image" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/GUI/Comp/Icon/logo.jpg"/>
+          <Image iconType="3" name="/GUI/Comp/Icon/R.jpg"/>
         </Property>
       </Properties>
 
