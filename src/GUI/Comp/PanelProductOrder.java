@@ -14,18 +14,18 @@ import javax.swing.JButton;
  * @author quang
  */
 public class PanelProductOrder extends javax.swing.JPanel {
-    public static String nameProductSelection = "zz";
-    private String nameProduct = "";
+    public static int indexProduct = -1;
+    private int index = -1;
     /**
      * Creates new form PanelProductOrder
      */
     public PanelProductOrder() {
         initComponents();
-        serviceButton();
+        
     }
 
-    public void insertData(String nameProduct, double price, String status, String imagePath) {
-        this.nameProduct = nameProduct;
+    public void insertData(int index, String nameProduct, double price, String status, String imagePath) {
+        this.index = index;
         lbNameProduct.setText(nameProduct);
         lbShowPrice.setText("đ" + price);
         lbShowActive.setText(status);
@@ -35,21 +35,18 @@ public class PanelProductOrder extends javax.swing.JPanel {
     }
     
 
-    public void setZ(String a) {
-        nameProductSelection = a;
-    }
+  
     
     
     public void serviceButton() {
         btnSelection.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setZ(nameProduct);
-                System.out.println(nameProductSelection);
+                indexProduct = index;
+                
             }
             
         });
-        
     }
     
     /**
@@ -162,7 +159,7 @@ public class PanelProductOrder extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private GUI.Comp.AvatarProduct avatarProduct;
-    private javax.swing.JButton btnSelection;
+    public javax.swing.JButton btnSelection;
     private javax.swing.JLabel lbActiveProduct;
     private javax.swing.JLabel lbNameProduct;
     private javax.swing.JLabel lbPrice;

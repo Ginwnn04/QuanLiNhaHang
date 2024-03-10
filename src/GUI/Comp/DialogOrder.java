@@ -1,70 +1,75 @@
 package GUI.Comp;
 
-
 import BUS.MenuItemBUS;
 import DTO.DetailOrderDTO;
 import DTO.MenuItemDTO;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JButton;
 
-
 public class DialogOrder extends javax.swing.JDialog {
-  
+
     private ArrayList<MenuItemDTO> listMenuItem = new ArrayList<>();
-    private ArrayList<DetailOrderDTO> listDetailOrder = new ArrayList<>();
-       
+    private static ArrayList<DetailOrderDTO> listDetailOrder = new ArrayList<>();
+
     public DialogOrder(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
         listMenuItem = new MenuItemBUS().getAllData();
         addMenuItem();
+
     }
 
-    
-    public void addMenuItem(String nameProduct, double price, String status, String image ) {
+    public void addMenuItem(int index, String nameProduct, double price, String status, String image) {
         PanelProductOrder pnProductOrder = new PanelProductOrder();
-        pnProductOrder.insertData(nameProduct, price, status, image);
+        pnProductOrder.insertData(index, nameProduct, price, status, image);
         pnOrder.add(pnProductOrder);
     }
-    
+
     public void addMenuItem() {
         int height = 125 * listMenuItem.size();
         int width = pnOrder.getWidth();
         pnOrder.setPreferredSize(new Dimension(width, height));
-        for(int i = 0; i < listMenuItem.size(); i++) {
+        for (int i = 0; i < listMenuItem.size(); i++) {
             MenuItemDTO item = listMenuItem.get(i);
-            addMenuItem(item.getName(), item.getPrice(), item.getStatus(), item.getImage());
+            addMenuItem(i, item.getName(), item.getPrice(), item.getStatus(), item.getImage());
 //            System.out.println(listMenuItem.get(i).getName() + " " + listMenuItem.get(i).getPrice()+ " " + listMenuItem.get(i).getStatus());
         }
-        
+
 //        jScrollPane2.setSize(width, 300);
     }
-    
-    public void addCheckoutItem(String nameProduct, double price) {
+
+    public void addCheckoutItem(String nameProduct, double price, int quantity) {
         PanelConfirmOrder panelConfirmOrder = new PanelConfirmOrder();
-        panelConfirmOrder.insertData(nameProduct, price);
+        panelConfirmOrder.insertData(nameProduct, price, quantity);
         pnCheckout.add(panelConfirmOrder);
     }
-    
+
     public void addCheckoutItem() {
-        int height = 90 * listMenuItem.size();
+        int height = 90 * listDetailOrder.size();
         int width = pnCheckout.getWidth();
         pnCheckout.setPreferredSize(new Dimension(width, height));
-        for(int i = 0; i < listMenuItem.size(); i++) {
-            addCheckoutItem(listMenuItem.get(i).getName(), listMenuItem.get(i).getPrice());
-            System.out.println(listMenuItem.get(i).getName() + " " + listMenuItem.get(i).getPrice());
+        for (int i = 0; i < listDetailOrder.size(); i++) {
+            DetailOrderDTO detailOrderDTO = listDetailOrder.get(i);
+            addCheckoutItem(detailOrderDTO.getName(), detailOrderDTO.getPrice(), detailOrderDTO.getQuantity());
+            System.out.println(detailOrderDTO.getName() + " " + detailOrderDTO.getPrice() + " " + detailOrderDTO.getQuantity());
+
         }
 //        System.out.println(width + " " + height);
 //        jScrollPane3.setSize(width, 392);
     }
-    
-    public void mapData() {
-        System.out.println(PanelProductOrder.nameProductSelection);
+
+    public static void test(int index) {
+        MenuItemDTO item = listMenuItem.get(index);
+        DetailOrderDTO detailOrderDTO = new DetailOrderDTO(item.getName(), item.getPrice(), 1);
+        listDetailOrder.add(detailOrderDTO);
+        addCheckoutItem();
+        repaint();
     }
-    
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -80,7 +85,14 @@ public class DialogOrder extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         pnOrder = new GUI.Comp.Swing.PanelBackground();
 
+        txtMapData.setText("0");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                formMouseEntered(evt);
+            }
+        });
 
         lbSort.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         lbSort.setForeground(new java.awt.Color(102, 102, 102));
@@ -111,11 +123,6 @@ public class DialogOrder extends javax.swing.JDialog {
         btnOrder.setForeground(new java.awt.Color(102, 102, 102));
         btnOrder.setText("ĐẶT MÓN");
         btnOrder.setBorderPainted(false);
-        btnOrder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOrderActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout panelBackground1Layout = new javax.swing.GroupLayout(panelBackground1);
         panelBackground1.setLayout(panelBackground1Layout);
@@ -181,23 +188,21 @@ public class DialogOrder extends javax.swing.JDialog {
                             .addComponent(cbxCatelory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(11, 11, 11)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                .addGap(0, 34, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    // Load liên tục để cập nhật lại các checkout mà khách hàng tăng/giảm
-    private void btnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderActionPerformed
-        repaint();
-    }//GEN-LAST:event_btnOrderActionPerformed
-
+    // Cập nhật lại khi các checkout có số lượng là 0 (Xoá)
     private void jScrollPane3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane3MouseEntered
-        pnCheckout.repaint();
+//        pnCheckout.repaint();
     }//GEN-LAST:event_jScrollPane3MouseEntered
 
-   
+    private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
+        pnCheckout.repaint();
+    }//GEN-LAST:event_formMouseEntered
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

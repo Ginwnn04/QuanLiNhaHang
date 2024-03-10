@@ -10,13 +10,39 @@ package DTO;
  */
 public class DetailOrderDTO {
     private int id;
+    private String name;
     private double price;
     private double profit;
+    private int quantity;
     private double total;
     private boolean isDelete;
     private int itemID;
     private int orderID;
     private int invoiceID;
+
+    public DetailOrderDTO(String name, double price, int quantity) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity > 0 ? quantity : 0;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    
+    
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public int getId() {
         return id;

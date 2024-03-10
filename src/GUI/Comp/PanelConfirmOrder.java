@@ -19,15 +19,15 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
     private boolean isDelete = false;
     
     public PanelConfirmOrder() {
-        
         initComponents();
         serviceButton();
         
     }
     
-    public void insertData(String nameProduct, double price) {
+    public void insertData(String nameProduct, double price, int quantity) {
         this.nameProduct = nameProduct;
         this.price = price;
+        this.total = price * quantity;
         update();
     }
 
