@@ -27,6 +27,11 @@ public class PanelDashbroad extends javax.swing.JPanel {
     public PanelDashbroad() {
         initComponents();
         initReport();
+        addTable(10);
+        setStatusTable(4, false);
+        setStatusTable(1, false);
+        setStatusTable(6, false);
+        setStatusTable(8, false);
     }
 
     public void initReport() {
@@ -164,7 +169,7 @@ public class PanelDashbroad extends javax.swing.JPanel {
                 .addGap(30, 30, 30)
                 .addComponent(btnHuyBan, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
                 .addGap(30, 30, 30)
-                .addComponent(btnKiemTra, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
+                .addComponent(btnKiemTra, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
                 .addGap(30, 30, 30)
                 .addComponent(btnThanhToan, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
                 .addGap(30, 30, 30))
@@ -195,7 +200,7 @@ public class PanelDashbroad extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 646, Short.MAX_VALUE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,7 +208,7 @@ public class PanelDashbroad extends javax.swing.JPanel {
                             .addComponent(card2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(14, 14, 14))
+                .addGap(10, 10, 10))
         );
 
         getAccessibleContext().setAccessibleName("");

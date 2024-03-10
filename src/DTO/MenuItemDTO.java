@@ -8,27 +8,30 @@ package DTO;
  *
  * @author quang
  */
-public class MenuItem {
+public class MenuItemDTO {
     private String id;
     private String code;
     private String name;
     private String description;
     private String ingredient;
     private String image;
-    private int price;
-    private int profit;
+    private double price;
+    private double profit;
     private boolean isDelete;
-    private String statusID;
-    private String categoryID;
+    private String status;
+    private String category;
     private String createTime;
     private String updateTime;
-
-    public MenuItem() {
+    private String statusProduct;
+    private String categories;      
+            
+    public MenuItemDTO() {
+        
     }
 
     
     
-    public MenuItem(String id, String code, String name, String description, String ingredient, String image, int price, int profit, boolean isDelete, String statusID, String categoryID, String createTime, String updateTime) {
+    public MenuItemDTO(String id, String code, String name, String description, String ingredient, String image, double price, double profit, boolean isDelete, String status, String category, String createTime, String updateTime, String statusProduct, String categories) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -38,10 +41,12 @@ public class MenuItem {
         this.price = price;
         this.profit = profit;
         this.isDelete = isDelete;
-        this.statusID = statusID;
-        this.categoryID = categoryID;
+        this.status = status;
+        this.category = category;
         this.createTime = createTime;
         this.updateTime = updateTime;
+        this.statusProduct = statusProduct;
+        this.categories = categories;
     }
 
     public String getId() {
@@ -92,19 +97,19 @@ public class MenuItem {
         this.image = image;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public int getProfit() {
+    public double getProfit() {
         return profit;
     }
 
-    public void setProfit(int profit) {
+    public void setProfit(double profit) {
         this.profit = profit;
     }
 
@@ -116,21 +121,23 @@ public class MenuItem {
         this.isDelete = isDelete;
     }
 
-    public String getStatusID() {
-        return statusID;
+    public String getStatus() {
+        return status;
     }
 
-    public void setStatusID(String statusID) {
-        this.statusID = statusID;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public String getCategoryID() {
-        return categoryID;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCategoryID(String categoryID) {
-        this.categoryID = categoryID;
+    public void setCategory(String category) {
+        this.category = category;
     }
+
+    
 
     public String getCreateTime() {
         return createTime;
@@ -146,6 +153,22 @@ public class MenuItem {
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getStatusProduct() {
+        return statusProduct;
+    }
+
+    public void setStatusProduct(String statusProduct) {
+        this.statusProduct = statusProduct;
+    }
+
+    public String getCategories() {
+        return categories;
+    }
+
+    public void setCategories(String categories) {
+        this.categories = categories;
     }
     
     

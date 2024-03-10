@@ -4,7 +4,7 @@
  */
 package DAO;
 
-import DTO.MenuItem;
+import DTO.MenuItemDTO;
 import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,29 +15,31 @@ import java.sql.ResultSet;
  */
 public class MenuItemDAO {
     
-    public ArrayList<MenuItem> readMenuItem() {
-//        String query = "SELECT * FROM tb_menu_item WHERE \"imagePath\" != ''";
-        String query = "SELECT * FROM tb_menu_item";
+    public ArrayList<MenuItemDTO> readMenuItem() {
+//        String query = "SELECT item.id, item.name, item.price, item.profit, item.isdeleted, item.\"imagePath\", item.\"createTime\", item.\"updateTime\", status.name, cate.name \n" +
+//                        "FROM tb_menu_item_status AS status \n" +
+//                        "JOIN tb_menu_item AS item ON status.id = item.statusid \n" +
+//                        "JOIN tb_categories AS cate ON item.categoryid = cate.id";
+
+        String query = "SELECT item.id, item.name, item.price, item.profit, item.isdeleted, item.\"imagePath\", item.\"createTime\", item.\"updateTime\", status.name AS status, cate.name AS category FROM tb_menu_item_status AS status JOIN tb_menu_item AS item ON status.id = item.statusid JOIN tb_categories AS cate ON item.categoryid = cate.id";
         try(Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query);) {
             ResultSet rs = pstm.executeQuery();
-            ArrayList<MenuItem> list = new ArrayList<>();
+            ArrayList<MenuItemDTO> list = new ArrayList<>();
             while(rs.next()) {
-                MenuItem menuItem = new MenuItem();
+                MenuItemDTO menuItem = new MenuItemDTO();
                 menuItem.setId(rs.getString("id"));
-                menuItem.setCode(rs.getString("code"));
                 menuItem.setName(rs.getString("name"));
-                menuItem.setDescription(rs.getString("description"));
-                menuItem.setIngredient(rs.getString("ingredients"));
+                menuItem.setPrice(rs.getDouble("price"));
+                menuItem.setProfit(rs.getDouble("profit"));
                 menuItem.setImage(rs.getString("imagePath"));
-                menuItem.setPrice(rs.getInt("price"));
-                menuItem.setProfit(rs.getInt("profit"));
                 menuItem.setIsDelete(rs.getBoolean("isdeleted"));
-                menuItem.setStatusID(rs.getString("statusid"));
-                menuItem.setCategoryID(rs.getString("categoryid"));
-                menuItem.setCreateTime(rs.getString("createtime"));
-                menuItem.setUpdateTime(rs.getString("updatetime"));
+                menuItem.setUpdateTime(rs.getString("updateTime"));
+                menuItem.setCreateTime(rs.getString("createTime"));
+                menuItem.setStatus(rs.getString("status"));
+                menuItem.setCategory(rs.getString("category"));
                 list.add(menuItem);
             }
+           
             return list;
         }
         catch(Exception e) {

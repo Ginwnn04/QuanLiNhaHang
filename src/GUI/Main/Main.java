@@ -4,9 +4,10 @@
  */
 package GUI.Main;
 
-import GUI.Comp.NewJDialog;
+import GUI.Comp.DialogOrder;
+
 import GUI.Comp.PanelDashbroad;
-import GUI.Comp.TableBook;
+
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.Color;
@@ -14,10 +15,7 @@ import java.awt.Component;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.swing.UIManager;
 
 
@@ -37,11 +35,7 @@ public class Main extends javax.swing.JFrame {
         header.actionHeader(this);
         menu.setText("1", "Nguyễn Nhật Quang");
         showForm(a);
-        a.addTable(10);
-        a.setStatusTable(4, false);
-        a.setStatusTable(1, false);
-        a.setStatusTable(6, false);
-        a.setStatusTable(8, false);
+        
         test(this);
         
         
@@ -51,9 +45,8 @@ public class Main extends javax.swing.JFrame {
         a.btnDatBan.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                NewJDialog b = new NewJDialog(frame, true);
-                b.setVisible(true);
-//                b.setLocationRelativeTo(frame);
+                DialogOrder a = new DialogOrder(frame, true);
+                a.setVisible(true);
                 
             
             }
