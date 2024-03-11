@@ -1,13 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package DTO;
 
-/**
- *
- * @author quang
- */
+import GUI.Comp.PanelConfirmOrder;
+
 public class DetailOrderDTO {
     private int id;
     private String name;
@@ -19,13 +14,39 @@ public class DetailOrderDTO {
     private int itemID;
     private int orderID;
     private int invoiceID;
+    private PanelConfirmOrder cartOder;
 
     public DetailOrderDTO(String name, double price, int quantity) {
         this.name = name;
         this.price = price;
-        this.quantity = quantity > 0 ? quantity : 0;
+        this.quantity = quantity > 1 ? quantity : 1;
+        createCartOrder();
+        isDelete = false;
     }
 
+    public PanelConfirmOrder createCartOrder() {
+        if (quantity == 0) {
+            isDelete = true;
+            cartOder = null;
+        }
+        else {
+            PanelConfirmOrder cartOder1 = new PanelConfirmOrder();
+            cartOder1.insertData(name, price, quantity);
+            cartOder = cartOder1;
+            rerender();
+        }
+        return cartOder;
+    }
+    
+    public void rerender() {
+        if (cartOder != null) {
+            quantity = cartOder.getQuantity();
+        }
+        else {
+            quantity = 0;
+        }
+    }
+    
     public int getQuantity() {
         return quantity;
     }

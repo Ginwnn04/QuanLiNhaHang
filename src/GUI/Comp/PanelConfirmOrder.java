@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
  * @author quang
  */
 public class PanelConfirmOrder extends javax.swing.JPanel {
+   
     private String nameProduct;
     private int quantity = 1;
     private double price = 0;
@@ -24,9 +25,13 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
         
     }
     
+    
+    
+    
     public void insertData(String nameProduct, double price, int quantity) {
         this.nameProduct = nameProduct;
         this.price = price;
+        this.quantity = quantity;
         this.total = price * quantity;
         update();
     }
@@ -37,9 +42,12 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
         if (quantity == 0) {
             this.getParent().remove(this);
             isDelete = true;
+            
         }
         lbNameProduct.setText(nameProduct);
+        total = quantity * price;
         lbTotal.setText("đ" + total);
+        lbQuantity.setText(quantity + "");
     }
     
     public void serviceButton() {
@@ -57,7 +65,7 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 lbQuantity.setText(++quantity + "");
-                
+                update();
             }
             
         });
@@ -65,9 +73,21 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
         
     }
 
+    public String getNameProduct() {
+        return nameProduct;
+    }
+
+    
+    
     public int getQuantity() {
         return quantity;
     }
+
+    public boolean isIsDelete() {
+        return isDelete;
+    }
+
+ 
     
    
     
