@@ -1,16 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package GUI.Comp;
 
+import Helper.MyListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- *
- * @author quang
- */
 public class PanelConfirmOrder extends javax.swing.JPanel {
    
     private String nameProduct;
@@ -24,10 +17,7 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
         serviceButton();
         
     }
-    
-    
-    
-    
+
     public void insertData(String nameProduct, double price, int quantity) {
         this.nameProduct = nameProduct;
         this.price = price;
@@ -40,8 +30,9 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
     
     public void update() {
         if (quantity == 0) {
-            this.getParent().remove(this);
+//            this.getParent().remove(this);
             isDelete = true;
+            return;
             
         }
         lbNameProduct.setText(nameProduct);
@@ -56,9 +47,13 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (quantity > 0) {
                     lbQuantity.setText(--quantity + "");
-                    
+                    if (quantity == 0) {
+                        MyListener.getInstance().firePropertyChange("Order", "", nameProduct);
+                    }
                 }
                 update();
+                
+                
             }
         });
         btnUp.addActionListener(new ActionListener() {

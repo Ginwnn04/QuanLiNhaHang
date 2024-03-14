@@ -4,6 +4,8 @@
  */
 package DTO;
 
+import GUI.Comp.PanelProductOrder;
+
 /**
  *
  * @author quang
@@ -24,7 +26,11 @@ public class MenuItemDTO {
     private String updateTime;
     private String statusProduct;
     private String categories;      
-            
+    
+    private int index;
+    private PanelProductOrder panelProductOrder;
+    
+    
     public MenuItemDTO() {
         
     }
@@ -49,6 +55,13 @@ public class MenuItemDTO {
         this.categories = categories;
     }
 
+    public PanelProductOrder createCart(int index) {
+        this.index = index;
+        panelProductOrder = new PanelProductOrder();
+        panelProductOrder.insertData(index, name, price, status, image);
+        return panelProductOrder;
+    }
+    
     public String getId() {
         return id;
     }

@@ -1,43 +1,52 @@
 package GUI.Comp;
 
 import BUS.MenuItemBUS;
-import DTO.CartOrderItem;
 import DTO.DetailOrderDTO;
 import DTO.MenuItemDTO;
+import Helper.MyListener;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import GUI.Comp.PanelConfirmOrder;
-import GUI.Main.List;
 
-public class DialogOrder extends javax.swing.JDialog {
+
+public class DialogOrder extends javax.swing.JDialog implements PropertyChangeListener {
 
     private ArrayList<MenuItemDTO> listMenuItem = new ArrayList<>();
     private ArrayList<DetailOrderDTO> listDetailOrder = new ArrayList<>();
 
+    @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if (evt.getPropertyName().equals("AddItem")) {
+                int index = (int) evt.getNewValue();
+                test(index);
+            }
+            if (evt.getPropertyName().equals("Order")) {
+                String nameProduct = (String) evt.getNewValue();
+                check(nameProduct);
+            }
+        }
+    
+    public void addMenuItemCart(int index, String nameProduct, double price, String status, String image) {
+        PanelProductOrder pnProductOrder = new PanelProductOrder();
+        pnProductOrder.insertData(index, nameProduct, price, status, image);
+        
+        pnOrder.add(pnProductOrder);    
+    }
+
+    
     public DialogOrder(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
         listMenuItem = new MenuItemBUS().getAllData();
         addMenuItem();
+        MyListener.getInstance().addPropertyChangeListener(this);
 
     }
 
-    public void addMenuItem(int index, String nameProduct, double price, String status, String image) {
-        PanelProductOrder pnProductOrder = new PanelProductOrder();
-        pnProductOrder.insertData(index, nameProduct, price, status, image);
-        pnProductOrder.btnSelection.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                test(index);
-            }
-            
-        });
-        pnOrder.add(pnProductOrder);
-        
-    }
 
     public void addMenuItem() {
         int height = 125 * listMenuItem.size();
@@ -45,60 +54,67 @@ public class DialogOrder extends javax.swing.JDialog {
         pnOrder.setPreferredSize(new Dimension(width, height));
         for (int i = 0; i < listMenuItem.size(); i++) {
             MenuItemDTO item = listMenuItem.get(i);
-            addMenuItem(i, item.getName(), item.getPrice(), item.getStatus(), item.getImage());
+            item.createCart(i);
+            addMenuItemCart(i, item.getName(), item.getPrice(), item.getStatus(), item.getImage());
 //            System.out.println(listMenuItem.get(i).getName() + " " + listMenuItem.get(i).getPrice()+ " " + listMenuItem.get(i).getStatus());
         }
 
-//        jScrollPane2.setSize(width, 300);
+
     }
 
+    
+    
+    //===================================================================//
+    
+    
     // Nếu panel món ăn đã tồn tại ở checkout thì không thêm vào 
     // Ngược lại thì thêm vào
     public void addCheckoutItem() {
         pnCheckout.removeAll();
-//        check();
+
         
         int height = 90 * listDetailOrder.size();
         int width = pnCheckout.getWidth();
         pnCheckout.setPreferredSize(new Dimension(width, height));
-        check();
+
         for (int i = 0; i < listDetailOrder.size(); i++) {
             DetailOrderDTO detailOrderDTO = listDetailOrder.get(i);
-//            System.out.println(detailOrderDTO.getName() + " " + detailOrderDTO.getQuantity());
-            pnCheckout.add(detailOrderDTO.createCartOrder());
+            if (detailOrderDTO.getQuantity() != 0) {
+                pnCheckout.add(detailOrderDTO.createCartOrder());
+            }
         }
-            
+        
     }
     
     
-    public void check() {
-        ArrayList<DetailOrderDTO> tmp = new ArrayList<>();
-        for (int i = 0; i < listDetailOrder.size(); i++) {
+    public void check(String name) {
+        for (int i = listDetailOrder.size() - 1; i >= 0; i--) {
             DetailOrderDTO detailOrderDTO = listDetailOrder.get(i);
             detailOrderDTO.rerender();
-            if (detailOrderDTO.getQuantity() != 0) {
-                tmp.add(detailOrderDTO);
+            if (detailOrderDTO.getName().equals(name)) {
+                listDetailOrder.remove(i);
             }
         }
-        listDetailOrder = tmp;
+        addCheckoutItem();
+        revalidate();
+        repaint();
     }
     
     public void test(int index) {
+        
         boolean isExists = false;
         MenuItemDTO item = listMenuItem.get(index);
+        
         for (DetailOrderDTO x : listDetailOrder) {
+            x.rerender();
             if (x.getName().equals(item.getName())) {
-           
                x.setQuantity(x.getQuantity() + 1);
-                System.out.println(x.getQuantity());
                isExists = true;
-               System.out.print(x.getName() + " " + x.getQuantity() + " ");
-                System.out.println(isExists + "");
                break;
             }
         }
+
         if (!isExists) {
-            System.out.println("zzzz");
             DetailOrderDTO detailOrderDTO = new DetailOrderDTO(item.getName(), item.getPrice(), 1);
             listDetailOrder.add(detailOrderDTO);
         }
@@ -244,11 +260,11 @@ public class DialogOrder extends javax.swing.JDialog {
     }//GEN-LAST:event_formMouseEntered
 
     private void btnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderActionPerformed
+        System.out.println(listDetailOrder.size());
         for (int i = 0; i < listDetailOrder.size(); i++) {
             DetailOrderDTO detailOrderDTO = listDetailOrder.get(i);
-            detailOrderDTO.rerender();
-            System.out.println(detailOrderDTO.getName() + " " + detailOrderDTO.getQuantity());
-
+//            detailOrderDTO.rerender();
+            System.out.println(detailOrderDTO.getName() + " " + detailOrderDTO.isIsDelete());
         }
     }//GEN-LAST:event_btnOrderActionPerformed
 

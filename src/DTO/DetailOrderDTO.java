@@ -1,7 +1,9 @@
-
 package DTO;
 
 import GUI.Comp.PanelConfirmOrder;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 
 public class DetailOrderDTO {
     private int id;
@@ -15,7 +17,10 @@ public class DetailOrderDTO {
     private int orderID;
     private int invoiceID;
     private PanelConfirmOrder cartOder;
-
+    
+    
+    
+    
     public DetailOrderDTO(String name, double price, int quantity) {
         this.name = name;
         this.price = price;
