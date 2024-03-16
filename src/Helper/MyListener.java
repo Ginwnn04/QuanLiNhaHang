@@ -12,8 +12,8 @@ import java.beans.PropertyChangeSupport;
  * @author quang
  */
 public class MyListener{
-    public static MyListener instance = null;
-        private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+    private static MyListener instance = null;
+    private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     
     public void addPropertyChangeListener(PropertyChangeListener listener) {

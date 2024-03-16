@@ -4,6 +4,7 @@
  */
 package GUI.Comp;
 
+import Helper.MyListener;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -16,16 +17,49 @@ import javax.swing.ImageIcon;
 public class TableBook extends javax.swing.JPanel {
     private boolean isEmpty = true;
     private int numberTable;
+    private boolean isSelected = false;
     
-    public void setStatus(boolean rq) {
-        this.isEmpty = rq;
+    public void setStatus(boolean isEmpty) {
+        this.isEmpty = isEmpty;
         init();
     }
     public boolean getStatus() {
         return isEmpty;
     }
+
+    public boolean isIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+        
+    }
     
     
+    
+    public void selected() {
+        isSelected = !isSelected;
+        if (isSelected) {
+            if (isEmpty) {
+                // Opacity 0.3
+                panelBackground.setBackground(new Color(103, 199, 143, 178));
+            }
+            else {
+                panelBackground.setBackground(new Color(0, 51, 51, 178));
+            }
+        }
+        else {
+            if (isEmpty) {
+                panelBackground.setBackground(new Color(103, 199, 143, 255));
+            }
+            else {
+                panelBackground.setBackground(new Color(0, 51, 51, 255));
+            }
+        }
+        
+        
+    }
 
     public TableBook() {
     }
@@ -71,6 +105,11 @@ public class TableBook extends javax.swing.JPanel {
         lbIcon = new javax.swing.JLabel();
 
         panelBackground.setBackground(new java.awt.Color(103, 199, 143));
+        panelBackground.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelBackgroundMouseClicked(evt);
+            }
+        });
         panelBackground.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lbNumberTable.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
@@ -100,6 +139,10 @@ public class TableBook extends javax.swing.JPanel {
                 .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void panelBackgroundMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelBackgroundMouseClicked
+        MyListener.getInstance().firePropertyChange("Selected", isSelected ? 1 : 0, numberTable);
+    }//GEN-LAST:event_panelBackgroundMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -83,7 +83,8 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
                 pnCheckout.add(detailOrderDTO.createCartOrder());
             }
         }
-        
+        revalidate();
+        repaint();
     }
     
     
@@ -96,8 +97,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
             }
         }
         addCheckoutItem();
-        revalidate();
-        repaint();
+        
     }
     
     public void test(int index) {
@@ -110,7 +110,6 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
             if (x.getName().equals(item.getName())) {
                x.setQuantity(x.getQuantity() + 1);
                isExists = true;
-               break;
             }
         }
 
@@ -119,8 +118,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
             listDetailOrder.add(detailOrderDTO);
         }
         addCheckoutItem();
-        revalidate();
-        repaint();
+    
     }
 
     @SuppressWarnings("unchecked")
@@ -128,8 +126,8 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
     private void initComponents() {
 
         txtMapData = new javax.swing.JTextField();
-        lbSort = new javax.swing.JLabel();
-        cbxCatelory = new javax.swing.JComboBox<>();
+        lbCategory = new javax.swing.JLabel();
+        cbxCategory = new javax.swing.JComboBox<>();
         panelBackground1 = new GUI.Comp.Swing.PanelBackground();
         jScrollPane3 = new javax.swing.JScrollPane();
         pnCheckout = new GUI.Comp.Swing.PanelBackground();
@@ -137,6 +135,8 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane2 = new javax.swing.JScrollPane();
         pnOrder = new GUI.Comp.Swing.PanelBackground();
+        lbSort = new javax.swing.JLabel();
+        cbxSort = new javax.swing.JComboBox<>();
 
         txtMapData.setText("0");
 
@@ -147,15 +147,15 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
             }
         });
 
-        lbSort.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        lbSort.setForeground(new java.awt.Color(102, 102, 102));
-        lbSort.setText("Sort by");
+        lbCategory.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        lbCategory.setForeground(new java.awt.Color(102, 102, 102));
+        lbCategory.setText("Category");
 
-        cbxCatelory.setBackground(new java.awt.Color(242, 242, 242));
-        cbxCatelory.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        cbxCatelory.setForeground(new java.awt.Color(79, 79, 79));
-        cbxCatelory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bò", "Gà", "Hải sản", "Cá đồng", "Mì" }));
-        cbxCatelory.setBorder(null);
+        cbxCategory.setBackground(new java.awt.Color(242, 242, 242));
+        cbxCategory.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        cbxCategory.setForeground(new java.awt.Color(79, 79, 79));
+        cbxCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bò", "Gà", "Hải sản", "Cá đồng", "Mì" }));
+        cbxCategory.setBorder(null);
 
         jScrollPane3.setBorder(null);
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -214,23 +214,35 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         pnOrder.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 10));
         jScrollPane2.setViewportView(pnOrder);
 
+        lbSort.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        lbSort.setForeground(new java.awt.Color(102, 102, 102));
+        lbSort.setText("Sort by");
+
+        cbxSort.setBackground(new java.awt.Color(242, 242, 242));
+        cbxSort.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        cbxSort.setForeground(new java.awt.Color(79, 79, 79));
+        cbxSort.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Best seller", "Món Á", "Món Âu", "..." }));
+        cbxSort.setBorder(null);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(264, 264, 264)
                         .addComponent(lbSort)
                         .addGap(10, 10, 10)
-                        .addComponent(cbxCatelory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cbxSort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(108, 108, 108)
+                        .addComponent(lbCategory)
+                        .addGap(10, 10, 10)
+                        .addComponent(cbxCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addComponent(panelBackground1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,8 +252,11 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
                     .addComponent(panelBackground1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lbSort)
-                            .addComponent(cbxCatelory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lbCategory)
+                            .addComponent(cbxCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lbSort)
+                                .addComponent(cbxSort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(11, 11, 11)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -309,10 +324,12 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOrder;
-    private javax.swing.JComboBox<String> cbxCatelory;
+    private javax.swing.JComboBox<String> cbxCategory;
+    private javax.swing.JComboBox<String> cbxSort;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lbCategory;
     private javax.swing.JLabel lbSort;
     private GUI.Comp.Swing.PanelBackground panelBackground1;
     private GUI.Comp.Swing.PanelBackground pnCheckout;
