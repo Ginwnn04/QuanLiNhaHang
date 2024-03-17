@@ -9,7 +9,7 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
     private String nameProduct;
     private int quantity = 1;
     private double price = 0;
-    private double total = quantity * price;
+    private long total = (long) (quantity * price);
     private boolean isDelete = false;
     
     public PanelConfirmOrder() {
@@ -22,7 +22,7 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
         this.nameProduct = nameProduct;
         this.price = price;
         this.quantity = quantity;
-        this.total = price * quantity;
+        this.total = (long) (price * quantity);
         update();
     }
 
@@ -36,7 +36,7 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
             
         }
         lbNameProduct.setText(nameProduct);
-        total = quantity * price;
+        total = (long) (quantity * price);
         lbTotal.setText("đ" + total);
         lbQuantity.setText(quantity + "");
     }
@@ -106,7 +106,9 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
         lbNameProduct.setText("Tôm sốt Mayonese trái thơm");
 
         lbTotal.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        lbTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbTotal.setText("đ12.800.000");
+        lbTotal.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
         btnDown.setBackground(new java.awt.Color(204, 204, 204));
         btnDown.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
@@ -121,6 +123,7 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
         btnUp.setBorderPainted(false);
 
         lbQuantity.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        lbQuantity.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbQuantity.setText("1");
 
         javax.swing.GroupLayout pnSpinnerLayout = new javax.swing.GroupLayout(pnSpinner);
@@ -131,7 +134,7 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(btnDown, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
-                .addComponent(lbQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
                 .addGap(10, 10, 10)
                 .addComponent(btnUp, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -152,16 +155,14 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
         panelBackground1Layout.setHorizontalGroup(
             panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBackground1Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
                 .addGroup(panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbNameProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelBackground1Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(lbNameProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelBackground1Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(pnSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lbTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(102, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(lbTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         panelBackground1Layout.setVerticalGroup(
             panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

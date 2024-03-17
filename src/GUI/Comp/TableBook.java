@@ -15,80 +15,71 @@ import javax.swing.ImageIcon;
  * @author quang
  */
 public class TableBook extends javax.swing.JPanel {
+
     private boolean isEmpty = true;
     private int numberTable;
     private boolean isSelected = false;
-    
+
     public void setStatus(boolean isEmpty) {
         this.isEmpty = isEmpty;
         init();
     }
+
     public boolean getStatus() {
         return isEmpty;
     }
 
-    public boolean isIsSelected() {
+    public boolean isSelected() {
         return isSelected;
     }
 
     public void setIsSelected(boolean isSelected) {
         this.isSelected = isSelected;
-        
     }
-    
-    
-    
-    public void selected() {
-        isSelected = !isSelected;
+
+    public void update() {
+        int alpha = 255;
         if (isSelected) {
-            if (isEmpty) {
-                // Opacity 0.3
-                panelBackground.setBackground(new Color(103, 199, 143, 178));
-            }
-            else {
-                panelBackground.setBackground(new Color(0, 51, 51, 178));
-            }
+            // Opacity 0.3
+            alpha = 178;
         }
-        else {
-            if (isEmpty) {
-                panelBackground.setBackground(new Color(103, 199, 143, 255));
-            }
-            else {
-                panelBackground.setBackground(new Color(0, 51, 51, 255));
-            }
+        if (isEmpty) {
+            panelBackground.setBackground(new Color(103, 199, 143, alpha));
+        } else {
+            panelBackground.setBackground(new Color(0, 51, 51, alpha));
         }
-        
-        
     }
 
     public TableBook() {
     }
+
     public TableBook(int numberTable) {
         this.numberTable = numberTable;
         initComponents();
-        setBackground(new Color(0,0,0,0));
+        setBackground(new Color(0, 0, 0, 0));
         init();
         lbNumberTable.setText("Bàn " + numberTable);
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
+
     }
+
     public int getNumberTable() {
         return numberTable;
     }
+
     public void init() {
         if (isEmpty) {
             panelBackground.setBackground(new Color(103, 199, 143, 255));
             lbIcon.setIcon(new ImageIcon(getClass().getResource("/GUI/Comp/Icon/check.png")));
             lbStatus.setText("Bàn trống");
-        }
-        else {
+        } else {
             panelBackground.setBackground(new Color(0, 51, 51, 255));
             lbIcon.setIcon(new ImageIcon(getClass().getResource("/GUI/Comp/Icon/user.png")));
-        
+
             lbStatus.setText("Đang sử dụng");
         }
     }
-    
+
     /**
      * This method is called from within the constructor to
      * initialize the form.
@@ -141,7 +132,7 @@ public class TableBook extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void panelBackgroundMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelBackgroundMouseClicked
-        MyListener.getInstance().firePropertyChange("Selected", isSelected ? 1 : 0, numberTable);
+        MyListener.getInstance().firePropertyChange("Selected", 0, numberTable);
     }//GEN-LAST:event_panelBackgroundMouseClicked
 
 

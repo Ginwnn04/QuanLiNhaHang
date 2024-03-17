@@ -36,32 +36,25 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         if (evt.getPropertyName().equals("Selected")) {
             jTextField1.setText((int) evt.getNewValue() + "");
             System.out.println((int) evt.getNewValue() + "");
-            // Truoc do chua duoc nhan' => Doi trang thai tat ca nut (Tu Chon => Ko chon) => Doi trang thai nut vua nhan => Chon
-            if ((int) evt.getOldValue() == 0) {
-                for (TableBook x : listTable) {
-                    if (x.isIsSelected()) {
-                        x.selected();
+            for (TableBook x : listTable) {
+                if (x.getNumberTable() == (int) evt.getNewValue()) {
+                    boolean check = x.isSelected();
+                    for (TableBook y : listTable) {
+                        y.setIsSelected(false);
+                        y.update();
                     }
-                }
-                for (TableBook x : listTable) {
-                    if (x.getNumberTable() == (int) evt.getNewValue()) {
-                        x.selected();
-                        break;
-                    }
-                }
-            } // Truoc do da duoc nhan => doi trang thai Chon => Ko chon
-            else {
-                for (TableBook x : listTable) {
-                    if (x.getNumberTable() == (int) evt.getNewValue()) {
-                        x.selected();
+                    if (!check) {
+                        x.setIsSelected(true);
+                        x.update();
                         break;
                     }
                 }
             }
+
             // Kiem tra co ban` nao duoc chon ko => (Yes) => Enable button DatBan
             boolean isValid = false;
             for (TableBook x : listTable) {
-                if (x.isIsSelected()) {
+                if (x.isSelected()) {
                     isValid = true;
                 }
             }
