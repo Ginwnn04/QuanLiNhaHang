@@ -7,7 +7,7 @@ package GUI.Comp;
 import Helper.MyListener;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Dimension;
+
 import javax.swing.ImageIcon;
 
 /**

@@ -116,13 +116,16 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         if (!isExists) {
             DetailOrderDTO detailOrderDTO = new DetailOrderDTO(item.getName(), item.getPrice(), 1);
             listDetailOrder.add(detailOrderDTO);
+            showDescription(item);
         }
         addCheckoutItem();
     
     }
     
     public void showDescription(MenuItemDTO item) {
-        ImageIcon icon = new ImageIcon();
+        ImageIcon icon = new ImageIcon(new ImageIcon(getClass().getResource("/GUI/ImageProduct/" + item.getImage())).getImage().getScaledInstance(150, 150, 4));
+        lbImage.setIcon(icon);
+        lbDesc.setText("<html>" + item.getDescription() + "</html>");
     }
 
     @SuppressWarnings("unchecked")

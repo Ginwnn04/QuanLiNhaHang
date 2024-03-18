@@ -21,7 +21,7 @@ public class MenuItemDAO {
 //                        "JOIN tb_menu_item AS item ON status.id = item.statusid \n" +
 //                        "JOIN tb_categories AS cate ON item.categoryid = cate.id";
 
-        String query = "SELECT item.id, item.name, item.price, item.profit, item.isdeleted, item.\"imagePath\", item.\"createTime\", item.\"updateTime\", status.name AS status, cate.name AS category FROM tb_menu_item_status AS status JOIN tb_menu_item AS item ON status.id = item.statusid JOIN tb_categories AS cate ON item.categoryid = cate.id";
+        String query = "SELECT item.id, item.name, item.description, item.price, item.profit, item.isdeleted, item.\"imagePath\", item.\"createTime\", item.\"updateTime\", status.name AS status, cate.name AS category FROM tb_menu_item_status AS status JOIN tb_menu_item AS item ON status.id = item.statusid JOIN tb_categories AS cate ON item.categoryid = cate.id";
         try(Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query);) {
             ResultSet rs = pstm.executeQuery();
             ArrayList<MenuItemDTO> list = new ArrayList<>();
@@ -29,6 +29,7 @@ public class MenuItemDAO {
                 MenuItemDTO menuItem = new MenuItemDTO();
                 menuItem.setId(rs.getString("id"));
                 menuItem.setName(rs.getString("name"));
+                menuItem.setDescription(rs.getString("description"));
                 menuItem.setPrice(rs.getDouble("price"));
                 menuItem.setProfit(rs.getDouble("profit"));
                 menuItem.setImage(rs.getString("imagePath"));
