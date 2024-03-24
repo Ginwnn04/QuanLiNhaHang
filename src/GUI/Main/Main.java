@@ -9,15 +9,14 @@ import GUI.Comp.DialogOrder;
 import GUI.Comp.PanelDashbroad;
 import Helper.MyListener;
 
-import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
-import java.awt.BorderLayout;
+
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.JPanel;
@@ -30,7 +29,7 @@ import javax.swing.UIManager;
  * @author quang
  */
 public class Main extends javax.swing.JFrame implements PropertyChangeListener{
-//    private PanelDashbroad a = new PanelDashbroad();
+    private PanelDashbroad a = new PanelDashbroad();
 
     public Main() {
         initComponents();
@@ -41,7 +40,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener{
 //        menu.setText("1", "Nguyễn Nhật Quang");
 //        showForm(a);
         MyListener.getInstance().addPropertyChangeListener(this);
-//        test(this);
+        test(this);
 
     }
     
@@ -51,7 +50,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener{
             System.out.println(evt.getOldValue() + " " + evt.getNewValue());
             int index = (int) evt.getNewValue();
             if (index == 1) {
-                showForm(new PanelDashbroad());
+                showForm(a);
                 
             }
             else {
@@ -59,19 +58,19 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener{
                 pn.setjLabel1("Form " + evt.getNewValue());
                 showForm(pn);
             }
-            System.out.println("a");
+            
         }
     }
     
-//    public void test(Frame frame) {
-//        a.btnDatBan.addActionListener(new ActionListener(){
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                DialogOrder a = new DialogOrder(frame, true);
-//                a.setVisible(true);
-//            }
-//        });
-//    }
+    public void test(Frame frame) {
+        a.btnDatBan.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DialogOrder a = new DialogOrder(frame, true);
+                a.setVisible(true);
+            }
+        });
+    }
     
     public void showForm(JPanel com) {
         body.removeAll();

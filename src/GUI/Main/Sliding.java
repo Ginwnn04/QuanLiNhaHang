@@ -10,14 +10,14 @@ import java.awt.Color;
  *
  * @author quang
  */
-public class Truot extends javax.swing.JPanel {
+public class Sliding extends javax.swing.JPanel {
 
     /**
      * Creates new form Truot
      */
-    public Truot() {
+    public Sliding() {
         initComponents();
-        panelBackground1.setBackground(new Color(255, 107, 39, 30));
+        panelBackground1.setBackground(new Color(255, 107, 39, 40));
     }
 
     /**

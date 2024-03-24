@@ -4,6 +4,7 @@ import BUS.MenuItemBUS;
 import DTO.DetailOrderDTO;
 import DTO.MenuItemDTO;
 import Helper.MyListener;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,7 +27,6 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         if (evt.getPropertyName().equals("Quantity0")) {
             String nameProduct = (String) evt.getNewValue();
             check(nameProduct);
-            
             lbShowTien.setText(total + " đ");
         }
         if (evt.getPropertyName().equals("Order")) {
@@ -53,6 +53,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         listMenuItem = new MenuItemBUS().getAllData();
         addMenuItem();
         MyListener.getInstance().addPropertyChangeListener(this);
+        
 
     }
 
@@ -83,7 +84,6 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
     // Ngược lại thì thêm vào
     // chức năng khác => render lại panel
     public void addCheckoutItem() {
-        repaint();
         pnCheckout.removeAll();
         int height = 90 * listDetailOrder.size();
         int width = pnCheckout.getWidth();
@@ -98,9 +98,8 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         }
 
         
-        revalidate();
-        // Bị lỗi ảnh đè ra ngoài scroll
-//        repaint();
+        pnCheckout.revalidate();
+        pnCheckout.repaint();
     }
 
     public void check(String name) {
@@ -185,6 +184,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
 
         panelBackground1.setBackground(new java.awt.Color(35, 35, 35));
 
+        jScrollPane3.setBackground(new java.awt.Color(255, 153, 153));
         jScrollPane3.setBorder(null);
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -195,6 +195,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
 
         pnCheckout.setBackground(new java.awt.Color(35, 35, 35));
         pnCheckout.setPreferredSize(new java.awt.Dimension(345, 420));
+        pnCheckout.setRound(0);
         java.awt.FlowLayout flowLayout2 = new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 10);
         flowLayout2.setAlignOnBaseline(true);
         pnCheckout.setLayout(flowLayout2);
@@ -247,9 +248,9 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         panelBackground1Layout.setVerticalGroup(
             panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBackground1Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
                 .addGroup(panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)

@@ -6,6 +6,7 @@ package GUI.Main;
 
 import GUI.Comp.Swing.MenuButton;
 import Helper.MyListener;
+import KentHipos.Kensoft;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -35,6 +36,7 @@ public class NavBar extends javax.swing.JPanel {
     private Animator animator;
     int indexCurrent = 0;
     int indexSelected = 0;
+    Sliding sliding = new Sliding();
     int xPanel = 6;
     // Button có height là 50 mà font size 20 thì mỗi top và bottom mỗi cạnh nó padding 15    
     // Vị trí y của thanh panel trượt
@@ -52,7 +54,7 @@ public class NavBar extends javax.swing.JPanel {
     }
 
     public void initMenu() {
-        panelBackground1.setBackground(new Color(255, 107, 39, 30));
+//        panelBackground1.setBackground(new Color(255, 107, 39, 30));
         addMenuItem("Trang chủ", new ImageIcon(getClass().getResource("/GUI/Main/noclick.png")));
         addMenuItem("Đặt bàn", new ImageIcon(getClass().getResource("/GUI/Main/noclick.png")));
         addMenuItem("Món ăn", new ImageIcon(getClass().getResource("/GUI/Main/noclick.png")));
@@ -60,8 +62,8 @@ public class NavBar extends javax.swing.JPanel {
         addMenuItem("Hóa đơn", new ImageIcon(getClass().getResource("/GUI/Main/noclick.png")));
         addMenuItem("Giảm giá", new ImageIcon(getClass().getResource("/GUI/Main/noclick.png")));
         addMenuItem("Nhân viên", new ImageIcon(getClass().getResource("/GUI/Main/noclick.png")));
-        
-     
+        sliding.setBounds(xPanel, yPanel, 15, 20);
+        pnContainer.add(sliding);
 
     }
 
@@ -108,7 +110,7 @@ public class NavBar extends javax.swing.JPanel {
     public void setSelectedMenu(int indexSelected) {
         if (indexCurrent != indexSelected) {
             int yNew = (indexSelected - indexCurrent) * 50 + (indexSelected - indexCurrent) * 2;
-            animator = PropertySetter.createAnimator(300, panelBackground1, "location", new Point(xPanel, yPanel), new Point(xPanel, yPanel + yNew));
+            animator = PropertySetter.createAnimator(300, sliding, "location", new Point(xPanel, yPanel), new Point(xPanel, yPanel + yNew));
             yPanel += yNew;
             animator.addTarget(new TimingTargetAdapter() {
                 @Override
@@ -118,10 +120,11 @@ public class NavBar extends javax.swing.JPanel {
             });
             animator.setResolution(5);
             animator.start();
-            
+           
             indexCurrent = indexSelected;
             JButton btnSelected = listButton.get(indexSelected);
             btnSelected.setForeground(new Color(255, 107, 39));
+
         }
     }
 
@@ -130,8 +133,6 @@ public class NavBar extends javax.swing.JPanel {
     private void initComponents() {
 
         pnContainer = new GUI.Comp.Swing.PanelBackground();
-        panelBackground1 = new GUI.Comp.Swing.PanelBackground();
-        panelBackground5 = new GUI.Comp.Swing.PanelBackground();
         imageAvatar2 = new GUI.Comp.Menu.ImageAvatar();
         lbRole = new javax.swing.JLabel();
         lbName = new javax.swing.JLabel();
@@ -143,42 +144,6 @@ public class NavBar extends javax.swing.JPanel {
 
         pnContainer.setBackground(new java.awt.Color(35, 35, 35));
         pnContainer.setPreferredSize(new java.awt.Dimension(230, 765));
-
-        panelBackground1.setBackground(new java.awt.Color(255, 204, 204));
-        panelBackground1.setPreferredSize(new java.awt.Dimension(119, 30));
-        panelBackground1.setRound(7);
-
-        panelBackground5.setBackground(new java.awt.Color(255, 107, 39));
-        panelBackground5.setPreferredSize(new java.awt.Dimension(5, 20));
-        panelBackground5.setRound(5);
-
-        javax.swing.GroupLayout panelBackground5Layout = new javax.swing.GroupLayout(panelBackground5);
-        panelBackground5.setLayout(panelBackground5Layout);
-        panelBackground5Layout.setHorizontalGroup(
-            panelBackground5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 5, Short.MAX_VALUE)
-        );
-        panelBackground5Layout.setVerticalGroup(
-            panelBackground5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 20, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout panelBackground1Layout = new javax.swing.GroupLayout(panelBackground1);
-        panelBackground1.setLayout(panelBackground1Layout);
-        panelBackground1Layout.setHorizontalGroup(
-            panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBackground1Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(panelBackground5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5))
-        );
-        panelBackground1Layout.setVerticalGroup(
-            panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBackground1Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(panelBackground5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
-        );
 
         imageAvatar2.setImage(new javax.swing.ImageIcon(getClass().getResource("/GUI/Comp/Icon/cross-circle.png"))); // NOI18N
 
@@ -225,9 +190,7 @@ public class NavBar extends javax.swing.JPanel {
             .addGroup(pnContainerLayout.createSequentialGroup()
                 .addGroup(pnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnContainerLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(panelBackground1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
+                        .addGap(16, 16, 16)
                         .addGroup(pnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(pnMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(pnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -252,19 +215,13 @@ public class NavBar extends javax.swing.JPanel {
                 .addComponent(lbName, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
                 .addComponent(lbRole, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(pnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnContainerLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(pnMenuItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29))
-                    .addGroup(pnContainerLayout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(panelBackground1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(18, 18, 18)
+                .addComponent(pnMenuItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnDangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -290,8 +247,6 @@ public class NavBar extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lbName;
     private javax.swing.JLabel lbRole;
-    private GUI.Comp.Swing.PanelBackground panelBackground1;
-    private GUI.Comp.Swing.PanelBackground panelBackground5;
     private GUI.Comp.Swing.PanelBackground pnContainer;
     private GUI.Comp.Swing.PanelBackground pnMenuItem;
     // End of variables declaration//GEN-END:variables
