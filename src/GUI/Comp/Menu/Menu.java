@@ -198,10 +198,10 @@ public class Menu extends javax.swing.JPanel {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Dashboard UI");
 
-        jLabel2.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(154, 154, 154));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Admin");
+        jLabel2.setText("Nhân viên");
 
         imageAvatar1.setImage(new javax.swing.ImageIcon(getClass().getResource("/GUI/Comp/Icon/R.jpg"))); // NOI18N
 

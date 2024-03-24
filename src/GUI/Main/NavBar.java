@@ -52,6 +52,12 @@ public class NavBar extends javax.swing.JPanel {
         btnDangXuat.setIconTextGap(10);
         
     }
+    
+    public void setInformation(String name, String role) {
+        lbName.setText(name);
+        lbRole.setText(role);
+    }
+    
 
     public void initMenu() {
 //        panelBackground1.setBackground(new Color(255, 107, 39, 30));
@@ -147,7 +153,7 @@ public class NavBar extends javax.swing.JPanel {
 
         imageAvatar2.setImage(new javax.swing.ImageIcon(getClass().getResource("/GUI/Comp/Icon/cross-circle.png"))); // NOI18N
 
-        lbRole.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        lbRole.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         lbRole.setForeground(new java.awt.Color(154, 154, 154));
         lbRole.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbRole.setText("Admin");

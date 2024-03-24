@@ -37,7 +37,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener{
         setBackground(new Color(0,0,0,0));
 //        System.out.println(body.getSize());
         header.actionHeader(this);
-//        menu.setText("1", "Nguyễn Nhật Quang");
+        navBar.setInformation("Nguyễn Nhật Quang", "Nhân viên");
 //        showForm(a);
         MyListener.getInstance().addPropertyChangeListener(this);
         test(this);
@@ -84,9 +84,9 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener{
     private void initComponents() {
 
         panelBackground = new GUI.Comp.Swing.PanelBackground();
-        body = new javax.swing.JPanel();
         header = new GUI.Comp.Header();
-        navBar1 = new GUI.Main.NavBar();
+        navBar = new GUI.Main.NavBar();
+        body = new GUI.Comp.Swing.PanelBackground();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -94,7 +94,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener{
 
         panelBackground.setBackground(new java.awt.Color(35, 35, 35));
 
-        body.setPreferredSize(new java.awt.Dimension(800, 765));
+        body.setBackground(new java.awt.Color(30, 30, 30));
         body.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout panelBackgroundLayout = new javax.swing.GroupLayout(panelBackground);
@@ -102,11 +102,12 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener{
         panelBackgroundLayout.setHorizontalGroup(
             panelBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBackgroundLayout.createSequentialGroup()
-                .addComponent(navBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addComponent(navBar, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(panelBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(header, javax.swing.GroupLayout.DEFAULT_SIZE, 1077, Short.MAX_VALUE)
-                    .addComponent(body, javax.swing.GroupLayout.DEFAULT_SIZE, 1077, Short.MAX_VALUE)))
+                    .addGroup(panelBackgroundLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(body, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         panelBackgroundLayout.setVerticalGroup(
             panelBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,8 +116,8 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener{
                     .addGroup(panelBackgroundLayout.createSequentialGroup()
                         .addComponent(header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(body, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE))
-                    .addComponent(navBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(body, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(navBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -156,9 +157,9 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel body;
+    private GUI.Comp.Swing.PanelBackground body;
     private GUI.Comp.Header header;
-    private GUI.Main.NavBar navBar1;
+    private GUI.Main.NavBar navBar;
     private GUI.Comp.Swing.PanelBackground panelBackground;
     // End of variables declaration//GEN-END:variables
 
