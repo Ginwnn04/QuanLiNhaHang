@@ -57,14 +57,18 @@ public class Header extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
 
+        jButton1.setBackground(new java.awt.Color(35, 35, 35));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Comp/Icon/minus-sign-inside-a-black-circle (1).png"))); // NOI18N
         jButton1.setBorder(null);
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
+        jButton2.setBackground(new java.awt.Color(35, 35, 35));
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Comp/Icon/cross-mark-on-a-black-circle-background (1).png"))); // NOI18N
         jButton2.setBorder(null);
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
+        lbTitle.setBackground(new java.awt.Color(255, 255, 255));
+        lbTitle.setForeground(new java.awt.Color(255, 255, 255));
         lbTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbTitle.setText("ỨNG DỤNG QUẢN LÍ NHÀ HÀNG");
 

@@ -5,7 +5,6 @@
 package style;
 
 
-import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import java.awt.Font;
 
 
@@ -14,9 +13,9 @@ import java.awt.Font;
  * @author quang
  */
 public class MyFont {
-    public static Font fontHeader = new Font(FlatRobotoFont.FAMILY_LIGHT, Font.BOLD, 16);
-    public static Font fontMenuBar = new Font(FlatRobotoFont.FAMILY, Font.BOLD, 18);
-    public static Font fontText = new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 15);
+    public static Font fontHeader = new Font("Roboto", Font.BOLD, 18);
+    public static Font fontMenuBar = new Font("Roboto", Font.BOLD, 20);
+    public static Font fontText = new Font("Roboto", Font.PLAIN, 16);
 
     
 

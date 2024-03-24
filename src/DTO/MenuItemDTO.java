@@ -59,6 +59,7 @@ public class MenuItemDTO {
         this.index = index;
         panelProductOrder = new PanelProductOrder();
         panelProductOrder.insertData(index, name, price, status, image);
+        
         return panelProductOrder;
     }
     

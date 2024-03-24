@@ -24,6 +24,14 @@ public class MyListener{
         propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }
     
+    public void firePropertyChange(String propertyName, long oldValue, long newValue) {
+        propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
+    }
+    
+    public void firePropertyChange(String propertyName, double oldValue, double newValue) {
+        propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
+    }
+    
     public void firePropertyChange(String propertyName, String oldValue, String newValue) {
         propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }

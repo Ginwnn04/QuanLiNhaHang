@@ -92,8 +92,7 @@ public class Menu extends javax.swing.JPanel {
                 runEvent();
             }
         });
-        animator.setDeceleration(.5f);
-        animator.setAcceleration(.5f);
+        
         animator.setResolution(0);
     }
 
