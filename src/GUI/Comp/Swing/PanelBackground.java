@@ -1,6 +1,7 @@
 package GUI.Comp.Swing;
 
 import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -40,6 +41,24 @@ public class PanelBackground extends JPanel {
         super.setBackground(Color.WHITE);
     }
 
+    public int getBorderWidth() {
+        return borderWidth;
+    }
+
+    public void setBorderWidth(int borderWidth) {
+        this.borderWidth = borderWidth;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    
+    
     @Override
     public void setBackground(Color color) {
         super.setBackground(color);
@@ -48,17 +67,30 @@ public class PanelBackground extends JPanel {
 
     private int round = 15;
     private Icon image;
+    private int borderWidth = 1;
     private BufferedImage bffImage;
-
+    private Color color;
+    
+    
+    
+    
     @Override
     public void paint(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs.create();
         if (bffImage != null) {
             g2.drawImage(bffImage, 0, 0, null);
-        } else {
+        } 
+        else {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2.setColor(getBackground());
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), round, round);
+            if (color != null) {
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), round, round);
+                g2.setStroke(new BasicStroke(borderWidth)); // Đặt độ dày của border
+                g2.setColor(color); // Màu của border
+                g2.drawRoundRect(0, 0, getWidth() - borderWidth, getHeight() - borderWidth, round, round);
+            }
+           
         }
         g2.dispose();
         super.paint(grphcs);

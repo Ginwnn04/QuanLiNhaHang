@@ -5,6 +5,7 @@
 package GUI.Main;
 
 import GUI.Comp.Swing.MenuButton;
+import Helper.MyListener;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -36,6 +37,7 @@ public class NavBar extends javax.swing.JPanel {
     int indexSelected = 0;
     int xPanel = 6;
     // Button có height là 50 mà font size 20 thì mỗi top và bottom mỗi cạnh nó padding 15    
+    // Vị trí y của thanh panel trượt
     int yPanel = 184 + 15;
     List<JButton> listButton = new ArrayList<>();
 
@@ -45,6 +47,8 @@ public class NavBar extends javax.swing.JPanel {
         setBackground(new Color(0,0,0,0));
         int op = (int) (255 * 0.8);
         jSeparator2.setForeground(new Color(204, 204, 204, op));
+        btnDangXuat.setIconTextGap(10);
+        
     }
 
     public void initMenu() {
@@ -56,6 +60,7 @@ public class NavBar extends javax.swing.JPanel {
         addMenuItem("Hóa đơn", new ImageIcon(getClass().getResource("/GUI/Main/noclick.png")));
         addMenuItem("Giảm giá", new ImageIcon(getClass().getResource("/GUI/Main/noclick.png")));
         addMenuItem("Nhân viên", new ImageIcon(getClass().getResource("/GUI/Main/noclick.png")));
+        
      
 
     }
@@ -70,22 +75,20 @@ public class NavBar extends javax.swing.JPanel {
         else {
             btn.setForeground(new Color(255, 255, 255));
         }
-        btn.setBackground(new Color(20, 20, 21));
+        btn.setBackground(new Color(35, 35, 35));
         btn.setHorizontalAlignment(SwingConstants.LEFT);
         btn.setBorderPainted(false);
         btn.setFont(style.MyFont.fontMenuBar);
-        panelBackground3.add(btn);
+        pnMenuItem.add(btn);
         btn.setActionCommand(listButton.size() + "");
         btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 indexSelected = Integer.parseInt(e.getActionCommand());
                 if (indexSelected != indexCurrent) {
+                    MyListener.getInstance().firePropertyChange("ItemMenu", indexCurrent, indexSelected);
                     clearSelected();
-                    setSelectedMenu(indexSelected);
-                    
-                    
-                    
+                    setSelectedMenu(indexSelected); 
                 }
                 
             }
@@ -93,15 +96,17 @@ public class NavBar extends javax.swing.JPanel {
         listButton.add(btn);
     }
 
+    
+    
     public void clearSelected() {
         for (JButton btn : listButton) {
-            btn.setBackground(new Color(20, 20, 21));
+            btn.setBackground(new Color(35, 35, 35));
             btn.setForeground(new Color(255, 255, 255));
         }
     }
 
-    public void setSelectedMenu(int indexSeected) {
-        if (indexCurrent != indexSeected) {
+    public void setSelectedMenu(int indexSelected) {
+        if (indexCurrent != indexSelected) {
             int yNew = (indexSelected - indexCurrent) * 50 + (indexSelected - indexCurrent) * 2;
             animator = PropertySetter.createAnimator(300, panelBackground1, "location", new Point(xPanel, yPanel), new Point(xPanel, yPanel + yNew));
             yPanel += yNew;
@@ -113,32 +118,31 @@ public class NavBar extends javax.swing.JPanel {
             });
             animator.setResolution(5);
             animator.start();
-            indexCurrent = indexSeected;
+            
+            indexCurrent = indexSelected;
             JButton btnSelected = listButton.get(indexSelected);
             btnSelected.setForeground(new Color(255, 107, 39));
         }
-        
-        
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelBackground2 = new GUI.Comp.Swing.PanelBackground();
+        pnContainer = new GUI.Comp.Swing.PanelBackground();
         panelBackground1 = new GUI.Comp.Swing.PanelBackground();
         panelBackground5 = new GUI.Comp.Swing.PanelBackground();
         imageAvatar2 = new GUI.Comp.Menu.ImageAvatar();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jButton16 = new javax.swing.JButton();
+        lbRole = new javax.swing.JLabel();
+        lbName = new javax.swing.JLabel();
+        btnDangXuat = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
-        panelBackground3 = new GUI.Comp.Swing.PanelBackground();
+        pnMenuItem = new GUI.Comp.Swing.PanelBackground();
 
-        setBackground(new java.awt.Color(20, 20, 21));
+        setBackground(new java.awt.Color(35, 35, 35));
 
-        panelBackground2.setBackground(new java.awt.Color(20, 20, 21));
-        panelBackground2.setPreferredSize(new java.awt.Dimension(230, 765));
+        pnContainer.setBackground(new java.awt.Color(35, 35, 35));
+        pnContainer.setPreferredSize(new java.awt.Dimension(230, 765));
 
         panelBackground1.setBackground(new java.awt.Color(255, 204, 204));
         panelBackground1.setPreferredSize(new java.awt.Dimension(119, 30));
@@ -178,106 +182,117 @@ public class NavBar extends javax.swing.JPanel {
 
         imageAvatar2.setImage(new javax.swing.ImageIcon(getClass().getResource("/GUI/Comp/Icon/cross-circle.png"))); // NOI18N
 
-        jLabel3.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(154, 154, 154));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Admin");
+        lbRole.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        lbRole.setForeground(new java.awt.Color(154, 154, 154));
+        lbRole.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbRole.setText("Admin");
 
-        jLabel4.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(117, 117, 117));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Dashboard UI");
+        lbName.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        lbName.setForeground(new java.awt.Color(117, 117, 117));
+        lbName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbName.setText("Dashboard UI");
 
-        jButton16.setBackground(new java.awt.Color(20, 20, 21));
-        jButton16.setFont(new java.awt.Font("Roboto", 1, 20)); // NOI18N
-        jButton16.setForeground(new java.awt.Color(255, 255, 255));
-        jButton16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Main/noclick.png"))); // NOI18N
-        jButton16.setText("Đăng xuất");
-        jButton16.setBorderPainted(false);
-        jButton16.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButton16.setMargin(new java.awt.Insets(2, 5, 2, 14));
-        jButton16.setName(""); // NOI18N
+        btnDangXuat.setBackground(new java.awt.Color(35, 35, 35));
+        btnDangXuat.setFont(new java.awt.Font("Roboto", 1, 20)); // NOI18N
+        btnDangXuat.setForeground(new java.awt.Color(255, 255, 255));
+        btnDangXuat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Main/noclick.png"))); // NOI18N
+        btnDangXuat.setText("Đăng xuất");
+        btnDangXuat.setBorderPainted(false);
+        btnDangXuat.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnDangXuat.setMargin(new java.awt.Insets(2, 5, 2, 14));
+        btnDangXuat.setName(""); // NOI18N
+        btnDangXuat.setPreferredSize(new java.awt.Dimension(205, 50));
+        btnDangXuat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDangXuatActionPerformed(evt);
+            }
+        });
 
         jSeparator2.setBackground(new java.awt.Color(102, 255, 51));
         jSeparator2.setForeground(new java.awt.Color(102, 255, 102));
 
-        panelBackground3.setBackground(new java.awt.Color(20, 20, 21));
-        panelBackground3.setMaximumSize(new java.awt.Dimension(211, 32767));
-        panelBackground3.setPreferredSize(new java.awt.Dimension(200, 482));
+        pnMenuItem.setBackground(new java.awt.Color(35, 35, 35));
+        pnMenuItem.setMaximumSize(new java.awt.Dimension(211, 32767));
+        pnMenuItem.setPreferredSize(new java.awt.Dimension(200, 482));
         java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 3, 2);
         flowLayout1.setAlignOnBaseline(true);
-        panelBackground3.setLayout(flowLayout1);
+        pnMenuItem.setLayout(flowLayout1);
 
-        javax.swing.GroupLayout panelBackground2Layout = new javax.swing.GroupLayout(panelBackground2);
-        panelBackground2.setLayout(panelBackground2Layout);
-        panelBackground2Layout.setHorizontalGroup(
-            panelBackground2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBackground2Layout.createSequentialGroup()
-                .addGroup(panelBackground2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelBackground2Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnContainerLayout = new javax.swing.GroupLayout(pnContainer);
+        pnContainer.setLayout(pnContainerLayout);
+        pnContainerLayout.setHorizontalGroup(
+            pnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnContainerLayout.createSequentialGroup()
+                .addGroup(pnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnContainerLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(panelBackground1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
-                        .addGroup(panelBackground2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(panelBackground3, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelBackground2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(panelBackground2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)))
-                    .addGroup(panelBackground2Layout.createSequentialGroup()
-                        .addGap(84, 84, 84)
+                        .addGroup(pnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pnMenuItem, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(btnDangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(pnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnContainerLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(lbRole, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(lbName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnContainerLayout.createSequentialGroup()
+                        .addGap(64, 64, 64)
                         .addComponent(imageAvatar2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
-        panelBackground2Layout.setVerticalGroup(
-            panelBackground2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBackground2Layout.createSequentialGroup()
+        pnContainerLayout.setVerticalGroup(
+            pnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnContainerLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(imageAvatar2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbName, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(panelBackground2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelBackground2Layout.createSequentialGroup()
+                .addComponent(lbRole, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(pnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnContainerLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(panelBackground3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pnMenuItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(panelBackground2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29))
+                    .addGroup(pnContainerLayout.createSequentialGroup()
                         .addGap(35, 35, 35)
                         .addComponent(panelBackground1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBackground2, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pnContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBackground2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pnContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDangXuatActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDangXuat;
     private GUI.Comp.Menu.ImageAvatar imageAvatar2;
-    private javax.swing.JButton jButton16;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel lbName;
+    private javax.swing.JLabel lbRole;
     private GUI.Comp.Swing.PanelBackground panelBackground1;
-    private GUI.Comp.Swing.PanelBackground panelBackground2;
-    private GUI.Comp.Swing.PanelBackground panelBackground3;
     private GUI.Comp.Swing.PanelBackground panelBackground5;
+    private GUI.Comp.Swing.PanelBackground pnContainer;
+    private GUI.Comp.Swing.PanelBackground pnMenuItem;
     // End of variables declaration//GEN-END:variables
 }

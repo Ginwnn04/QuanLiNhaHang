@@ -21,20 +21,20 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="panelBackground1" alignment="0" max="32767" attributes="0"/>
+          <Component id="pnContainer" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="panelBackground1" min="-2" max="-2" attributes="0"/>
+          <Component id="pnContainer" min="-2" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="GUI.Comp.Swing.PanelBackground" name="panelBackground1">
+    <Container class="GUI.Comp.Swing.PanelBackground" name="pnContainer">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="f2" green="f2" red="f2" type="rgb"/>
+          <Color blue="23" green="23" red="23" type="rgb"/>
         </Property>
       </Properties>
 
@@ -75,6 +75,9 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Roboto" size="14" style="1"/>
             </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="T&#xf4;m s&#x1ed1;t Mayonese tr&#xe1;i th&#x1a1;m"/>
           </Properties>
         </Component>
@@ -83,12 +86,20 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Roboto" size="14" style="1"/>
             </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="&#x111;12.800.000"/>
             <Property name="horizontalTextPosition" type="int" value="10"/>
           </Properties>
         </Component>
         <Container class="GUI.Comp.Swing.PanelBackground" name="pnSpinner">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="35" green="35" red="35" type="rgb"/>
+            </Property>
+          </Properties>
 
           <Layout>
             <DimensionLayout dim="0">

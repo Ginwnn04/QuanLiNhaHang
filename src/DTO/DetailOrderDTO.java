@@ -25,6 +25,7 @@ public class DetailOrderDTO {
         this.name = name;
         this.price = price;
         this.quantity = quantity > 1 ? quantity : 1;
+        this.total = price * quantity;
         createCartOrder();
         isDelete = false;
     }
@@ -46,6 +47,7 @@ public class DetailOrderDTO {
     public void rerender() {
         if (cartOder != null) {
             quantity = cartOder.getQuantity();
+            total = quantity * price;
         }
         else {
             quantity = 0;

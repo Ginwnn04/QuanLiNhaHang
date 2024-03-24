@@ -46,7 +46,7 @@ public class TableBook extends javax.swing.JPanel {
         if (isEmpty) {
             panelBackground.setBackground(new Color(103, 199, 143, alpha));
         } else {
-            panelBackground.setBackground(new Color(0, 51, 51, alpha));
+            panelBackground.setBackground(new Color(62, 72, 97, alpha));
         }
     }
 
@@ -73,7 +73,7 @@ public class TableBook extends javax.swing.JPanel {
             lbIcon.setIcon(new ImageIcon(getClass().getResource("/GUI/Comp/Icon/check.png")));
             lbStatus.setText("Bàn trống");
         } else {
-            panelBackground.setBackground(new Color(0, 51, 51, 255));
+            panelBackground.setBackground(new Color(62, 72, 97, 255));
             lbIcon.setIcon(new ImageIcon(getClass().getResource("/GUI/Comp/Icon/user.png")));
 
             lbStatus.setText("Đang sử dụng");

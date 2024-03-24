@@ -1,6 +1,7 @@
 package GUI.Comp;
 
 import Helper.MyListener;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,7 +16,8 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
     public PanelConfirmOrder() {
         initComponents();
         serviceButton();
-        
+        setBackground(new Color(0,0,0,0));
+        pnContainer.setColor(new Color(53, 53, 53));
     }
 
     public void insertData(String nameProduct, double price, int quantity) {
@@ -48,7 +50,10 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
                 if (quantity > 0) {
                     lbQuantity.setText(--quantity + "");
                     if (quantity == 0) {
-                        MyListener.getInstance().firePropertyChange("Order", "", nameProduct);
+                        MyListener.getInstance().firePropertyChange("Quantity0", "", nameProduct);
+                    }
+                    else {
+                        MyListener.getInstance().firePropertyChange("Order", 0,  price * -1);
                     }
                 }
                 update();
@@ -60,6 +65,7 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 lbQuantity.setText(++quantity + "");
+                MyListener.getInstance().firePropertyChange("Order", 0, price);
                 update();
             }
             
@@ -70,6 +76,10 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
 
     public String getNameProduct() {
         return nameProduct;
+    }
+
+    public long getTotal() {
+        return total;
     }
 
     
@@ -90,7 +100,7 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelBackground1 = new GUI.Comp.Swing.PanelBackground();
+        pnContainer = new GUI.Comp.Swing.PanelBackground();
         lbNameProduct = new javax.swing.JLabel();
         lbTotal = new javax.swing.JLabel();
         pnSpinner = new GUI.Comp.Swing.PanelBackground();
@@ -100,15 +110,19 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        panelBackground1.setBackground(new java.awt.Color(242, 242, 242));
+        pnContainer.setBackground(new java.awt.Color(35, 35, 35));
 
         lbNameProduct.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        lbNameProduct.setForeground(new java.awt.Color(255, 255, 255));
         lbNameProduct.setText("Tôm sốt Mayonese trái thơm");
 
         lbTotal.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        lbTotal.setForeground(new java.awt.Color(255, 255, 255));
         lbTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbTotal.setText("đ12.800.000");
         lbTotal.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+
+        pnSpinner.setBackground(new java.awt.Color(53, 53, 53));
 
         btnDown.setBackground(new java.awt.Color(204, 204, 204));
         btnDown.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
@@ -150,26 +164,26 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
                 .addGap(5, 5, 5))
         );
 
-        javax.swing.GroupLayout panelBackground1Layout = new javax.swing.GroupLayout(panelBackground1);
-        panelBackground1.setLayout(panelBackground1Layout);
-        panelBackground1Layout.setHorizontalGroup(
-            panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBackground1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnContainerLayout = new javax.swing.GroupLayout(pnContainer);
+        pnContainer.setLayout(pnContainerLayout);
+        pnContainerLayout.setHorizontalGroup(
+            pnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnContainerLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbNameProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelBackground1Layout.createSequentialGroup()
+                    .addGroup(pnContainerLayout.createSequentialGroup()
                         .addComponent(pnSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(lbTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
-        panelBackground1Layout.setVerticalGroup(
-            panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBackground1Layout.createSequentialGroup()
+        pnContainerLayout.setVerticalGroup(
+            pnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnContainerLayout.createSequentialGroup()
                 .addComponent(lbNameProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(pnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lbTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -179,11 +193,11 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBackground1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBackground1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pnContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -194,7 +208,7 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
     private javax.swing.JLabel lbNameProduct;
     private javax.swing.JLabel lbQuantity;
     private javax.swing.JLabel lbTotal;
-    private GUI.Comp.Swing.PanelBackground panelBackground1;
+    private GUI.Comp.Swing.PanelBackground pnContainer;
     private GUI.Comp.Swing.PanelBackground pnSpinner;
     // End of variables declaration//GEN-END:variables
 }

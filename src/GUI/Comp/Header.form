@@ -50,7 +50,7 @@
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="15" green="14" red="14" type="rgb"/>
+          <Color blue="23" green="23" red="23" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/GUI/Comp/Icon/minus-sign-inside-a-black-circle (1).png"/>
@@ -66,7 +66,7 @@
     <Component class="javax.swing.JButton" name="jButton2">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="15" green="14" red="14" type="rgb"/>
+          <Color blue="23" green="23" red="23" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/GUI/Comp/Icon/cross-mark-on-a-black-circle-background (1).png"/>

@@ -25,14 +25,18 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
 
     public PanelDashbroad() {
         initComponents();
-        panelBackground1.setBackground(new Color(65, 41, 47, 60));
+//        panelBackground1.setBackground(new Color(20, 20, 21));
+//        setPreferredSize(new Dimension(0, 0));
 //        pnTableBook.setBackground(new Color(42, 42, 42));
+        setBackground(new Color(0,0,0,0));
         addTable(10);
         setStatusTable(4, false);
         setStatusTable(1, false);
         setStatusTable(6, false);
         setStatusTable(8, false);
         MyListener.getInstance().addPropertyChangeListener(this);
+        
+        pnService.setColor(new Color(53,53,53));
     }
 
     @Override
@@ -111,114 +115,117 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         panelBackground1 = new GUI.Comp.Swing.PanelBackground();
         jScrollPane2 = new javax.swing.JScrollPane();
         pnTableBook = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        btnChuyenBan = new javax.swing.JButton();
-        btnHuyBan = new javax.swing.JButton();
-        btnKiemTra = new javax.swing.JButton();
-        btnThanhToan = new javax.swing.JButton();
-        btnDatBan = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
+        pnService = new GUI.Comp.Swing.PanelBackground();
+        btnThanhToan = new javax.swing.JButton();
+        btnHuyBan = new javax.swing.JButton();
+        btnChuyenBan = new javax.swing.JButton();
+        btnDatBan = new javax.swing.JButton();
+        btnKiemTra = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(20, 20, 21));
-        setPreferredSize(new java.awt.Dimension(973, 666));
+        setBackground(new java.awt.Color(35, 35, 35));
+        setPreferredSize(new java.awt.Dimension(1077, 730));
+
+        panelBackground1.setBackground(new java.awt.Color(30, 30, 30));
+        panelBackground1.setPreferredSize(new java.awt.Dimension(1077, 730));
 
         jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane2.setForeground(new java.awt.Color(255, 255, 255));
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane2.setPreferredSize(new java.awt.Dimension(550, 520));
 
-        pnTableBook.setBackground(new java.awt.Color(33, 33, 33));
+        pnTableBook.setBackground(new java.awt.Color(35, 35, 35));
         pnTableBook.setPreferredSize(new java.awt.Dimension(550, 510));
         java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 12);
         flowLayout1.setAlignOnBaseline(true);
         pnTableBook.setLayout(flowLayout1);
         jScrollPane2.setViewportView(pnTableBook);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thao tác", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Roboto", 0, 18))); // NOI18N
-        jPanel1.setPreferredSize(new java.awt.Dimension(249, 340));
+        pnService.setBackground(new java.awt.Color(35, 35, 35));
 
-        btnChuyenBan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnChuyenBan.setText("CHUYỂN BÀN");
+        btnThanhToan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnThanhToan.setText("THANH TOÁN");
 
         btnHuyBan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnHuyBan.setText("HUỶ BÀN");
+        btnHuyBan.setPreferredSize(new java.awt.Dimension(105, 80));
         btnHuyBan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHuyBanActionPerformed(evt);
             }
         });
 
-        btnKiemTra.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnKiemTra.setText("KIỂM TRA");
-
-        btnThanhToan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnThanhToan.setText("THANH TOÁN");
+        btnChuyenBan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnChuyenBan.setText("CHUYỂN BÀN");
+        btnChuyenBan.setPreferredSize(new java.awt.Dimension(138, 80));
 
         btnDatBan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnDatBan.setText("ĐẶT BÀN");
         btnDatBan.setEnabled(false);
+        btnDatBan.setPreferredSize(new java.awt.Dimension(104, 80));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnDatBan, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnKiemTra, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnHuyBan, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnChuyenBan, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40))
+        btnKiemTra.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnKiemTra.setText("KIỂM TRA");
+
+        javax.swing.GroupLayout pnServiceLayout = new javax.swing.GroupLayout(pnService);
+        pnService.setLayout(pnServiceLayout);
+        pnServiceLayout.setHorizontalGroup(
+            pnServiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnServiceLayout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addGroup(pnServiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnDatBan, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnThanhToan, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+                    .addComponent(btnHuyBan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnChuyenBan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnKiemTra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(46, 46, 46))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        pnServiceLayout.setVerticalGroup(
+            pnServiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnServiceLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(btnDatBan, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+                .addComponent(btnDatBan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(btnChuyenBan, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+                .addComponent(btnHuyBan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(btnHuyBan, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+                .addComponent(btnChuyenBan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(btnKiemTra, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
+                .addComponent(btnKiemTra, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(btnThanhToan, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
-                .addGap(30, 30, 30))
+                .addComponent(btnThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelBackground1Layout = new javax.swing.GroupLayout(panelBackground1);
         panelBackground1.setLayout(panelBackground1Layout);
         panelBackground1Layout.setHorizontalGroup(
             panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 961, Short.MAX_VALUE)
+            .addGroup(panelBackground1Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 710, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(pnService, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(41, Short.MAX_VALUE))
             .addGroup(panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelBackground1Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(panelBackground1Layout.createSequentialGroup()
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 702, Short.MAX_VALUE)
-                            .addGap(10, 10, 10))
-                        .addGroup(panelBackground1Layout.createSequentialGroup()
-                            .addGap(12, 12, 12)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 554, Short.MAX_VALUE)))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap()))
+                    .addGap(18, 18, 18)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(919, Short.MAX_VALUE)))
         );
         panelBackground1Layout.setVerticalGroup(
             panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 654, Short.MAX_VALUE)
+            .addGroup(panelBackground1Layout.createSequentialGroup()
+                .addGap(62, 62, 62)
+                .addGroup(panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pnService, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(88, Short.MAX_VALUE))
             .addGroup(panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBackground1Layout.createSequentialGroup()
-                    .addGroup(panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelBackground1Layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 552, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGap(29, 29, 29)))
+                .addGroup(panelBackground1Layout.createSequentialGroup()
+                    .addGap(10, 10, 10)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(733, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -226,16 +233,12 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelBackground1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panelBackground1, javax.swing.GroupLayout.DEFAULT_SIZE, 1071, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelBackground1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(panelBackground1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         getAccessibleContext().setAccessibleName("");
@@ -264,10 +267,10 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
     private javax.swing.JButton btnHuyBan;
     private javax.swing.JButton btnKiemTra;
     private javax.swing.JButton btnThanhToan;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
     private GUI.Comp.Swing.PanelBackground panelBackground1;
+    private GUI.Comp.Swing.PanelBackground pnService;
     private javax.swing.JPanel pnTableBook;
     // End of variables declaration//GEN-END:variables
 }

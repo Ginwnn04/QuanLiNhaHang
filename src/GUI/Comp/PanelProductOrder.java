@@ -6,6 +6,7 @@ package GUI.Comp;
 
 
 import Helper.MyListener;
+import java.awt.Color;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import javax.swing.ImageIcon;
@@ -22,6 +23,7 @@ public class PanelProductOrder extends javax.swing.JPanel {
     
     public PanelProductOrder() {
         initComponents();
+        
     }
 
     public void insertData(int index, String nameProduct, double price, String status, String imagePath) {
@@ -32,6 +34,7 @@ public class PanelProductOrder extends javax.swing.JPanel {
         
         ImageIcon image = new ImageIcon(new ImageIcon(getClass().getResource("/GUI/ImageProduct/" + imagePath)).getImage().getScaledInstance(100, 100, 4));
         avatarProduct.setImage(image);
+        pnDetailProduct.setColor(new Color(53, 53, 53));
     }
     
 
@@ -48,13 +51,18 @@ public class PanelProductOrder extends javax.swing.JPanel {
         lbShowPrice = new javax.swing.JLabel();
         lbShowActive = new javax.swing.JLabel();
 
+        pnDetailProduct.setBackground(new java.awt.Color(35, 35, 35));
+
         lbNameProduct.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        lbNameProduct.setForeground(new java.awt.Color(255, 255, 255));
         lbNameProduct.setText("Tôm sốt Mayonese trái thơm");
 
         lbActiveProduct.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        lbActiveProduct.setForeground(new java.awt.Color(255, 255, 255));
         lbActiveProduct.setText("Trạng thái");
 
         lbPrice.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        lbPrice.setForeground(new java.awt.Color(255, 255, 255));
         lbPrice.setText("Giá");
 
         btnSelection.setBackground(new java.awt.Color(52, 188, 137));
@@ -69,9 +77,11 @@ public class PanelProductOrder extends javax.swing.JPanel {
         });
 
         lbShowPrice.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        lbShowPrice.setForeground(new java.awt.Color(255, 255, 255));
         lbShowPrice.setText("đ50.000");
 
         lbShowActive.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        lbShowActive.setForeground(new java.awt.Color(255, 255, 255));
         lbShowActive.setText("Món ăn sẵn sàng");
 
         javax.swing.GroupLayout pnDetailProductLayout = new javax.swing.GroupLayout(pnDetailProduct);
