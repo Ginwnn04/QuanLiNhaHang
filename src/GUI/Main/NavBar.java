@@ -6,7 +6,6 @@ package GUI.Main;
 
 import GUI.Comp.Swing.MenuButton;
 import Helper.MyListener;
-import KentHipos.Kensoft;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;

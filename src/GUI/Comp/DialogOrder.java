@@ -39,9 +39,9 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         lbShowTien.setText(total + " đ");
     }
 
-    public void addMenuItemCart(int index, String nameProduct, double price, String status, String image) {
+    public void addMenuItemCart(int index, String nameProduct, double price, String status, String image, String desc, String ingredient) {
         PanelProductOrder pnProductOrder = new PanelProductOrder();
-        pnProductOrder.insertData(index, nameProduct, price, status, image);
+        pnProductOrder.insertData(index, nameProduct, price, status, image, desc, ingredient);
 
         pnOrder.add(pnProductOrder);
     }
@@ -64,8 +64,10 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         for (int i = 0; i < listMenuItem.size(); i++) {
             MenuItemDTO item = listMenuItem.get(i);
             item.createCart(i);
-            addMenuItemCart(i, item.getName(), item.getPrice(), item.getStatus(), item.getImage());
+            
+            addMenuItemCart(i, item.getName(), item.getPrice(), item.getStatus(), item.getImage(), item.getDescription(), item.getIngredient());
 //            System.out.println(listMenuItem.get(i).getName() + " " + listMenuItem.get(i).getPrice()+ " " + listMenuItem.get(i).getStatus());
+            
         }
     }
 
@@ -286,7 +288,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lbSort)
                         .addGap(10, 10, 10)
@@ -295,10 +297,10 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
                         .addComponent(lbCategory)
                         .addGap(10, 10, 10)
                         .addComponent(cbxCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(40, 40, 40)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 458, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(panelBackground1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addGap(16, 16, 16))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

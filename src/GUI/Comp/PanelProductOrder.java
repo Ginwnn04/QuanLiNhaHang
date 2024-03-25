@@ -7,9 +7,12 @@ package GUI.Comp;
 
 import Helper.MyListener;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -19,21 +22,41 @@ import javax.swing.ImageIcon;
 public class PanelProductOrder extends javax.swing.JPanel {
     public static int indexProduct = -1;
     private int index = -1;
-    
+    private String desc;
+    private String ingredient;
+    private ModalItem modal = new ModalItem();
     
     public PanelProductOrder() {
         initComponents();
+        btnModal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null,modal,"Your title here bro",JOptionPane.PLAIN_MESSAGE);
+
+            }
         
+        });
     }
 
-    public void insertData(int index, String nameProduct, double price, String status, String imagePath) {
+    public void insertData(int index, String nameProduct, double price, String status, String imagePath, String desc, String ingredient) {
         this.index = index;
+        this.desc = desc;
+        this.ingredient = ingredient;
+        
         lbNameProduct.setText(nameProduct);
         lbShowPrice.setText("đ" + price);
         lbShowActive.setText(status);
         
+       
+        
         ImageIcon image = new ImageIcon(new ImageIcon(getClass().getResource("/GUI/ImageProduct/" + imagePath)).getImage().getScaledInstance(100, 100, 4));
+        ImageIcon imageModal = new ImageIcon(new ImageIcon(getClass().getResource("/GUI/ImageProduct/" + imagePath)).getImage().getScaledInstance(408, 277, 4));
+
         avatarProduct.setImage(image);
+      
+        modal.insertData(imageModal, desc, ingredient);
+        
+        
         pnDetailProduct.setColor(new Color(53, 53, 53));
     }
     
@@ -50,6 +73,7 @@ public class PanelProductOrder extends javax.swing.JPanel {
         btnSelection = new javax.swing.JButton();
         lbShowPrice = new javax.swing.JLabel();
         lbShowActive = new javax.swing.JLabel();
+        btnModal = new javax.swing.JButton();
 
         pnDetailProduct.setBackground(new java.awt.Color(35, 35, 35));
 
@@ -84,6 +108,9 @@ public class PanelProductOrder extends javax.swing.JPanel {
         lbShowActive.setForeground(new java.awt.Color(255, 255, 255));
         lbShowActive.setText("Món ăn sẵn sàng");
 
+        btnModal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Comp/Icon/eye.png"))); // NOI18N
+        btnModal.setPreferredSize(new java.awt.Dimension(24, 24));
+
         javax.swing.GroupLayout pnDetailProductLayout = new javax.swing.GroupLayout(pnDetailProduct);
         pnDetailProduct.setLayout(pnDetailProductLayout);
         pnDetailProductLayout.setHorizontalGroup(
@@ -93,9 +120,7 @@ public class PanelProductOrder extends javax.swing.JPanel {
                 .addComponent(avatarProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addGroup(pnDetailProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnDetailProductLayout.createSequentialGroup()
-                        .addComponent(lbNameProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(47, Short.MAX_VALUE))
+                    .addComponent(lbNameProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnDetailProductLayout.createSequentialGroup()
                         .addGroup(pnDetailProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnDetailProductLayout.createSequentialGroup()
@@ -107,9 +132,11 @@ public class PanelProductOrder extends javax.swing.JPanel {
                                 .addComponent(lbActiveProduct)
                                 .addGap(18, 18, 18)
                                 .addComponent(lbShowActive)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSelection, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 16, 16))))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnModal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSelection, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         pnDetailProductLayout.setVerticalGroup(
             pnDetailProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -129,7 +156,8 @@ public class PanelProductOrder extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnDetailProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbShowPrice)
-                            .addComponent(btnSelection, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btnSelection, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnModal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(6, 6, 6))
         );
 
@@ -137,10 +165,7 @@ public class PanelProductOrder extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(pnDetailProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+            .addComponent(pnDetailProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,6 +183,7 @@ public class PanelProductOrder extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private GUI.Comp.AvatarProduct avatarProduct;
+    private javax.swing.JButton btnModal;
     public javax.swing.JButton btnSelection;
     private javax.swing.JLabel lbActiveProduct;
     private javax.swing.JLabel lbNameProduct;

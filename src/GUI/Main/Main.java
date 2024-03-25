@@ -38,7 +38,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener{
 //        System.out.println(body.getSize());
         header.actionHeader(this);
         navBar.setInformation("Nguyễn Nhật Quang", "Nhân viên");
-//        showForm(a);
+        showForm(new QuanLiBan());
         MyListener.getInstance().addPropertyChangeListener(this);
         test(this);
 
@@ -49,9 +49,11 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener{
         if (evt.getPropertyName().equals("ItemMenu")) {
             System.out.println(evt.getOldValue() + " " + evt.getNewValue());
             int index = (int) evt.getNewValue();
-            if (index == 1) {
+            if (index == 0) {
+                showForm(new QuanLiBan());
+            }
+            else if (index == 1) {
                 showForm(a);
-                
             }
             else {
                 Panel pn = new Panel();
@@ -145,8 +147,11 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener{
         UIManager.put("Button.font", style.MyFont.fontText);
         UIManager.put("Table.font", style.MyFont.fontText);
         UIManager.put("TableHeader.font", style.MyFont.fontText);
-        UIManager.put("TableHeader.background", new Color(103, 188, 143, 255));
-        UIManager.put("Table.alternateRowColor", new Color(240, 240, 240));        
+        UIManager.put("TableHeader.background", new Color(0, 0, 0, 0));
+//        UIManager.put("Table.alternateRowColor", new Color(53, 53, 53));        
+        UIManager.put("TableHeader.separatorColor", new Color(0, 0, 0, 0));        
+        UIManager.put("TableHeader.pressedBackground", new Color(0, 0, 0, 0));        
+        UIManager.put("TableHeader.height", 30);        
         FlatMacDarkLaf.setup();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

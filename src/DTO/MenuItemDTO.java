@@ -58,7 +58,8 @@ public class MenuItemDTO {
     public PanelProductOrder createCart(int index) {
         this.index = index;
         panelProductOrder = new PanelProductOrder();
-        panelProductOrder.insertData(index, name, price, status, image);
+        panelProductOrder.insertData(index, name, price, status, image, description, ingredient);
+//        System.out.println(description + " " + ingredient + " 1");
         
         return panelProductOrder;
     }
