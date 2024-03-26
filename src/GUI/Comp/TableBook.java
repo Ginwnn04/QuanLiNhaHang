@@ -17,7 +17,7 @@ import javax.swing.ImageIcon;
 public class TableBook extends javax.swing.JPanel {
 
     private boolean isEmpty = true;
-    private int numberTable;
+    private String nameTable;
     private boolean isSelected = false;
 
     public void setStatus(boolean isEmpty) {
@@ -53,18 +53,18 @@ public class TableBook extends javax.swing.JPanel {
     public TableBook() {
     }
 
-    public TableBook(int numberTable) {
-        this.numberTable = numberTable;
+    public TableBook(String nameTable) {
+        this.nameTable = nameTable;
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         init();
-        lbNumberTable.setText("Bàn " + numberTable);
+        lbNumberTable.setText("Bàn " + nameTable);
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
     }
 
-    public int getNumberTable() {
-        return numberTable;
+    public String getNameTable() {
+        return nameTable;
     }
 
     public void init() {
@@ -132,7 +132,7 @@ public class TableBook extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void panelBackgroundMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelBackgroundMouseClicked
-        MyListener.getInstance().firePropertyChange("Selected", 0, numberTable);
+        MyListener.getInstance().firePropertyChange("Selected", "", nameTable);
     }//GEN-LAST:event_panelBackgroundMouseClicked
 
 

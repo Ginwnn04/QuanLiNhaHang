@@ -107,7 +107,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Container class="javax.swing.JPanel" name="pnTableBook">
+            <Container class="javax.swing.JPanel" name="pnContainerTable">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="23" green="23" red="23" type="rgb"/>
@@ -166,11 +166,11 @@
                   </Parameters>
                 </CodeStatement>
                 <CodeStatement>
-                  <CodeExpression id="6_pnTableBook">
-                    <CodeVariable name="pnTableBook" type="8194" declaredType="javax.swing.JPanel"/>
+                  <CodeExpression id="6_pnContainerTable">
+                    <CodeVariable name="pnContainerTable" type="8194" declaredType="javax.swing.JPanel"/>
                     <ExpressionOrigin>
                       <ExpressionProvider type="ComponentRef">
-                        <ComponentRef name="pnTableBook"/>
+                        <ComponentRef name="pnContainerTable"/>
                       </ExpressionProvider>
                     </ExpressionOrigin>
                   </CodeExpression>

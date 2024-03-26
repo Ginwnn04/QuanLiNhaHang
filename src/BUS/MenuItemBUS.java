@@ -17,7 +17,7 @@ public class MenuItemBUS {
     private ArrayList<MenuItemDTO> listMenuItem = new ArrayList<>();
     
     public ArrayList<MenuItemDTO> getAllData() {
-        listMenuItem = menuItemDAO.readMenuItem();
+        listMenuItem = menuItemDAO.readData();
         return listMenuItem;
     }
 }

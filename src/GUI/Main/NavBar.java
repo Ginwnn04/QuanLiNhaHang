@@ -62,6 +62,7 @@ public class NavBar extends javax.swing.JPanel {
 //        panelBackground1.setBackground(new Color(255, 107, 39, 30));
         addMenuItem("Trang chủ", new ImageIcon(getClass().getResource("/GUI/Main/noclick.png")));
         addMenuItem("Đặt bàn", new ImageIcon(getClass().getResource("/GUI/Main/noclick.png")));
+        addMenuItem("Bàn", new ImageIcon(getClass().getResource("/GUI/Main/noclick.png")));
         addMenuItem("Món ăn", new ImageIcon(getClass().getResource("/GUI/Main/noclick.png")));
         addMenuItem("Nguyên liệu", new ImageIcon(getClass().getResource("/GUI/Main/noclick.png")));
         addMenuItem("Hóa đơn", new ImageIcon(getClass().getResource("/GUI/Main/noclick.png")));

@@ -15,12 +15,7 @@ import java.sql.ResultSet;
  */
 public class MenuItemDAO {
     
-    public ArrayList<MenuItemDTO> readMenuItem() {
-//        String query = "SELECT item.id, item.name, item.price, item.profit, item.isdeleted, item.\"imagePath\", item.\"createTime\", item.\"updateTime\", status.name, cate.name \n" +
-//                        "FROM tb_menu_item_status AS status \n" +
-//                        "JOIN tb_menu_item AS item ON status.id = item.statusid \n" +
-//                        "JOIN tb_categories AS cate ON item.categoryid = cate.id";
-
+    public ArrayList<MenuItemDTO> readData() {
         String query = "SELECT item.id, item.name, item.price, item.profit, item.description, item.ingredients, item.isdeleted, item.\"imagePath\", item.\"createTime\", item.\"updateTime\", status.name AS status, cate.name AS category FROM tb_menu_item_status AS status JOIN tb_menu_item AS item ON status.id = item.statusid JOIN tb_categories AS cate ON item.categoryid = cate.id";
         try(Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query);) {
             ResultSet rs = pstm.executeQuery();

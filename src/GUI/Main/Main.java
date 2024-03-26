@@ -9,10 +9,10 @@ import GUI.Comp.DialogOrder;
 import GUI.Comp.PanelDashbroad;
 import Helper.MyListener;
 
-
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,49 +23,66 @@ import javax.swing.JPanel;
 
 import javax.swing.UIManager;
 
-
 /**
  *
  * @author quang
  */
-public class Main extends javax.swing.JFrame implements PropertyChangeListener{
+public class Main extends javax.swing.JFrame implements PropertyChangeListener {
+
     private PanelDashbroad a = new PanelDashbroad();
 
     public Main() {
         initComponents();
         setLocationRelativeTo(null);
-        setBackground(new Color(0,0,0,0));
+        setBackground(new Color(0, 0, 0, 0));
 //        System.out.println(body.getSize());
         header.actionHeader(this);
         navBar.setInformation("Nguyễn Nhật Quang", "Nhân viên");
-        showForm(new QuanLiBan());
+
         MyListener.getInstance().addPropertyChangeListener(this);
         test(this);
 
     }
-    
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("ItemMenu")) {
             System.out.println(evt.getOldValue() + " " + evt.getNewValue());
             int index = (int) evt.getNewValue();
-            if (index == 0) {
-                showForm(new QuanLiBan());
-            }
-            else if (index == 1) {
-                showForm(a);
-            }
-            else {
-                Panel pn = new Panel();
-                pn.setjLabel1("Form " + evt.getNewValue());
-                showForm(pn);
-            }
             
+            switch (index) {
+                case 0:
+                    
+                    break;
+                case 1:
+                    showForm(a);
+                    break;
+                case 2:
+                    showForm(new QuanLiBan());
+                    break;
+                case 3:
+
+                    break;
+                case 4:
+
+                    break;
+                case 5:
+
+                    break;
+                case 6:
+
+                    break;
+                case 7:
+
+                    break;
+                
+            }
+
         }
     }
-    
+
     public void test(Frame frame) {
-        a.btnDatBan.addActionListener(new ActionListener(){
+        a.btnDatBan.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DialogOrder a = new DialogOrder(frame, true);
@@ -73,14 +90,14 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener{
             }
         });
     }
-    
+
     public void showForm(JPanel com) {
         body.removeAll();
         body.add(com);
         body.revalidate();
-        body.repaint();     
+        body.repaint();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -146,12 +163,14 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener{
         UIManager.put("Label.font", style.MyFont.fontText);
         UIManager.put("Button.font", style.MyFont.fontText);
         UIManager.put("Table.font", style.MyFont.fontText);
-        UIManager.put("TableHeader.font", style.MyFont.fontText);
-        UIManager.put("TableHeader.background", new Color(0, 0, 0, 0));
+        UIManager.put("TableHeader.font", new Font("Roboto", Font.BOLD, 14));
+        UIManager.put("TableHeader.background", new Color(35, 35, 35));
+        UIManager.put("TableHeader.hoverBackground", new Color(35, 35, 35));
+
 //        UIManager.put("Table.alternateRowColor", new Color(53, 53, 53));        
-        UIManager.put("TableHeader.separatorColor", new Color(0, 0, 0, 0));        
-        UIManager.put("TableHeader.pressedBackground", new Color(0, 0, 0, 0));        
-        UIManager.put("TableHeader.height", 30);        
+        UIManager.put("TableHeader.separatorColor", new Color(0, 0, 0, 0));
+        UIManager.put("TableHeader.pressedBackground", new Color(0, 0, 0, 0));
+        UIManager.put("TableHeader.height", 30);
         FlatMacDarkLaf.setup();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -168,5 +187,4 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener{
     private GUI.Comp.Swing.PanelBackground panelBackground;
     // End of variables declaration//GEN-END:variables
 
-    
 }

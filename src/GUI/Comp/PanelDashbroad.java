@@ -4,6 +4,8 @@
  */
 package GUI.Comp;
 
+import BUS.TableBUS;
+import DTO.TableDTO;
 import Helper.MyListener;
 import java.awt.Button;
 import java.awt.Color;
@@ -19,35 +21,28 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 public class PanelDashbroad extends javax.swing.JPanel implements PropertyChangeListener {
-
-    private List<TableBook> listTable = new ArrayList<>();
+    private ArrayList<TableDTO> listTable = new ArrayList<>();
+    private List<TableBook> listPanelTable = new ArrayList<>();
     private int totalTable = 1;
 
     public PanelDashbroad() {
         initComponents();
-//        panelBackground1.setBackground(new Color(20, 20, 21));
-//        setPreferredSize(new Dimension(0, 0));
-//        pnTableBook.setBackground(new Color(42, 42, 42));
         setBackground(new Color(0,0,0,0));
-        addTable(10);
-        setStatusTable(4, false);
-        setStatusTable(1, false);
-        setStatusTable(6, false);
-        setStatusTable(8, false);
-        MyListener.getInstance().addPropertyChangeListener(this);
-        
+        listTable = new TableBUS().getAllData();
+        addTable(listTable.size());
+        MyListener.getInstance().addPropertyChangeListener(this); 
         pnService.setColor(new Color(53,53,53));
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("Selected")) {
-            jTextField1.setText((int) evt.getNewValue() + "");
-            System.out.println((int) evt.getNewValue() + "");
-            for (TableBook x : listTable) {
-                if (x.getNumberTable() == (int) evt.getNewValue()) {
+            jTextField1.setText(evt.getNewValue() + "");
+            System.out.println(evt.getNewValue());
+            for (TableBook x : listPanelTable) {
+                if (x.getNameTable().equals(evt.getNewValue())) {
                     boolean check = x.isSelected();
-                    for (TableBook y : listTable) {
+                    for (TableBook y : listPanelTable) {
                         y.setIsSelected(false);
                         y.update();
                     }
@@ -61,7 +56,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
 
             // Kiem tra co ban` nao duoc chon ko => (Yes) => Enable button DatBan
             boolean isValid = false;
-            for (TableBook x : listTable) {
+            for (TableBook x : listPanelTable) {
                 if (x.isSelected()) {
                     isValid = true;
                 }
@@ -72,11 +67,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         repaint();
     }
 
-    public void addTable() {
-        TableBook table = new TableBook(totalTable++);
-        listTable.add(table);
-        pnTableBook.add(table);
-    }
+
 
     public void addTable(int totalTable) {
         int row = totalTable / 3;
@@ -84,24 +75,26 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
             row = (totalTable / 3) + 1;
         }
         int height = row * 125;
-        pnTableBook.setPreferredSize(new Dimension(550, height));
+        pnContainerTable.setPreferredSize(new Dimension(550, height));
         for (int i = 0; i < totalTable; i++) {
-            addTable();
+            TableBook table = listTable.get(i).createTableBook();
+            listPanelTable.add(table);
+            pnContainerTable.add(table);
         }
     }
 
-    public void setStatusTable(int numberTable, boolean isEmpty) {
-        for (TableBook x : listTable) {
-            if (x.getNumberTable() == numberTable) {
+    public void setStatusTable(String nameTable, boolean isEmpty) {
+        for (TableBook x : listPanelTable) {
+            if (x.getNameTable().equals(nameTable)) {
                 x.setStatus(isEmpty);
             }
         }
     }
 
-    public boolean isUsed(int numberTable) {
+    public boolean isUsed(String nameTable) {
 
-        for (TableBook x : listTable) {
-            if (x.getNumberTable() == numberTable) {
+        for (TableBook x : listPanelTable) {
+            if (x.getNameTable().equals(nameTable)) {
                 return x.getStatus();
             }
         }
@@ -114,7 +107,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
 
         panelBackground1 = new GUI.Comp.Swing.PanelBackground();
         jScrollPane2 = new javax.swing.JScrollPane();
-        pnTableBook = new javax.swing.JPanel();
+        pnContainerTable = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         pnService = new GUI.Comp.Swing.PanelBackground();
         btnThanhToan = new javax.swing.JButton();
@@ -134,12 +127,12 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane2.setPreferredSize(new java.awt.Dimension(550, 520));
 
-        pnTableBook.setBackground(new java.awt.Color(35, 35, 35));
-        pnTableBook.setPreferredSize(new java.awt.Dimension(550, 510));
+        pnContainerTable.setBackground(new java.awt.Color(35, 35, 35));
+        pnContainerTable.setPreferredSize(new java.awt.Dimension(550, 510));
         java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 12);
         flowLayout1.setAlignOnBaseline(true);
-        pnTableBook.setLayout(flowLayout1);
-        jScrollPane2.setViewportView(pnTableBook);
+        pnContainerTable.setLayout(flowLayout1);
+        jScrollPane2.setViewportView(pnContainerTable);
 
         pnService.setBackground(new java.awt.Color(35, 35, 35));
 
@@ -250,9 +243,9 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
             JOptionPane.showMessageDialog(jScrollPane2, "Chưa chọn bàn để huỷ");
             return;
         }
-        int numberTable = Integer.parseInt(jTextField1.getText());
-        if (!isUsed(numberTable)) {
-            setStatusTable(numberTable, true);
+        String nameTable = jTextField1.getText();
+        if (!isUsed(nameTable)) {
+            setStatusTable(nameTable, true);
             jTextField1.setText("");
         } else {
             JOptionPane.showMessageDialog(jScrollPane2, "Không thể huỷ bàn");
@@ -270,7 +263,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
     private GUI.Comp.Swing.PanelBackground panelBackground1;
+    private javax.swing.JPanel pnContainerTable;
     private GUI.Comp.Swing.PanelBackground pnService;
-    private javax.swing.JPanel pnTableBook;
     // End of variables declaration//GEN-END:variables
 }
