@@ -1,15 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DTO;
 
-import GUI.Comp.TableBook;
+import GUI.Comp.PanelTable;
+import GUI.Comp.PanelTableBooking;
 
-/**
- *
- * @author quang
- */
 public class TableDTO {
     private String id;
     private String name;
@@ -20,7 +13,8 @@ public class TableDTO {
     private String updateTime;
     private boolean isDelete;
 
-    private TableBook pnTableBook;
+    private PanelTable pnTable;
+    private PanelTableBooking pnTableBooking;
     public TableDTO() {
     }
     
@@ -34,13 +28,23 @@ public class TableDTO {
         this.isDelete = isDelete;
     }
 
-    public TableBook createTableBook() {
-        pnTableBook = new TableBook(name);
+    public PanelTableBooking createTableBooking() {
+        pnTableBooking = new PanelTableBooking();
+        pnTableBooking.setNameTable(des);
         if (status.equals("DANGSUDUNG")) {
-            pnTableBook.setStatus(false);
-            pnTableBook.update();
+            pnTableBooking.setStatus(false);
         }
-        return pnTableBook;
+        return pnTableBooking;
+    }
+    
+    
+    public PanelTable createTable() {
+        pnTable = new PanelTable(name);
+        if (status.equals("DANGSUDUNG")) {
+            pnTable.setStatus(false);
+        }
+        
+        return pnTable;
     }
     
     public String getId() {

@@ -87,6 +87,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
             public void actionPerformed(ActionEvent e) {
                 DialogOrder a = new DialogOrder(frame, true);
                 a.setVisible(true);
+                
             }
         });
     }

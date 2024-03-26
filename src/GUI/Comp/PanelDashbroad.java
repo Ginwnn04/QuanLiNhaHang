@@ -22,7 +22,7 @@ import javax.swing.UIManager;
 
 public class PanelDashbroad extends javax.swing.JPanel implements PropertyChangeListener {
     private ArrayList<TableDTO> listTable = new ArrayList<>();
-    private List<TableBook> listPanelTable = new ArrayList<>();
+    private List<PanelTable> listPanelTable = new ArrayList<>();
     private int totalTable = 1;
 
     public PanelDashbroad() {
@@ -39,10 +39,10 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         if (evt.getPropertyName().equals("Selected")) {
             jTextField1.setText(evt.getNewValue() + "");
             System.out.println(evt.getNewValue());
-            for (TableBook x : listPanelTable) {
+            for (PanelTable x : listPanelTable) {
                 if (x.getNameTable().equals(evt.getNewValue())) {
                     boolean check = x.isSelected();
-                    for (TableBook y : listPanelTable) {
+                    for (PanelTable y : listPanelTable) {
                         y.setIsSelected(false);
                         y.update();
                     }
@@ -56,7 +56,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
 
             // Kiem tra co ban` nao duoc chon ko => (Yes) => Enable button DatBan
             boolean isValid = false;
-            for (TableBook x : listPanelTable) {
+            for (PanelTable x : listPanelTable) {
                 if (x.isSelected()) {
                     isValid = true;
                 }
@@ -77,14 +77,14 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         int height = row * 125;
         pnContainerTable.setPreferredSize(new Dimension(550, height));
         for (int i = 0; i < totalTable; i++) {
-            TableBook table = listTable.get(i).createTableBook();
+            PanelTable table = listTable.get(i).createTable();
             listPanelTable.add(table);
             pnContainerTable.add(table);
         }
     }
 
     public void setStatusTable(String nameTable, boolean isEmpty) {
-        for (TableBook x : listPanelTable) {
+        for (PanelTable x : listPanelTable) {
             if (x.getNameTable().equals(nameTable)) {
                 x.setStatus(isEmpty);
             }
@@ -93,7 +93,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
 
     public boolean isUsed(String nameTable) {
 
-        for (TableBook x : listPanelTable) {
+        for (PanelTable x : listPanelTable) {
             if (x.getNameTable().equals(nameTable)) {
                 return x.getStatus();
             }

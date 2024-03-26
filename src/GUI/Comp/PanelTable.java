@@ -14,12 +14,51 @@ import javax.swing.ImageIcon;
  *
  * @author quang
  */
-public class TableBook extends javax.swing.JPanel {
+public class PanelTable extends javax.swing.JPanel {
 
-    private boolean isEmpty = true;
     private String nameTable;
+    private boolean isEmpty = true;
     private boolean isSelected = false;
 
+    public PanelTable() {
+    }
+
+    public PanelTable(String nameTable) {
+        this.nameTable = nameTable;
+        initComponents();
+        setBackground(new Color(0, 0, 0, 0));
+        init();
+        lbNumberTable.setText("Bàn " + nameTable);
+        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+    }
+    
+    public void init() {
+        if (isEmpty) {
+            panelBackground.setBackground(new Color(103, 199, 143, 255));
+            lbIcon.setIcon(new ImageIcon(getClass().getResource("/GUI/Comp/Icon/check.png")));
+            lbStatus.setText("Bàn trống");
+        } else {
+            panelBackground.setBackground(new Color(62, 72, 97, 255));
+            lbIcon.setIcon(new ImageIcon(getClass().getResource("/GUI/Comp/Icon/user.png")));
+
+            lbStatus.setText("Đang sử dụng");
+        }
+    }
+    
+    public void update() {
+        int alpha = 255;
+        if (isSelected) {
+            // Opacity 0.3
+            alpha = 178;
+        }
+        if (isEmpty) {
+            panelBackground.setBackground(new Color(103, 199, 143, alpha));
+        } else {
+            panelBackground.setBackground(new Color(62, 72, 97, alpha));
+        }
+    }
+    
     public void setStatus(boolean isEmpty) {
         this.isEmpty = isEmpty;
         init();
@@ -37,48 +76,11 @@ public class TableBook extends javax.swing.JPanel {
         this.isSelected = isSelected;
     }
 
-    public void update() {
-        int alpha = 255;
-        if (isSelected) {
-            // Opacity 0.3
-            alpha = 178;
-        }
-        if (isEmpty) {
-            panelBackground.setBackground(new Color(103, 199, 143, alpha));
-        } else {
-            panelBackground.setBackground(new Color(62, 72, 97, alpha));
-        }
-    }
-
-    public TableBook() {
-    }
-
-    public TableBook(String nameTable) {
-        this.nameTable = nameTable;
-        initComponents();
-        setBackground(new Color(0, 0, 0, 0));
-        init();
-        lbNumberTable.setText("Bàn " + nameTable);
-        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-    }
-
+    
     public String getNameTable() {
         return nameTable;
     }
 
-    public void init() {
-        if (isEmpty) {
-            panelBackground.setBackground(new Color(103, 199, 143, 255));
-            lbIcon.setIcon(new ImageIcon(getClass().getResource("/GUI/Comp/Icon/check.png")));
-            lbStatus.setText("Bàn trống");
-        } else {
-            panelBackground.setBackground(new Color(62, 72, 97, 255));
-            lbIcon.setIcon(new ImageIcon(getClass().getResource("/GUI/Comp/Icon/user.png")));
-
-            lbStatus.setText("Đang sử dụng");
-        }
-    }
 
     /**
      * This method is called from within the constructor to
@@ -133,6 +135,7 @@ public class TableBook extends javax.swing.JPanel {
 
     private void panelBackgroundMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelBackgroundMouseClicked
         MyListener.getInstance().firePropertyChange("Selected", "", nameTable);
+    
     }//GEN-LAST:event_panelBackgroundMouseClicked
 
 

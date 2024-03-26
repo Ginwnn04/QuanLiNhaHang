@@ -17,6 +17,7 @@ public class ModalItem extends javax.swing.JPanel {
      */
     public ModalItem() {
         initComponents();
+        
     }
     
     public void insertData(ImageIcon icon, String desc, String ingredient) {

@@ -1,8 +1,10 @@
 package GUI.Comp;
 
 import BUS.MenuItemBUS;
+import BUS.TableBUS;
 import DTO.DetailOrderDTO;
 import DTO.MenuItemDTO;
+import DTO.TableDTO;
 import Helper.MyListener;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,6 +19,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
     private double total = 0;
     private ArrayList<MenuItemDTO> listMenuItem = new ArrayList<>();
     private ArrayList<DetailOrderDTO> listDetailOrder = new ArrayList<>();
+    private ArrayList<TableDTO> listTable = new ArrayList<>();
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -29,45 +32,42 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
             check(nameProduct);
             lbShowTien.setText(total + " đ");
         }
-        if (evt.getPropertyName().equals("Order")) {
-//            System.out.println((Double)evt.getNewValue());
-            
+        if (evt.getPropertyName().equals("Order")) {            
             total += (Double)evt.getNewValue();
-            
-
         }
         lbShowTien.setText(total + " đ");
     }
 
-    public void addMenuItemCart(int index, String nameProduct, double price, String status, String image, String desc, String ingredient) {
-        PanelProductOrder pnProductOrder = new PanelProductOrder();
-        pnProductOrder.insertData(index, nameProduct, price, status, image, desc, ingredient);
-
-        pnOrder.add(pnProductOrder);
-    }
-
+   
     public DialogOrder(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
         listMenuItem = new MenuItemBUS().getAllData();
+        listTable = new TableBUS().getAllData();
         addMenuItem();
+        addTable();
         MyListener.getInstance().addPropertyChangeListener(this);
+        
         
 
     }
-
+    public void addTable() {
+        int height = 100 * listTable.size();
+        int width = pnContainerTable.getWidth();
+        pnContainerTable.setPreferredSize(new Dimension(width, height));
+        for (int i = 0; i < listTable.size(); i++) {
+            TableDTO item = listTable.get(i);
+            pnContainerTable.add(item.createTableBooking());
+        }
+    }
     public void addMenuItem() {
         int height = 125 * listMenuItem.size();
         int width = pnOrder.getWidth();
         pnOrder.setPreferredSize(new Dimension(width, height));
         for (int i = 0; i < listMenuItem.size(); i++) {
             MenuItemDTO item = listMenuItem.get(i);
-            item.createCart(i);
-            
-            addMenuItemCart(i, item.getName(), item.getPrice(), item.getStatus(), item.getImage(), item.getDescription(), item.getIngredient());
-//            System.out.println(listMenuItem.get(i).getName() + " " + listMenuItem.get(i).getPrice()+ " " + listMenuItem.get(i).getStatus());
-            
+            pnOrder.add(item.createCart(i));
         }
     }
 
@@ -152,6 +152,11 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         txtMapData = new javax.swing.JTextField();
         lbCategory = new javax.swing.JLabel();
         cbxCategory = new javax.swing.JComboBox<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        pnOrder = new GUI.Comp.Swing.PanelBackground();
+        lbSort = new javax.swing.JLabel();
+        cbxSort = new javax.swing.JComboBox<>();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         panelBackground1 = new GUI.Comp.Swing.PanelBackground();
         jScrollPane3 = new javax.swing.JScrollPane();
         pnCheckout = new GUI.Comp.Swing.PanelBackground();
@@ -159,10 +164,12 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         jSeparator1 = new javax.swing.JSeparator();
         lbShowTien = new javax.swing.JLabel();
         lbTitleTongTien = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        pnOrder = new GUI.Comp.Swing.PanelBackground();
-        lbSort = new javax.swing.JLabel();
-        cbxSort = new javax.swing.JComboBox<>();
+        panelBackground2 = new GUI.Comp.Swing.PanelBackground();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        pnContainerTable = new GUI.Comp.Swing.PanelBackground();
+        jSeparator2 = new javax.swing.JSeparator();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         txtMapData.setText("0");
 
@@ -183,6 +190,27 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         cbxCategory.setForeground(new java.awt.Color(79, 79, 79));
         cbxCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bò", "Gà", "Hải sản", "Cá đồng", "Mì" }));
         cbxCategory.setBorder(null);
+
+        jScrollPane2.setBorder(null);
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(400, 700));
+
+        pnOrder.setBackground(new java.awt.Color(35, 35, 35));
+        pnOrder.setPreferredSize(new java.awt.Dimension(400, 580));
+        pnOrder.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 10));
+        jScrollPane2.setViewportView(pnOrder);
+
+        lbSort.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        lbSort.setForeground(new java.awt.Color(102, 102, 102));
+        lbSort.setText("Sort by");
+
+        cbxSort.setBackground(new java.awt.Color(242, 242, 242));
+        cbxSort.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        cbxSort.setForeground(new java.awt.Color(79, 79, 79));
+        cbxSort.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Best seller", "Món Á", "Món Âu", "..." }));
+        cbxSort.setBorder(null);
+
+        jTabbedPane1.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
 
         panelBackground1.setBackground(new java.awt.Color(35, 35, 35));
 
@@ -251,36 +279,73 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
             panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBackground1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
+                .addGap(10, 10, 10)
                 .addGroup(panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbShowTien)
                     .addComponent(lbTitleTongTien))
                 .addGap(18, 18, 18)
                 .addComponent(btnOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addGap(19, 19, 19))
         );
 
-        jScrollPane2.setBorder(null);
-        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane2.setPreferredSize(new java.awt.Dimension(400, 700));
+        jTabbedPane1.addTab("Giỏ hàng", panelBackground1);
 
-        pnOrder.setBackground(new java.awt.Color(35, 35, 35));
-        pnOrder.setPreferredSize(new java.awt.Dimension(400, 580));
-        pnOrder.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 10));
-        jScrollPane2.setViewportView(pnOrder);
+        panelBackground2.setBackground(new java.awt.Color(35, 35, 35));
 
-        lbSort.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        lbSort.setForeground(new java.awt.Color(102, 102, 102));
-        lbSort.setText("Sort by");
+        jScrollPane1.setBackground(new java.awt.Color(35, 35, 35));
+        jScrollPane1.setBorder(null);
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(370, 585));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(370, 585));
 
-        cbxSort.setBackground(new java.awt.Color(242, 242, 242));
-        cbxSort.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        cbxSort.setForeground(new java.awt.Color(79, 79, 79));
-        cbxSort.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Best seller", "Món Á", "Món Âu", "..." }));
-        cbxSort.setBorder(null);
+        pnContainerTable.setBackground(new java.awt.Color(35, 35, 35));
+        pnContainerTable.setMinimumSize(new java.awt.Dimension(370, 95));
+        pnContainerTable.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 15));
+        jScrollPane1.setViewportView(pnContainerTable);
+
+        jLabel1.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Đã chọn");
+
+        jLabel2.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("0");
+
+        javax.swing.GroupLayout panelBackground2Layout = new javax.swing.GroupLayout(panelBackground2);
+        panelBackground2.setLayout(panelBackground2Layout);
+        panelBackground2Layout.setHorizontalGroup(
+            panelBackground2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBackground2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelBackground2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelBackground2Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        panelBackground2Layout.setVerticalGroup(
+            panelBackground2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBackground2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(panelBackground2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addContainerGap(69, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Bàn", panelBackground2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -298,35 +363,31 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
                         .addGap(10, 10, 10)
                         .addComponent(cbxCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 458, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(panelBackground1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
+                .addGap(18, 18, 18)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lbSort)
-                        .addComponent(cbxSort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lbCategory)
-                        .addComponent(cbxCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelBackground1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE))
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 632, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lbSort)
+                                .addComponent(cbxSort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lbCategory)
+                                .addComponent(cbxCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(11, 11, 11)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    // Cập nhật lại khi các checkout có số lượng là 0 (Xoá)
-    private void jScrollPane3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane3MouseEntered
-//        pnCheckout.repaint();
-    }//GEN-LAST:event_jScrollPane3MouseEntered
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
 //        pnCheckout.repaint();
@@ -339,8 +400,12 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
             detailOrderDTO.rerender();
             System.out.println(detailOrderDTO.getName() + " " + detailOrderDTO.getQuantity() + " " + detailOrderDTO.getTotal());
         }
-
     }//GEN-LAST:event_btnOrderActionPerformed
+
+    // Cập nhật lại khi các checkout có số lượng là 0 (Xoá)
+    private void jScrollPane3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane3MouseEntered
+        //        pnCheckout.repaint();
+    }//GEN-LAST:event_jScrollPane3MouseEntered
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -385,15 +450,22 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
     private javax.swing.JButton btnOrder;
     private javax.swing.JComboBox<String> cbxCategory;
     private javax.swing.JComboBox<String> cbxSort;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lbCategory;
     private javax.swing.JLabel lbShowTien;
     private javax.swing.JLabel lbSort;
     private javax.swing.JLabel lbTitleTongTien;
     private GUI.Comp.Swing.PanelBackground panelBackground1;
+    private GUI.Comp.Swing.PanelBackground panelBackground2;
     private GUI.Comp.Swing.PanelBackground pnCheckout;
+    private GUI.Comp.Swing.PanelBackground pnContainerTable;
     private GUI.Comp.Swing.PanelBackground pnOrder;
     private javax.swing.JTextField txtMapData;
     // End of variables declaration//GEN-END:variables
