@@ -9,8 +9,8 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
    
     private String nameProduct;
     private int quantity = 1;
-    private double price = 0;
-    private long total = (long) (quantity * price);
+    private long price = 0;
+    private long total = quantity * price;
     private boolean isDelete = false;
     
     public PanelConfirmOrder() {
@@ -20,11 +20,11 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
         pnContainer.setColor(new Color(53, 53, 53));
     }
 
-    public void insertData(String nameProduct, double price, int quantity) {
+    public void insertData(String nameProduct, long price, int quantity) {
         this.nameProduct = nameProduct;
         this.price = price;
         this.quantity = quantity;
-        this.total = (long) (price * quantity);
+        this.total = price * quantity;
         update();
     }
 
@@ -38,7 +38,7 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
             
         }
         lbNameProduct.setText(nameProduct);
-        total = (long) (quantity * price);
+        total = quantity * price;
         lbTotal.setText("đ" + total);
         lbQuantity.setText(quantity + "");
     }

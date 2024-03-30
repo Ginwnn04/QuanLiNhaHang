@@ -6,21 +6,26 @@ import DTO.DetailOrderDTO;
 import DTO.MenuItemDTO;
 import DTO.TableDTO;
 import Helper.MyListener;
-import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class DialogOrder extends javax.swing.JDialog implements PropertyChangeListener {
-    private double total = 0;
+    private long totalPrice = 0;
+    // bao nhiêu bàn được chọn để gọi món
+    private int totalSelected = 0;
+    // Trạng thái của bàn,bàn đầu tiên đc chọn là bàn trống thì chỉ đuọc selected các bàn khác là trống => ngược lại
+    private boolean isValidSelected = true;
+    // Danh sách hiển thị
     private ArrayList<MenuItemDTO> listMenuItem = new ArrayList<>();
     private ArrayList<DetailOrderDTO> listDetailOrder = new ArrayList<>();
     private ArrayList<TableDTO> listTable = new ArrayList<>();
-
+    
+    // danh sách những bàn đã chọn
+    private ArrayList<TableDTO> listTableSelected = new ArrayList<>();
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("AddItem")) {
@@ -30,12 +35,61 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         if (evt.getPropertyName().equals("Quantity0")) {
             String nameProduct = (String) evt.getNewValue();
             check(nameProduct);
-            lbShowTien.setText(total + " đ");
+            lbShowTien.setText(totalPrice + " đ");
         }
         if (evt.getPropertyName().equals("Order")) {            
-            total += (Double)evt.getNewValue();
+            totalPrice += (Long)evt.getNewValue();
+            lbShowTien.setText(totalPrice + " đ");
         }
-        lbShowTien.setText(total + " đ");
+        if (evt.getPropertyName().equals("SelectedTable")) {
+            TableDTO table = listTable.get(getTable((String)evt.getOldValue()));
+            PanelTableBooking pnTable = table.getPnTableBooking();
+            if (listTableSelected.size() == 0) {
+                totalSelected += 1;
+                pnTable.setSelected(true);
+                listTableSelected.add(table);
+            } 
+            else {
+                TableDTO tableTailList = listTableSelected.get(0);
+                PanelTableBooking pnTableHead = tableTailList.getPnTableBooking();
+                if (pnTableHead.isIsEmpty() == pnTable.isIsEmpty()) {
+                    if (findTableselected(table.getName())) {
+                        totalSelected -= 1;
+                        pnTable.setSelected(false);
+                        listTableSelected.remove(table);
+                    }
+                    else {
+                        totalSelected += 1;
+                        pnTable.setSelected(true);
+                        listTableSelected.add(table);
+                    }
+                }
+                else {
+                    int choice = JOptionPane.showOptionDialog(rootPane, "Bạn có chắc chắn không ? Có thể sẽ mất hết những bàn đang chọn", "Xác nhận", JOptionPane.OK_CANCEL_OPTION, HEIGHT, null, null, null);
+                    if (choice == 0) {
+                        for(TableDTO x : listTable) {
+                            x.getPnTableBooking().setSelected(false);
+                        }
+                        listTableSelected.removeAll(listTableSelected);
+                        totalSelected += 1;
+                        pnTable.setSelected(true);
+                        listTableSelected.add(table);
+                    }
+                }
+            }
+
+            lbTotalSelected.setText(listTableSelected.size() + "");
+        }
+        
+    }
+    
+    public boolean findTableselected(String nameTable) {
+        for (TableDTO x : listTableSelected) {
+            if (x.getName().equals(nameTable)) {
+                return true;
+            }
+        }
+        return false;
     }
 
    
@@ -43,8 +97,6 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
-        listMenuItem = new MenuItemBUS().getAllData();
-        listTable = new TableBUS().getAllData();
         addMenuItem();
         addTable();
         MyListener.getInstance().addPropertyChangeListener(this);
@@ -53,6 +105,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
 
     }
     public void addTable() {
+        listTable = new TableBUS().getAllData();
         int height = 100 * listTable.size();
         int width = pnContainerTable.getWidth();
         pnContainerTable.setPreferredSize(new Dimension(width, height));
@@ -62,6 +115,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         }
     }
     public void addMenuItem() {
+        listMenuItem = new MenuItemBUS().getAllData();
         int height = 125 * listMenuItem.size();
         int width = pnOrder.getWidth();
         pnOrder.setPreferredSize(new Dimension(width, height));
@@ -93,13 +147,9 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         for (int i = 0; i < listDetailOrder.size(); i++) {
             DetailOrderDTO detailOrderDTO = listDetailOrder.get(i);
             if (detailOrderDTO.getQuantity() != 0) {
-                
                 pnCheckout.add(detailOrderDTO.createCartOrder());
-                
             }
         }
-
-        
         pnCheckout.revalidate();
         pnCheckout.repaint();
     }
@@ -109,7 +159,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
             DetailOrderDTO detailOrderDTO = listDetailOrder.get(i);
             detailOrderDTO.rerender();
             if (detailOrderDTO.getName().equals(name)) {
-                total -= detailOrderDTO.getPrice();
+                totalPrice -= detailOrderDTO.getPrice();
                 listDetailOrder.remove(i);
             }
         }
@@ -124,8 +174,8 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
             x.rerender();
             if (x.getName().equals(item.getName())) {
                 x.setQuantity(x.getQuantity() + 1);
-                total += x.getPrice();
-                lbShowTien.setText(total + " đ");
+                totalPrice += x.getPrice();
+                lbShowTien.setText(totalPrice + " đ");
                 isExists = true;
                 
             }
@@ -134,17 +184,23 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         if (!isExists) {
             DetailOrderDTO detailOrderDTO = new DetailOrderDTO(item.getName(), item.getPrice(), 1);
             listDetailOrder.add(detailOrderDTO);
-            total += detailOrderDTO.getPrice();
-            lbShowTien.setText(total + " đ");
+            totalPrice += detailOrderDTO.getPrice();
+            lbShowTien.setText(totalPrice + " đ");
         }
         addCheckoutItem();
-
     }
-
-    public void showDescription(MenuItemDTO item) {
-        ImageIcon icon = new ImageIcon();
+ 
+    public int getTable(String nameTable) {
+        int i = 0;
+        for(TableDTO x : listTable) {
+            if (x.getName().equals(nameTable)) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -169,7 +225,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         pnContainerTable = new GUI.Comp.Swing.PanelBackground();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lbTotalSelected = new javax.swing.JLabel();
 
         txtMapData.setText("0");
 
@@ -217,11 +273,6 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         jScrollPane3.setBackground(new java.awt.Color(255, 153, 153));
         jScrollPane3.setBorder(null);
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jScrollPane3MouseEntered(evt);
-            }
-        });
 
         pnCheckout.setBackground(new java.awt.Color(35, 35, 35));
         pnCheckout.setPreferredSize(new java.awt.Dimension(345, 420));
@@ -310,9 +361,9 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Đã chọn");
 
-        jLabel2.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("0");
+        lbTotalSelected.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        lbTotalSelected.setForeground(new java.awt.Color(255, 255, 255));
+        lbTotalSelected.setText("0");
 
         javax.swing.GroupLayout panelBackground2Layout = new javax.swing.GroupLayout(panelBackground2);
         panelBackground2.setLayout(panelBackground2Layout);
@@ -327,7 +378,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
                         .addGap(18, 18, 18)
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel2)
+                        .addComponent(lbTotalSelected)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -341,7 +392,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
                 .addGap(18, 18, 18)
                 .addGroup(panelBackground2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                    .addComponent(lbTotalSelected))
                 .addContainerGap(69, Short.MAX_VALUE))
         );
 
@@ -394,18 +445,19 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
     }//GEN-LAST:event_formMouseEntered
 
     private void btnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderActionPerformed
-        System.out.println(listDetailOrder.size());
-        for (int i = 0; i < listDetailOrder.size(); i++) {
-            DetailOrderDTO detailOrderDTO = listDetailOrder.get(i);
-            detailOrderDTO.rerender();
-            System.out.println(detailOrderDTO.getName() + " " + detailOrderDTO.getQuantity() + " " + detailOrderDTO.getTotal());
+        Component[] listTableSelected = pnContainerTable.getComponents();
+        int cntSelected = 0;
+        for (Component x : listTableSelected) {
+           if (x instanceof PanelTableBooking) {
+                if (((PanelTableBooking)x).isSelected()) {
+                    System.out.println(((PanelTableBooking)x).getNameTable());
+                    cntSelected++;
+                }
+            }
         }
+        System.out.println("Có " + cntSelected);
+        
     }//GEN-LAST:event_btnOrderActionPerformed
-
-    // Cập nhật lại khi các checkout có số lượng là 0 (Xoá)
-    private void jScrollPane3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane3MouseEntered
-        //        pnCheckout.repaint();
-    }//GEN-LAST:event_jScrollPane3MouseEntered
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -451,7 +503,6 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
     private javax.swing.JComboBox<String> cbxCategory;
     private javax.swing.JComboBox<String> cbxSort;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -462,6 +513,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
     private javax.swing.JLabel lbShowTien;
     private javax.swing.JLabel lbSort;
     private javax.swing.JLabel lbTitleTongTien;
+    private javax.swing.JLabel lbTotalSelected;
     private GUI.Comp.Swing.PanelBackground panelBackground1;
     private GUI.Comp.Swing.PanelBackground panelBackground2;
     private GUI.Comp.Swing.PanelBackground pnCheckout;

@@ -36,6 +36,12 @@ public class MyListener{
         propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }
     
+    public void firePropertyChange(String propertyName, String oldValue, int newValue) {
+        propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
+    }
+    
+
+    
     
     public static MyListener getInstance() {
         if (instance == null) {

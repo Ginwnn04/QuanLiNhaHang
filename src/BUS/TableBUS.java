@@ -21,7 +21,7 @@ public class TableBUS {
     }
     
     public ArrayList<TableDTO> getAllData() {
-        list = tableDAO.readData();
+        list = tableDAO.readAllData();
         return list;
     }
     

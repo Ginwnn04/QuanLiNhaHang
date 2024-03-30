@@ -11,14 +11,14 @@ import GUI.Comp.PanelProductOrder;
  * @author quang
  */
 public class MenuItemDTO {
-    private String id;
+    private long id;
     private String code;
     private String name;
     private String description;
     private String ingredient;
     private String image;
-    private double price;
-    private double profit;
+    private long price;
+    private long profit;
     private boolean isDelete;
     private String status;
     private String category;
@@ -37,7 +37,7 @@ public class MenuItemDTO {
 
     
     
-    public MenuItemDTO(String id, String code, String name, String description, String ingredient, String image, double price, double profit, boolean isDelete, String status, String category, String createTime, String updateTime, String statusProduct, String categories) {
+    public MenuItemDTO(long id, String code, String name, String description, String ingredient, String image, long price, long profit, boolean isDelete, String status, String category, String createTime, String updateTime, String statusProduct, String categories) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -64,11 +64,11 @@ public class MenuItemDTO {
         return panelProductOrder;
     }
     
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -112,19 +112,19 @@ public class MenuItemDTO {
         this.image = image;
     }
 
-    public double getPrice() {
+    public long getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(long price) {
         this.price = price;
     }
 
-    public double getProfit() {
+    public long getProfit() {
         return profit;
     }
 
-    public void setProfit(double profit) {
+    public void setProfit(long profit) {
         this.profit = profit;
     }
 

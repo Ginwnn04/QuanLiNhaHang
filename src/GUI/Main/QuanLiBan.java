@@ -4,23 +4,20 @@
  */
 package GUI.Main;
 
-import DAO.TableDAO;
+import BUS.TableBUS;
+
 import DTO.TableDTO;
 import com.formdev.flatlaf.FlatClientProperties;
-import com.formdev.flatlaf.FlatPropertiesLaf;
+
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
+
 import javax.swing.JLabel;
-import javax.swing.JTextField;
+
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 import javax.swing.table.TableRowSorter;
 
 /**
@@ -30,13 +27,14 @@ import javax.swing.table.TableRowSorter;
 public class QuanLiBan extends javax.swing.JPanel {
     private ArrayList<TableDTO> listTable;
     private DefaultTableModel model;
-    private TableDAO tableDAO = new TableDAO();
     private boolean isSelectAll = false;
     public QuanLiBan() {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         tbBan.setRowHeight(35);
-        listTable = tableDAO.readData();
+        
+        listTable = new TableBUS().getAllData();
+        
         // header table nam ben trai
         DefaultTableCellRenderer  renderer = (DefaultTableCellRenderer) tbBan.getTableHeader().getDefaultRenderer();
         renderer.setHorizontalAlignment(JLabel.LEFT);
@@ -46,6 +44,7 @@ public class QuanLiBan extends javax.swing.JPanel {
     }
 
     public void render(boolean isSelectAll) {
+        
         model = (DefaultTableModel)tbBan.getModel();
         model.setRowCount(0);
         for (TableDTO x : listTable) {

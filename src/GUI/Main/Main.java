@@ -38,9 +38,8 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
 //        System.out.println(body.getSize());
         header.actionHeader(this);
         navBar.setInformation("Nguyễn Nhật Quang", "Nhân viên");
-
         MyListener.getInstance().addPropertyChangeListener(this);
-        test(this);
+        
 
     }
 
@@ -77,19 +76,8 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
                     break;
                 
             }
-
         }
-    }
-
-    public void test(Frame frame) {
-        a.btnDatBan.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                DialogOrder a = new DialogOrder(frame, true);
-                a.setVisible(true);
-                
-            }
-        });
+//        if (evt.getPropertyName().equals(ABORT))
     }
 
     public void showForm(JPanel com) {

@@ -28,8 +28,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
     public PanelDashbroad() {
         initComponents();
         setBackground(new Color(0,0,0,0));
-        listTable = new TableBUS().getAllData();
-        addTable(listTable.size());
+        addTable();
         MyListener.getInstance().addPropertyChangeListener(this); 
         pnService.setColor(new Color(53,53,53));
     }
@@ -61,7 +60,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
                     isValid = true;
                 }
             }
-            btnDatBan.setEnabled(isValid);
+//            btnDatBan.setEnabled(isValid);
         }
 //        revalidate();
         repaint();
@@ -69,7 +68,11 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
 
 
 
-    public void addTable(int totalTable) {
+    public void addTable() {
+        listPanelTable.removeAll(listPanelTable);
+        pnContainerTable.removeAll();
+        listTable = new TableBUS().getAllData();
+        int totalTable = listTable.size();
         int row = totalTable / 3;
         if (totalTable % 3 != 0) {
             row = (totalTable / 3) + 1;
@@ -154,8 +157,12 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
 
         btnDatBan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnDatBan.setText("ĐẶT BÀN");
-        btnDatBan.setEnabled(false);
         btnDatBan.setPreferredSize(new java.awt.Dimension(104, 80));
+        btnDatBan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDatBanActionPerformed(evt);
+            }
+        });
 
         btnKiemTra.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnKiemTra.setText("KIỂM TRA");
@@ -252,6 +259,16 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         }
         return;
     }//GEN-LAST:event_btnHuyBanActionPerformed
+
+    private void btnDatBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatBanActionPerformed
+        DialogOrder a = new DialogOrder(null, true);
+        a.setVisible(true);
+        addTable();
+        pnContainerTable.revalidate();
+        pnContainerTable.repaint();
+
+        
+    }//GEN-LAST:event_btnDatBanActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

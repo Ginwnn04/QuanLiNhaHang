@@ -1,5 +1,6 @@
 package GUI.Comp;
 
+import Helper.MyListener;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 
@@ -21,9 +22,11 @@ public class PanelTableBooking extends javax.swing.JPanel {
         if (!isSelected) {
             btnSelected.setBackground(new Color(152, 188, 138));
             btnSelected.setText("+");
+            
         } else {
             btnSelected.setBackground(new Color(53, 53, 53));
             btnSelected.setText("-");
+            
         }
     }
 
@@ -48,8 +51,10 @@ public class PanelTableBooking extends javax.swing.JPanel {
 
         }
         lbTrangThai.setText(status);
-        lbTenBan.setText(nameTable);
+        lbTenBan.setText("Bàn "+ nameTable);
     }
+
+
 
     
     
@@ -158,8 +163,7 @@ public class PanelTableBooking extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectedActionPerformed
-        isSelected = !isSelected;
-        init();
+        MyListener.getInstance().firePropertyChange("SelectedTable", nameTable, isSelected ? 1: -1);
     }//GEN-LAST:event_btnSelectedActionPerformed
 
 

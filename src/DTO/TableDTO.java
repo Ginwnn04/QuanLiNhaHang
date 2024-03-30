@@ -4,7 +4,7 @@ import GUI.Comp.PanelTable;
 import GUI.Comp.PanelTableBooking;
 
 public class TableDTO {
-    private String id;
+    private long id;
     private String name;
     private String des;
     private String status;
@@ -18,7 +18,7 @@ public class TableDTO {
     public TableDTO() {
     }
     
-    public TableDTO(String id, String name, String des, String status, String createTime, String updateTime, boolean isDelete) {
+    public TableDTO(long id, String name, String des, String status, String createTime, String updateTime, boolean isDelete) {
         this.id = id;
         this.name = name;
         this.des = des;
@@ -30,7 +30,7 @@ public class TableDTO {
 
     public PanelTableBooking createTableBooking() {
         pnTableBooking = new PanelTableBooking();
-        pnTableBooking.setNameTable(des);
+        pnTableBooking.setNameTable(name);
         if (status.equals("DANGSUDUNG")) {
             pnTableBooking.setStatus(false);
         }
@@ -47,11 +47,11 @@ public class TableDTO {
         return pnTable;
     }
     
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -111,5 +111,10 @@ public class TableDTO {
         this.customerCode = customerCode;
     }
 
+    public PanelTableBooking getPnTableBooking() {
+        return pnTableBooking;
+    }
+    
+    
     
 }

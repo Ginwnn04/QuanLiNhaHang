@@ -15,14 +15,14 @@ import java.sql.ResultSet;
  */
 public class TableDAO {
     
-    public ArrayList<TableDTO> readData() {
+    public ArrayList<TableDTO> readAllData() {
         ArrayList<TableDTO> list = new ArrayList<>();
         String query = "SELECT * FROM tb_tables";
         try (Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query);){
             ResultSet rs = pstm.executeQuery();
             while(rs.next()) {
                 TableDTO table = new TableDTO();
-                table.setId(rs.getString("id"));
+                table.setId(rs.getLong("id"));
                 table.setName(rs.getString("name"));
                 table.setDes(rs.getString("des"));
                 table.setCustomerCode(rs.getString("customer_code"));

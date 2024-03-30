@@ -38,7 +38,7 @@ public class PanelProductOrder extends javax.swing.JPanel {
         });
     }
 
-    public void insertData(int index, String nameProduct, double price, String status, String imagePath, String desc, String ingredient) {
+    public void insertData(int index, String nameProduct, long price, String status, String imagePath, String desc, String ingredient) {
         this.index = index;
         this.desc = desc;
         this.ingredient = ingredient;

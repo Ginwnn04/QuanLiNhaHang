@@ -22,10 +22,10 @@ public class MenuItemDAO {
             ArrayList<MenuItemDTO> list = new ArrayList<>();
             while(rs.next()) {
                 MenuItemDTO menuItem = new MenuItemDTO();
-                menuItem.setId(rs.getString("id"));
+                menuItem.setId(rs.getLong("id"));
                 menuItem.setName(rs.getString("name"));
-                menuItem.setPrice(rs.getDouble("price"));
-                menuItem.setProfit(rs.getDouble("profit"));
+                menuItem.setPrice(rs.getLong("price"));
+                menuItem.setProfit(rs.getLong("profit"));
                 menuItem.setImage(rs.getString("imagePath"));
                 menuItem.setIsDelete(rs.getBoolean("isdeleted"));
                 menuItem.setUpdateTime(rs.getString("updateTime"));

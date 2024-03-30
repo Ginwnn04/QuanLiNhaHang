@@ -6,22 +6,22 @@ import java.beans.PropertyChangeSupport;
 
 
 public class DetailOrderDTO {
-    private int id;
+    private long id;
     private String name;
-    private double price;
-    private double profit;
+    private long price;
+    private long profit;
     private int quantity;
-    private double total;
+    private long total;
     private boolean isDelete;
-    private int itemID;
-    private int orderID;
-    private int invoiceID;
+    private long itemID;
+    private long orderID;
+    private long invoiceID;
     private PanelConfirmOrder cartOder;
     
     
     
     
-    public DetailOrderDTO(String name, double price, int quantity) {
+    public DetailOrderDTO(String name, long price, int quantity) {
         this.name = name;
         this.price = price;
         this.quantity = quantity > 1 ? quantity : 1;
@@ -72,27 +72,27 @@ public class DetailOrderDTO {
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public double getPrice() {
+    public long getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(long price) {
         this.price = price;
     }
 
-    public double getProfit() {
+    public long getProfit() {
         return profit;
     }
 
-    public void setProfit(double profit) {
+    public void setProfit(long profit) {
         this.profit = profit;
     }
 
@@ -100,7 +100,7 @@ public class DetailOrderDTO {
         return total;
     }
 
-    public void setTotal(double total) {
+    public void setTotal(long total) {
         this.total = total;
     }
 
@@ -112,15 +112,15 @@ public class DetailOrderDTO {
         this.isDelete = isDelete;
     }
 
-    public int getItemID() {
+    public long getItemID() {
         return itemID;
     }
 
-    public void setItemID(int itemID) {
+    public void setItemID(long itemID) {
         this.itemID = itemID;
     }
 
-    public int getOrderID() {
+    public long getOrderID() {
         return orderID;
     }
 
@@ -128,7 +128,7 @@ public class DetailOrderDTO {
         this.orderID = orderID;
     }
 
-    public int getInvoiceID() {
+    public long getInvoiceID() {
         return invoiceID;
     }
 
