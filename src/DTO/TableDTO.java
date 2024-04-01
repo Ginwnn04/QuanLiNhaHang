@@ -2,6 +2,8 @@ package DTO;
 
 import GUI.Comp.PanelTable;
 import GUI.Comp.PanelTableBooking;
+import java.util.Date;
+import java.util.Random;
 
 public class TableDTO {
     private long id;
@@ -9,8 +11,8 @@ public class TableDTO {
     private String des;
     private String status;
     private String customerCode;
-    private String createTime;
-    private String updateTime;
+    private Date createTime;
+    private Date updateTime;
     private boolean isDelete;
 
     private PanelTable pnTable;
@@ -18,7 +20,7 @@ public class TableDTO {
     public TableDTO() {
     }
     
-    public TableDTO(long id, String name, String des, String status, String createTime, String updateTime, boolean isDelete) {
+    public TableDTO(long id, String name, String des, String status, Date createTime, Date updateTime, boolean isDelete) {
         this.id = id;
         this.name = name;
         this.des = des;
@@ -26,6 +28,12 @@ public class TableDTO {
         this.createTime = createTime;
         this.updateTime = updateTime;
         this.isDelete = isDelete;
+        
+    }
+    
+    public void generateCode() {
+        Random rand = new Random();
+        this.id = 638471313760000000L + rand.nextLong(1000000, 9999999);
     }
 
     public PanelTableBooking createTableBooking() {
@@ -79,19 +87,19 @@ public class TableDTO {
         this.status = status;
     }
 
-    public String getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public String getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(String updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 

@@ -10,12 +10,26 @@ import DTO.TableDTO;
 import com.formdev.flatlaf.FlatClientProperties;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.JCheckBox;
 
 import javax.swing.JLabel;
+import javax.swing.JTable;
 
 import javax.swing.RowFilter;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -26,6 +40,10 @@ import javax.swing.table.TableRowSorter;
  */
 public class QuanLiBan extends javax.swing.JPanel {
     private ArrayList<TableDTO> listTable;
+    
+    private ArrayList<TableDTO> listTableDelete;
+    
+    
     private DefaultTableModel model;
     private boolean isSelectAll = false;
     public QuanLiBan() {
@@ -34,25 +52,37 @@ public class QuanLiBan extends javax.swing.JPanel {
         tbBan.setRowHeight(35);
         
         listTable = new TableBUS().getAllData();
-        
         // header table nam ben trai
         DefaultTableCellRenderer  renderer = (DefaultTableCellRenderer) tbBan.getTableHeader().getDefaultRenderer();
         renderer.setHorizontalAlignment(JLabel.LEFT);
         txtTimKiem.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Nhập bàn cần tìm");
         render(isSelectAll);
         
+        tbBan.getModel().addTableModelListener(new TableModelListener() {
+            public void tableChanged(TableModelEvent e) {
+                if (e.getColumn() == 0) { // Check if the event is from the first column
+                    // Lay row cua table hien tai
+                    int row = tbBan.getSelectedRow();
+                    // Lay row cua table ban dau
+                    int row1 = e.getFirstRow();
+//                    System.out.println(row + " " + row1);
+//                    System.out.println(tbBan.getValueAt(row, 2));
+                    // Your event handling code here
+                }
+            }
+        });
+
     }
 
     public void render(boolean isSelectAll) {
-        
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         model = (DefaultTableModel)tbBan.getModel();
         model.setRowCount(0);
         for (TableDTO x : listTable) {
-            model.addRow(new Object[] {isSelectAll, x.getId(), x.getName(), x.getStatus(), x.getCustomerCode(), x.getCreateTime()});
+            model.addRow(new Object[] {isSelectAll, x.getId(), x.getName(), x.getStatus(), x.getCustomerCode(), x.getUpdateTime(), x.getCreateTime()});
         }
         model.fireTableDataChanged();
         tbBan.setModel(model);
-        
     }
 
     @SuppressWarnings("unchecked")
@@ -79,20 +109,20 @@ public class QuanLiBan extends javax.swing.JPanel {
         tbBan.setForeground(new java.awt.Color(255, 255, 255));
         tbBan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, "aaaaaaaaaa", "ádasdasd", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa"},
-                {null, "aaaaaaaaaa", "ádasd", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa"},
-                {null, "aaaaaaaaaa", "ádasd", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa"},
-                {null, "aaaaaaaaaa", "ádasda", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa"}
+                {null, "aaaaaaaaaa", "ádasdasd", "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa"},
+                {null, "aaaaaaaaaa", "ádasd", "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa"},
+                {null, "aaaaaaaaaa", "ádasd", "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa"},
+                {null, "aaaaaaaaaa", "ádasda", "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa"}
             },
             new String [] {
-                "", "Mã bàn", "Tên bàn", "Trạng thái", "Mã khách hàng", "Ngày"
+                "", "Mã bàn", "Tên bàn", "Trạng thái", "Mã khách hàng", "Ngày sửa", "Ngày tạo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false
+                true, false, false, false, true, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -110,12 +140,14 @@ public class QuanLiBan extends javax.swing.JPanel {
         if (tbBan.getColumnModel().getColumnCount() > 0) {
             tbBan.getColumnModel().getColumn(0).setPreferredWidth(20);
             tbBan.getColumnModel().getColumn(0).setMaxWidth(20);
-            tbBan.getColumnModel().getColumn(2).setPreferredWidth(100);
-            tbBan.getColumnModel().getColumn(2).setMaxWidth(100);
-            tbBan.getColumnModel().getColumn(3).setPreferredWidth(150);
-            tbBan.getColumnModel().getColumn(3).setMaxWidth(150);
-            tbBan.getColumnModel().getColumn(4).setPreferredWidth(200);
-            tbBan.getColumnModel().getColumn(4).setMaxWidth(200);
+            tbBan.getColumnModel().getColumn(1).setPreferredWidth(180);
+            tbBan.getColumnModel().getColumn(1).setMaxWidth(180);
+            tbBan.getColumnModel().getColumn(2).setPreferredWidth(75);
+            tbBan.getColumnModel().getColumn(2).setMaxWidth(75);
+            tbBan.getColumnModel().getColumn(3).setPreferredWidth(120);
+            tbBan.getColumnModel().getColumn(3).setMaxWidth(120);
+            tbBan.getColumnModel().getColumn(4).setPreferredWidth(150);
+            tbBan.getColumnModel().getColumn(4).setMaxWidth(150);
         }
 
         pnSelectAll.setBackground(new java.awt.Color(35, 35, 35));
@@ -154,6 +186,11 @@ public class QuanLiBan extends javax.swing.JPanel {
                 txtTimKiemMouseEntered(evt);
             }
         });
+        txtTimKiem.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                txtTimKiemPropertyChange(evt);
+            }
+        });
         txtTimKiem.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtTimKiemKeyReleased(evt);
@@ -163,14 +200,29 @@ public class QuanLiBan extends javax.swing.JPanel {
         btnThem.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         btnThem.setText("Thêm");
         btnThem.setPreferredSize(new java.awt.Dimension(72, 30));
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
         btnSua.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         btnSua.setText("Sửa");
         btnSua.setPreferredSize(new java.awt.Dimension(72, 30));
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
 
         btnXoa.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         btnXoa.setText("Xoá");
         btnXoa.setPreferredSize(new java.awt.Dimension(72, 30));
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnContainerLayout = new javax.swing.GroupLayout(pnContainer);
         pnContainer.setLayout(pnContainerLayout);
@@ -234,20 +286,45 @@ public class QuanLiBan extends javax.swing.JPanel {
         if (!find.isEmpty()) {
 //          Indices 2 => Sort theo cột 2 (Name)
             tableRowSorter.setRowFilter(RowFilter.regexFilter(find, 2));
-            
+
         }
-        
         tbBan.setRowSorter(tableRowSorter);
+        
     }
+    
+    
     
     
     private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
         textSorting();
     }//GEN-LAST:event_txtTimKiemKeyReleased
 
+    // Khi an vao button x de clear txtTimkiem
     private void txtTimKiemMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtTimKiemMouseEntered
         textSorting();
+        
     }//GEN-LAST:event_txtTimKiemMouseEntered
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        DialogActionTable x = new DialogActionTable(null, true, false);
+        listTable = new TableBUS().getAllData();
+        render(false);
+        
+        
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        DialogActionTable x = new DialogActionTable(null, true, true);
+
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void txtTimKiemPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtTimKiemPropertyChange
+        
+    }//GEN-LAST:event_txtTimKiemPropertyChange
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        
+    }//GEN-LAST:event_btnXoaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

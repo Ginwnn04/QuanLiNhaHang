@@ -25,4 +25,17 @@ public class TableBUS {
         return list;
     }
     
+    public boolean insertTable(TableDTO table) {
+        return tableDAO.insertData(table);
+    }
+    
+//    public ArrayList<TableDTO> sortNameTable(String name) {
+//        list = tableDAO.sortName(name);
+//        return list;
+//    }
+    
+    public boolean deleteTable(TableDTO table) {
+        return tableDAO.deleteData(table);
+    }
+    
 }
