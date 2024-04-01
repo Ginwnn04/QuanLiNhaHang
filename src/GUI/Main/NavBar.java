@@ -147,6 +147,7 @@ public class NavBar extends javax.swing.JPanel {
         pnMenuItem = new GUI.Comp.Swing.PanelBackground();
 
         setBackground(new java.awt.Color(35, 35, 35));
+        setLayout(new java.awt.BorderLayout());
 
         pnContainer.setBackground(new java.awt.Color(35, 35, 35));
         pnContainer.setPreferredSize(new java.awt.Dimension(230, 765));
@@ -230,16 +231,7 @@ public class NavBar extends javax.swing.JPanel {
                 .addGap(29, 29, 29))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        add(pnContainer, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed

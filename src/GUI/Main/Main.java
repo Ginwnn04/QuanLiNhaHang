@@ -14,8 +14,11 @@ import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -34,11 +37,14 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
     public Main() {
         initComponents();
         setLocationRelativeTo(null);
-        setBackground(new Color(0, 0, 0, 0));
+//        setBackground(new Color(0, 0, 0, 0));
 //        System.out.println(body.getSize());
-        header.actionHeader(this);
+//        header.actionHeader(this);
         navBar.setInformation("Nguyễn Nhật Quang", "Nhân viên");
         MyListener.getInstance().addPropertyChangeListener(this);
+        setTitle("PHẦN MỀM QUẢN LÍ NHÀ HÀNG");
+        showForm(a);
+
         
 
     }
@@ -51,10 +57,9 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
             
             switch (index) {
                 case 0:
-                    
+                    showForm(a);
                     break;
                 case 1:
-                    showForm(a);
                     break;
                 case 2:
                     showForm(new QuanLiBan());
@@ -91,49 +96,30 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        body1 = new GUI.Comp.Swing.PanelBackground();
         panelBackground = new GUI.Comp.Swing.PanelBackground();
-        header = new GUI.Comp.Header();
         navBar = new GUI.Main.NavBar();
         body = new GUI.Comp.Swing.PanelBackground();
 
+        body1.setBackground(new java.awt.Color(30, 30, 30));
+        body1.setLayout(new java.awt.BorderLayout());
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(255, 255, 255));
-        setUndecorated(true);
+        setBackground(new java.awt.Color(255, 204, 0));
 
         panelBackground.setBackground(new java.awt.Color(35, 35, 35));
+        panelBackground.setLayout(new java.awt.BorderLayout());
+        panelBackground.add(navBar, java.awt.BorderLayout.LINE_START);
 
-        body.setBackground(new java.awt.Color(30, 30, 30));
+        body.setBackground(new java.awt.Color(35, 35, 35));
         body.setLayout(new java.awt.BorderLayout());
-
-        javax.swing.GroupLayout panelBackgroundLayout = new javax.swing.GroupLayout(panelBackground);
-        panelBackground.setLayout(panelBackgroundLayout);
-        panelBackgroundLayout.setHorizontalGroup(
-            panelBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBackgroundLayout.createSequentialGroup()
-                .addComponent(navBar, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(panelBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(header, javax.swing.GroupLayout.DEFAULT_SIZE, 1077, Short.MAX_VALUE)
-                    .addGroup(panelBackgroundLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(body, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-        );
-        panelBackgroundLayout.setVerticalGroup(
-            panelBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBackgroundLayout.createSequentialGroup()
-                .addGroup(panelBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(panelBackgroundLayout.createSequentialGroup()
-                        .addComponent(header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(body, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(navBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+        panelBackground.add(body, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBackground, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelBackground, javax.swing.GroupLayout.DEFAULT_SIZE, 1445, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,7 +145,11 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
 //        UIManager.put("Table.alternateRowColor", new Color(53, 53, 53));        
         UIManager.put("TableHeader.separatorColor", new Color(0, 0, 0, 0));
         UIManager.put("TableHeader.pressedBackground", new Color(0, 0, 0, 0));
-        UIManager.put("TableHeader.height", 30);
+        UIManager.put("TableHeader.height", 30);       
+        UIManager.put("RootPane.background", new Color(35, 35, 35));
+        UIManager.put("TitlePane.font", new Font("Roboto", Font.BOLD, 16));
+        UIManager.put("TitlePane.centerTitle", true);
+        
         FlatMacDarkLaf.setup();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -171,7 +161,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private GUI.Comp.Swing.PanelBackground body;
-    private GUI.Comp.Header header;
+    private GUI.Comp.Swing.PanelBackground body1;
     private GUI.Main.NavBar navBar;
     private GUI.Comp.Swing.PanelBackground panelBackground;
     // End of variables declaration//GEN-END:variables
