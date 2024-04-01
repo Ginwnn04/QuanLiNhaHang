@@ -92,10 +92,10 @@ public class TableDAO {
 //        return list;  
 //    }
     
-    public boolean deleteData(TableDTO table) {
-        String query = "DELETE FROM tb_tables WHERE id = ?";
+    public boolean deleteData(String listTableDelete) {
+        String query = "DELETE FROM tb_tables WHERE id IN (SELECT unnest(string_to_array(?, ','))::bigint)";
         try (Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query)) {
-            pstm.setLong(1, table.getId());
+            pstm.setString(1, listTableDelete);
             return pstm.executeUpdate() > 0;
         }
         catch(Exception e) {

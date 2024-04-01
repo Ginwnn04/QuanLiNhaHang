@@ -14,6 +14,7 @@ public class TableDTO {
     private Date createTime;
     private Date updateTime;
     private boolean isDelete;
+    private boolean isSelected = false;
 
     private PanelTable pnTable;
     private PanelTableBooking pnTableBooking;
@@ -44,6 +45,15 @@ public class TableDTO {
         }
         return pnTableBooking;
     }
+
+    public boolean isIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }
+    
     
     
     public PanelTable createTable() {

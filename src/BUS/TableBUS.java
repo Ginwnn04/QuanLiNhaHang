@@ -34,8 +34,8 @@ public class TableBUS {
 //        return list;
 //    }
     
-    public boolean deleteTable(TableDTO table) {
-        return tableDAO.deleteData(table);
+    public boolean deleteTable(String listTableDelete) {
+        return tableDAO.deleteData(listTableDelete);
     }
     
 }

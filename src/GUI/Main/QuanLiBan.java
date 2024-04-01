@@ -25,6 +25,7 @@ import java.util.Date;
 import javax.swing.JCheckBox;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 import javax.swing.RowFilter;
@@ -68,6 +69,7 @@ public class QuanLiBan extends javax.swing.JPanel {
 //                    System.out.println(row + " " + row1);
 //                    System.out.println(tbBan.getValueAt(row, 2));
                     // Your event handling code here
+                    listTable.get(row1).setIsSelected(!listTable.get(row1).isIsSelected());
                 }
             }
         });
@@ -79,6 +81,7 @@ public class QuanLiBan extends javax.swing.JPanel {
         model = (DefaultTableModel)tbBan.getModel();
         model.setRowCount(0);
         for (TableDTO x : listTable) {
+            x.setIsSelected(isSelectAll);
             model.addRow(new Object[] {isSelectAll, x.getId(), x.getName(), x.getStatus(), x.getCustomerCode(), x.getUpdateTime(), x.getCreateTime()});
         }
         model.fireTableDataChanged();
@@ -323,7 +326,32 @@ public class QuanLiBan extends javax.swing.JPanel {
     }//GEN-LAST:event_txtTimKiemPropertyChange
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        
+        int choice = JOptionPane.showConfirmDialog(pnContainer, "Bạn có chắc chắn xóa không ?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+        if (choice == 0) {
+            String listIDDelete = "";
+            for (TableDTO table : listTable) {
+                if (table.isIsSelected()) {
+                    listIDDelete += table.getId() + ", ";
+                }
+            }
+            if (listIDDelete.isEmpty()) {
+                System.out.println("Rỗng");
+            }
+            else {
+                listIDDelete = listIDDelete.substring(0, listIDDelete.length() - 2);
+                System.out.println(listIDDelete);
+            }
+
+            boolean check = new TableBUS().deleteTable(listIDDelete);
+            if (check) {
+                JOptionPane.showMessageDialog(pnContainer, "Xóa thành công");
+                listTable = new TableBUS().getAllData();
+                render(false);
+            }
+            else {
+                JOptionPane.showMessageDialog(pnContainer, "Xóa thất bại");
+            }   
+        }
     }//GEN-LAST:event_btnXoaActionPerformed
 
 
