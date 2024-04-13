@@ -4,13 +4,16 @@ import BUS.MenuItemBUS;
 import BUS.TableBUS;
 import DTO.DetailOrderDTO;
 import DTO.MenuItemDTO;
+import DTO.OrderDTO;
 import DTO.TableDTO;
 import Helper.MyListener;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JOptionPane;
 
 public class DialogOrder extends javax.swing.JDialog implements PropertyChangeListener {
@@ -445,17 +448,19 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
     }//GEN-LAST:event_formMouseEntered
 
     private void btnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderActionPerformed
-        Component[] listTableSelected = pnContainerTable.getComponents();
-        int cntSelected = 0;
-        for (Component x : listTableSelected) {
-           if (x instanceof PanelTableBooking) {
-                if (((PanelTableBooking)x).isSelected()) {
-                    System.out.println(((PanelTableBooking)x).getNameTable());
-                    cntSelected++;
-                }
-            }
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+        OrderDTO a = new OrderDTO(false, 123, 123, false, date, date);
+        for (DetailOrderDTO x : listDetailOrder) {
+            a.insertDetailOrder(x);
+            System.out.println(x.getName() + " " + " " + x.getQuantity() + " " + x.getPrice() + " " + x.getTotal());
         }
-        System.out.println("Có " + cntSelected);
+        System.out.println("------------------------");
+        for (TableDTO x : this.listTableSelected) {
+            System.out.println(x.getName());
+        }
+   
+        System.out.println(a.getId() + " " + a.getTotal() + a.getCreateTime() + " " + a.getUpdateTime());
         
     }//GEN-LAST:event_btnOrderActionPerformed
 

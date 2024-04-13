@@ -117,6 +117,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         panelBackground16 = new GUI.Comp.Swing.PanelBackground();
         panelBackground3 = new GUI.Comp.Swing.PanelBackground();
         panelBackground10 = new GUI.Comp.Swing.PanelBackground();
+        btnGoiMon = new javax.swing.JButton();
         btnDatBan = new javax.swing.JButton();
         btnHuyBan = new javax.swing.JButton();
         btnChuyenBan = new javax.swing.JButton();
@@ -189,7 +190,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         panelBackground3.setLayout(panelBackground3Layout);
         panelBackground3Layout.setHorizontalGroup(
             panelBackground3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1077, Short.MAX_VALUE)
+            .addGap(0, 1108, Short.MAX_VALUE)
         );
         panelBackground3Layout.setVerticalGroup(
             panelBackground3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,14 +202,18 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         panelBackground10.setBackground(new java.awt.Color(30, 30, 30));
         panelBackground10.setLayout(new java.awt.GridLayout(1, 0, 50, 0));
 
-        btnDatBan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnDatBan.setText("ĐẶT BÀN");
-        btnDatBan.setPreferredSize(new java.awt.Dimension(150, 75));
-        btnDatBan.addActionListener(new java.awt.event.ActionListener() {
+        btnGoiMon.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnGoiMon.setText("GỌI MÓN");
+        btnGoiMon.setPreferredSize(new java.awt.Dimension(150, 75));
+        btnGoiMon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDatBanActionPerformed(evt);
+                btnGoiMonActionPerformed(evt);
             }
         });
+        panelBackground10.add(btnGoiMon);
+
+        btnDatBan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnDatBan.setText("ĐẶT BÀN");
         panelBackground10.add(btnDatBan);
 
         btnHuyBan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -245,7 +250,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         panelBackground9.setLayout(panelBackground9Layout);
         panelBackground9Layout.setHorizontalGroup(
             panelBackground9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1077, Short.MAX_VALUE)
+            .addGap(0, 1108, Short.MAX_VALUE)
         );
         panelBackground9Layout.setVerticalGroup(
             panelBackground9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -295,7 +300,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         panelBackground8.setLayout(panelBackground8Layout);
         panelBackground8Layout.setHorizontalGroup(
             panelBackground8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1077, Short.MAX_VALUE)
+            .addGap(0, 1108, Short.MAX_VALUE)
         );
         panelBackground8Layout.setVerticalGroup(
             panelBackground8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -350,7 +355,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
 //        return;
     }//GEN-LAST:event_btnHuyBanActionPerformed
 
-    private void btnDatBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatBanActionPerformed
+    private void btnGoiMonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoiMonActionPerformed
         DialogOrder a = new DialogOrder(null, true);
         a.setVisible(true);
         addTable();
@@ -358,12 +363,13 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         pnContainerTable.repaint();
 
         
-    }//GEN-LAST:event_btnDatBanActionPerformed
+    }//GEN-LAST:event_btnGoiMonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChuyenBan;
-    public javax.swing.JButton btnDatBan;
+    private javax.swing.JButton btnDatBan;
+    public javax.swing.JButton btnGoiMon;
     private javax.swing.JButton btnHuyBan;
     private javax.swing.JButton btnKiemTra;
     private javax.swing.JButton btnThanhToan;

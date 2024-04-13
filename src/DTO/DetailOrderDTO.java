@@ -96,7 +96,7 @@ public class DetailOrderDTO {
         this.profit = profit;
     }
 
-    public double getTotal() {
+    public long getTotal() {
         return total;
     }
 
