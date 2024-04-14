@@ -3,21 +3,47 @@ package DTO;
 import GUI.Comp.PanelConfirmOrder;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Random;
 
 
 public class DetailOrderDTO {
     private long id;
-    private String name;
     private long price;
     private long profit;
-    private int quantity;
     private long total;
-    private boolean isDelete;
     private long itemID;
     private long orderID;
     private long invoiceID;
+    private int quantity;
+    private String name;
+    private boolean isDelete;
     private PanelConfirmOrder cartOder;
-    
+
+    public DetailOrderDTO(long id, long price, long profit, long total, long itemID, long orderID, long invoiceID, int quantity, String name, boolean isDelete, PanelConfirmOrder cartOder) {
+        this.id = id;
+        this.price = price;
+        this.profit = profit;
+        this.total = total;
+        this.itemID = itemID;
+        this.orderID = orderID;
+        this.invoiceID = invoiceID;
+        this.quantity = quantity;
+        this.name = name;
+        this.isDelete = isDelete;
+        this.cartOder = cartOder;
+    }
+
+    public DetailOrderDTO(long price, long profit, long itemID, int quantity, String name, boolean isDelete) {
+        this.id = createID();
+        this.price = price;
+        this.profit = profit;
+        this.itemID = itemID;
+        this.quantity = quantity;
+        this.name = name;
+        this.isDelete = isDelete;
+        this.total = price * quantity;
+        createCartOrder();
+    }
     
     
     
@@ -30,6 +56,11 @@ public class DetailOrderDTO {
         isDelete = false;
     }
 
+    public long createID() {
+        Random rand = new Random();
+        return 495143832790000000L + rand.nextLong(1000000, 9999999);
+    }
+    
     public PanelConfirmOrder createCartOrder() {
         if (quantity == 0) {
             isDelete = true;
@@ -124,7 +155,7 @@ public class DetailOrderDTO {
         return orderID;
     }
 
-    public void setOrderID(int orderID) {
+    public void setOrderID(long orderID) {
         this.orderID = orderID;
     }
 
@@ -132,7 +163,7 @@ public class DetailOrderDTO {
         return invoiceID;
     }
 
-    public void setInvoiceID(int invoiceID) {
+    public void setInvoiceID(long invoiceID) {
         this.invoiceID = invoiceID;
     }
     

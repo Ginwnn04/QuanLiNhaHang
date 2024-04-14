@@ -16,7 +16,7 @@ import java.sql.ResultSet;
 public class MenuItemDAO {
     
     public ArrayList<MenuItemDTO> readData() {
-        String query = "SELECT item.id, item.name, item.price, item.profit, item.description, item.ingredients, item.isdeleted, item.\"imagePath\", item.\"createTime\", item.\"updateTime\", status.name AS status, cate.name AS category FROM tb_menu_item_status AS status JOIN tb_menu_item AS item ON status.id = item.statusid JOIN tb_categories AS cate ON item.categoryid = cate.id";
+        String query = "SELECT item.id, item.name, item.price, item.profit, item.description, item.ingredients, item.isdeleted, item.\"image_path\", item.\"create_time\", item.\"update_time\", status.name AS status, cate.name AS category FROM tb_menu_item_status AS status JOIN tb_menu_item AS item ON status.id = item.statusid JOIN tb_categories AS cate ON item.categoryid = cate.id";
         try(Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query);) {
             ResultSet rs = pstm.executeQuery();
             ArrayList<MenuItemDTO> list = new ArrayList<>();
@@ -26,10 +26,10 @@ public class MenuItemDAO {
                 menuItem.setName(rs.getString("name"));
                 menuItem.setPrice(rs.getLong("price"));
                 menuItem.setProfit(rs.getLong("profit"));
-                menuItem.setImage(rs.getString("imagePath"));
+                menuItem.setImage(rs.getString("image_path"));
                 menuItem.setIsDelete(rs.getBoolean("isdeleted"));
-                menuItem.setUpdateTime(rs.getString("updateTime"));
-                menuItem.setCreateTime(rs.getString("createTime"));
+                menuItem.setUpdateTime(rs.getString("update_time"));
+                menuItem.setCreateTime(rs.getString("create_time"));
                 menuItem.setStatus(rs.getString("status"));
                 menuItem.setCategory(rs.getString("category"));
                 menuItem.setDescription(rs.getString("description"));

@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
 /**
  *
  * @author quang
@@ -98,6 +99,29 @@ public class TableDAO {
         String query = "DELETE FROM tb_tables WHERE id IN (SELECT unnest(string_to_array(?, ','))::bigint)";
         try (Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query)) {
             pstm.setString(1, listTableDelete);
+            return pstm.executeUpdate() > 0;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public boolean updateData(TableDTO table) {
+        String query = "UPDATE tb_tables SET name = ?, des = ?, isdeleted = ?, customer_code = ?, statusid = ?, update_time = ? WHERE id = ?";
+        try (Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query)) {
+            pstm.setString(1, table.getName());
+            pstm.setString(2, table.getDes());
+            pstm.setBoolean(3, table.isIsDelete());
+            pstm.setString(4, table.getCustomerCode());
+            pstm.setString(5, table.getStatus());
+            
+            
+            Date sqlDateUpdate = new Date(table.getUpdateTime().getTime());
+            
+            pstm.setDate(6, sqlDateUpdate);
+            pstm.setLong(7, table.getId());
+            
             return pstm.executeUpdate() > 0;
         }
         catch(Exception e) {

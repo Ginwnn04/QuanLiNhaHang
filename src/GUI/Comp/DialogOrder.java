@@ -1,8 +1,12 @@
 package GUI.Comp;
 
 import BUS.MenuItemBUS;
+import BUS.OrderBUS;
 import BUS.TableBUS;
+import DAO.InvoicesDAO;
+import DAO.TableDAO;
 import DTO.DetailOrderDTO;
+import DTO.InvoicesDTO;
 import DTO.MenuItemDTO;
 import DTO.OrderDTO;
 import DTO.TableDTO;
@@ -151,6 +155,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
             DetailOrderDTO detailOrderDTO = listDetailOrder.get(i);
             if (detailOrderDTO.getQuantity() != 0) {
                 pnCheckout.add(detailOrderDTO.createCartOrder());
+                System.out.println(detailOrderDTO.getItemID() + " zzzz");
             }
         }
         pnCheckout.revalidate();
@@ -185,7 +190,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         }
 
         if (!isExists) {
-            DetailOrderDTO detailOrderDTO = new DetailOrderDTO(item.getName(), item.getPrice(), 1);
+            DetailOrderDTO detailOrderDTO = new DetailOrderDTO(item.getPrice(), item.getProfit(), item.getId(), 1, item.getName(), false);
             listDetailOrder.add(detailOrderDTO);
             totalPrice += detailOrderDTO.getPrice();
             lbShowTien.setText(totalPrice + " đ");
@@ -450,17 +455,39 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
     private void btnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderActionPerformed
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-        OrderDTO a = new OrderDTO(false, 123, 123, false, date, date);
+        
+        boolean isSingle = listTableSelected.size() == 1 ? true : false;
+        // Lay 1 ban dai dien de fill order vao
+        OrderDTO order = new OrderDTO(isSingle, 638471313653138161L, listTableSelected.get(0).getId(), false, date, date);
+//        order.setNote("Test");
+        String customerCode = order.getCustomerCode();
+        
+        
+        TableDAO tableDAO = new TableDAO();
+        
+        for (TableDTO x : listTableSelected) {
+            x.setCustomerCode(customerCode);
+            x.setStatus("DANGSUDUNG");
+            x.setUpdateTime(date);
+            tableDAO.updateData(x);
+        }
+        
+        
+        
         for (DetailOrderDTO x : listDetailOrder) {
-            a.insertDetailOrder(x);
-            System.out.println(x.getName() + " " + " " + x.getQuantity() + " " + x.getPrice() + " " + x.getTotal());
+            order.insertDetailOrder(x); 
         }
-        System.out.println("------------------------");
-        for (TableDTO x : this.listTableSelected) {
-            System.out.println(x.getName());
-        }
-   
-        System.out.println(a.getId() + " " + a.getTotal() + a.getCreateTime() + " " + a.getUpdateTime());
+        InvoicesDAO invoicesDAO = new InvoicesDAO();
+        InvoicesDTO invoices = new InvoicesDTO(order.getTotal(), order.getTotal(), date, false);
+        invoicesDAO.insertData(invoices);
+        System.out.println("aaa");
+        OrderBUS orderBUS = new OrderBUS();
+        orderBUS.insertOrder(order, invoices.getId());
+        System.out.println("zzz");
+//        System.out.println("------------------------");
+//   
+//        System.out.println(a.getId() + " " + a.getTotal() + a.getCreateTime() + " " + a.getUpdateTime());
+
         
     }//GEN-LAST:event_btnOrderActionPerformed
 

@@ -1,0 +1,34 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package BUS;
+
+import DAO.OrderDAO;
+import DTO.DetailOrderDTO;
+import DTO.OrderDTO;
+import java.util.ArrayList;
+
+public class OrderBUS {
+    private OrderDAO orderDAO = new OrderDAO();
+    private DetailOrderBUS detailOrderBUS = new DetailOrderBUS();
+    private OrderDTO order;
+    
+    public boolean insertOrder(OrderDTO order, long invoiceID) {
+        this.order = order;
+        ArrayList<DetailOrderDTO> listDetailOrder = order.getListDetailOrder();
+        boolean check = orderDAO.insertData(order);
+        if (check) {
+            for (DetailOrderDTO x : listDetailOrder) {
+                x.setInvoiceID(invoiceID);
+                x.setOrderID(order.getId());
+                detailOrderBUS.insertDetailOrder(x);
+            }
+        }
+        return check;
+    }
+    
+//    public OrderDTO getOrder() {
+//        return orderDAO.g
+//    }
+}

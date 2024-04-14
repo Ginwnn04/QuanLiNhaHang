@@ -38,4 +38,8 @@ public class TableBUS {
         return tableDAO.deleteData(listTableDelete);
     }
     
+    public boolean updateTable(TableDTO table) {
+        return tableDAO.updateData(table);
+    }
+    
 }

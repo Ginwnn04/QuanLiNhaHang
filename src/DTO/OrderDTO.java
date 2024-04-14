@@ -33,6 +33,7 @@ public class OrderDTO {
         this.isDelete = isDelete;
         this.updateTime = updateTime;
         this.createTime = createTime;
+        this.note = "";
     }
 
     // Luc read tu db len
@@ -145,6 +146,10 @@ public class OrderDTO {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public ArrayList<DetailOrderDTO> getListDetailOrder() {
+        return listDetailOrder;
     }
     
     
