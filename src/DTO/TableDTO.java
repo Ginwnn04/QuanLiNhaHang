@@ -32,9 +32,9 @@ public class TableDTO {
         
     }
     
-    public void generateCode() {
-        Random rand = new Random();
-        this.id = 638471313760000000L + rand.nextLong(1000000, 9999999);
+    public long createID() {
+        this.id = System.currentTimeMillis();
+        return id;
     }
 
     public PanelTableBooking createTableBooking() {

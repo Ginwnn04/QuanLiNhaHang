@@ -25,15 +25,16 @@ public class OrderDTO {
     private ArrayList<DetailOrderDTO> listDetailOrder = new ArrayList<>();
     
     // Luc create Order
-    public OrderDTO(boolean isSingle, long staffID, long tableID, boolean isDelete, Date updateTime, Date createTime) {
-        this.id = createID();
+    public OrderDTO(boolean isSingle, long staffID, long tableID, String note,boolean isDelete, Date updateTime, Date createTime) {
+        createID();
         this.customerCode = createCustomerCode(isSingle);
         this.staffID = staffID;
         this.tableID = tableID;
+        this.note = note;
         this.isDelete = isDelete;
         this.updateTime = updateTime;
         this.createTime = createTime;
-        this.note = "";
+        
     }
 
     // Luc read tu db len
@@ -57,8 +58,8 @@ public class OrderDTO {
     }
     
     public long createID() {
-        Random rand = new Random();
-        return 446950832790000000L + rand.nextLong(1000000, 9999999);
+        this.id = System.currentTimeMillis();
+        return id;
     }
     
     public String createCustomerCode(boolean isSingle) {

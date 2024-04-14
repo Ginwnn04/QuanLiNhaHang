@@ -21,15 +21,17 @@ public class DialogActionTable extends javax.swing.JDialog {
         }
         cbxTrangThai.setEnabled(enable);
         
-        table.generateCode();
-        txtIDTable.setText(table.getId() + "");
+        
         // Set visible phai de cuoi cung
-        setVisible(true);
+        
       
         
     }
     
-    
+    public void setIDTable(long id) {
+        txtIDTable.setText(id + "");
+        setVisible(true);
+    }
     
     
     

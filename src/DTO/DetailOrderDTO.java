@@ -34,7 +34,7 @@ public class DetailOrderDTO {
     }
 
     public DetailOrderDTO(long price, long profit, long itemID, int quantity, String name, boolean isDelete) {
-        this.id = createID();
+        createID();
         this.price = price;
         this.profit = profit;
         this.itemID = itemID;
@@ -57,8 +57,8 @@ public class DetailOrderDTO {
     }
 
     public long createID() {
-        Random rand = new Random();
-        return 495143832790000000L + rand.nextLong(1000000, 9999999);
+        this.id = System.currentTimeMillis();
+        return id;
     }
     
     public PanelConfirmOrder createCartOrder() {

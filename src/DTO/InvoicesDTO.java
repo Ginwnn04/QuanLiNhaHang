@@ -15,7 +15,7 @@ public class InvoicesDTO {
     private boolean isDelete;
  
     public InvoicesDTO(long amount, long total, Date createTime, boolean isDelete) {
-        this.id = createID();
+        createID();
         this.amount = amount;
         this.total = total;
         this.createTime = createTime;
@@ -34,8 +34,8 @@ public class InvoicesDTO {
     
 
     public long createID() {
-        Random rand = new Random();
-        return 727276366580000000L + rand.nextLong(1000000, 9999999);
+        this.id = System.currentTimeMillis();
+        return id;
     }
 
     public void addDiscount(String discountID, long discount) {

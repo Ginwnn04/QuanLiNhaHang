@@ -41,10 +41,7 @@ import javax.swing.table.TableRowSorter;
  */
 public class QuanLiBan extends javax.swing.JPanel {
     private ArrayList<TableDTO> listTable;
-    
-    private ArrayList<TableDTO> listTableDelete;
-    
-    
+    int cntTableSelected = 0;
     private DefaultTableModel model;
     private boolean isSelectAll = false;
     public QuanLiBan() {
@@ -70,6 +67,14 @@ public class QuanLiBan extends javax.swing.JPanel {
 //                    System.out.println(tbBan.getValueAt(row, 2));
                     // Your event handling code here
                     listTable.get(row1).setIsSelected(!listTable.get(row1).isIsSelected());
+                    cntTableSelected += !listTable.get(row1).isIsSelected() ? -1 : 1;
+                    if (cntTableSelected == 1) {
+                        btnSua.setEnabled(true);
+                    }
+                    else {
+                        btnSua.setEnabled(false);
+                        
+                    }
                 }
             }
         });
@@ -211,6 +216,7 @@ public class QuanLiBan extends javax.swing.JPanel {
 
         btnSua.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         btnSua.setText("Sửa");
+        btnSua.setEnabled(false);
         btnSua.setPreferredSize(new java.awt.Dimension(72, 30));
         btnSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -289,7 +295,6 @@ public class QuanLiBan extends javax.swing.JPanel {
         if (!find.isEmpty()) {
 //          Indices 2 => Sort theo cột 2 (Name)
             tableRowSorter.setRowFilter(RowFilter.regexFilter(find, 2));
-
         }
         tbBan.setRowSorter(tableRowSorter);
         
@@ -317,7 +322,15 @@ public class QuanLiBan extends javax.swing.JPanel {
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        
         DialogActionTable x = new DialogActionTable(null, true, true);
+        for (TableDTO table : listTable) {
+            if (table.isIsSelected()) {
+                x.setIDTable(table.getId());
+                break;
+            }
+        }
+        
 
     }//GEN-LAST:event_btnSuaActionPerformed
 

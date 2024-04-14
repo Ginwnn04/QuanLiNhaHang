@@ -13,6 +13,8 @@ import DTO.TableDTO;
 import Helper.MyListener;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
@@ -214,6 +216,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
     private void initComponents() {
 
         txtMapData = new javax.swing.JTextField();
+        txtNote = new javax.swing.JTextField();
         lbCategory = new javax.swing.JLabel();
         cbxCategory = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -234,6 +237,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         jSeparator2 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         lbTotalSelected = new javax.swing.JLabel();
+        lbNote = new javax.swing.JLabel();
 
         txtMapData.setText("0");
 
@@ -373,6 +377,17 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         lbTotalSelected.setForeground(new java.awt.Color(255, 255, 255));
         lbTotalSelected.setText("0");
 
+        lbNote.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        lbNote.setForeground(new java.awt.Color(255, 255, 255));
+        lbNote.setText("Thêm ghi chú");
+        lbNote.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 102, 255)));
+        lbNote.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbNote.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbNoteMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelBackground2Layout = new javax.swing.GroupLayout(panelBackground2);
         panelBackground2.setLayout(panelBackground2Layout);
         panelBackground2Layout.setHorizontalGroup(
@@ -380,14 +395,16 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
             .addGroup(panelBackground2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelBackground2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
                     .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelBackground2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(lbTotalSelected)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lbNote)
+                        .addGap(32, 32, 32)))
                 .addContainerGap())
         );
         panelBackground2Layout.setVerticalGroup(
@@ -400,8 +417,9 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
                 .addGap(18, 18, 18)
                 .addGroup(panelBackground2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(lbTotalSelected))
-                .addContainerGap(69, Short.MAX_VALUE))
+                    .addComponent(lbTotalSelected)
+                    .addComponent(lbNote))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Bàn", panelBackground2);
@@ -453,43 +471,45 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
     }//GEN-LAST:event_formMouseEntered
 
     private void btnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderActionPerformed
+
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
         
         boolean isSingle = listTableSelected.size() == 1 ? true : false;
         // Lay 1 ban dai dien de fill order vao
-        OrderDTO order = new OrderDTO(isSingle, 638471313653138161L, listTableSelected.get(0).getId(), false, date, date);
-//        order.setNote("Test");
+        OrderDTO order = new OrderDTO(isSingle, 638471313653138161L, listTableSelected.get(0).getId(), txtNote.getText(),false, date, date);
+        txtNote.setText("");
         String customerCode = order.getCustomerCode();
-        
-        
+             
         TableDAO tableDAO = new TableDAO();
-        
         for (TableDTO x : listTableSelected) {
             x.setCustomerCode(customerCode);
             x.setStatus("DANGSUDUNG");
             x.setUpdateTime(date);
             tableDAO.updateData(x);
         }
-        
-        
-        
+
         for (DetailOrderDTO x : listDetailOrder) {
             order.insertDetailOrder(x); 
         }
+        
         InvoicesDAO invoicesDAO = new InvoicesDAO();
         InvoicesDTO invoices = new InvoicesDTO(order.getTotal(), order.getTotal(), date, false);
         invoicesDAO.insertData(invoices);
-        System.out.println("aaa");
+        
+        
         OrderBUS orderBUS = new OrderBUS();
         orderBUS.insertOrder(order, invoices.getId());
-        System.out.println("zzz");
-//        System.out.println("------------------------");
-//   
-//        System.out.println(a.getId() + " " + a.getTotal() + a.getCreateTime() + " " + a.getUpdateTime());
-
         
+        JOptionPane.showMessageDialog(rootPane, "Gọi món thành công !!");
+        // Sau khi goi mon xong thi close dialog order
+        dispose();
     }//GEN-LAST:event_btnOrderActionPerformed
+
+    private void lbNoteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbNoteMouseClicked
+        txtNote.setText(JOptionPane.showInputDialog(rootPane, "Nhập ghi chú"));
+        
+    }//GEN-LAST:event_lbNoteMouseClicked
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -542,6 +562,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lbCategory;
+    private javax.swing.JLabel lbNote;
     private javax.swing.JLabel lbShowTien;
     private javax.swing.JLabel lbSort;
     private javax.swing.JLabel lbTitleTongTien;
@@ -552,5 +573,6 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
     private GUI.Comp.Swing.PanelBackground pnContainerTable;
     private GUI.Comp.Swing.PanelBackground pnOrder;
     private javax.swing.JTextField txtMapData;
+    private javax.swing.JTextField txtNote;
     // End of variables declaration//GEN-END:variables
 }
