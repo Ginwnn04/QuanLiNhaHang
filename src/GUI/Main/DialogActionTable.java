@@ -16,15 +16,24 @@ public class DialogActionTable extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
-        if (enable) {
-            jLabel5.setText("SỦA THÔNG TIN BÀN");
-        }
+       
         cbxTrangThai.setEnabled(enable);
         
         
         // Set visible phai de cuoi cung
         
       
+        
+    }
+    
+    public void setAction(boolean isUpdate) {
+        if (isUpdate) {
+            jLabel5.setText("SỦA THÔNG TIN BÀN");
+            
+        }
+        else {
+            setIDTable(table.createID());
+        }
         
     }
     

@@ -17,4 +17,8 @@ public class InvoiesBUS {
     public boolean  insertInvoices(InvoicesDTO invoices) {
         return invoicesDAO.insertData(invoices);
     }
+    
+    public InvoicesDTO getInvoiceByID(long id) {
+        return invoicesDAO.readData(id);
+    }
 }

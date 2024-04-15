@@ -3,6 +3,7 @@ package DAO;
 import DTO.OrderDTO;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 
 public class OrderDAO {
@@ -31,4 +32,34 @@ public class OrderDAO {
             }
         return false;
     }
+    
+    
+    public OrderDTO findOrderByCustomerCode(String customerCode) {
+        String query = "SELECT * FROM tb_orders WHERE customer_code = ?";
+        try (Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query);) {
+            pstm.setString(1, customerCode);
+            ResultSet rs = pstm.executeQuery();
+            // Kiem tra rs co ban? ghi nao khong
+            if (rs.next()) {
+                OrderDTO order = new OrderDTO();
+                order.setId(rs.getLong("id"));
+                order.setCustomerCode(rs.getString("customer_code"));
+                order.setTotal(rs.getLong("total"));
+                order.setIsDelete(rs.getBoolean("isdeleted"));
+                order.setNote(rs.getString("note"));
+                order.setStaffID(rs.getLong("staffid"));
+                order.setTableID(rs.getLong("tableid"));
+                order.setUpdateTime(rs.getDate("update_time"));
+                return order;
+                
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+    
+    
 }

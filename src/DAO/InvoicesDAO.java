@@ -4,6 +4,7 @@ import DTO.InvoicesDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Date;
+import java.sql.ResultSet;
 public class InvoicesDAO {
     
     public boolean insertData(InvoicesDTO invoices) {
@@ -23,5 +24,29 @@ public class InvoicesDAO {
             e.printStackTrace();
         }
         return false;
+    }
+    
+    public InvoicesDTO readData(long idInvoice) {
+        String query = "SELECT * FROM tb_invoices WHERE id = ?";
+        try(Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query)) {
+            pstm.setLong(1, idInvoice);
+            ResultSet rs = pstm.executeQuery();
+            if (rs.next()) {
+                InvoicesDTO invoice = new InvoicesDTO();
+                invoice.setId(rs.getLong("id"));
+                invoice.setAmount(rs.getLong("amount"));
+                invoice.setDiscount(rs.getLong("discount_price"));
+                invoice.setTotal(rs.getLong("total"));
+                invoice.setIsDelete(rs.getBoolean("isdeleted"));
+                invoice.setCreateTime(rs.getDate("time"));
+                invoice.setDiscountID(rs.getString("discountid"));
+                return invoice;
+            }
+            
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

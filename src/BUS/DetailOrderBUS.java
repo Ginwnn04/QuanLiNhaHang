@@ -19,4 +19,12 @@ public class DetailOrderBUS {
         return detailOrderDAO.insertData(x);
     }
     
+    public ArrayList<DetailOrderDTO> findDetailByOrder(long idOrder) {
+        return detailOrderDAO.findDetailByIDOrder(idOrder);
+    }
+    
+    public long getInvoiceByOrderID(long orderID) {
+        return detailOrderDAO.getInvoiceByID(orderID);
+    }
+    
 }

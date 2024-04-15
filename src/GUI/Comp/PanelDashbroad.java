@@ -4,7 +4,11 @@
  */
 package GUI.Comp;
 
+import BUS.OrderBUS;
 import BUS.TableBUS;
+import DAO.OrderDAO;
+import DAO.TableDAO;
+import DTO.OrderDTO;
 import DTO.TableDTO;
 import Helper.MyListener;
 import java.awt.Button;
@@ -26,6 +30,7 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 public class PanelDashbroad extends javax.swing.JPanel implements PropertyChangeListener {
     private ArrayList<TableDTO> listTable = new ArrayList<>();
     private List<PanelTable> listPanelTable = new ArrayList<>();
+    private OrderBUS orderBUS = new OrderBUS();
     private int totalTable = 1;
 
     public PanelDashbroad() {
@@ -33,13 +38,14 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         setBackground(new Color(0,0,0,0));
         addTable();
         MyListener.getInstance().addPropertyChangeListener(this); 
-        pnService1.setColor(new Color(53,53,53));
+//        pnService1.setColor(new Color(53,53,53));
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("Selected")) {
 //            jTextField1.setText(evt.getNewValue() + "");
+            txtSaveTable.setText(evt.getNewValue() + "");
             System.out.println(evt.getNewValue());
             for (PanelTable x : listPanelTable) {
                 if (x.getNameTable().equals(evt.getNewValue())) {
@@ -111,7 +117,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pnService1 = new GUI.Comp.Swing.PanelBackground();
+        txtSaveTable = new javax.swing.JTextField();
         panelBackground1 = new GUI.Comp.Swing.PanelBackground();
         panelBackground2 = new GUI.Comp.Swing.PanelBackground();
         panelBackground4 = new GUI.Comp.Swing.PanelBackground();
@@ -125,17 +131,12 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         btnHuyBan = new javax.swing.JButton();
         btnChuyenBan = new javax.swing.JButton();
         btnKiemTra = new javax.swing.JButton();
-        btnThanhToan = new javax.swing.JButton();
         panelBackground9 = new GUI.Comp.Swing.PanelBackground();
         panelBackground6 = new GUI.Comp.Swing.PanelBackground();
         panelBackground7 = new GUI.Comp.Swing.PanelBackground();
         panelBackground8 = new GUI.Comp.Swing.PanelBackground();
         jScrollPane1 = new javax.swing.JScrollPane();
         pnContainerTable = new GUI.Comp.Swing.PanelBackground();
-
-        pnService1.setBackground(new java.awt.Color(35, 35, 35));
-        pnService1.setPreferredSize(new java.awt.Dimension(250, 730));
-        pnService1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 55));
 
         setBackground(new java.awt.Color(35, 35, 35));
         setPreferredSize(new java.awt.Dimension(1077, 730));
@@ -193,7 +194,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         panelBackground3.setLayout(panelBackground3Layout);
         panelBackground3Layout.setHorizontalGroup(
             panelBackground3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1129, Short.MAX_VALUE)
+            .addGap(0, 1077, Short.MAX_VALUE)
         );
         panelBackground3Layout.setVerticalGroup(
             panelBackground3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -244,11 +245,6 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         });
         panelBackground10.add(btnKiemTra);
 
-        btnThanhToan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnThanhToan.setText("THANH TOÁN");
-        btnThanhToan.setPreferredSize(new java.awt.Dimension(150, 75));
-        panelBackground10.add(btnThanhToan);
-
         panelBackground5.add(panelBackground10, java.awt.BorderLayout.CENTER);
 
         panelBackground9.setBackground(new java.awt.Color(30, 30, 30));
@@ -258,7 +254,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         panelBackground9.setLayout(panelBackground9Layout);
         panelBackground9Layout.setHorizontalGroup(
             panelBackground9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1129, Short.MAX_VALUE)
+            .addGap(0, 1077, Short.MAX_VALUE)
         );
         panelBackground9Layout.setVerticalGroup(
             panelBackground9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -308,7 +304,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         panelBackground8.setLayout(panelBackground8Layout);
         panelBackground8Layout.setHorizontalGroup(
             panelBackground8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1129, Short.MAX_VALUE)
+            .addGap(0, 1077, Short.MAX_VALUE)
         );
         panelBackground8Layout.setVerticalGroup(
             panelBackground8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -337,7 +333,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBackground1, javax.swing.GroupLayout.DEFAULT_SIZE, 1129, Short.MAX_VALUE)
+            .addComponent(panelBackground1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -374,7 +370,21 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
     }//GEN-LAST:event_btnGoiMonActionPerformed
 
     private void btnKiemTraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKiemTraActionPerformed
-        DialogKiemTra a = new DialogKiemTra(null, true);
+        String customerCode = "";
+
+        for (TableDTO x : listTable) {
+            if (x.getName().equals(txtSaveTable.getText())) {
+                customerCode = x.getCustomerCode();
+            }
+        }
+        OrderDTO order = orderBUS.findOrderByCustomerCode(customerCode);
+        if (order == null) {
+            JOptionPane.showMessageDialog(pnContainerTable, "Không tồn tại");
+            return;
+        }
+        DialogKiemTra kt = new DialogKiemTra(null, true);
+        kt.loadForm(order, txtSaveTable.getText());
+        kt.setVisible(true);
         
     }//GEN-LAST:event_btnKiemTraActionPerformed
 
@@ -385,7 +395,6 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
     public javax.swing.JButton btnGoiMon;
     private javax.swing.JButton btnHuyBan;
     private javax.swing.JButton btnKiemTra;
-    private javax.swing.JButton btnThanhToan;
     private javax.swing.JScrollPane jScrollPane1;
     private GUI.Comp.Swing.PanelBackground panelBackground1;
     private GUI.Comp.Swing.PanelBackground panelBackground10;
@@ -400,6 +409,6 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
     private GUI.Comp.Swing.PanelBackground panelBackground8;
     private GUI.Comp.Swing.PanelBackground panelBackground9;
     private GUI.Comp.Swing.PanelBackground pnContainerTable;
-    private GUI.Comp.Swing.PanelBackground pnService1;
+    private javax.swing.JTextField txtSaveTable;
     // End of variables declaration//GEN-END:variables
 }

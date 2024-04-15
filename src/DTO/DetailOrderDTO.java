@@ -44,6 +44,9 @@ public class DetailOrderDTO {
         this.total = price * quantity;
         createCartOrder();
     }
+
+    public DetailOrderDTO() {
+    }
     
     
     

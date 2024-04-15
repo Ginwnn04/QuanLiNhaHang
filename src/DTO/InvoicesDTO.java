@@ -31,6 +31,10 @@ public class InvoicesDTO {
         this.discountID = discountID;
         this.isDelete = isDelete;
     }
+
+    public InvoicesDTO() {
+    }
+    
     
 
     public long createID() {

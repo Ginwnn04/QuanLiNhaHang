@@ -50,6 +50,10 @@ public class OrderDTO {
         this.updateTime = updateTime;
         this.createTime = createTime;
     }
+
+    public OrderDTO() {
+    }
+    
     
     
     public void insertDetailOrder(DetailOrderDTO x) {

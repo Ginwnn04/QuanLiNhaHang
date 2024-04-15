@@ -68,32 +68,7 @@ public class TableDAO {
     }
     
     
-//    public ArrayList<TableDTO> sortName(String name) {
-//        ArrayList<TableDTO> list = new ArrayList<>();
-//        String query = "SELECT * FROM tb_tables WHERE LOWER(name) LIKE ?";
-//        name = "%" + name.toLowerCase().trim() + "%";
-//       
-//        try (Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query)){
-//            pstm.setString(1, name);
-//            ResultSet rs = pstm.executeQuery();
-//            while(rs.next()) {
-//                TableDTO table = new TableDTO();
-//                table.setId(rs.getLong("id"));
-//                table.setName(rs.getString("name"));
-//                table.setDes(rs.getString("des"));
-//                table.setCustomerCode(rs.getString("customer_code"));
-//                table.setStatus(rs.getString("statusid"));
-//                table.setCreateTime(rs.getDate("create_time"));
-//                table.setUpdateTime(rs.getDate("update_time"));
-//                table.setIsDelete(rs.getBoolean("isdeleted"));
-//                list.add(table);
-//            }
-//        }
-//        catch(Exception e) {
-//            e.printStackTrace();
-//        }
-//        return list;  
-//    }
+
     
     public boolean deleteData(String listTableDelete) {
         String query = "DELETE FROM tb_tables WHERE id IN (SELECT unnest(string_to_array(?, ','))::bigint)";
@@ -128,5 +103,18 @@ public class TableDAO {
             e.printStackTrace();
         }
         return false;
+    }
+    
+    public long findIDByCustomerCode(String customerCode) {
+        String query = "SELECT id FROM tb_tables WHERE customer_code = ?";
+        try (Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query);) {
+            pstm.setString(1, customerCode);
+            ResultSet rs = pstm.executeQuery();
+            return rs.getLong("id");
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
