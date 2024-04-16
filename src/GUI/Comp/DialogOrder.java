@@ -493,13 +493,8 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
             order.insertDetailOrder(x); 
         }
         
-        InvoicesDAO invoicesDAO = new InvoicesDAO();
-        InvoicesDTO invoices = new InvoicesDTO(order.getTotal(), order.getTotal(), date, false);
-        invoicesDAO.insertData(invoices);
-        
-        
         OrderBUS orderBUS = new OrderBUS();
-        orderBUS.insertOrder(order, invoices.getId());
+        orderBUS.insertOrder(order);
         
         JOptionPane.showMessageDialog(rootPane, "Gọi món thành công !!");
         // Sau khi goi mon xong thi close dialog order

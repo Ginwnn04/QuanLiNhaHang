@@ -42,7 +42,7 @@ public class TableDAO {
     }
     
     public boolean insertData(TableDTO table) {
-        String query = "INSERT INTO tb_tables (id, name, des, isdeleted, customer_code, statusid, create_time, update_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO tb_tables VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query)) {
             pstm.setLong(1, table.getId());
             pstm.setString(2, table.getName());
@@ -59,6 +59,7 @@ public class TableDAO {
 
             pstm.setDate(7, sqlDateUpdate);
             pstm.setDate(8, sqlDateCreate);
+            pstm.setString(9, table.getNote());
             return pstm.executeUpdate() > 0;
         }
         catch(Exception e) {

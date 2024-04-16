@@ -11,6 +11,7 @@ public class TableDTO {
     private String des;
     private String status;
     private String customerCode;
+    private String note;
     private Date createTime;
     private Date updateTime;
     private boolean isDelete;
@@ -20,17 +21,20 @@ public class TableDTO {
     private PanelTableBooking pnTableBooking;
     public TableDTO() {
     }
-    
-    public TableDTO(long id, String name, String des, String status, Date createTime, Date updateTime, boolean isDelete) {
+
+    public TableDTO(long id, String name, String des, String status, String customerCode, String note, Date createTime, Date updateTime, boolean isDelete) {
         this.id = id;
         this.name = name;
         this.des = des;
         this.status = status;
+        this.customerCode = customerCode;
+        this.note = note;
         this.createTime = createTime;
         this.updateTime = updateTime;
         this.isDelete = isDelete;
-        
     }
+    
+    
     
     public long createID() {
         this.id = System.currentTimeMillis();
@@ -52,6 +56,14 @@ public class TableDTO {
 
     public void setIsSelected(boolean isSelected) {
         this.isSelected = isSelected;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
     
     

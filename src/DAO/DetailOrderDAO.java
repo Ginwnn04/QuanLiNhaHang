@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class DetailOrderDAO {
     
     public boolean insertData(DetailOrderDTO detailOrder) {
-        String query = "INSERT INTO tb_detail_order VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO tb_detail_order VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query)) {
             pstm.setLong(1, detailOrder.getId());
             pstm.setLong(2, detailOrder.getPrice());
@@ -28,8 +28,6 @@ public class DetailOrderDAO {
             pstm.setBoolean(6, detailOrder.isIsDelete());
             pstm.setLong(7, detailOrder.getItemID());
             pstm.setLong(8, detailOrder.getOrderID());
-            pstm.setLong(9, detailOrder.getInvoiceID());
-            
             return pstm.executeUpdate() > 0;
         }
         catch(Exception e) {

@@ -14,13 +14,12 @@ public class OrderBUS {
     private DetailOrderBUS detailOrderBUS = new DetailOrderBUS();
     private OrderDTO order;
     
-    public boolean insertOrder(OrderDTO order, long invoiceID) {
+    public boolean insertOrder(OrderDTO order) {
         this.order = order;
         ArrayList<DetailOrderDTO> listDetailOrder = order.getListDetailOrder();
         boolean check = orderDAO.insertData(order);
         if (check) {
             for (DetailOrderDTO x : listDetailOrder) {
-                x.setInvoiceID(invoiceID);
                 x.setOrderID(order.getId());
                 detailOrderBUS.insertDetailOrder(x);
             }

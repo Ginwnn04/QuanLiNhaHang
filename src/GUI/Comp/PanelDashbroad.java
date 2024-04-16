@@ -131,6 +131,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         btnHuyBan = new javax.swing.JButton();
         btnChuyenBan = new javax.swing.JButton();
         btnKiemTra = new javax.swing.JButton();
+        btnThanhToan = new javax.swing.JButton();
         panelBackground9 = new GUI.Comp.Swing.PanelBackground();
         panelBackground6 = new GUI.Comp.Swing.PanelBackground();
         panelBackground7 = new GUI.Comp.Swing.PanelBackground();
@@ -194,7 +195,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         panelBackground3.setLayout(panelBackground3Layout);
         panelBackground3Layout.setHorizontalGroup(
             panelBackground3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1077, Short.MAX_VALUE)
+            .addGap(0, 1078, Short.MAX_VALUE)
         );
         panelBackground3Layout.setVerticalGroup(
             panelBackground3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -245,6 +246,16 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         });
         panelBackground10.add(btnKiemTra);
 
+        btnThanhToan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnThanhToan.setText("KIỂM TRA");
+        btnThanhToan.setPreferredSize(new java.awt.Dimension(150, 75));
+        btnThanhToan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThanhToanActionPerformed(evt);
+            }
+        });
+        panelBackground10.add(btnThanhToan);
+
         panelBackground5.add(panelBackground10, java.awt.BorderLayout.CENTER);
 
         panelBackground9.setBackground(new java.awt.Color(30, 30, 30));
@@ -254,7 +265,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         panelBackground9.setLayout(panelBackground9Layout);
         panelBackground9Layout.setHorizontalGroup(
             panelBackground9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1077, Short.MAX_VALUE)
+            .addGap(0, 1078, Short.MAX_VALUE)
         );
         panelBackground9Layout.setVerticalGroup(
             panelBackground9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -304,7 +315,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         panelBackground8.setLayout(panelBackground8Layout);
         panelBackground8Layout.setHorizontalGroup(
             panelBackground8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1077, Short.MAX_VALUE)
+            .addGap(0, 1078, Short.MAX_VALUE)
         );
         panelBackground8Layout.setVerticalGroup(
             panelBackground8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -388,6 +399,10 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         
     }//GEN-LAST:event_btnKiemTraActionPerformed
 
+    private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnThanhToanActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChuyenBan;
@@ -395,6 +410,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
     public javax.swing.JButton btnGoiMon;
     private javax.swing.JButton btnHuyBan;
     private javax.swing.JButton btnKiemTra;
+    private javax.swing.JButton btnThanhToan;
     private javax.swing.JScrollPane jScrollPane1;
     private GUI.Comp.Swing.PanelBackground panelBackground1;
     private GUI.Comp.Swing.PanelBackground panelBackground10;
