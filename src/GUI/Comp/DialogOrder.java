@@ -11,6 +11,7 @@ import DTO.MenuItemDTO;
 import DTO.OrderDTO;
 import DTO.TableDTO;
 import Helper.MyListener;
+import Helper.StopWatch;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
@@ -105,7 +106,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
 
    
     public DialogOrder(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+        super(parent, modal);           
         initComponents();
         setLocationRelativeTo(null);
         addMenuItem();
@@ -133,7 +134,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         for (int i = 0; i < listMenuItem.size(); i++) {
             MenuItemDTO item = listMenuItem.get(i);
             pnOrder.add(item.createCart(i));
-        }
+        }     
     }
 
     public void updatePrice() {
@@ -470,7 +471,9 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         
         // Update customer vào tb_table
         TableDAO tableDAO = new TableDAO();
+               StopWatch.getInstance().Start();  
         for (TableDTO table : listTableSelected) {
+            
             table.setCustomerCode(customerCode);
             table.setStatus("DANGSUDUNG");
             table.setUpdateTime(date);
@@ -485,6 +488,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
             multiOrder.setUpdateTime(date);
             multiOrder.setCreateTime(date);
 //          Thêm chi tiết cho order
+          
             for (DetailOrderDTO detail : listDetailOrder) {
                 multiOrder.insertDetailOrder(detail);
                 detail.createID();
@@ -495,9 +499,11 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
                     Logger.getLogger(DialogOrder.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            
             orderBUS.insertOrder(multiOrder);
+                                    
         }
- 
+        StopWatch.getInstance().Stop();
         JOptionPane.showMessageDialog(rootPane, "Gọi món thành công !!");
         // Sau khi goi mon xong thi close dialog order
         dispose();

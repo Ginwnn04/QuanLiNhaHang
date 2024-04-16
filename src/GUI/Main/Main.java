@@ -7,6 +7,7 @@ package GUI.Main;
 import GUI.Comp.DialogOrder;
 
 import GUI.Comp.PanelDashbroad;
+import Helper.DataProvider;
 import Helper.MyListener;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
@@ -33,7 +34,7 @@ import javax.swing.UIManager;
 public class Main extends javax.swing.JFrame implements PropertyChangeListener {
 
     private PanelDashbroad a = new PanelDashbroad();
-
+    
     public Main() {
         initComponents();
         setLocationRelativeTo(null);
@@ -133,6 +134,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        DataProvider.getInstance().Open();
         FlatMacDarkLaf.registerCustomDefaultsSource("style");
         UIManager.put("TextField.font", style.MyFont.fontText);
         UIManager.put("Label.font", style.MyFont.fontText);

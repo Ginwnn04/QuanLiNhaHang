@@ -7,6 +7,7 @@ package BUS;
 import DAO.OrderDAO;
 import DTO.DetailOrderDTO;
 import DTO.OrderDTO;
+import Helper.StopWatch;
 import java.util.ArrayList;
 
 public class OrderBUS {
@@ -16,6 +17,7 @@ public class OrderBUS {
     
     public boolean insertOrder(OrderDTO order) {
         this.order = order;
+
         ArrayList<DetailOrderDTO> listDetailOrder = order.getListDetailOrder();
         boolean check = orderDAO.insertData(order);
         if (check) {
@@ -24,6 +26,7 @@ public class OrderBUS {
                 detailOrderBUS.insertDetailOrder(x);
             }
         }
+
         return check;
     }
     

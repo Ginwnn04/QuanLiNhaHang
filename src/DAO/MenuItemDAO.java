@@ -5,6 +5,7 @@
 package DAO;
 
 import DTO.MenuItemDTO;
+import Helper.DataProvider;
 import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,9 +16,11 @@ import java.sql.ResultSet;
  */
 public class MenuItemDAO {
     
-    public ArrayList<MenuItemDTO> readData() {
+    public ArrayList<MenuItemDTO> readData() {  
         String query = "SELECT item.id, item.name, item.price, item.profit, item.description, item.ingredients, item.isdeleted, item.\"image_path\", item.\"create_time\", item.\"update_time\", status.name AS status, cate.name AS category FROM tb_menu_item_status AS status JOIN tb_menu_item AS item ON status.id = item.statusid JOIN tb_categories AS cate ON item.categoryid = cate.id";
-        try(Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query);) {
+        try{
+            long startTime = System.currentTimeMillis();
+            PreparedStatement pstm = DataProvider.getInstance().GetConnect().prepareStatement(query);
             ResultSet rs = pstm.executeQuery();
             ArrayList<MenuItemDTO> list = new ArrayList<>();
             while(rs.next()) {
@@ -36,7 +39,7 @@ public class MenuItemDAO {
                 menuItem.setIngredient(rs.getString("ingredients"));
                 list.add(menuItem);
             }
-           
+            
             return list;
         }
         catch(Exception e) {

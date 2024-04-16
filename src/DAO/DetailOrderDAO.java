@@ -5,6 +5,7 @@
 package DAO;
 
 import DTO.DetailOrderDTO;
+import Helper.DataProvider;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Date;
@@ -19,7 +20,8 @@ public class DetailOrderDAO {
     
     public boolean insertData(DetailOrderDTO detailOrder) {
         String query = "INSERT INTO tb_detail_order VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query)) {
+        try {
+            PreparedStatement pstm = DataProvider.getInstance().GetConnect().prepareStatement(query);
             pstm.setLong(1, detailOrder.getId());
             pstm.setLong(2, detailOrder.getPrice());
             pstm.setLong(3, detailOrder.getProfit());

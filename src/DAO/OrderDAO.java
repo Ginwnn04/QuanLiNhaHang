@@ -1,6 +1,7 @@
 package DAO;
 
 import DTO.OrderDTO;
+import Helper.DataProvider;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -11,7 +12,8 @@ public class OrderDAO {
     
     public boolean insertData(OrderDTO order) {
         String query = "INSERT INTO tb_orders VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query)) {
+        try{
+            PreparedStatement pstm = DataProvider.getInstance().GetConnect().prepareStatement(query);
             pstm.setLong(1, order.getId());
             pstm.setString(2, order.getCustomerCode());
             pstm.setLong(3, order.getTotal());

@@ -49,12 +49,12 @@ public class PanelProductOrder extends javax.swing.JPanel {
         
        
         
-        ImageIcon image = new ImageIcon(new ImageIcon(getClass().getResource("/GUI/ImageProduct/" + imagePath)).getImage().getScaledInstance(100, 100, 4));
-        ImageIcon imageModal = new ImageIcon(new ImageIcon(getClass().getResource("/GUI/ImageProduct/" + imagePath)).getImage().getScaledInstance(408, 277, 4));
-
-        avatarProduct.setImage(image);
-      
-        modal.insertData(imageModal, desc, ingredient);
+//        ImageIcon image = new ImageIcon(new ImageIcon(getClass().getResource("/GUI/ImageProduct/" + imagePath)).getImage().getScaledInstance(100, 100, 4));
+//        ImageIcon imageModal = new ImageIcon(new ImageIcon(getClass().getResource("/GUI/ImageProduct/" + imagePath)).getImage().getScaledInstance(408, 277, 4));
+//
+//        avatarProduct.setImage(image);
+//      
+//        modal.insertData(imageModal, desc, ingredient);
         
         
         pnDetailProduct.setColor(new Color(53, 53, 53));
