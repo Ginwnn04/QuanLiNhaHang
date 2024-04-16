@@ -42,7 +42,7 @@ public class DialogKiemTra extends javax.swing.JDialog {
     public void loadForm(OrderDTO order, String name) {
         renderTable(order.getId());
         lbBan.setText("BÀN " + name + " - " + order.getCustomerCode());
-        tarNote.setText(order.getNote());
+//        tarNote.setText(order.getNote());
         loadInvoice(order.getId());
     }
     

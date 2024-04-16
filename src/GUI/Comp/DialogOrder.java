@@ -20,6 +20,8 @@ import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class DialogOrder extends javax.swing.JDialog implements PropertyChangeListener {
@@ -216,7 +218,6 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
     private void initComponents() {
 
         txtMapData = new javax.swing.JTextField();
-        txtNote = new javax.swing.JTextField();
         lbCategory = new javax.swing.JLabel();
         cbxCategory = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -237,7 +238,6 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         jSeparator2 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         lbTotalSelected = new javax.swing.JLabel();
-        lbNote = new javax.swing.JLabel();
 
         txtMapData.setText("0");
 
@@ -377,17 +377,6 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         lbTotalSelected.setForeground(new java.awt.Color(255, 255, 255));
         lbTotalSelected.setText("0");
 
-        lbNote.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        lbNote.setForeground(new java.awt.Color(255, 255, 255));
-        lbNote.setText("Thêm ghi chú");
-        lbNote.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 102, 255)));
-        lbNote.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lbNote.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lbNoteMouseClicked(evt);
-            }
-        });
-
         javax.swing.GroupLayout panelBackground2Layout = new javax.swing.GroupLayout(panelBackground2);
         panelBackground2.setLayout(panelBackground2Layout);
         panelBackground2Layout.setHorizontalGroup(
@@ -402,9 +391,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(lbTotalSelected)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lbNote)
-                        .addGap(32, 32, 32)))
+                        .addGap(32, 260, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelBackground2Layout.setVerticalGroup(
@@ -417,9 +404,8 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
                 .addGap(18, 18, 18)
                 .addGroup(panelBackground2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(lbTotalSelected)
-                    .addComponent(lbNote))
-                .addContainerGap(68, Short.MAX_VALUE))
+                    .addComponent(lbTotalSelected))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Bàn", panelBackground2);
@@ -477,34 +463,45 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         
         boolean isSingle = listTableSelected.size() == 1 ? true : false;
         // Lay 1 ban dai dien de fill order vao
-        OrderDTO order = new OrderDTO(isSingle, 638471313653138161L, listTableSelected.get(0).getId(), txtNote.getText(),false, date, date);
-        txtNote.setText("");
-        String customerCode = order.getCustomerCode();
-             
-        TableDAO tableDAO = new TableDAO();
-        for (TableDTO x : listTableSelected) {
-            x.setCustomerCode(customerCode);
-            x.setStatus("DANGSUDUNG");
-            x.setUpdateTime(date);
-            tableDAO.updateData(x);
-        }
-
-        for (DetailOrderDTO x : listDetailOrder) {
-            order.insertDetailOrder(x); 
-        }
+        OrderDTO order = new OrderDTO();
+        String customerCode = order.createCustomerCode(isSingle);
         
         OrderBUS orderBUS = new OrderBUS();
-        orderBUS.insertOrder(order);
         
+        // Update customer vào tb_table
+        TableDAO tableDAO = new TableDAO();
+        for (TableDTO table : listTableSelected) {
+            table.setCustomerCode(customerCode);
+            table.setStatus("DANGSUDUNG");
+            table.setUpdateTime(date);
+            tableDAO.updateData(table);
+         
+            OrderDTO multiOrder = new OrderDTO();
+            multiOrder.createID();
+            multiOrder.setStaffID(638471313653138161L);
+            multiOrder.setTableID(table.getId());
+            multiOrder.setCustomerCode(customerCode);
+            multiOrder.setIsDelete(false);
+            multiOrder.setUpdateTime(date);
+            multiOrder.setCreateTime(date);
+//          Thêm chi tiết cho order
+            for (DetailOrderDTO detail : listDetailOrder) {
+                multiOrder.insertDetailOrder(detail);
+                detail.createID();
+                try {
+                    Thread.sleep(1);
+                } 
+                catch (InterruptedException ex) {
+                    Logger.getLogger(DialogOrder.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            orderBUS.insertOrder(multiOrder);
+        }
+ 
         JOptionPane.showMessageDialog(rootPane, "Gọi món thành công !!");
         // Sau khi goi mon xong thi close dialog order
         dispose();
     }//GEN-LAST:event_btnOrderActionPerformed
-
-    private void lbNoteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbNoteMouseClicked
-        txtNote.setText(JOptionPane.showInputDialog(rootPane, "Nhập ghi chú"));
-        
-    }//GEN-LAST:event_lbNoteMouseClicked
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -557,7 +554,6 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lbCategory;
-    private javax.swing.JLabel lbNote;
     private javax.swing.JLabel lbShowTien;
     private javax.swing.JLabel lbSort;
     private javax.swing.JLabel lbTitleTongTien;
@@ -568,6 +564,5 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
     private GUI.Comp.Swing.PanelBackground pnContainerTable;
     private GUI.Comp.Swing.PanelBackground pnOrder;
     private javax.swing.JTextField txtMapData;
-    private javax.swing.JTextField txtNote;
     // End of variables declaration//GEN-END:variables
 }

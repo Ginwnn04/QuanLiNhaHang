@@ -18,7 +18,6 @@ public class OrderDTO {
     private long tableID;
     private long total;
     private String customerCode;
-    private String note;
     private boolean isDelete;
     private Date updateTime;
     private Date createTime;
@@ -30,7 +29,6 @@ public class OrderDTO {
         this.customerCode = createCustomerCode(isSingle);
         this.staffID = staffID;
         this.tableID = tableID;
-        this.note = note;
         this.isDelete = isDelete;
         this.updateTime = updateTime;
         this.createTime = createTime;
@@ -39,17 +37,18 @@ public class OrderDTO {
 
     // Luc read tu db len
 
-    public OrderDTO(long id, long staffID, long tableID, long total, String customerCode, String note, boolean isDelete, Date updateTime, Date createTime) {
+    public OrderDTO(long id, long staffID, long tableID, long total, String customerCode, boolean isDelete, Date updateTime, Date createTime) {
         this.id = id;
         this.staffID = staffID;
         this.tableID = tableID;
         this.total = total;
         this.customerCode = customerCode;
-        this.note = note;
         this.isDelete = isDelete;
         this.updateTime = updateTime;
         this.createTime = createTime;
     }
+
+ 
 
     public OrderDTO() {
     }
@@ -79,16 +78,6 @@ public class OrderDTO {
         return code;
     }
 
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-    
-    
-    
     public String getCustomerCode() {
         return customerCode;
     }
