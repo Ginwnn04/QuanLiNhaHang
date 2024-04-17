@@ -69,7 +69,7 @@ public class TableDTO {
     
     
     public PanelTable createTable() {
-        pnTable = new PanelTable(name);
+        pnTable = new PanelTable(name, customerCode);
         if (status.equals("DANGSUDUNG")) {
             pnTable.setStatus(false);
         }

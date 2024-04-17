@@ -31,6 +31,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
     private ArrayList<TableDTO> listTable = new ArrayList<>();
     private List<PanelTable> listPanelTable = new ArrayList<>();
     private OrderBUS orderBUS = new OrderBUS();
+    private TableBUS tableBUS = new TableBUS();
     private int totalTable = 1;
 
     public PanelDashbroad() {
@@ -80,7 +81,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
     public void addTable() {
         listPanelTable.removeAll(listPanelTable);
         pnContainerTable.removeAll();
-        listTable = new TableBUS().getAllData();
+        listTable = tableBUS.getAllData();
         int totalTable = listTable.size();
         int row = totalTable / 5;
         if (totalTable % 5 != 0) {
@@ -130,8 +131,8 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         btnDatBan = new javax.swing.JButton();
         btnHuyBan = new javax.swing.JButton();
         btnChuyenBan = new javax.swing.JButton();
-        btnKiemTra = new javax.swing.JButton();
         btnThanhToan = new javax.swing.JButton();
+        btnKiemTra = new javax.swing.JButton();
         panelBackground9 = new GUI.Comp.Swing.PanelBackground();
         panelBackground6 = new GUI.Comp.Swing.PanelBackground();
         panelBackground7 = new GUI.Comp.Swing.PanelBackground();
@@ -236,6 +237,16 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         btnChuyenBan.setPreferredSize(new java.awt.Dimension(150, 75));
         panelBackground10.add(btnChuyenBan);
 
+        btnThanhToan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnThanhToan.setText("GỘP/TÁCH");
+        btnThanhToan.setPreferredSize(new java.awt.Dimension(150, 75));
+        btnThanhToan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThanhToanActionPerformed(evt);
+            }
+        });
+        panelBackground10.add(btnThanhToan);
+
         btnKiemTra.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnKiemTra.setText("KIỂM TRA");
         btnKiemTra.setPreferredSize(new java.awt.Dimension(150, 75));
@@ -245,16 +256,6 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
             }
         });
         panelBackground10.add(btnKiemTra);
-
-        btnThanhToan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnThanhToan.setText("KIỂM TRA");
-        btnThanhToan.setPreferredSize(new java.awt.Dimension(150, 75));
-        btnThanhToan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThanhToanActionPerformed(evt);
-            }
-        });
-        panelBackground10.add(btnThanhToan);
 
         panelBackground5.add(panelBackground10, java.awt.BorderLayout.CENTER);
 
@@ -392,7 +393,12 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
                 break;
             }
         }
-        String listOrderId= orderBUS.findOrderByCustomerCode(customerCode);
+        ArrayList<OrderDTO> listOrder = orderBUS.findOrderByCustomerCode(customerCode);
+        String listOrderId = "";
+        for (OrderDTO x : listOrder) {
+            listOrderId += x.getId() + ", ";
+        }
+        listOrderId = listOrderId.substring(0, listOrderId.length() - 2);
         if (listOrderId.isEmpty()) {
             JOptionPane.showMessageDialog(pnContainerTable, "Không tồn tại");
             return;
@@ -404,7 +410,53 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
     }//GEN-LAST:event_btnKiemTraActionPerformed
 
     private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
-        // TODO add your handling code here:
+        // CustomerCode này là của table muốn gộp 
+        String customerCode =  JOptionPane.showInputDialog(pnContainerTable, "Mã khách muốn gộp bàn");
+        
+        ArrayList<OrderDTO> listOrder = orderBUS.findOrderByCustomerCode(customerCode);
+        ArrayList<TableDTO> listTable  = tableBUS.findTableByCustomerCode(customerCode);
+        
+        String customerCodeNew = "";
+        String listTableID = "";
+        // Bàn muốn gộp đến đang là bàn Đơn => Tạo lại customer code để gán cho cả 2 table
+        if (customerCode.substring(0, 1).equals("S")) {
+            // Table chọn để gộp với bàn khác
+            TableDTO tableSelected = tableBUS.findTableByName(txtSaveTable.getText());
+            // Kiểm tra coi nó là bàn Đơn hay không ?
+            if (tableSelected.getCustomerCode().substring(0, 1).equals("S")) {
+                // Lúc này ta biết bàn này là bàn đơn => chắc chắn sẽ có duy nhất 1 obj order được trả ra
+                OrderDTO order = listOrder.get(0);
+                customerCodeNew = order.createCustomerCode(false);
+                TableDTO tableWillMove = listTable.get(0);
+                // Tạo lại customerCode là bàn Đôi
+                order.createCustomerCode(false);
+                listTableID = tableSelected.getId() + ", " + tableWillMove.getId();
+            }
+            else {
+                customerCodeNew = tableSelected.getCustomerCode();
+                TableDTO tableWillMove = listTable.get(0);
+                listTableID = tableWillMove.getId() + "";
+            }
+        }
+        else {
+            TableDTO tableSelected = tableBUS.findTableByName(txtSaveTable.getText());
+            if (tableSelected.getCustomerCode().substring(0, 1).equals("S")) {
+                TableDTO tableWillMove = listTable.get(0);
+                customerCodeNew = tableWillMove.getCustomerCode();
+                listTableID = tableSelected.getId() + "";
+                
+            }
+            else {
+                
+            }
+        }
+        orderBUS.updateCustomerCode(listTableID, customerCodeNew);
+        tableBUS.updateCustomerCode(listTableID, customerCodeNew);
+        addTable();
+        pnContainerTable.revalidate();
+        pnContainerTable.repaint();
+//        System.out.println(txtSaveTable.getText());
+//        System.out.println(customerCode);
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
 

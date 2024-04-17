@@ -7,6 +7,8 @@ package BUS;
 import DAO.OrderDAO;
 import DTO.DetailOrderDTO;
 import DTO.OrderDTO;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 public class OrderBUS {
@@ -27,7 +29,11 @@ public class OrderBUS {
         return check;
     }
     
-    public String findOrderByCustomerCode(String customerCode) {
+    public ArrayList<OrderDTO> findOrderByCustomerCode(String customerCode) {
         return orderDAO.findOrderByCustomerCode(customerCode);
+    }
+    
+    public boolean updateCustomerCode(String listTableID, String customerCode) {
+        return orderDAO.updateCustomerCode(listTableID, customerCode);
     }
 }

@@ -15,7 +15,7 @@ import javax.swing.ImageIcon;
  * @author quang
  */
 public class PanelTable extends javax.swing.JPanel {
-
+    private String customerCode;
     private String nameTable;
     private boolean isEmpty = true;
     private boolean isSelected = false;
@@ -23,12 +23,14 @@ public class PanelTable extends javax.swing.JPanel {
     public PanelTable() {
     }
 
-    public PanelTable(String nameTable) {
+    public PanelTable(String nameTable, String customerCode) {
         this.nameTable = nameTable;
+        this.customerCode = customerCode;
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         init();
         lbNumberTable.setText("Bàn " + nameTable);
+        lbCustomerCode.setText(customerCode);
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
     }
@@ -96,6 +98,7 @@ public class PanelTable extends javax.swing.JPanel {
         lbNumberTable = new javax.swing.JLabel();
         lbStatus = new javax.swing.JLabel();
         lbIcon = new javax.swing.JLabel();
+        lbCustomerCode = new javax.swing.JLabel();
 
         panelBackground.setBackground(new java.awt.Color(103, 199, 143));
         panelBackground.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -119,6 +122,12 @@ public class PanelTable extends javax.swing.JPanel {
         lbIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Comp/Icon/check.png"))); // NOI18N
         panelBackground.add(lbIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
 
+        lbCustomerCode.setBackground(new java.awt.Color(255, 255, 255));
+        lbCustomerCode.setFont(new java.awt.Font("Roboto", 1, 16)); // NOI18N
+        lbCustomerCode.setForeground(new java.awt.Color(255, 255, 255));
+        lbCustomerCode.setText("S-123123");
+        panelBackground.add(lbCustomerCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, -1, 30));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -140,6 +149,7 @@ public class PanelTable extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel lbCustomerCode;
     private javax.swing.JLabel lbIcon;
     private javax.swing.JLabel lbNumberTable;
     private javax.swing.JLabel lbStatus;

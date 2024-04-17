@@ -46,4 +46,20 @@ public class TableBUS {
         return tableDAO.updateNote(table);
     }
     
+     public boolean updateCustomerCode(String listTableID, String customerCode) {
+        return tableDAO.updateCustomerCode(listTableID, customerCode);
+    }
+     
+    public ArrayList<TableDTO> findTableByCustomerCode(String customerCode) {
+        return tableDAO.findTableByCustomerCode(customerCode);
+         
+    }
+    
+    public TableDTO findTableByName(String nameTable) {
+        return tableDAO.findTableByName(nameTable);
+         
+    }
+     
+     
+    
 }

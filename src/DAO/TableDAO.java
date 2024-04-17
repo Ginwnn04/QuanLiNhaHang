@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+
 /**
  *
  * @author quang
@@ -127,16 +128,76 @@ public class TableDAO {
         return false;
     }
     
-    public long findIDByCustomerCode(String customerCode) {
-        String query = "SELECT id FROM tb_tables WHERE customer_code = ?";
-        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query);) {
-            pstm.setString(1, customerCode);
-            ResultSet rs = pstm.executeQuery();
-            return rs.getLong("id");
+    public boolean updateCustomerCode(String listTableID, String customerCode) {
+        String query = "UPDATE tb_tables SET customer_code = ?, update_time = ? WHERE id IN ";
+        query += "(" + listTableID + ")";
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
+             pstm.setString(1, customerCode);
+
+            Date sqlDateUpdate = new Date(new java.util.Date().getTime());
+            
+            pstm.setDate(2, sqlDateUpdate);
+ 
+            
+            return pstm.executeUpdate() > 0;
         }
         catch(Exception e) {
             e.printStackTrace();
         }
-        return 0;
+        return false;
+    }
+    
+
+    
+    public ArrayList<TableDTO> findTableByCustomerCode(String customerCode) {
+        ArrayList<TableDTO> list = new ArrayList<>();
+        String query = "SELECT * FROM tb_tables WHERE customer_code = ?";
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query);) {
+            pstm.setString(1, customerCode);
+            ResultSet rs = pstm.executeQuery();
+            while(rs.next()) {
+                TableDTO table = new TableDTO();
+                table.setId(rs.getLong("id"));
+                table.setName(rs.getString("name"));
+                table.setDes(rs.getString("des"));
+                table.setCustomerCode(rs.getString("customer_code"));
+                table.setStatus(rs.getString("statusid"));
+                table.setCreateTime(rs.getDate("create_time"));
+                table.setUpdateTime(rs.getDate("update_time"));
+                table.setIsDelete(rs.getBoolean("isdeleted"));
+                table.setNote(rs.getString("note"));
+                list.add(table);
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public TableDTO findTableByName(String nameTable) {
+        String query = "SELECT * FROM tb_tables WHERE name = ?";
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query);) {
+            pstm.setString(1, nameTable);
+            ResultSet rs = pstm.executeQuery();
+            if(rs.next()) {
+                TableDTO table = new TableDTO();
+                table.setId(rs.getLong("id"));
+                table.setName(rs.getString("name"));
+                table.setDes(rs.getString("des"));
+                table.setCustomerCode(rs.getString("customer_code"));
+                table.setStatus(rs.getString("statusid"));
+                table.setCreateTime(rs.getDate("create_time"));
+                table.setUpdateTime(rs.getDate("update_time"));
+                table.setIsDelete(rs.getBoolean("isdeleted"));
+                table.setNote(rs.getString("note"));
+                
+                return table;
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
