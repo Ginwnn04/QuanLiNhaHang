@@ -27,7 +27,7 @@ public class OrderBUS {
         return check;
     }
     
-    public OrderDTO findOrderByCustomerCode(String customerCode) {
+    public String findOrderByCustomerCode(String customerCode) {
         return orderDAO.findOrderByCustomerCode(customerCode);
     }
 }

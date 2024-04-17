@@ -27,4 +27,8 @@ public class DetailOrderBUS {
         return detailOrderDAO.getInvoiceByID(orderID);
     }
     
+    public ArrayList<DetailOrderDTO> mergeDetails(String listOrderId) {
+        return detailOrderDAO.mergeDetais(listOrderId);
+    }
+    
 }

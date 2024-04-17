@@ -42,4 +42,8 @@ public class TableBUS {
         return tableDAO.updateData(table);
     }
     
+    public boolean updateNote(TableDTO table) {
+        return tableDAO.updateNote(table);
+    }
+    
 }

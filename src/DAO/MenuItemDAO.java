@@ -17,7 +17,7 @@ public class MenuItemDAO {
     
     public ArrayList<MenuItemDTO> readData() {
         String query = "SELECT item.id, item.name, item.price, item.profit, item.description, item.ingredients, item.isdeleted, item.\"image_path\", item.\"create_time\", item.\"update_time\", status.name AS status, cate.name AS category FROM tb_menu_item_status AS status JOIN tb_menu_item AS item ON status.id = item.statusid JOIN tb_categories AS cate ON item.categoryid = cate.id";
-        try(Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query);) {
+        try(PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query);) {
             ResultSet rs = pstm.executeQuery();
             ArrayList<MenuItemDTO> list = new ArrayList<>();
             while(rs.next()) {

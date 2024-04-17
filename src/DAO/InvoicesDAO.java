@@ -9,7 +9,7 @@ public class InvoicesDAO {
     
     public boolean insertData(InvoicesDTO invoices) {
         String query = "INSERT INTO tb_invoices VALUES(?, ?, ?, ?, ?, ?, ?)";
-        try(Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query)) {
+        try(PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setLong(1, invoices.getId());
             pstm.setLong(2, invoices.getAmount());
             pstm.setLong(3, invoices.getDiscount());
@@ -28,7 +28,7 @@ public class InvoicesDAO {
     
     public InvoicesDTO readData(long idInvoice) {
         String query = "SELECT * FROM tb_invoices WHERE id = ?";
-        try(Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query)) {
+        try(PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setLong(1, idInvoice);
             ResultSet rs = pstm.executeQuery();
             if (rs.next()) {

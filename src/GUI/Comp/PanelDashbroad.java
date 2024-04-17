@@ -382,19 +382,23 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
 
     private void btnKiemTraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKiemTraActionPerformed
         String customerCode = "";
-
+        TableDTO table = new TableDTO();
+//        listTable = new TableBUS().getAllData();
         for (TableDTO x : listTable) {
             if (x.getName().equals(txtSaveTable.getText())) {
                 customerCode = x.getCustomerCode();
+                table = x;
+                System.out.println(x.getNote());
+                break;
             }
         }
-        OrderDTO order = orderBUS.findOrderByCustomerCode(customerCode);
-        if (order == null) {
+        String listOrderId= orderBUS.findOrderByCustomerCode(customerCode);
+        if (listOrderId.isEmpty()) {
             JOptionPane.showMessageDialog(pnContainerTable, "Không tồn tại");
             return;
         }
         DialogKiemTra kt = new DialogKiemTra(null, true);
-        kt.loadForm(order, txtSaveTable.getText());
+        kt.loadForm(listOrderId, table);
         kt.setVisible(true);
         
     }//GEN-LAST:event_btnKiemTraActionPerformed

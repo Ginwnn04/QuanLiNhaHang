@@ -19,7 +19,7 @@ public class DetailOrderDAO {
     
     public boolean insertData(DetailOrderDTO detailOrder) {
         String query = "INSERT INTO tb_detail_order VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query)) {
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setLong(1, detailOrder.getId());
             pstm.setLong(2, detailOrder.getPrice());
             pstm.setLong(3, detailOrder.getProfit());
@@ -39,7 +39,7 @@ public class DetailOrderDAO {
     public ArrayList<DetailOrderDTO> findDetailByIDOrder(long idOrder) {
         ArrayList<DetailOrderDTO> list = new ArrayList<>();
         String query = "SELECT tb_detail_order.*, tb_menu_item.name FROM tb_detail_order JOIN tb_menu_item ON tb_detail_order.itemid = tb_menu_item.id WHERE orderid = ?";
-        try (Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query)) {
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setLong(1, idOrder);
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
@@ -68,7 +68,7 @@ public class DetailOrderDAO {
     public long getInvoiceByID(long orderID) {
         
         String query = "SELECT invoiceid FROM tb_detail_order WHERE orderid = ?";
-        try (Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query)) {
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setLong(1, orderID);
             ResultSet rs = pstm.executeQuery();
             if (rs.next()) {
@@ -82,4 +82,30 @@ public class DetailOrderDAO {
         return 0;
     }
    
+    public ArrayList<DetailOrderDTO> mergeDetais(String listOrderId) {
+        ArrayList<DetailOrderDTO> list = new ArrayList<>();
+        String query = "SELECT itemid ,name,tb_detail_order.price, COUNT(quantity), SUM(total) FROM tb_detail_order JOIN tb_menu_item ON itemid = tb_menu_item.id WHERE orderid IN ";
+        query += "(" + listOrderId + ")  GROUP BY itemid, name, tb_detail_order.price";
+        
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                DetailOrderDTO detailOrder = new DetailOrderDTO();
+                detailOrder.setPrice(rs.getLong("price"));
+                detailOrder.setQuantity(rs.getInt("count"));
+                detailOrder.setTotal(rs.getLong("sum"));
+                detailOrder.setItemID(rs.getLong("itemid"));
+                detailOrder.setName(rs.getString("name"));
+                detailOrder.setName(rs.getString("name"));
+                
+                list.add(detailOrder);
+            }
+            return list;
+        }
+        catch(Exception e) {
+                e.printStackTrace();
+            }
+        return list;
+        
+    }
 }

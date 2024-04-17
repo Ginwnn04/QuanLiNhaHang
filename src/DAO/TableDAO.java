@@ -20,7 +20,7 @@ public class TableDAO {
     public ArrayList<TableDTO> readAllData() {
         ArrayList<TableDTO> list = new ArrayList<>();
         String query = "SELECT * FROM tb_tables";
-        try (Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query)){
+        try ( PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)){
             ResultSet rs = pstm.executeQuery();
             while(rs.next()) {
                 TableDTO table = new TableDTO();
@@ -32,6 +32,7 @@ public class TableDAO {
                 table.setCreateTime(rs.getDate("create_time"));
                 table.setUpdateTime(rs.getDate("update_time"));
                 table.setIsDelete(rs.getBoolean("isdeleted"));
+                table.setNote(rs.getString("note"));
                 list.add(table);
             }
         }
@@ -43,7 +44,7 @@ public class TableDAO {
     
     public boolean insertData(TableDTO table) {
         String query = "INSERT INTO tb_tables VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query)) {
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setLong(1, table.getId());
             pstm.setString(2, table.getName());
             pstm.setString(3, table.getDes());
@@ -73,7 +74,7 @@ public class TableDAO {
     
     public boolean deleteData(String listTableDelete) {
         String query = "DELETE FROM tb_tables WHERE id IN (SELECT unnest(string_to_array(?, ','))::bigint)";
-        try (Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query)) {
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setString(1, listTableDelete);
             return pstm.executeUpdate() > 0;
         }
@@ -85,7 +86,7 @@ public class TableDAO {
     
     public boolean updateData(TableDTO table) {
         String query = "UPDATE tb_tables SET name = ?, des = ?, isdeleted = ?, customer_code = ?, statusid = ?, update_time = ? WHERE id = ?";
-        try (Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query)) {
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setString(1, table.getName());
             pstm.setString(2, table.getDes());
             pstm.setBoolean(3, table.isIsDelete());
@@ -106,9 +107,29 @@ public class TableDAO {
         return false;
     }
     
+    public boolean updateNote(TableDTO table) {
+        String query = "UPDATE tb_tables SET note = ?, update_time = ? WHERE id = ?";
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
+            pstm.setString(1, table.getNote());
+
+            
+            
+            Date sqlDateUpdate = new Date(table.getUpdateTime().getTime());
+            
+            pstm.setDate(2, sqlDateUpdate);
+            pstm.setLong(3, table.getId());
+            
+            return pstm.executeUpdate() > 0;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
     public long findIDByCustomerCode(String customerCode) {
         String query = "SELECT id FROM tb_tables WHERE customer_code = ?";
-        try (Connection con = Helper.ConnectDB.openConnect(); PreparedStatement pstm = con.prepareStatement(query);) {
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query);) {
             pstm.setString(1, customerCode);
             ResultSet rs = pstm.executeQuery();
             return rs.getLong("id");

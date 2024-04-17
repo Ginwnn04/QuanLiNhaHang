@@ -44,7 +44,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
         MyListener.getInstance().addPropertyChangeListener(this);
         setTitle("PHẦN MỀM QUẢN LÍ NHÀ HÀNG");
         showForm(a);
-
+        
         
 
     }
@@ -133,6 +133,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        Helper.ConnectDB.getInstance().openConnect();
         FlatMacDarkLaf.registerCustomDefaultsSource("style");
         UIManager.put("TextField.font", style.MyFont.fontText);
         UIManager.put("Label.font", style.MyFont.fontText);

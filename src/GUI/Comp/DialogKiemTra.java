@@ -2,15 +2,18 @@ package GUI.Comp;
 
 import BUS.DetailOrderBUS;
 import BUS.OrderBUS;
+import BUS.TableBUS;
 import DAO.InvoicesDAO;
 import DTO.DetailOrderDTO;
 import DTO.InvoicesDTO;
 import DTO.OrderDTO;
+import DTO.TableDTO;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -21,7 +24,7 @@ public class DialogKiemTra extends javax.swing.JDialog {
     private DetailOrderBUS detailOrderBUS = new DetailOrderBUS();
     private InvoicesDAO invoicesDAO = new InvoicesDAO();
     private DefaultTableModel model;
-    
+    private TableDTO table;
     
    
     public DialogKiemTra(java.awt.Frame parent, boolean modal) {
@@ -39,33 +42,42 @@ public class DialogKiemTra extends javax.swing.JDialog {
     }
 
     
-    public void loadForm(OrderDTO order, String name) {
-        renderTable(order.getId());
-        lbBan.setText("BÀN " + name + " - " + order.getCustomerCode());
-//        tarNote.setText(order.getNote());
-        loadInvoice(order.getId());
+    public void loadForm(String listOrderId, TableDTO table) {
+        this.table = table;
+        renderTable(listOrderId);
+        lbBan.setText("BÀN " + table.getName() + " - " + table.getCustomerCode());
+        tarNote.setText(table.getNote());
+
+        loadInvoice(listOrderId);
     }
     
-    public void loadInvoice(long orderID) {
-        long idInvoice = detailOrderBUS.getInvoiceByOrderID(orderID);
-        if (idInvoice == 0) {
-            System.out.println("Khong ton tai hoa don");
-            return;
+    public void loadInvoice(String listOrderId) {
+//        long idInvoice = detailOrderBUS.getInvoiceByOrderID(orderID);
+//        if (idInvoice == 0) {
+//            System.out.println("Khong ton tai hoa don");
+//            return;
+//        }
+//        InvoicesDTO invoice = invoicesDAO.readData(idInvoice);
+        long amount = 0;
+        long discount = 100000;
+        listDetailOrder = new DetailOrderBUS().mergeDetails(listOrderId);
+        for (DetailOrderDTO x : listDetailOrder) {
+            amount += x.getTotal();
         }
-        InvoicesDTO invoice = invoicesDAO.readData(idInvoice);
-        lbThanhTien.setText(invoice.getAmount() + "đ");
-        lbTienGiam.setText(invoice.getDiscount() + "đ");
-        lbTongTien.setText(invoice.getTotal()+ "đ");
+        long total = amount - discount;
+        lbThanhTien.setText(amount + "đ");
+        lbTienGiam.setText(discount + "đ");
+        lbTongTien.setText(total+ "đ");
     }
     
     /////////////////////////////////////////////////////
-    public void renderTable(long idOrder) {
+    public void renderTable(String listOrderId) {
         tbMonAn.setRowHeight(25);
         model = (DefaultTableModel)tbMonAn.getModel();
-        listDetailOrder = new DetailOrderBUS().findDetailByOrder(idOrder);
+        listDetailOrder = new DetailOrderBUS().mergeDetails(listOrderId);
         model.setRowCount(0);
         for (DetailOrderDTO x : listDetailOrder) {
-            model.addRow(new Object[] {x.getId(), x.getName(), x.getPrice(), x.getQuantity(), x.getTotal()});
+            model.addRow(new Object[] {x.getItemID(), x.getName(), x.getPrice(), x.getQuantity(), x.getTotal()});
         }
         model.fireTableDataChanged();
         tbMonAn.setModel(model);
@@ -292,6 +304,11 @@ public class DialogKiemTra extends javax.swing.JDialog {
 
         btnSaveNote.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         btnSaveNote.setText("Lưu ghi chú");
+        btnSaveNote.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveNoteActionPerformed(evt);
+            }
+        });
         jPanel4.add(btnSaveNote, java.awt.BorderLayout.PAGE_END);
 
         jTabbedPane1.addTab("Ghi chú", jPanel4);
@@ -409,6 +426,18 @@ public class DialogKiemTra extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSaveNoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveNoteActionPerformed
+        table.setNote(tarNote.getText());
+        if(new TableBUS().updateNote(table)) {
+            JOptionPane.showMessageDialog(rootPane, "Lưu thành công");
+        }
+        else {
+            JOptionPane.showMessageDialog(rootPane, "Lưu thất bại");
+            
+        }
+        
+    }//GEN-LAST:event_btnSaveNoteActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
