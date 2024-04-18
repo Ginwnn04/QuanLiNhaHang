@@ -65,6 +65,7 @@ public class NavBar extends javax.swing.JPanel {
         addMenuItem("Bàn", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
         addMenuItem("Món ăn", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
         addMenuItem("Nguyên liệu", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
+        addMenuItem("Nhập kho", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
         addMenuItem("Hóa đơn", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
         addMenuItem("Giảm giá", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
         addMenuItem("Nhân viên", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));

@@ -22,6 +22,8 @@ import java.awt.event.MouseEvent;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 import javax.swing.UIManager;
@@ -65,18 +67,28 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
                     showForm(new QuanLiBan());
                     break;
                 case 3:
-
+                    showForm(new QuanLiMonAn());
                     break;
                 case 4:
-
+                {
+                    try {
+                        showForm(new QuanLiNguyenLieu());
+                    } catch (Exception ex) {
+                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
                     break;
-                case 5:
 
+                case 5:
+                    showForm(new QuanLiNhapKho());
                     break;
                 case 6:
 
                     break;
                 case 7:
+
+                    break;
+                case 8:
 
                     break;
                 
