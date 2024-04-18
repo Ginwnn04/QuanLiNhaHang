@@ -37,7 +37,9 @@ public class DialogKiemTra extends javax.swing.JDialog {
     private DiscountBUS discountBUS = new DiscountBUS();
     private ArrayList<DiscountDTO> listDiscount;
     private String discountID = "";
-    
+    private long amount = 0;
+    private long discountPrice = 0;
+    private long total = 0;
    
     public DialogKiemTra(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -75,16 +77,14 @@ public class DialogKiemTra extends javax.swing.JDialog {
 //            return;
 //        }
 //        InvoicesDTO invoice = invoicesDAO.readData(idInvoice);
-        long amount = 0;
-        long discount = 100000;
         listDetailOrder = new DetailOrderBUS().mergeDetails(listOrderId);
         for (DetailOrderDTO x : listDetailOrder) {
             amount += x.getTotal();
         }
-        long total = amount - discount;
+        total = amount - discountPrice;
         lbThanhTien.setText(amount + "đ");
-        lbTienGiam.setText(discount + "đ");
-        lbTongTien.setText(total+ "đ");
+        lbTienGiam.setText(discountPrice + "đ");
+        lbTongTien.setText(total + "đ");
     }
     
     /////////////////////////////////////////////////////
@@ -507,7 +507,18 @@ public class DialogKiemTra extends javax.swing.JDialog {
 
     private void tbDiscountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDiscountMouseClicked
         int row = tbDiscount.getSelectedRow();
-        System.out.println(listDiscount.get(row).getName());
+        DiscountDTO discount = listDiscount.get(row);
+        
+        if (discount.getType().equals("percent")) {
+            discountPrice = (long)((discount.getValue() / 100.0) * Long.parseLong(lbThanhTien.getText().substring(0, lbThanhTien.getText().length() - 1)));
+           
+        }
+        else {
+            discountPrice = discount.getValue();
+        }
+        total = amount - discountPrice;
+        lbTienGiam.setText(discountPrice + "đ");
+        lbTongTien.setText(total + "đ");
     }//GEN-LAST:event_tbDiscountMouseClicked
 
     public static void main(String args[]) {
