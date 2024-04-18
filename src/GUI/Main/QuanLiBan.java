@@ -99,17 +99,22 @@ public class QuanLiBan extends javax.swing.JPanel {
 
         pnContainer = new GUI.Comp.Swing.PanelBackground();
         panelBackground1 = new GUI.Comp.Swing.PanelBackground();
-        panelBackground6 = new GUI.Comp.Swing.PanelBackground();
+        panelBackground10 = new GUI.Comp.Swing.PanelBackground();
+        panelBackground16 = new GUI.Comp.Swing.PanelBackground();
         pnSelectAll = new GUI.Comp.Swing.PanelBackground();
         chbSelectAll = new javax.swing.JCheckBox();
-        panelBackground9 = new GUI.Comp.Swing.PanelBackground();
+        panelBackground17 = new GUI.Comp.Swing.PanelBackground();
         txtTimKiem = new javax.swing.JTextField();
+        panelBackground14 = new GUI.Comp.Swing.PanelBackground();
         panelBackground7 = new GUI.Comp.Swing.PanelBackground();
-        btnThem = new javax.swing.JButton();
+        panelBackground6 = new GUI.Comp.Swing.PanelBackground();
+        panelBackground9 = new GUI.Comp.Swing.PanelBackground();
         panelBackground8 = new GUI.Comp.Swing.PanelBackground();
+        btnThem = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
-        panelBackground11 = new GUI.Comp.Swing.PanelBackground();
         btnXoa = new javax.swing.JButton();
+        btnXuat = new javax.swing.JButton();
+        panelBackground15 = new GUI.Comp.Swing.PanelBackground();
         panelBackground2 = new GUI.Comp.Swing.PanelBackground();
         panelBackground3 = new GUI.Comp.Swing.PanelBackground();
         panelBackground4 = new GUI.Comp.Swing.PanelBackground();
@@ -124,24 +129,27 @@ public class QuanLiBan extends javax.swing.JPanel {
 
         panelBackground1.setBackground(new java.awt.Color(30, 30, 30));
         panelBackground1.setPreferredSize(new java.awt.Dimension(1077, 75));
-        panelBackground1.setLayout(new javax.swing.BoxLayout(panelBackground1, javax.swing.BoxLayout.X_AXIS));
+        panelBackground1.setLayout(new java.awt.BorderLayout());
 
-        panelBackground6.setBackground(new java.awt.Color(30, 30, 30));
-        panelBackground6.setMaximumSize(new java.awt.Dimension(20, 32767));
-        panelBackground6.setPreferredSize(new java.awt.Dimension(30, 75));
+        panelBackground10.setBackground(new java.awt.Color(30, 30, 30));
+        panelBackground10.setPreferredSize(new java.awt.Dimension(300, 75));
+        panelBackground10.setLayout(new javax.swing.BoxLayout(panelBackground10, javax.swing.BoxLayout.LINE_AXIS));
 
-        javax.swing.GroupLayout panelBackground6Layout = new javax.swing.GroupLayout(panelBackground6);
-        panelBackground6.setLayout(panelBackground6Layout);
-        panelBackground6Layout.setHorizontalGroup(
-            panelBackground6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 20, Short.MAX_VALUE)
+        panelBackground16.setBackground(new java.awt.Color(30, 30, 30));
+        panelBackground16.setPreferredSize(new java.awt.Dimension(35, 75));
+
+        javax.swing.GroupLayout panelBackground16Layout = new javax.swing.GroupLayout(panelBackground16);
+        panelBackground16.setLayout(panelBackground16Layout);
+        panelBackground16Layout.setHorizontalGroup(
+            panelBackground16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 23, Short.MAX_VALUE)
         );
-        panelBackground6Layout.setVerticalGroup(
-            panelBackground6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        panelBackground16Layout.setVerticalGroup(
+            panelBackground16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 75, Short.MAX_VALUE)
         );
 
-        panelBackground1.add(panelBackground6);
+        panelBackground10.add(panelBackground16);
 
         pnSelectAll.setBackground(new java.awt.Color(35, 35, 35));
         pnSelectAll.setMaximumSize(new java.awt.Dimension(100, 30));
@@ -160,7 +168,7 @@ public class QuanLiBan extends javax.swing.JPanel {
         pnSelectAll.setLayout(pnSelectAllLayout);
         pnSelectAllLayout.setHorizontalGroup(
             pnSelectAllLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGap(0, 85, Short.MAX_VALUE)
             .addGroup(pnSelectAllLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnSelectAllLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -177,28 +185,27 @@ public class QuanLiBan extends javax.swing.JPanel {
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
-        panelBackground1.add(pnSelectAll);
+        panelBackground10.add(pnSelectAll);
 
-        panelBackground9.setBackground(new java.awt.Color(30, 30, 30));
-        panelBackground9.setMaximumSize(new java.awt.Dimension(25, 32767));
-        panelBackground9.setMinimumSize(new java.awt.Dimension(25, 100));
+        panelBackground17.setBackground(new java.awt.Color(30, 30, 30));
+        panelBackground17.setPreferredSize(new java.awt.Dimension(50, 75));
 
-        javax.swing.GroupLayout panelBackground9Layout = new javax.swing.GroupLayout(panelBackground9);
-        panelBackground9.setLayout(panelBackground9Layout);
-        panelBackground9Layout.setHorizontalGroup(
-            panelBackground9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 25, Short.MAX_VALUE)
+        javax.swing.GroupLayout panelBackground17Layout = new javax.swing.GroupLayout(panelBackground17);
+        panelBackground17.setLayout(panelBackground17Layout);
+        panelBackground17Layout.setHorizontalGroup(
+            panelBackground17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 34, Short.MAX_VALUE)
         );
-        panelBackground9Layout.setVerticalGroup(
-            panelBackground9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        panelBackground17Layout.setVerticalGroup(
+            panelBackground17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 75, Short.MAX_VALUE)
         );
 
-        panelBackground1.add(panelBackground9);
+        panelBackground10.add(panelBackground17);
 
         txtTimKiem.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         txtTimKiem.setMaximumSize(new java.awt.Dimension(200, 30));
-        txtTimKiem.setPreferredSize(new java.awt.Dimension(30, 30));
+        txtTimKiem.setPreferredSize(new java.awt.Dimension(200, 30));
         txtTimKiem.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 txtTimKiemMouseEntered(evt);
@@ -214,24 +221,64 @@ public class QuanLiBan extends javax.swing.JPanel {
                 txtTimKiemKeyReleased(evt);
             }
         });
-        panelBackground1.add(txtTimKiem);
+        panelBackground10.add(txtTimKiem);
+
+        panelBackground1.add(panelBackground10, java.awt.BorderLayout.LINE_START);
+
+        panelBackground14.setBackground(new java.awt.Color(35, 35, 35));
+        panelBackground14.setPreferredSize(new java.awt.Dimension(500, 75));
+        panelBackground14.setLayout(new java.awt.BorderLayout());
 
         panelBackground7.setBackground(new java.awt.Color(30, 30, 30));
-        panelBackground7.setMaximumSize(new java.awt.Dimension(445, 32767));
-        panelBackground7.setPreferredSize(new java.awt.Dimension(445, 75));
+        panelBackground7.setPreferredSize(new java.awt.Dimension(20, 75));
 
         javax.swing.GroupLayout panelBackground7Layout = new javax.swing.GroupLayout(panelBackground7);
         panelBackground7.setLayout(panelBackground7Layout);
         panelBackground7Layout.setHorizontalGroup(
             panelBackground7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 445, Short.MAX_VALUE)
+            .addGap(0, 20, Short.MAX_VALUE)
         );
         panelBackground7Layout.setVerticalGroup(
             panelBackground7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 75, Short.MAX_VALUE)
+            .addGap(0, 55, Short.MAX_VALUE)
         );
 
-        panelBackground1.add(panelBackground7);
+        panelBackground14.add(panelBackground7, java.awt.BorderLayout.LINE_END);
+
+        panelBackground6.setBackground(new java.awt.Color(30, 30, 30));
+        panelBackground6.setPreferredSize(new java.awt.Dimension(500, 10));
+
+        javax.swing.GroupLayout panelBackground6Layout = new javax.swing.GroupLayout(panelBackground6);
+        panelBackground6.setLayout(panelBackground6Layout);
+        panelBackground6Layout.setHorizontalGroup(
+            panelBackground6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 500, Short.MAX_VALUE)
+        );
+        panelBackground6Layout.setVerticalGroup(
+            panelBackground6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 10, Short.MAX_VALUE)
+        );
+
+        panelBackground14.add(panelBackground6, java.awt.BorderLayout.PAGE_END);
+
+        panelBackground9.setBackground(new java.awt.Color(30, 30, 30));
+        panelBackground9.setPreferredSize(new java.awt.Dimension(500, 10));
+
+        javax.swing.GroupLayout panelBackground9Layout = new javax.swing.GroupLayout(panelBackground9);
+        panelBackground9.setLayout(panelBackground9Layout);
+        panelBackground9Layout.setHorizontalGroup(
+            panelBackground9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 500, Short.MAX_VALUE)
+        );
+        panelBackground9Layout.setVerticalGroup(
+            panelBackground9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 10, Short.MAX_VALUE)
+        );
+
+        panelBackground14.add(panelBackground9, java.awt.BorderLayout.PAGE_START);
+
+        panelBackground8.setBackground(new java.awt.Color(35, 35, 35));
+        panelBackground8.setLayout(new java.awt.GridLayout(1, 0, 15, 0));
 
         btnThem.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         btnThem.setText("Thêm");
@@ -242,25 +289,7 @@ public class QuanLiBan extends javax.swing.JPanel {
                 btnThemActionPerformed(evt);
             }
         });
-        panelBackground1.add(btnThem);
-
-        panelBackground8.setBackground(new java.awt.Color(30, 30, 30));
-        panelBackground8.setMaximumSize(new java.awt.Dimension(25, 32767));
-        panelBackground8.setMinimumSize(new java.awt.Dimension(25, 100));
-        panelBackground8.setPreferredSize(new java.awt.Dimension(25, 100));
-
-        javax.swing.GroupLayout panelBackground8Layout = new javax.swing.GroupLayout(panelBackground8);
-        panelBackground8.setLayout(panelBackground8Layout);
-        panelBackground8Layout.setHorizontalGroup(
-            panelBackground8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 25, Short.MAX_VALUE)
-        );
-        panelBackground8Layout.setVerticalGroup(
-            panelBackground8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
-        panelBackground1.add(panelBackground8);
+        panelBackground8.add(btnThem);
 
         btnSua.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         btnSua.setText("Sửa");
@@ -272,24 +301,7 @@ public class QuanLiBan extends javax.swing.JPanel {
                 btnSuaActionPerformed(evt);
             }
         });
-        panelBackground1.add(btnSua);
-
-        panelBackground11.setBackground(new java.awt.Color(30, 30, 30));
-        panelBackground11.setMaximumSize(new java.awt.Dimension(25, 32767));
-        panelBackground11.setMinimumSize(new java.awt.Dimension(25, 100));
-
-        javax.swing.GroupLayout panelBackground11Layout = new javax.swing.GroupLayout(panelBackground11);
-        panelBackground11.setLayout(panelBackground11Layout);
-        panelBackground11Layout.setHorizontalGroup(
-            panelBackground11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 25, Short.MAX_VALUE)
-        );
-        panelBackground11Layout.setVerticalGroup(
-            panelBackground11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        panelBackground1.add(panelBackground11);
+        panelBackground8.add(btnSua);
 
         btnXoa.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         btnXoa.setText("Xoá");
@@ -300,7 +312,37 @@ public class QuanLiBan extends javax.swing.JPanel {
                 btnXoaActionPerformed(evt);
             }
         });
-        panelBackground1.add(btnXoa);
+        panelBackground8.add(btnXoa);
+
+        btnXuat.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        btnXuat.setText("Xuất");
+        btnXuat.setMaximumSize(new java.awt.Dimension(72, 35));
+        btnXuat.setPreferredSize(new java.awt.Dimension(72, 30));
+        btnXuat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXuatActionPerformed(evt);
+            }
+        });
+        panelBackground8.add(btnXuat);
+
+        panelBackground14.add(panelBackground8, java.awt.BorderLayout.CENTER);
+
+        panelBackground1.add(panelBackground14, java.awt.BorderLayout.LINE_END);
+
+        panelBackground15.setBackground(new java.awt.Color(30, 30, 30));
+
+        javax.swing.GroupLayout panelBackground15Layout = new javax.swing.GroupLayout(panelBackground15);
+        panelBackground15.setLayout(panelBackground15Layout);
+        panelBackground15Layout.setHorizontalGroup(
+            panelBackground15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 277, Short.MAX_VALUE)
+        );
+        panelBackground15Layout.setVerticalGroup(
+            panelBackground15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 75, Short.MAX_VALUE)
+        );
+
+        panelBackground1.add(panelBackground15, java.awt.BorderLayout.CENTER);
 
         pnContainer.add(panelBackground1, java.awt.BorderLayout.PAGE_START);
 
@@ -450,31 +492,13 @@ public class QuanLiBan extends javax.swing.JPanel {
         
     }//GEN-LAST:event_txtTimKiemMouseEntered
 
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        DialogActionTable x = new DialogActionTable(null, true, false);
-        x.setAction(false);
-        listTable = new TableBUS().getAllData();
-        render(false);
-        
-        
-    }//GEN-LAST:event_btnThemActionPerformed
-
-    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        
-        DialogActionTable x = new DialogActionTable(null, true, true);
-        for (TableDTO table : listTable) {
-            if (table.isIsSelected()) {
-                x.setIDTable(table.getId());
-                break;
-            }
-        }
-        
-
-    }//GEN-LAST:event_btnSuaActionPerformed
-
     private void txtTimKiemPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtTimKiemPropertyChange
         
     }//GEN-LAST:event_txtTimKiemPropertyChange
+
+    private void btnXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnXuatActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         int choice = JOptionPane.showConfirmDialog(pnContainer, "Bạn có chắc chắn xóa không ?", "Xác nhận", JOptionPane.YES_NO_OPTION);
@@ -501,19 +525,44 @@ public class QuanLiBan extends javax.swing.JPanel {
             }
             else {
                 JOptionPane.showMessageDialog(pnContainer, "Xóa thất bại");
-            }   
+            }
         }
     }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+
+        DialogActionTable x = new DialogActionTable(null, true, true);
+        for (TableDTO table : listTable) {
+            if (table.isIsSelected()) {
+                x.setIDTable(table.getId());
+                break;
+            }
+        }
+
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        DialogActionTable x = new DialogActionTable(null, true, false);
+        x.setAction(false);
+        listTable = new TableBUS().getAllData();
+        render(false);
+
+    }//GEN-LAST:event_btnThemActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnXoa;
+    private javax.swing.JButton btnXuat;
     private javax.swing.JCheckBox chbSelectAll;
     private javax.swing.JScrollPane jScrollPane2;
     private GUI.Comp.Swing.PanelBackground panelBackground1;
-    private GUI.Comp.Swing.PanelBackground panelBackground11;
+    private GUI.Comp.Swing.PanelBackground panelBackground10;
+    private GUI.Comp.Swing.PanelBackground panelBackground14;
+    private GUI.Comp.Swing.PanelBackground panelBackground15;
+    private GUI.Comp.Swing.PanelBackground panelBackground16;
+    private GUI.Comp.Swing.PanelBackground panelBackground17;
     private GUI.Comp.Swing.PanelBackground panelBackground2;
     private GUI.Comp.Swing.PanelBackground panelBackground3;
     private GUI.Comp.Swing.PanelBackground panelBackground4;

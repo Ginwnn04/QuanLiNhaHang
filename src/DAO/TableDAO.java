@@ -200,4 +200,23 @@ public class TableDAO {
         }
         return null;
     }
+    
+    public boolean cancelTable(String listTableID) {
+        String query = "UPDATE tb_tables SET customer_code = ?, statusid = ?, update_time = ? WHERE id IN ";
+        query += "(" + listTableID + ")";
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
+             pstm.setString(1, "");
+             pstm.setString(2, "BANTRONG");
+
+            Date sqlDateUpdate = new Date(new java.util.Date().getTime());
+            
+            pstm.setDate(3, sqlDateUpdate);
+ 
+            return pstm.executeUpdate() > 0;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

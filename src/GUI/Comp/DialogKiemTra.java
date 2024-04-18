@@ -11,18 +11,24 @@ import DTO.DiscountDTO;
 import DTO.InvoicesDTO;
 import DTO.OrderDTO;
 import DTO.TableDTO;
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+
 import java.awt.Color;
 import java.awt.Font;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
+
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 
 public class DialogKiemTra extends javax.swing.JDialog {
@@ -35,6 +41,7 @@ public class DialogKiemTra extends javax.swing.JDialog {
     private OrderBUS orderBUS = new OrderBUS();
     private InvoicesBUS invoicesBUS = new InvoicesBUS();
     private DiscountBUS discountBUS = new DiscountBUS();
+    private TableBUS tableBUS = new TableBUS();
     private ArrayList<DiscountDTO> listDiscount;
     private String discountID = "";
     private long amount = 0;
@@ -117,7 +124,7 @@ public class DialogKiemTra extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
+        txtSaveDiscountID = new javax.swing.JTextField();
         background = new javax.swing.JPanel();
         pnNorth = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -150,11 +157,11 @@ public class DialogKiemTra extends javax.swing.JDialog {
         btnInBill = new javax.swing.JButton();
         btnThanhToan = new javax.swing.JButton();
 
-        jTextField1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        jTextField1.setText("jTextField1");
-        jTextField1.setMaximumSize(new java.awt.Dimension(2147483647, 35));
-        jTextField1.setMinimumSize(new java.awt.Dimension(64, 35));
-        jTextField1.setPreferredSize(new java.awt.Dimension(3, 35));
+        txtSaveDiscountID.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        txtSaveDiscountID.setText("0");
+        txtSaveDiscountID.setMaximumSize(new java.awt.Dimension(2147483647, 35));
+        txtSaveDiscountID.setMinimumSize(new java.awt.Dimension(64, 35));
+        txtSaveDiscountID.setPreferredSize(new java.awt.Dimension(3, 35));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(30, 30, 30));
@@ -438,6 +445,11 @@ public class DialogKiemTra extends javax.swing.JDialog {
         btnInBill.setText("IN ");
         btnInBill.setMaximumSize(new java.awt.Dimension(75, 35));
         btnInBill.setPreferredSize(new java.awt.Dimension(100, 75));
+        btnInBill.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInBillActionPerformed(evt);
+            }
+        });
         panelBackground3.add(btnInBill, java.awt.BorderLayout.LINE_START);
 
         btnThanhToan.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
@@ -484,42 +496,112 @@ public class DialogKiemTra extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSaveNoteActionPerformed
 
     private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
-//        String customerCode = table.getCustomerCode();
-//        ArrayList<OrderDTO> listOrder = orderBUS.findOrderByCustomerCode(customerCode);
-//        String listOrderID = "";
-//        for (OrderDTO x : listOrder) {
-//            listOrderID += x.getId() + ", ";
-//        }
-//        listOrderID = listOrderID.substring(0, listOrderID.length() - 2);
+        String customerCode = table.getCustomerCode();
+        ArrayList<OrderDTO> listOrder = orderBUS.findOrderByCustomerCode(customerCode);
+        String listOrderID = "";
+        String listTableID = "";
+        for (OrderDTO x : listOrder) {
+            listOrderID += x.getId() + ", ";
+            listTableID += x.getTableID() + ", ";
+        }
+        listOrderID = listOrderID.substring(0, listOrderID.length() - 2);
+        listTableID = listTableID.substring(0, listTableID.length() - 2);
 //        
 //        // Tạo hoá đơn
-//        InvoicesDTO invoice = new InvoicesDTO();
-//        long invoiceID = invoice.createID();
-//        invoice.setAmount(Long.parseLong(lbThanhTien.getText()));
-//        invoice.addDiscount(discountID, Long.parseLong(lbTienGiam.getText()));
-//        invoice.setCreateTime(new Date());
-//        invoice.setIsDelete(false);
-//        invoicesBUS.insertInvoices(invoice);
+        InvoicesDTO invoice = new InvoicesDTO();
+        long invoiceID = invoice.createID();
+        invoice.setAmount(Long.parseLong(lbThanhTien.getText().substring(0, lbThanhTien.getText().length() - 1)));
+        invoice.addDiscount(discountID, Long.parseLong(lbTienGiam.getText().substring(0, lbTienGiam.getText().length() - 1)));
+        invoice.setCreateTime(new Date());
+        invoice.setIsDelete(false);
+        if (txtSaveDiscountID.getText().equals("0")) {
+            invoice.setDiscountID(null);
+        }
+        else {
+            invoice.setDiscountID(txtSaveDiscountID.getText());
+        }
+        invoicesBUS.insertInvoices(invoice);
         
         
-//        detailOrderBUS.updateDetails(listTabeID, WIDTH)
+        
+        
+//        // Update id invoice cho các details order
+        if (detailOrderBUS.updateDetails(listOrderID, invoiceID)) {
+            if (tableBUS.cancelTable(listTableID)) {
+                JOptionPane.showMessageDialog(rootPane, "Thanh toán thành công !!!");
+            }
+            else {
+                System.out.println("Thanh toán thất bại òi");
+            }
+        }
+
+        
+
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
     private void tbDiscountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDiscountMouseClicked
         int row = tbDiscount.getSelectedRow();
         DiscountDTO discount = listDiscount.get(row);
-        
-        if (discount.getType().equals("percent")) {
-            discountPrice = (long)((discount.getValue() / 100.0) * Long.parseLong(lbThanhTien.getText().substring(0, lbThanhTien.getText().length() - 1)));
-           
+        if (discount.getId() == Long.parseLong(txtSaveDiscountID.getText())) {
+            tbDiscount.clearSelection();
+            txtSaveDiscountID.setText(0 + "");
+            discountPrice = 0;
+            total = amount - discountPrice;
+            lbThanhTien.setText(amount + "đ");
+            lbTienGiam.setText(discountPrice + "đ");
+            lbTongTien.setText(total + "đ");
         }
         else {
-            discountPrice = discount.getValue();
+            txtSaveDiscountID.setText(discount.getId() + "");
+            if (discount.getType().equals("percent")) {
+                discountPrice = (long)((discount.getValue() / 100.0) * Long.parseLong(lbThanhTien.getText().substring(0, lbThanhTien.getText().length() - 1)));
+
+            }
+            else {
+                discountPrice = discount.getValue();
+            }
+            total = amount - discountPrice;
+            lbTienGiam.setText(discountPrice + "đ");
+            lbTongTien.setText(total + "đ");
         }
-        total = amount - discountPrice;
-        lbTienGiam.setText(discountPrice + "đ");
-        lbTongTien.setText(total + "đ");
     }//GEN-LAST:event_tbDiscountMouseClicked
+
+    private void btnInBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInBillActionPerformed
+//        try {
+//            PDDocument document = new PDDocument();
+//            PDPage page = new PDPage();
+//            document.addPage(page);
+//            
+//            //Initializing the content stream
+//            PDPageContentStream cs = new PDPageContentStream(document, page);
+//            cs.beginText(); 
+//            cs.setFont(PDType1Font.TIMES_ROMAN, 18);
+//            cs.newLineAtOffset(150, 750);
+//            String InvoiceTitle = new String("CodeSpeedy Technology Private Limited");
+//            //Writing the text to the PDF Fie
+//            cs.showText(InvoiceTitle);
+//            cs.endText(); 
+//            //Closing the content stream 
+//            cs.close();
+//            
+//            
+//            
+//            
+//            
+//            
+//            
+//            
+//            
+//            
+//            
+//            document.save("C:\\Users\\quang\\OneDrive\\Desktop\\invoice.pdf");
+//            System.out.println("Created");
+//            document.close();
+//        } catch (IOException ex) {
+//            Logger.getLogger(DialogKiemTra.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        
+    }//GEN-LAST:event_btnInBillActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -555,7 +637,6 @@ public class DialogKiemTra extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lbBan;
     private javax.swing.JLabel lbThanhTien;
     private javax.swing.JLabel lbTienGiam;
@@ -569,5 +650,6 @@ public class DialogKiemTra extends javax.swing.JDialog {
     private javax.swing.JTextArea tarNote;
     private javax.swing.JTable tbDiscount;
     private javax.swing.JTable tbMonAn;
+    private javax.swing.JTextField txtSaveDiscountID;
     // End of variables declaration//GEN-END:variables
 }
