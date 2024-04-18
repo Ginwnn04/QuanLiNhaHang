@@ -61,6 +61,31 @@ public class OrderDAO {
         return list;
     }
     
+    public OrderDTO findOrderByTableID(long idTable) {
+        String query = "SELECT * FROM tb_orders WHERE tableid = ?";
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query);) {
+            pstm.setLong(1, idTable);
+            ResultSet rs = pstm.executeQuery();
+           
+            if (rs.next()) {
+                OrderDTO order = new OrderDTO();
+                order.setId(rs.getLong("id"));
+                order.setCustomerCode(rs.getString("customer_code"));
+                order.setTotal(rs.getLong("total"));
+                order.setIsDelete(rs.getBoolean("isdeleted"));
+                order.setStaffID(rs.getLong("staffid"));
+                order.setTableID(rs.getLong("tableid"));
+                order.setUpdateTime(rs.getDate("update_time"));
+                
+                return order;
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
     public boolean updateCustomerCode(String listTableID, String customerCode) {
         String query = "UPDATE tb_orders SET customer_code = ?, update_time = ? WHERE tableid IN ";
         query += "(" + listTableID + ")";

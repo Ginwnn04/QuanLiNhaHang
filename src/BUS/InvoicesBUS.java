@@ -6,12 +6,13 @@ package BUS;
 
 import DAO.InvoicesDAO;
 import DTO.InvoicesDTO;
+import java.util.ArrayList;
 
 /**
  *
  * @author pc
  */
-public class InvoiesBUS {
+public class InvoicesBUS {
     private InvoicesDAO invoicesDAO = new InvoicesDAO();
     
     public boolean  insertInvoices(InvoicesDTO invoices) {
@@ -21,4 +22,8 @@ public class InvoiesBUS {
     public InvoicesDTO getInvoiceByID(long id) {
         return invoicesDAO.readData(id);
     }
+    
+//    public ArrayList<InvoicesDTO> getAllData() {
+//        return invoicesDAO.readData();
+//    }
 }

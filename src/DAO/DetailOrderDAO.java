@@ -84,7 +84,7 @@ public class DetailOrderDAO {
    
     public ArrayList<DetailOrderDTO> mergeDetais(String listOrderId) {
         ArrayList<DetailOrderDTO> list = new ArrayList<>();
-        String query = "SELECT itemid ,name,tb_detail_order.price, COUNT(quantity), SUM(total) FROM tb_detail_order JOIN tb_menu_item ON itemid = tb_menu_item.id WHERE orderid IN ";
+        String query = "SELECT itemid ,name,tb_detail_order.price, SUM(quantity) AS quantity, SUM(total) AS total FROM tb_detail_order JOIN tb_menu_item ON itemid = tb_menu_item.id WHERE orderid IN ";
         query += "(" + listOrderId + ")  GROUP BY itemid, name, tb_detail_order.price";
         
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
@@ -92,8 +92,8 @@ public class DetailOrderDAO {
             while (rs.next()) {
                 DetailOrderDTO detailOrder = new DetailOrderDTO();
                 detailOrder.setPrice(rs.getLong("price"));
-                detailOrder.setQuantity(rs.getInt("count"));
-                detailOrder.setTotal(rs.getLong("sum"));
+                detailOrder.setQuantity(rs.getInt("quantity"));
+                detailOrder.setTotal(rs.getLong("total"));
                 detailOrder.setItemID(rs.getLong("itemid"));
                 detailOrder.setName(rs.getString("name"));
                 detailOrder.setName(rs.getString("name"));
@@ -104,8 +104,21 @@ public class DetailOrderDAO {
         }
         catch(Exception e) {
                 e.printStackTrace();
-            }
+        }
         return list;
-        
+    }
+    
+    public boolean updateDetails(String listOrderID, long invoiceID) {
+        String query = "UPDATE tb_detail_order SET invoiceid = ? WHERE orderid IN";
+        query += "(" + listOrderID + ")";
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
+            pstm.setLong(1, invoiceID);
+
+            return pstm.executeUpdate() > 0;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

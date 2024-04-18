@@ -1,10 +1,13 @@
 package GUI.Comp;
 
 import BUS.DetailOrderBUS;
+import BUS.DiscountBUS;
+import BUS.InvoicesBUS;
 import BUS.OrderBUS;
 import BUS.TableBUS;
 import DAO.InvoicesDAO;
 import DTO.DetailOrderDTO;
+import DTO.DiscountDTO;
 import DTO.InvoicesDTO;
 import DTO.OrderDTO;
 import DTO.TableDTO;
@@ -12,9 +15,12 @@ import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -23,8 +29,14 @@ public class DialogKiemTra extends javax.swing.JDialog {
     private ArrayList<DetailOrderDTO> listDetailOrder;
     private DetailOrderBUS detailOrderBUS = new DetailOrderBUS();
     private InvoicesDAO invoicesDAO = new InvoicesDAO();
-    private DefaultTableModel model;
+    private DefaultTableModel modelMonAn;
+    private DefaultTableModel modelDiscount;
     private TableDTO table;
+    private OrderBUS orderBUS = new OrderBUS();
+    private InvoicesBUS invoicesBUS = new InvoicesBUS();
+    private DiscountBUS discountBUS = new DiscountBUS();
+    private ArrayList<DiscountDTO> listDiscount;
+    private String discountID = "";
     
    
     public DialogKiemTra(java.awt.Frame parent, boolean modal) {
@@ -32,11 +44,15 @@ public class DialogKiemTra extends javax.swing.JDialog {
         initComponents();
         
         
+        
         setLocationRelativeTo(null);
         panelBackground8.setColor(new Color(53, 53, 53));
         
         DefaultTableCellRenderer  renderer = (DefaultTableCellRenderer) tbMonAn.getTableHeader().getDefaultRenderer();
         renderer.setHorizontalAlignment(JLabel.LEFT);
+        
+        DefaultTableCellRenderer  renderer1 = (DefaultTableCellRenderer) tbDiscount.getTableHeader().getDefaultRenderer();
+        renderer1.setHorizontalAlignment(JLabel.LEFT);
 //        setVisible(true);
         
     }
@@ -44,7 +60,8 @@ public class DialogKiemTra extends javax.swing.JDialog {
     
     public void loadForm(String listOrderId, TableDTO table) {
         this.table = table;
-        renderTable(listOrderId);
+        renderTableMonAn(listOrderId);
+        renderTableDiscount();
         lbBan.setText("BÀN " + table.getName() + " - " + table.getCustomerCode());
         tarNote.setText(table.getNote());
 
@@ -71,17 +88,29 @@ public class DialogKiemTra extends javax.swing.JDialog {
     }
     
     /////////////////////////////////////////////////////
-    public void renderTable(String listOrderId) {
+    public void renderTableMonAn(String listOrderId) {
         tbMonAn.setRowHeight(25);
-        model = (DefaultTableModel)tbMonAn.getModel();
+        modelMonAn = (DefaultTableModel)tbMonAn.getModel();
         listDetailOrder = new DetailOrderBUS().mergeDetails(listOrderId);
-        model.setRowCount(0);
+        modelMonAn.setRowCount(0);
         for (DetailOrderDTO x : listDetailOrder) {
-            model.addRow(new Object[] {x.getItemID(), x.getName(), x.getPrice(), x.getQuantity(), x.getTotal()});
+            modelMonAn.addRow(new Object[] {x.getItemID(), x.getName(), x.getPrice(), x.getQuantity(), x.getTotal()});
         }
-        model.fireTableDataChanged();
-        tbMonAn.setModel(model);
+        modelMonAn.fireTableDataChanged();
+        tbMonAn.setModel(modelMonAn);  
         
+    }
+    
+    public void renderTableDiscount() {
+        tbDiscount.setRowHeight(25);
+        modelDiscount = (DefaultTableModel)tbDiscount.getModel();
+        listDiscount = discountBUS.getAllData();
+        modelDiscount.setRowCount(0);
+        for (DiscountDTO x : listDiscount) {
+            modelDiscount.addRow(new Object[] {x.getName(), x.getValue(), x.getType(), x.getMinimum(), x.getExpiredTime()});
+        }
+        modelDiscount.fireTableDataChanged();
+        tbDiscount.setModel(modelDiscount);  
     }
     
     @SuppressWarnings("unchecked")
@@ -109,8 +138,7 @@ public class DialogKiemTra extends javax.swing.JDialog {
         btnSaveNote = new javax.swing.JButton();
         panelBackground4 = new GUI.Comp.Swing.PanelBackground();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        btnThanhToan = new javax.swing.JButton();
+        tbDiscount = new javax.swing.JTable();
         panelBackground8 = new GUI.Comp.Swing.PanelBackground();
         jLabel3 = new javax.swing.JLabel();
         lbThanhTien = new javax.swing.JLabel();
@@ -118,6 +146,9 @@ public class DialogKiemTra extends javax.swing.JDialog {
         lbTienGiam = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         lbTongTien = new javax.swing.JLabel();
+        panelBackground3 = new GUI.Comp.Swing.PanelBackground();
+        btnInBill = new javax.swing.JButton();
+        btnThanhToan = new javax.swing.JButton();
 
         jTextField1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jTextField1.setText("jTextField1");
@@ -215,7 +246,7 @@ public class DialogKiemTra extends javax.swing.JDialog {
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1140, Short.MAX_VALUE)
+            .addGap(0, 1277, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -266,13 +297,13 @@ public class DialogKiemTra extends javax.swing.JDialog {
         panelBackground1.add(jScrollPane1);
 
         jPanel1.setBackground(new java.awt.Color(30, 30, 30));
-        jPanel1.setPreferredSize(new java.awt.Dimension(50, 555));
+        jPanel1.setPreferredSize(new java.awt.Dimension(30, 555));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGap(0, 30, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -315,43 +346,39 @@ public class DialogKiemTra extends javax.swing.JDialog {
 
         panelBackground4.setBackground(new java.awt.Color(30, 30, 30));
 
-        jTable1.setBackground(new java.awt.Color(35, 35, 35));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbDiscount.setBackground(new java.awt.Color(35, 35, 35));
+        tbDiscount.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        tbDiscount.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "", "Tên mã", "Tiền giảm", "Điều kiện"
+                "Tên mã", "Giá trị", "Loại", "Điều kiện", "Hết hạn"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
-            };
             boolean[] canEdit = new boolean [] {
-                true, false, false, true
+                false, false, false, false, false
             };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane4.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(15);
-        }
+        tbDiscount.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbDiscountMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(tbDiscount);
 
         javax.swing.GroupLayout panelBackground4Layout = new javax.swing.GroupLayout(panelBackground4);
         panelBackground4.setLayout(panelBackground4Layout);
         panelBackground4Layout.setHorizontalGroup(
             panelBackground4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
         );
         panelBackground4Layout.setVerticalGroup(
             panelBackground4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -361,12 +388,6 @@ public class DialogKiemTra extends javax.swing.JDialog {
         jTabbedPane1.addTab("Giảm giá", panelBackground4);
 
         panelBackground2.add(jTabbedPane1, java.awt.BorderLayout.PAGE_START);
-
-        btnThanhToan.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        btnThanhToan.setText("THANH TOÁN");
-        btnThanhToan.setMaximumSize(new java.awt.Dimension(75, 35));
-        btnThanhToan.setPreferredSize(new java.awt.Dimension(75, 75));
-        panelBackground2.add(btnThanhToan, java.awt.BorderLayout.PAGE_END);
 
         panelBackground8.setBackground(new java.awt.Color(35, 35, 35));
         panelBackground8.setLayout(new java.awt.GridLayout(3, 2));
@@ -409,6 +430,29 @@ public class DialogKiemTra extends javax.swing.JDialog {
 
         panelBackground2.add(panelBackground8, java.awt.BorderLayout.CENTER);
 
+        panelBackground3.setBackground(new java.awt.Color(35, 35, 35));
+        panelBackground3.setPreferredSize(new java.awt.Dimension(279, 75));
+        panelBackground3.setLayout(new java.awt.BorderLayout(20, 0));
+
+        btnInBill.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        btnInBill.setText("IN ");
+        btnInBill.setMaximumSize(new java.awt.Dimension(75, 35));
+        btnInBill.setPreferredSize(new java.awt.Dimension(100, 75));
+        panelBackground3.add(btnInBill, java.awt.BorderLayout.LINE_START);
+
+        btnThanhToan.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        btnThanhToan.setText("THANH TOÁN");
+        btnThanhToan.setMaximumSize(new java.awt.Dimension(75, 35));
+        btnThanhToan.setPreferredSize(new java.awt.Dimension(75, 75));
+        btnThanhToan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThanhToanActionPerformed(evt);
+            }
+        });
+        panelBackground3.add(btnThanhToan, java.awt.BorderLayout.CENTER);
+
+        panelBackground2.add(panelBackground3, java.awt.BorderLayout.PAGE_END);
+
         panelBackground1.add(panelBackground2);
 
         background.add(panelBackground1, java.awt.BorderLayout.CENTER);
@@ -417,7 +461,7 @@ public class DialogKiemTra extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, 1140, Short.MAX_VALUE)
+            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, 1277, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -439,6 +483,33 @@ public class DialogKiemTra extends javax.swing.JDialog {
         
     }//GEN-LAST:event_btnSaveNoteActionPerformed
 
+    private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
+//        String customerCode = table.getCustomerCode();
+//        ArrayList<OrderDTO> listOrder = orderBUS.findOrderByCustomerCode(customerCode);
+//        String listOrderID = "";
+//        for (OrderDTO x : listOrder) {
+//            listOrderID += x.getId() + ", ";
+//        }
+//        listOrderID = listOrderID.substring(0, listOrderID.length() - 2);
+//        
+//        // Tạo hoá đơn
+//        InvoicesDTO invoice = new InvoicesDTO();
+//        long invoiceID = invoice.createID();
+//        invoice.setAmount(Long.parseLong(lbThanhTien.getText()));
+//        invoice.addDiscount(discountID, Long.parseLong(lbTienGiam.getText()));
+//        invoice.setCreateTime(new Date());
+//        invoice.setIsDelete(false);
+//        invoicesBUS.insertInvoices(invoice);
+        
+        
+//        detailOrderBUS.updateDetails(listTabeID, WIDTH)
+    }//GEN-LAST:event_btnThanhToanActionPerformed
+
+    private void tbDiscountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDiscountMouseClicked
+        int row = tbDiscount.getSelectedRow();
+        System.out.println(listDiscount.get(row).getName());
+    }//GEN-LAST:event_tbDiscountMouseClicked
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -456,6 +527,7 @@ public class DialogKiemTra extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
+    private javax.swing.JButton btnInBill;
     private javax.swing.JButton btnSaveNote;
     private javax.swing.JButton btnThanhToan;
     private javax.swing.JLabel jLabel3;
@@ -472,7 +544,6 @@ public class DialogKiemTra extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lbBan;
     private javax.swing.JLabel lbThanhTien;
@@ -480,10 +551,12 @@ public class DialogKiemTra extends javax.swing.JDialog {
     private javax.swing.JLabel lbTongTien;
     private GUI.Comp.Swing.PanelBackground panelBackground1;
     private GUI.Comp.Swing.PanelBackground panelBackground2;
+    private GUI.Comp.Swing.PanelBackground panelBackground3;
     private GUI.Comp.Swing.PanelBackground panelBackground4;
     private GUI.Comp.Swing.PanelBackground panelBackground8;
     private javax.swing.JPanel pnNorth;
     private javax.swing.JTextArea tarNote;
+    private javax.swing.JTable tbDiscount;
     private javax.swing.JTable tbMonAn;
     // End of variables declaration//GEN-END:variables
 }

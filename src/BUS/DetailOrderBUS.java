@@ -31,4 +31,7 @@ public class DetailOrderBUS {
         return detailOrderDAO.mergeDetais(listOrderId);
     }
     
+    public boolean updateDetails(String listOrderID, long invoiceid) {
+        return detailOrderDAO.updateDetails(listOrderID, invoiceid);
+    }
 }

@@ -129,9 +129,9 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         panelBackground10 = new GUI.Comp.Swing.PanelBackground();
         btnGoiMon = new javax.swing.JButton();
         btnDatBan = new javax.swing.JButton();
-        btnHuyBan = new javax.swing.JButton();
         btnChuyenBan = new javax.swing.JButton();
-        btnThanhToan = new javax.swing.JButton();
+        btnGopBan = new javax.swing.JButton();
+        btnTachBan = new javax.swing.JButton();
         btnKiemTra = new javax.swing.JButton();
         panelBackground9 = new GUI.Comp.Swing.PanelBackground();
         panelBackground6 = new GUI.Comp.Swing.PanelBackground();
@@ -196,7 +196,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         panelBackground3.setLayout(panelBackground3Layout);
         panelBackground3Layout.setHorizontalGroup(
             panelBackground3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1078, Short.MAX_VALUE)
+            .addGap(0, 1322, Short.MAX_VALUE)
         );
         panelBackground3Layout.setVerticalGroup(
             panelBackground3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,34 +218,35 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         });
         panelBackground10.add(btnGoiMon);
 
-        btnDatBan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnDatBan.setText("ĐẶT BÀN");
+        btnDatBan.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        btnDatBan.setText("ĐẶT/HỦY ");
+        btnDatBan.setToolTipText("");
         panelBackground10.add(btnDatBan);
-
-        btnHuyBan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnHuyBan.setText("HUỶ BÀN");
-        btnHuyBan.setPreferredSize(new java.awt.Dimension(150, 75));
-        btnHuyBan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHuyBanActionPerformed(evt);
-            }
-        });
-        panelBackground10.add(btnHuyBan);
 
         btnChuyenBan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnChuyenBan.setText("CHUYỂN BÀN");
         btnChuyenBan.setPreferredSize(new java.awt.Dimension(150, 75));
         panelBackground10.add(btnChuyenBan);
 
-        btnThanhToan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnThanhToan.setText("GỘP/TÁCH");
-        btnThanhToan.setPreferredSize(new java.awt.Dimension(150, 75));
-        btnThanhToan.addActionListener(new java.awt.event.ActionListener() {
+        btnGopBan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnGopBan.setText("GỘP BÀN");
+        btnGopBan.setPreferredSize(new java.awt.Dimension(150, 75));
+        btnGopBan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThanhToanActionPerformed(evt);
+                btnGopBanActionPerformed(evt);
             }
         });
-        panelBackground10.add(btnThanhToan);
+        panelBackground10.add(btnGopBan);
+
+        btnTachBan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnTachBan.setText("TÁCH BÀN");
+        btnTachBan.setPreferredSize(new java.awt.Dimension(150, 75));
+        btnTachBan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTachBanActionPerformed(evt);
+            }
+        });
+        panelBackground10.add(btnTachBan);
 
         btnKiemTra.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnKiemTra.setText("KIỂM TRA");
@@ -266,7 +267,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         panelBackground9.setLayout(panelBackground9Layout);
         panelBackground9Layout.setHorizontalGroup(
             panelBackground9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1078, Short.MAX_VALUE)
+            .addGap(0, 1322, Short.MAX_VALUE)
         );
         panelBackground9Layout.setVerticalGroup(
             panelBackground9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -316,7 +317,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         panelBackground8.setLayout(panelBackground8Layout);
         panelBackground8Layout.setHorizontalGroup(
             panelBackground8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1078, Short.MAX_VALUE)
+            .addGap(0, 1322, Short.MAX_VALUE)
         );
         panelBackground8Layout.setVerticalGroup(
             panelBackground8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -356,21 +357,6 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         getAccessibleContext().setAccessibleDescription("");
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnHuyBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyBanActionPerformed
-//        if (jTextField1.getText().isEmpty()) {
-//            JOptionPane.showMessageDialog(jScrollPane2, "Chưa chọn bàn để huỷ");
-//            return;
-//        }
-//        String nameTable = jTextField1.getText();
-//        if (!isUsed(nameTable)) {
-//            setStatusTable(nameTable, true);
-//            jTextField1.setText("");
-//        } else {
-//            JOptionPane.showMessageDialog(jScrollPane2, "Không thể huỷ bàn");
-//        }
-//        return;
-    }//GEN-LAST:event_btnHuyBanActionPerformed
-
     private void btnGoiMonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoiMonActionPerformed
         DialogOrder a = new DialogOrder(null, true);
         a.setVisible(true);
@@ -409,12 +395,14 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         
     }//GEN-LAST:event_btnKiemTraActionPerformed
 
-    private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
+    private void btnGopBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGopBanActionPerformed
         // CustomerCode này là của table muốn gộp 
         String customerCode =  JOptionPane.showInputDialog(pnContainerTable, "Mã khách muốn gộp bàn");
-        
-        ArrayList<OrderDTO> listOrder = orderBUS.findOrderByCustomerCode(customerCode);
-        ArrayList<TableDTO> listTable  = tableBUS.findTableByCustomerCode(customerCode);
+        if (customerCode == null) {
+            return;
+        }
+        ArrayList<OrderDTO> listOrderMerge = orderBUS.findOrderByCustomerCode(customerCode);
+        ArrayList<TableDTO> listTableMerge  = tableBUS.findTableByCustomerCode(customerCode);
         
         String customerCodeNew = "";
         String listTableID = "";
@@ -425,29 +413,32 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
             // Kiểm tra coi nó là bàn Đơn hay không ?
             if (tableSelected.getCustomerCode().substring(0, 1).equals("S")) {
                 // Lúc này ta biết bàn này là bàn đơn => chắc chắn sẽ có duy nhất 1 obj order được trả ra
-                OrderDTO order = listOrder.get(0);
+                OrderDTO order = listOrderMerge.get(0);
                 customerCodeNew = order.createCustomerCode(false);
-                TableDTO tableWillMove = listTable.get(0);
+                TableDTO tableWillMove = listTableMerge.get(0);
                 // Tạo lại customerCode là bàn Đôi
                 order.createCustomerCode(false);
                 listTableID = tableSelected.getId() + ", " + tableWillMove.getId();
             }
             else {
                 customerCodeNew = tableSelected.getCustomerCode();
-                TableDTO tableWillMove = listTable.get(0);
+                TableDTO tableWillMove = listTableMerge.get(0);
                 listTableID = tableWillMove.getId() + "";
             }
         }
         else {
             TableDTO tableSelected = tableBUS.findTableByName(txtSaveTable.getText());
             if (tableSelected.getCustomerCode().substring(0, 1).equals("S")) {
-                TableDTO tableWillMove = listTable.get(0);
+                TableDTO tableWillMove = listTableMerge.get(0);
                 customerCodeNew = tableWillMove.getCustomerCode();
-                listTableID = tableSelected.getId() + "";
-                
+                listTableID = tableSelected.getId() + ""; 
             }
             else {
-                
+                 customerCodeNew = tableSelected.getCustomerCode();
+                 for (TableDTO x : listTableMerge) {
+                     listTableID += x.getId() + ", ";
+                 }
+                 listTableID = listTableID.substring(0, listTableID.length() - 2);
             }
         }
         orderBUS.updateCustomerCode(listTableID, customerCodeNew);
@@ -457,16 +448,42 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         pnContainerTable.repaint();
 //        System.out.println(txtSaveTable.getText());
 //        System.out.println(customerCode);
-    }//GEN-LAST:event_btnThanhToanActionPerformed
+    }//GEN-LAST:event_btnGopBanActionPerformed
+
+    private void btnTachBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTachBanActionPerformed
+        TableDTO tableSelected = tableBUS.findTableByName(txtSaveTable.getText());
+        if (tableSelected == null) {
+            JOptionPane.showMessageDialog(pnContainerTable, "Vui lòng chọn Bàn cần tách");
+            return;
+        }
+        String customerCode = tableSelected.getCustomerCode();
+        if (customerCode.isEmpty()) {
+            JOptionPane.showMessageDialog(pnContainerTable, "Không thể tách vì là Bàn Trống");
+            return;
+        }
+        if (customerCode.substring(0, 1).equals("M")) {
+            OrderDTO order = new OrderDTO();
+            String customerCodeNew = order.createCustomerCode(true);
+            orderBUS.updateCustomerCode(tableSelected.getId() + "", customerCodeNew);
+            tableBUS.updateCustomerCode(tableSelected.getId() + "", customerCodeNew);
+            addTable();
+            pnContainerTable.revalidate();
+            pnContainerTable.repaint();           
+        }
+        else {
+            JOptionPane.showMessageDialog(pnContainerTable, "Không thể tách vì đang là Bàn Đơn");
+            return;
+        }
+    }//GEN-LAST:event_btnTachBanActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChuyenBan;
     private javax.swing.JButton btnDatBan;
     public javax.swing.JButton btnGoiMon;
-    private javax.swing.JButton btnHuyBan;
+    private javax.swing.JButton btnGopBan;
     private javax.swing.JButton btnKiemTra;
-    private javax.swing.JButton btnThanhToan;
+    private javax.swing.JButton btnTachBan;
     private javax.swing.JScrollPane jScrollPane1;
     private GUI.Comp.Swing.PanelBackground panelBackground1;
     private GUI.Comp.Swing.PanelBackground panelBackground10;
