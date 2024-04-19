@@ -35,12 +35,17 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.ListItem;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.html.simpleparser.HTMLWorker;
 import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
+import java.awt.Desktop;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -612,12 +617,12 @@ public class DialogKiemTra extends javax.swing.JDialog {
             tbHeader.addCell(new Paragraph(""));
             PdfPTable tbSubHeader = new PdfPTable(2);
             tbSubHeader.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
-            float[] colSubHeader = {10f, 20f};
+            float[] colSubHeader = {10f, 25f};
             tbSubHeader.setWidths(colSubHeader);
             
-            tbSubHeader.addCell(new Paragraph("Address:"));
+            tbSubHeader.addCell(new Paragraph(" "));
             tbSubHeader.addCell(new Paragraph("999 Nguyen Trai, District 5, Ho Chi Minh City"));
-            tbSubHeader.addCell(new Paragraph("Phone:"));
+            tbSubHeader.addCell(new Paragraph(" "));
             tbSubHeader.addCell(new Paragraph("0399999999999"));
             tbHeader.addCell(tbSubHeader);
             
@@ -721,13 +726,12 @@ public class DialogKiemTra extends javax.swing.JDialog {
             // Add the table to the document
             document.add(tbPay);
             
-            Paragraph footer = new Paragraph("Thank you !!");
-            footer.setAlignment(Paragraph.ALIGN_BOTTOM);
-            
-            document.add(footer);
-            
             document.close();
-            System.out.println("z");
+            JOptionPane.showMessageDialog(rootPane, "In thành công !!");
+            
+            Desktop desktop = Desktop.getDesktop();
+            File file = new File(pdfFilePath);
+            desktop.open(file);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DialogKiemTra.class.getName()).log(Level.SEVERE, null, ex);
         } catch (DocumentException ex) {
