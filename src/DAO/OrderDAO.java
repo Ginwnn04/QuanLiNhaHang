@@ -2,7 +2,8 @@ package DAO;
 
 import DTO.OrderDTO;
 import java.sql.Connection;
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
@@ -20,10 +21,10 @@ public class OrderDAO {
             pstm.setLong(5, order.getStaffID());
             pstm.setLong(6, order.getTableID());
             
-            Date sqlDateUpdate = new Date(order.getUpdateTime().getTime());
-            Date sqlDateCreate = new Date(order.getCreateTime().getTime());
-            pstm.setDate(7, sqlDateCreate);
-            pstm.setDate(8, sqlDateUpdate);
+            Timestamp sqlDateUpdate = new Timestamp(order.getUpdateTime().getTime());
+            Timestamp sqlDateCreate = new Timestamp(order.getCreateTime().getTime());
+            pstm.setTimestamp(7, sqlDateCreate);
+            pstm.setTimestamp(8, sqlDateUpdate);
             
             return pstm.executeUpdate() > 0;
         }
@@ -49,7 +50,7 @@ public class OrderDAO {
                 order.setIsDelete(rs.getBoolean("isdeleted"));
                 order.setStaffID(rs.getLong("staffid"));
                 order.setTableID(rs.getLong("tableid"));
-                order.setUpdateTime(rs.getDate("update_time"));
+                order.setUpdateTime(rs.getTimestamp("update_time"));
                 
                 list.add(order);
             }
@@ -75,7 +76,7 @@ public class OrderDAO {
                 order.setIsDelete(rs.getBoolean("isdeleted"));
                 order.setStaffID(rs.getLong("staffid"));
                 order.setTableID(rs.getLong("tableid"));
-                order.setUpdateTime(rs.getDate("update_time"));
+                order.setUpdateTime(rs.getTimestamp("update_time"));
                 
                 return order;
             }
@@ -92,9 +93,9 @@ public class OrderDAO {
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
              pstm.setString(1, customerCode);
 
-            Date sqlDateUpdate = new Date(new java.util.Date().getTime());
+            Timestamp sqlDateUpdate = new Timestamp(new Date().getTime());
             
-            pstm.setDate(2, sqlDateUpdate);
+            pstm.setTimestamp(2, sqlDateUpdate);
  
             
             return pstm.executeUpdate() > 0;

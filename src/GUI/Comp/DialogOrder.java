@@ -50,7 +50,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         }
         if (evt.getPropertyName().equals("Order")) {            
             totalPrice += (Long)evt.getNewValue();
-            lbShowTien.setText(totalPrice + " đ");
+            lbShowTien.setText(Helper.FormatNumber.getInstance().getFormat().format(totalPrice) + "đ");
         }
         if (evt.getPropertyName().equals("SelectedTable")) {
             TableDTO table = listTable.get(getTable((String)evt.getOldValue()));
@@ -187,7 +187,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
             if (x.getName().equals(item.getName())) {
                 x.setQuantity(x.getQuantity() + 1);
                 totalPrice += x.getPrice();
-                lbShowTien.setText(totalPrice + " đ");
+                lbShowTien.setText(Helper.FormatNumber.getInstance().getFormat().format(totalPrice) + "đ");
                 isExists = true;
                 
             }
@@ -197,7 +197,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
             DetailOrderDTO detailOrderDTO = new DetailOrderDTO(item.getPrice(), item.getProfit(), item.getId(), 1, item.getName(), false);
             listDetailOrder.add(detailOrderDTO);
             totalPrice += detailOrderDTO.getPrice();
-            lbShowTien.setText(totalPrice + " đ");
+            lbShowTien.setText(Helper.FormatNumber.getInstance().getFormat().format(totalPrice) + "đ");
         }
         addCheckoutItem();
     }

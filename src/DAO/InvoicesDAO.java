@@ -3,7 +3,8 @@ package DAO;
 import DTO.InvoicesDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 public class InvoicesDAO {
@@ -16,8 +17,8 @@ public class InvoicesDAO {
             pstm.setLong(3, invoices.getDiscount());
             pstm.setLong(4, invoices.getTotal());
             pstm.setBoolean(5, invoices.isIsDelete());
-            Date dateSQL = new Date(invoices.getCreateTime().getTime());
-            pstm.setDate(6, dateSQL);
+            Timestamp dateSQL = new Timestamp(invoices.getCreateTime().getTime());
+            pstm.setTimestamp(6, dateSQL);
             pstm.setString(7, invoices.getDiscountID());
             return pstm.executeUpdate() > 0;
         }
@@ -39,7 +40,7 @@ public class InvoicesDAO {
                 invoice.setDiscount(rs.getLong("discount_price"));
                 invoice.setTotal(rs.getLong("total"));
                 invoice.setIsDelete(rs.getBoolean("isdeleted"));
-                invoice.setCreateTime(rs.getDate("time"));
+                invoice.setCreateTime(rs.getTimestamp("time"));
                 invoice.setDiscountID(rs.getString("discountid"));
                 return invoice;
             }

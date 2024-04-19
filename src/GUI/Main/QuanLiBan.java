@@ -82,12 +82,12 @@ public class QuanLiBan extends javax.swing.JPanel {
     }
 
     public void render(boolean isSelectAll) {
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy    HH:mm");
         model = (DefaultTableModel)tbBan.getModel();
         model.setRowCount(0);
         for (TableDTO x : listTable) {
             x.setIsSelected(isSelectAll);
-            model.addRow(new Object[] {isSelectAll, x.getId(), x.getName(), x.getStatus(), x.getCustomerCode(), x.getUpdateTime(), x.getCreateTime()});
+            model.addRow(new Object[] {isSelectAll, x.getId(), x.getName(), x.getStatus(), x.getCustomerCode(), simpleDateFormat.format(x.getUpdateTime()), simpleDateFormat.format(x.getCreateTime())});
         }
         model.fireTableDataChanged();
         tbBan.setModel(model);
@@ -114,6 +114,7 @@ public class QuanLiBan extends javax.swing.JPanel {
         btnSua = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
         btnXuat = new javax.swing.JButton();
+        btnNhap = new javax.swing.JButton();
         panelBackground15 = new GUI.Comp.Swing.PanelBackground();
         panelBackground2 = new GUI.Comp.Swing.PanelBackground();
         panelBackground3 = new GUI.Comp.Swing.PanelBackground();
@@ -324,6 +325,17 @@ public class QuanLiBan extends javax.swing.JPanel {
             }
         });
         panelBackground8.add(btnXuat);
+
+        btnNhap.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        btnNhap.setText("Nhập");
+        btnNhap.setMaximumSize(new java.awt.Dimension(72, 35));
+        btnNhap.setPreferredSize(new java.awt.Dimension(72, 30));
+        btnNhap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNhapActionPerformed(evt);
+            }
+        });
+        panelBackground8.add(btnNhap);
 
         panelBackground14.add(panelBackground8, java.awt.BorderLayout.CENTER);
 
@@ -549,8 +561,13 @@ public class QuanLiBan extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btnThemActionPerformed
 
+    private void btnNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhapActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNhapActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnNhap;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnXoa;
