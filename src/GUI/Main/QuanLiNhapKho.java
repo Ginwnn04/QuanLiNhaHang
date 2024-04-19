@@ -82,7 +82,7 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
         centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
         for (int i = 0; i < jTable1.getColumnCount(); i++) {
             jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-}
+        }
     }
 
     /**
@@ -114,6 +114,8 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
         jButton4 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jButton6 = new javax.swing.JButton();
+        jPanel9 = new javax.swing.JPanel();
+        jButton7 = new javax.swing.JButton();
         panelBackground8 = new GUI.Comp.Swing.PanelBackground();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -240,6 +242,22 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
             }
         });
         panelBackground7.add(jButton6);
+
+        jPanel9.setBackground(new java.awt.Color(35, 35, 35));
+        jPanel9.setMaximumSize(new java.awt.Dimension(20, 23));
+        panelBackground7.add(jPanel9);
+
+        jButton7.setBackground(new java.awt.Color(102, 102, 102));
+        jButton7.setForeground(new java.awt.Color(255, 255, 255));
+        jButton7.setText("Nhập file Excel");
+        jButton7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(53, 53, 53)));
+        jButton7.setMaximumSize(new java.awt.Dimension(103, 40));
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        panelBackground7.add(jButton7);
 
         panelBackground6.add(panelBackground7, java.awt.BorderLayout.PAGE_START);
 
@@ -475,7 +493,20 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
                 detailInfo.append("Số lượng: ").append(quantity).append("\n");
                 detailInfo.append("Giá tiền mỗi kg/lít: ").append(price).append("\n");
                 detailInfo.append("Tổng tiền: ").append(total).append("\n");
-                detailInfo.append("ID nguyên liệu: ").append(ingredientId).append("\n\n");
+                detailInfo.append("ID nguyên liệu: ").append(ingredientId).append("\n");
+
+                // Kiểm tra và lấy thông tin nguyên liệu từ bảng tb_ingredients nếu cần
+                PreparedStatement ingredientPs = con.prepareStatement("SELECT * FROM tb_ingredients WHERE id = ?");
+                ingredientPs.setLong(1, ingredientId);
+                ResultSet ingredientRs = ingredientPs.executeQuery();
+                if (ingredientRs.next()) {
+                    String ingredientName = ingredientRs.getString("name");
+                    detailInfo.append("Tên nguyên liệu: ").append(ingredientName).append("\n");
+                }
+                detailInfo.append("\n");
+
+                ingredientRs.close();
+                ingredientPs.close();
             }
             rs.close();
             ps.close();
@@ -574,7 +605,7 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
 
             // Tạo header cho thông tin chi tiết
             Row detailHeaderRow = sheet.createRow(0);
-            String[] detailHeaders = {"ID chi tiết", "Số lượng", "Giá tiền mỗi kg/lít", "Tổng tiền", "ID nguyên liệu"};
+            String[] detailHeaders = {"ID chi tiết", "Số lượng", "Giá tiền mỗi kg/lít", "Tổng tiền", "ID nguyên liệu", "Tên nguyên liệu"};
             for (int i = 0; i < detailHeaders.length; i++) {
                 Cell cell = detailHeaderRow.createCell(i);
                 cell.setCellValue(detailHeaders[i]);
@@ -594,6 +625,19 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
                 row.createCell(2).setCellValue(rs.getDouble("price"));
                 row.createCell(3).setCellValue(rs.getDouble("total"));
                 row.createCell(4).setCellValue(rs.getLong("ingredientid"));
+                long ingredientId = rs.getLong("ingredientid");
+                row.createCell(4).setCellValue(ingredientId); // Lưu ID nguyên liệu vào cột
+                // Lấy tên nguyên liệu từ bảng tb_ingredients
+                PreparedStatement ingredientPs = con.prepareStatement("SELECT name FROM tb_ingredients WHERE id = ?");
+                ingredientPs.setLong(1, ingredientId);
+                ResultSet ingredientRs = ingredientPs.executeQuery();
+                if (ingredientRs.next()) {
+                    String ingredientName = ingredientRs.getString("name");
+                    row.createCell(5).setCellValue(ingredientName); // Lưu tên nguyên liệu vào cột
+                }
+
+                ingredientRs.close();
+                ingredientPs.close();
             }
 
             // Lấy thông tin nhà cung cấp từ cơ sở dữ liệu
@@ -632,6 +676,10 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton jButton1;
     public javax.swing.JButton jButton2;
@@ -639,6 +687,7 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
     public javax.swing.JButton jButton4;
     public javax.swing.JButton jButton5;
     public javax.swing.JButton jButton6;
+    public javax.swing.JButton jButton7;
     public javax.swing.JPanel jPanel1;
     public javax.swing.JPanel jPanel2;
     public javax.swing.JPanel jPanel3;
@@ -646,6 +695,7 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
     public javax.swing.JPanel jPanel6;
     public javax.swing.JPanel jPanel7;
     public javax.swing.JPanel jPanel8;
+    public javax.swing.JPanel jPanel9;
     public javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable jTable1;
     public GUI.Comp.Swing.PanelBackground panelBackground1;
