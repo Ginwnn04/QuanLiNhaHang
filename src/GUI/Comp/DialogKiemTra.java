@@ -11,6 +11,7 @@ import DTO.DiscountDTO;
 import DTO.InvoicesDTO;
 import DTO.OrderDTO;
 import DTO.TableDTO;
+import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfDocument;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -27,10 +28,19 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.ListItem;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,6 +57,7 @@ public class DialogKiemTra extends javax.swing.JDialog {
     private TableDTO table;
     private OrderBUS orderBUS = new OrderBUS();
     private InvoicesBUS invoicesBUS = new InvoicesBUS();
+    private InvoicesDTO invoice;
     private DiscountBUS discountBUS = new DiscountBUS();
     private TableBUS tableBUS = new TableBUS();
     private ArrayList<DiscountDTO> listDiscount;
@@ -519,26 +530,10 @@ public class DialogKiemTra extends javax.swing.JDialog {
         listOrderID = listOrderID.substring(0, listOrderID.length() - 2);
         listTableID = listTableID.substring(0, listTableID.length() - 2);
 //        
-//        // Tạo hoá đơn
-        InvoicesDTO invoice = new InvoicesDTO();
-        long invoiceID = invoice.createID();
-        invoice.setAmount(amount);
-        invoice.addDiscount(discount.getId(), discountPrice);
-        invoice.setCreateTime(new Date());
-        invoice.setIsDelete(false);
-        if (txtSaveDiscountID.getText().equals("0")) {
-            invoice.setDiscountID(null);
-        }
-        else {
-            invoice.setDiscountID(txtSaveDiscountID.getText());
-        }
+
         invoicesBUS.insertInvoices(invoice);
-        
-        
-        
-        
 //        // Update id invoice cho các details order
-        if (detailOrderBUS.updateDetails(listOrderID, invoiceID)) {
+        if (detailOrderBUS.updateDetails(listOrderID, invoice.getId())) {
             if (tableBUS.cancelTable(listTableID)) {
                 JOptionPane.showMessageDialog(rootPane, "Thanh toán thành công !!!");
             }
@@ -546,9 +541,6 @@ public class DialogKiemTra extends javax.swing.JDialog {
                 System.out.println("Thanh toán thất bại òi");
             }
         }
-
-        
-
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
     private void tbDiscountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDiscountMouseClicked
@@ -579,24 +571,160 @@ public class DialogKiemTra extends javax.swing.JDialog {
     }//GEN-LAST:event_tbDiscountMouseClicked
 
     private void btnInBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInBillActionPerformed
+        
+        
+        //        // Tạo hoá đơn
+        invoice = new InvoicesDTO();
+        invoice.createID();
+        invoice.setAmount(amount);
+        invoice.setCreateTime(new Date());
+        invoice.setIsDelete(false);
+        if (txtSaveDiscountID.getText().equals("0")) {
+            invoice.addDiscount(null, 0);
+        }
+        else {
+            invoice.addDiscount(txtSaveDiscountID.getText(), discountPrice);
+        }
+        
+        
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         try {
-            String pdfFilePath = "C:\\Users\\quang\\OneDrive\\Desktop\\invoice.pdf";
-            Document document = new Document();
+            String pdfFilePath = "invoice.pdf";
+            System.out.println(pdfFilePath);
+            Document document = new Document(PageSize.A5);
             PdfWriter.getInstance(document, new FileOutputStream(pdfFilePath));
             document.open();
             
-            // Add content to the PDF
-            Paragraph p = new Paragraph("Invoice", FontFactory.getFont(FontFactory.HELVETICA,18,Font.BOLD));
-            Paragraph a = new Paragraph("______________________", FontFactory.getFont(FontFactory.COURIER,18,Font.BOLD));
-            Paragraph b = new Paragraph("----------------------", FontFactory.getFont(FontFactory.HELVETICA,18,Font.BOLD));
             
-            document.add(p);
-            document.add(a);
-            document.add(b);
-            document.add(new Paragraph(format.format(new Date())));
-            document.add(new Paragraph("Customer: John Doe"));
-            document.add(new Paragraph("Total Amount: $100"));
+            
+            
+            
+            Image image = Image.getInstance("src//GUI//Comp//Icon//logo1.jpg");
+            image.scaleToFit(50, 50);
+            
+            PdfPTable tbHeader = new PdfPTable(3);
+            tbHeader.setWidthPercentage(100);
+            tbHeader.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
+            float[] colHeader = {15f, 10f, 40f};
+            tbHeader.setWidths(colHeader);
+            
+            tbHeader.addCell(image);
+            tbHeader.addCell(new Paragraph(""));
+            PdfPTable tbSubHeader = new PdfPTable(2);
+            tbSubHeader.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
+            float[] colSubHeader = {10f, 20f};
+            tbSubHeader.setWidths(colSubHeader);
+            
+            tbSubHeader.addCell(new Paragraph("Address:"));
+            tbSubHeader.addCell(new Paragraph("999 Nguyen Trai, District 5, Ho Chi Minh City"));
+            tbSubHeader.addCell(new Paragraph("Phone:"));
+            tbSubHeader.addCell(new Paragraph("0399999999999"));
+            tbHeader.addCell(tbSubHeader);
+            
+            
+            // Add content to the PDF
+            Paragraph header = new Paragraph("Invoice", FontFactory.getFont(FontFactory.HELVETICA,18,Font.BOLD));
+            header.setAlignment(Paragraph.ALIGN_CENTER);
+            Paragraph line = new Paragraph("----------------------------------------------------------", FontFactory.getFont(FontFactory.HELVETICA,18,Font.ITALIC));
+            line.setAlignment(Paragraph.ALIGN_CENTER);
+  
+            
+            
+//            document.add(image);
+            document.add(tbHeader);
+            document.add(header);
+            document.add(line);
+            
+            
+            
+            PdfPTable tbInformation = new PdfPTable(2);
+            tbInformation.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
+            tbInformation.setWidthPercentage(100);
+            float[] colInformation = {25f,35f};
+            tbInformation.setWidths(colInformation);
+
+            // Add content to the table
+            
+            tbInformation.addCell(new Paragraph("Invoice ID #:"));
+            tbInformation.addCell(new Paragraph(invoice.getId() + ""));
+            tbInformation.addCell(new Paragraph("Date:"));
+            tbInformation.addCell(new Paragraph(format.format(new Date()) + ""));
+            tbInformation.addCell(new Paragraph("Employee:"));
+            tbInformation.addCell(new Paragraph("Nguyen Nhat Quang"));
+            tbInformation.addCell(new Paragraph("Table:"));
+            tbInformation.addCell(new Paragraph(table.getName()));
+            
+
+            document.add(tbInformation);
+            
+            Paragraph line1 = new Paragraph("----------------------------------------------------------", FontFactory.getFont(FontFactory.HELVETICA,18,Font.ITALIC));
+            document.add(line1);
+            document.add(new Paragraph(" "));
+            
+            
+            PdfPTable tbDetails = new PdfPTable(4);
+            tbDetails.setWidthPercentage(100);
+            float[] colDetails = {50f, 15f, 20f, 20f};
+            tbDetails.setWidths(colDetails);
+            
+            BaseFont customBaseFont = BaseFont.createFont("font/Roboto-Italic.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            Font customFont = new Font(customBaseFont, 12);
+            
+            
+            PdfPCell cellName = new PdfPCell(new Paragraph("Name"));
+            PdfPCell cellQuantity = new PdfPCell(new Paragraph("Quantity"));
+            PdfPCell cellPrice = new PdfPCell(new Paragraph("Price"));
+            PdfPCell cellTotal = new PdfPCell(new Paragraph("Total"));
+
+            tbDetails.addCell(cellName);
+            tbDetails.addCell(cellQuantity);
+            tbDetails.addCell(cellPrice);
+            tbDetails.addCell(cellTotal);
+            
+            for (DetailOrderDTO x : listDetailOrder) {
+                Paragraph name = new Paragraph(x.getName(), customFont);
+                Paragraph quantity = new Paragraph(x.getQuantity() + "", customFont);
+                Paragraph price = new Paragraph(Helper.FormatNumber.getInstance().getFormat().format(x.getPrice()), customFont);
+                Paragraph total = new Paragraph(Helper.FormatNumber.getInstance().getFormat().format(x.getTotal()), customFont);
+                tbDetails.addCell(name);
+                tbDetails.addCell(quantity);
+                tbDetails.addCell(price);
+                tbDetails.addCell(total);
+            }
+            
+            
+            document.add(tbDetails);
+     
+            document.add(new Paragraph(" "));
+            
+            
+  
+            PdfPTable tbPay = new PdfPTable(3);
+            tbPay.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
+            tbPay.setWidthPercentage(100);
+            float[] colPay = {100f,35f,30f};
+            tbPay.setWidths(colPay);
+
+            // Add content to the table
+            tbPay.addCell(new Paragraph(""));
+            tbPay.addCell(new Paragraph("Sub total:"));
+            tbPay.addCell(new Paragraph(Helper.FormatNumber.getInstance().getFormat().format(amount)));
+            tbPay.addCell(new Paragraph(""));
+            tbPay.addCell(new Paragraph("Discount:"));
+            tbPay.addCell(new Paragraph(Helper.FormatNumber.getInstance().getFormat().format(discountPrice)));
+            tbPay.addCell(new Paragraph(""));
+            tbPay.addCell(new Paragraph("Total:"));
+            tbPay.addCell(new Paragraph(Helper.FormatNumber.getInstance().getFormat().format(total)));
+            
+
+            
+            // Add the table to the document
+            document.add(tbPay);
+            
+            Paragraph footer = new Paragraph("Thank you !!");
+            footer.setAlignment(Paragraph.ALIGN_BOTTOM);
+            
+            document.add(footer);
             
             document.close();
             System.out.println("z");
@@ -604,9 +732,14 @@ public class DialogKiemTra extends javax.swing.JDialog {
             Logger.getLogger(DialogKiemTra.class.getName()).log(Level.SEVERE, null, ex);
         } catch (DocumentException ex) {
             Logger.getLogger(DialogKiemTra.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(DialogKiemTra.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnInBillActionPerformed
 
+    
+    
+    
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
