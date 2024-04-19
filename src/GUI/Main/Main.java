@@ -4,6 +4,7 @@
  */
 package GUI.Main;
 
+import GUI.Comp.QuanLiBan;
 import GUI.Comp.DialogOrder;
 
 import GUI.Comp.PanelDashbroad;
@@ -99,7 +100,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
 
         body1 = new GUI.Comp.Swing.PanelBackground();
         panelBackground = new GUI.Comp.Swing.PanelBackground();
-        navBar = new GUI.Main.NavBar();
+        navBar = new GUI.Comp.NavBar();
         body = new GUI.Comp.Swing.PanelBackground();
 
         body1.setBackground(new java.awt.Color(30, 30, 30));
@@ -166,7 +167,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private GUI.Comp.Swing.PanelBackground body;
     private GUI.Comp.Swing.PanelBackground body1;
-    private GUI.Main.NavBar navBar;
+    private GUI.Comp.NavBar navBar;
     private GUI.Comp.Swing.PanelBackground panelBackground;
     // End of variables declaration//GEN-END:variables
 
