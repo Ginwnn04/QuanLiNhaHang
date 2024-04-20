@@ -4,9 +4,13 @@
  */
 package GUI.Main;
 
+<<<<<<< HEAD
 import GUI.Comp.QuanLiNhapKho;
 import GUI.Comp.QuanLiNguyenLieu;
 import GUI.Comp.QuanLiMonAn;
+=======
+import GUI.Comp.QuanLiBan;
+>>>>>>> 01d901903d22f0e6ba03f40f3b5db23e9c647615
 import GUI.Comp.DialogOrder;
 
 import GUI.Comp.PanelDashbroad;
@@ -90,7 +94,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
 
                     break;
                 case 7:
-
+                    showForm(new QuanLi_Staff());
                     break;
                 case 8:
 
@@ -114,7 +118,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
 
         body1 = new GUI.Comp.Swing.PanelBackground();
         panelBackground = new GUI.Comp.Swing.PanelBackground();
-        navBar = new GUI.Main.NavBar();
+        navBar = new GUI.Comp.NavBar();
         body = new GUI.Comp.Swing.PanelBackground();
 
         body1.setBackground(new java.awt.Color(30, 30, 30));
@@ -181,7 +185,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private GUI.Comp.Swing.PanelBackground body;
     private GUI.Comp.Swing.PanelBackground body1;
-    private GUI.Main.NavBar navBar;
+    private GUI.Comp.NavBar navBar;
     private GUI.Comp.Swing.PanelBackground panelBackground;
     // End of variables declaration//GEN-END:variables
 

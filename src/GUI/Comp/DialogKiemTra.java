@@ -592,7 +592,7 @@ public class DialogKiemTra extends javax.swing.JDialog {
         }
         
         
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        
         try {
             String pdfFilePath = "invoice.pdf";
             System.out.println(pdfFilePath);
@@ -653,7 +653,7 @@ public class DialogKiemTra extends javax.swing.JDialog {
             tbInformation.addCell(new Paragraph("Invoice ID #:"));
             tbInformation.addCell(new Paragraph(invoice.getId() + ""));
             tbInformation.addCell(new Paragraph("Date:"));
-            tbInformation.addCell(new Paragraph(format.format(new Date()) + ""));
+            tbInformation.addCell(new Paragraph(Helper.FormatDate.getInstance().getFormat().format(new Date()) + ""));
             tbInformation.addCell(new Paragraph("Employee:"));
             tbInformation.addCell(new Paragraph("Nguyen Nhat Quang"));
             tbInformation.addCell(new Paragraph("Table:"));

@@ -25,6 +25,8 @@ public class TableBUS {
         return list;
     }
     
+    
+    
     public boolean insertTable(TableDTO table) {
         return tableDAO.insertData(table);
     }
@@ -57,7 +59,10 @@ public class TableBUS {
     
     public TableDTO findTableByName(String nameTable) {
         return tableDAO.findTableByName(nameTable);
-         
+    }
+    
+    public TableDTO findTableByID(long idTable) {
+        return tableDAO.readData(idTable);
     }
      
     public boolean cancelTable(String listTabeID) {

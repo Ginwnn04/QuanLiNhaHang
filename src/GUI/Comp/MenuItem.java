@@ -1,4 +1,4 @@
-package GUI.Main;
+package GUI.Comp;
 
 import javax.swing.ImageIcon;
 

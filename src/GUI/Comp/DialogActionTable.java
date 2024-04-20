@@ -1,4 +1,4 @@
-package GUI.Main;
+package GUI.Comp;
 
 import BUS.TableBUS;
 import DAO.TableDAO;
@@ -9,7 +9,9 @@ import javax.swing.JOptionPane;
 
 
 public class DialogActionTable extends javax.swing.JDialog {
-    TableDTO table  = new TableDTO();
+    private TableDTO table  = new TableDTO();
+    private TableBUS tableBUS  = new TableBUS();
+    private boolean isUpdate;
     
     public DialogActionTable(java.awt.Frame parent, boolean modal, boolean enable) {
         
@@ -27,8 +29,10 @@ public class DialogActionTable extends javax.swing.JDialog {
     }
     
     public void setAction(boolean isUpdate) {
+        this.isUpdate = isUpdate;
         if (isUpdate) {
             jLabel5.setText("SỦA THÔNG TIN BÀN");
+            btnThem.setText("SỬA");
             
         }
         else {
@@ -38,6 +42,7 @@ public class DialogActionTable extends javax.swing.JDialog {
     }
     
     public void setIDTable(long id) {
+        table = tableBUS.findTableByID(id);
         txtIDTable.setText(id + "");
         setVisible(true);
     }
@@ -182,7 +187,7 @@ public class DialogActionTable extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
         Date currentDate = new Date();
         
         table.setName(txtNameTable.getText());
@@ -191,13 +196,26 @@ public class DialogActionTable extends javax.swing.JDialog {
         table.setCreateTime(currentDate);
         table.setUpdateTime(currentDate);
         
-        boolean check = new TableBUS().insertTable(table);
-        if (check) {
-            JOptionPane.showMessageDialog(rootPane, "Thêm thành công");
-            this.dispose();
+        
+        if (isUpdate) {
+            boolean check = tableBUS.updateTable(table);
+            if (check) {
+                JOptionPane.showMessageDialog(rootPane, "Sửa thành công");
+                this.dispose();
+            }
+            else {
+                JOptionPane.showMessageDialog(rootPane, "Sửa thất bại");
+            }
         }
         else {
-            JOptionPane.showMessageDialog(rootPane, "Thêm thất bại");
+            boolean check = tableBUS.insertTable(table);
+            if (check) {
+                JOptionPane.showMessageDialog(rootPane, "Thêm thành công");
+                this.dispose();
+            }
+            else {
+                JOptionPane.showMessageDialog(rootPane, "Thêm thất bại");
+            }
         }
     }//GEN-LAST:event_btnThemActionPerformed
 

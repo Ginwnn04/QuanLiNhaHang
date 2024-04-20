@@ -44,6 +44,32 @@ public class TableDAO {
         return list;  
     }
     
+    public TableDTO readData(long idTable) {
+        
+        String query = "SELECT * FROM tb_tables WHERE id = ?";
+        try ( PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)){
+            pstm.setLong(1, idTable);
+            ResultSet rs = pstm.executeQuery();
+            while(rs.next()) {
+                TableDTO table = new TableDTO();
+                table.setId(rs.getLong("id"));
+                table.setName(rs.getString("name"));
+                table.setDes(rs.getString("des"));
+                table.setCustomerCode(rs.getString("customer_code"));
+                table.setStatus(rs.getString("statusid"));
+                table.setCreateTime(rs.getTimestamp("create_time"));
+                table.setUpdateTime(rs.getTimestamp("update_time"));
+                table.setIsDelete(rs.getBoolean("isdeleted"));
+                table.setNote(rs.getString("note"));
+                return table;
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;  
+    }
+    
     public boolean insertData(TableDTO table) {
         String query = "INSERT INTO tb_tables VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
@@ -99,8 +125,10 @@ public class TableDAO {
             
             pstm.setTimestamp(6, sqlDateUpdate);
             pstm.setLong(7, table.getId());
-            
-            return pstm.executeUpdate() > 0;
+            System.out.println(table.getId());
+            int a = pstm.executeUpdate();
+            System.out.println(a);
+            return a > 0;
         }
         catch(Exception e) {
             e.printStackTrace();

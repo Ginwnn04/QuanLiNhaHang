@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package GUI.Main;
+package GUI.Comp;
 
 import BUS.TableBUS;
 
@@ -16,12 +16,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JCheckBox;
 
 import javax.swing.JLabel;
@@ -34,6 +42,13 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -41,6 +56,7 @@ import javax.swing.table.TableRowSorter;
  */
 public class QuanLiBan extends javax.swing.JPanel {
     private ArrayList<TableDTO> listTable;
+    private TableBUS tableBUS = new TableBUS();
     int cntTableSelected = 0;
     private DefaultTableModel model;
     private boolean isSelectAll = false;
@@ -49,7 +65,7 @@ public class QuanLiBan extends javax.swing.JPanel {
         setBackground(new Color(0, 0, 0, 0));
         tbBan.setRowHeight(35);
         
-        listTable = new TableBUS().getAllData();
+//        listTable = new TableBUS().getAllData();
         // header table nam ben trai
         DefaultTableCellRenderer  renderer = (DefaultTableCellRenderer) tbBan.getTableHeader().getDefaultRenderer();
         renderer.setHorizontalAlignment(JLabel.LEFT);
@@ -82,12 +98,12 @@ public class QuanLiBan extends javax.swing.JPanel {
     }
 
     public void render(boolean isSelectAll) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy    HH:mm");
+        listTable = new TableBUS().getAllData();
         model = (DefaultTableModel)tbBan.getModel();
         model.setRowCount(0);
         for (TableDTO x : listTable) {
             x.setIsSelected(isSelectAll);
-            model.addRow(new Object[] {isSelectAll, x.getId(), x.getName(), x.getStatus(), x.getCustomerCode(), simpleDateFormat.format(x.getUpdateTime()), simpleDateFormat.format(x.getCreateTime())});
+            model.addRow(new Object[] {isSelectAll, x.getId(), x.getName(), x.getNote(), x.getStatus(), x.getCustomerCode(), Helper.FormatDate.getInstance().getFormat().format(x.getUpdateTime()), Helper.FormatDate.getInstance().getFormat().format(x.getCreateTime())});
         }
         model.fireTableDataChanged();
         tbBan.setModel(model);
@@ -415,20 +431,20 @@ public class QuanLiBan extends javax.swing.JPanel {
         tbBan.setForeground(new java.awt.Color(255, 255, 255));
         tbBan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, "aaaaaaaaaa", "ádasdasd", "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa"},
-                {null, "aaaaaaaaaa", "ádasd", "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa"},
-                {null, "aaaaaaaaaa", "ádasd", "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa"},
-                {null, "aaaaaaaaaa", "ádasda", "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa"}
+                {null, "aaaaaaaaaa", "ádasdasd", null, "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa"},
+                {null, "aaaaaaaaaa", "ádasd", null, "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa"},
+                {null, "aaaaaaaaaa", "ádasd", null, "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa"},
+                {null, "aaaaaaaaaa", "ádasda", null, "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa"}
             },
             new String [] {
-                "", "Mã bàn", "Tên bàn", "Trạng thái", "Mã khách hàng", "Ngày sửa", "Ngày tạo"
+                "", "Mã bàn", "Tên bàn", "Ghi chú", "Trạng thái", "Mã khách hàng", "Ngày sửa", "Ngày tạo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false, false
+                true, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -450,10 +466,10 @@ public class QuanLiBan extends javax.swing.JPanel {
             tbBan.getColumnModel().getColumn(1).setMaxWidth(180);
             tbBan.getColumnModel().getColumn(2).setPreferredWidth(75);
             tbBan.getColumnModel().getColumn(2).setMaxWidth(75);
-            tbBan.getColumnModel().getColumn(3).setPreferredWidth(120);
-            tbBan.getColumnModel().getColumn(3).setMaxWidth(120);
-            tbBan.getColumnModel().getColumn(4).setPreferredWidth(150);
-            tbBan.getColumnModel().getColumn(4).setMaxWidth(150);
+            tbBan.getColumnModel().getColumn(4).setPreferredWidth(120);
+            tbBan.getColumnModel().getColumn(4).setMaxWidth(120);
+            tbBan.getColumnModel().getColumn(5).setPreferredWidth(150);
+            tbBan.getColumnModel().getColumn(5).setMaxWidth(150);
         }
 
         panelBackground5.add(jScrollPane2, java.awt.BorderLayout.CENTER);
@@ -509,7 +525,66 @@ public class QuanLiBan extends javax.swing.JPanel {
     }//GEN-LAST:event_txtTimKiemPropertyChange
 
     private void btnXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatActionPerformed
-        // TODO add your handling code here:
+        XSSFWorkbook work = new XSSFWorkbook();
+        XSSFSheet sheet =  work.createSheet("Danh sách bàn");
+        XSSFRow row = null;
+        Cell cell = null;
+        
+        row = sheet.createRow(0);
+        cell = row.createCell(4, CellType.STRING);
+        cell.setCellValue("DANH SÁCH BÀN");
+        
+        row = sheet.createRow(1);
+        cell = row.createCell(1, CellType.STRING);
+        cell.setCellValue("Mã bàn");
+        cell = row.createCell(2, CellType.STRING);
+        cell.setCellValue("Tên bàn");
+        cell = row.createCell(3, CellType.STRING);
+        cell.setCellValue("Mô tả");
+        cell = row.createCell(4, CellType.STRING);
+        cell.setCellValue("Ghi chú");
+        cell = row.createCell(5, CellType.STRING);
+        cell.setCellValue("Trạng thái");
+        cell = row.createCell(6, CellType.STRING);
+        cell.setCellValue("Mã khách hàng");
+        cell = row.createCell(7, CellType.STRING);
+        cell.setCellValue("Ngày sửa");
+        cell = row.createCell(8, CellType.STRING);
+        cell.setCellValue("Ngày tạo");
+        
+        int i = 0;
+        for (TableDTO x : listTable) {
+            row = sheet.createRow(2 + i);
+            cell = row.createCell(1, CellType.STRING);
+            cell.setCellValue(x.getId());
+            cell = row.createCell(2, CellType.STRING);
+            cell.setCellValue(x.getName());
+            cell = row.createCell(3, CellType.STRING);
+            cell.setCellValue(x.getDes());
+            cell = row.createCell(4, CellType.STRING);
+            cell.setCellValue(x.getNote());
+            cell = row.createCell(5, CellType.STRING);
+            cell.setCellValue(x.getStatus());
+            cell = row.createCell(6, CellType.STRING);
+            cell.setCellValue(x.getCustomerCode());
+            cell = row.createCell(7, CellType.STRING);
+            cell.setCellValue(Helper.FormatDate.getInstance().getFormat().format(x.getUpdateTime()));
+            cell = row.createCell(8, CellType.STRING);
+            cell.setCellValue(Helper.FormatDate.getInstance().getFormat().format(x.getCreateTime()));
+            i++;
+        }
+        
+        
+        File f = new File("Ban.xlsx");
+        try {
+            FileOutputStream fs = new FileOutputStream(f);
+            work.write(fs);
+            fs.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        
     }//GEN-LAST:event_btnXuatActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
@@ -532,7 +607,7 @@ public class QuanLiBan extends javax.swing.JPanel {
             boolean check = new TableBUS().deleteTable(listIDDelete);
             if (check) {
                 JOptionPane.showMessageDialog(pnContainer, "Xóa thành công");
-                listTable = new TableBUS().getAllData();
+//                listTable = new TableBUS().getAllData();
                 render(false);
             }
             else {
@@ -546,23 +621,68 @@ public class QuanLiBan extends javax.swing.JPanel {
         DialogActionTable x = new DialogActionTable(null, true, true);
         for (TableDTO table : listTable) {
             if (table.isIsSelected()) {
+                x.setAction(true);
                 x.setIDTable(table.getId());
                 break;
             }
         }
+        render(false);
+        
 
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         DialogActionTable x = new DialogActionTable(null, true, false);
         x.setAction(false);
-        listTable = new TableBUS().getAllData();
+//        listTable = new TableBUS().getAllData();
         render(false);
 
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhapActionPerformed
-        // TODO add your handling code here:
+        ArrayList<TableDTO> listTableImport = new ArrayList<>();
+        try {
+            FileInputStream file = new FileInputStream("Ban.xlsx");
+            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            XSSFSheet sheet = workbook.getSheetAt(0);
+            FormulaEvaluator formula = workbook.getCreationHelper().createFormulaEvaluator();
+            for (int rowIndex = 2; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
+                Row row = sheet.getRow(rowIndex);
+                String[] rowData = new String[8];
+                int cellIndex = 0;
+                for (Cell cell : row) {
+                    cell.setCellType(CellType.STRING); // Đảm bảo kiểu dữ liệu của cell là STRING
+                    
+                    rowData[cellIndex] = cell.getStringCellValue();
+                    cellIndex++;
+                }
+                TableDTO tableDTO = new TableDTO();
+                tableDTO.setId(Long.parseLong(rowData[0]));
+                tableDTO.setName(rowData[1]);
+                tableDTO.setDes(rowData[2]);
+                tableDTO.setNote(rowData[3]);
+                tableDTO.setStatus(rowData[4]);
+                tableDTO.setCustomerCode(rowData[5]);
+                tableDTO.setUpdateTime(Helper.FormatDate.getInstance().getFormat().parse(rowData[6]));
+                tableDTO.setCreateTime(Helper.FormatDate.getInstance().getFormat().parse(rowData[7]));
+                listTableImport.add(tableDTO);
+            }
+            
+            for (TableDTO x : listTableImport) {
+                tableBUS.insertTable(x);
+            }
+            System.out.println("Thanh cong");
+            render(false);
+        } 
+        catch (FileNotFoundException ex) {
+            Logger.getLogger(QuanLiBan.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        catch (IOException ex) {
+            Logger.getLogger(QuanLiBan.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(QuanLiBan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_btnNhapActionPerformed
 
 
