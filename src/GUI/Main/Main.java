@@ -79,7 +79,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
 
                     break;
                 case 7:
-
+                    showForm(new QuanLi_Staff());
                     break;
                 
             }
