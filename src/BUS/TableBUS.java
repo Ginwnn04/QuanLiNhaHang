@@ -60,6 +60,8 @@ public class TableBUS {
          
     }
      
-     
+    public boolean cancelTable(String listTabeID) {
+        return tableDAO.cancelTable(listTabeID);
+    }
     
 }

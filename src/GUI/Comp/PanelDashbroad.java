@@ -393,6 +393,9 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         kt.loadForm(listOrderId, table);
         kt.setVisible(true);
         
+        addTable();
+        pnContainerTable.revalidate();
+        pnContainerTable.repaint();
     }//GEN-LAST:event_btnKiemTraActionPerformed
 
     private void btnGopBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGopBanActionPerformed

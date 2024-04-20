@@ -5,9 +5,10 @@
 package DAO;
 
 import DTO.TableDTO;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -30,8 +31,8 @@ public class TableDAO {
                 table.setDes(rs.getString("des"));
                 table.setCustomerCode(rs.getString("customer_code"));
                 table.setStatus(rs.getString("statusid"));
-                table.setCreateTime(rs.getDate("create_time"));
-                table.setUpdateTime(rs.getDate("update_time"));
+                table.setCreateTime(rs.getTimestamp("create_time"));
+                table.setUpdateTime(rs.getTimestamp("update_time"));
                 table.setIsDelete(rs.getBoolean("isdeleted"));
                 table.setNote(rs.getString("note"));
                 list.add(table);
@@ -54,13 +55,12 @@ public class TableDAO {
             pstm.setString(6, table.getStatus());
             
             // Date này là sql.Date chứ không phải util.Date
-            Date sqlDateUpdate = new Date(table.getUpdateTime().getTime());
-            Date sqlDateCreate = new Date(table.getCreateTime().getTime());
+            Timestamp sqlDateUpdate = new Timestamp(table.getUpdateTime().getTime());
+            Timestamp sqlDateCreate = new Timestamp(table.getCreateTime().getTime());
             
 
-
-            pstm.setDate(7, sqlDateUpdate);
-            pstm.setDate(8, sqlDateCreate);
+            pstm.setTimestamp(7, sqlDateUpdate);
+            pstm.setTimestamp(8, sqlDateCreate);
             pstm.setString(9, table.getNote());
             return pstm.executeUpdate() > 0;
         }
@@ -95,9 +95,9 @@ public class TableDAO {
             pstm.setString(5, table.getStatus());
             
             
-            Date sqlDateUpdate = new Date(table.getUpdateTime().getTime());
+            Timestamp sqlDateUpdate = new Timestamp(table.getUpdateTime().getTime());
             
-            pstm.setDate(6, sqlDateUpdate);
+            pstm.setTimestamp(6, sqlDateUpdate);
             pstm.setLong(7, table.getId());
             
             return pstm.executeUpdate() > 0;
@@ -115,9 +115,9 @@ public class TableDAO {
 
             
             
-            Date sqlDateUpdate = new Date(table.getUpdateTime().getTime());
+            Timestamp sqlDateUpdate = new Timestamp(table.getUpdateTime().getTime());
             
-            pstm.setDate(2, sqlDateUpdate);
+            pstm.setTimestamp(2, sqlDateUpdate);
             pstm.setLong(3, table.getId());
             
             return pstm.executeUpdate() > 0;
@@ -134,9 +134,9 @@ public class TableDAO {
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
              pstm.setString(1, customerCode);
 
-            Date sqlDateUpdate = new Date(new java.util.Date().getTime());
+            Timestamp sqlDateUpdate = new Timestamp(new Date().getTime());
             
-            pstm.setDate(2, sqlDateUpdate);
+            pstm.setTimestamp(2, sqlDateUpdate);
  
             
             return pstm.executeUpdate() > 0;
@@ -162,8 +162,8 @@ public class TableDAO {
                 table.setDes(rs.getString("des"));
                 table.setCustomerCode(rs.getString("customer_code"));
                 table.setStatus(rs.getString("statusid"));
-                table.setCreateTime(rs.getDate("create_time"));
-                table.setUpdateTime(rs.getDate("update_time"));
+                table.setCreateTime(rs.getTimestamp("create_time"));
+                table.setUpdateTime(rs.getTimestamp("update_time"));
                 table.setIsDelete(rs.getBoolean("isdeleted"));
                 table.setNote(rs.getString("note"));
                 list.add(table);
@@ -187,8 +187,8 @@ public class TableDAO {
                 table.setDes(rs.getString("des"));
                 table.setCustomerCode(rs.getString("customer_code"));
                 table.setStatus(rs.getString("statusid"));
-                table.setCreateTime(rs.getDate("create_time"));
-                table.setUpdateTime(rs.getDate("update_time"));
+                table.setCreateTime(rs.getTimestamp("create_time"));
+                table.setUpdateTime(rs.getTimestamp("update_time"));
                 table.setIsDelete(rs.getBoolean("isdeleted"));
                 table.setNote(rs.getString("note"));
                 
@@ -199,5 +199,24 @@ public class TableDAO {
             e.printStackTrace();
         }
         return null;
+    }
+    
+    public boolean cancelTable(String listTableID) {
+        String query = "UPDATE tb_tables SET customer_code = ?, statusid = ?, update_time = ? WHERE id IN ";
+        query += "(" + listTableID + ")";
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
+             pstm.setString(1, "");
+             pstm.setString(2, "BANTRONG");
+
+            Timestamp sqlDateUpdate = new Timestamp(new Date().getTime());
+            
+            pstm.setTimestamp(3, sqlDateUpdate);
+ 
+            return pstm.executeUpdate() > 0;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

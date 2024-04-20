@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 import javax.swing.UIManager;
+import javax.swing.border.Border;
 
 /**
  *
@@ -162,6 +163,8 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
         UIManager.put("RootPane.background", new Color(35, 35, 35));
         UIManager.put("TitlePane.font", new Font("Roboto", Font.BOLD, 16));
         UIManager.put("TitlePane.centerTitle", true);
+        
+       
         
         FlatMacDarkLaf.setup();
         /* Create and display the form */

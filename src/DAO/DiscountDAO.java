@@ -23,16 +23,16 @@ public class DiscountDAO {
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
                 DiscountDTO discount = new DiscountDTO();
-                discount.setId(rs.getLong("id"));
+                discount.setId(rs.getString("id"));
                 discount.setName(rs.getString("name"));
                 discount.setDes(rs.getString("description"));
                 discount.setMinimum(rs.getLong("minimum"));
                 discount.setRemaining(rs.getInt("remaining"));
                 discount.setValue(rs.getLong("value"));
                 discount.setType(rs.getString("type"));
-                discount.setExpiredTime(rs.getDate("expired_time"));
-                discount.setCreateTime(rs.getDate("create_time"));
-                discount.setUpdateTime(rs.getDate("update_time"));
+                discount.setExpiredTime(rs.getTimestamp("expired_time"));
+                discount.setCreateTime(rs.getTimestamp("create_time"));
+                discount.setUpdateTime(rs.getTimestamp("update_time"));
                 discount.setIsDelete(rs.getBoolean("isdeleted"));
                 list.add(discount);
             }
