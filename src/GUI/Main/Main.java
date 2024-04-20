@@ -4,6 +4,9 @@
  */
 package GUI.Main;
 
+import GUI.Comp.QuanLiNhapKho;
+import GUI.Comp.QuanLiNguyenLieu;
+import GUI.Comp.QuanLiMonAn;
 import GUI.Comp.DialogOrder;
 
 import GUI.Comp.PanelDashbroad;
