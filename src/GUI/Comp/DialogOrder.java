@@ -462,6 +462,8 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         SimpleDateFormat format = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
         
         boolean isSingle = listTableSelected.size() == 1 ? true : false;
+        boolean isOrderMore = listTableSelected.get(0).getStatus().equals("DANGSUDUNG") ? true : false;
+        
         // Lay 1 ban dai dien de fill order vao
         OrderDTO order = new OrderDTO();
         String customerCode = order.createCustomerCode(isSingle);
@@ -471,31 +473,55 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         // Update customer vào tb_table
         TableDAO tableDAO = new TableDAO();
         for (TableDTO table : listTableSelected) {
-            table.setCustomerCode(customerCode);
-            table.setStatus("DANGSUDUNG");
-            table.setUpdateTime(date);
-            tableDAO.updateData(table);
-         
-            OrderDTO multiOrder = new OrderDTO();
-            multiOrder.createID();
-            multiOrder.setStaffID(638471313653138161L);
-            multiOrder.setTableID(table.getId());
-            multiOrder.setCustomerCode(customerCode);
-            multiOrder.setIsDelete(false);
-            multiOrder.setUpdateTime(date);
-            multiOrder.setCreateTime(date);
-//          Thêm chi tiết cho order
-            for (DetailOrderDTO detail : listDetailOrder) {
-                multiOrder.insertDetailOrder(detail);
-                detail.createID();
-                try {
-                    Thread.sleep(1);
-                } 
-                catch (InterruptedException ex) {
-                    Logger.getLogger(DialogOrder.class.getName()).log(Level.SEVERE, null, ex);
+            if (isOrderMore) {
+                OrderDTO multiOrder = new OrderDTO();
+                multiOrder.createID();
+                multiOrder.setStaffID(638471313653138161L);
+                multiOrder.setTableID(table.getId());
+                multiOrder.setCustomerCode(table.getCustomerCode());
+                multiOrder.setIsDelete(false);
+                multiOrder.setUpdateTime(date);
+                multiOrder.setCreateTime(date);
+    //          Thêm chi tiết cho order
+                for (DetailOrderDTO detail : listDetailOrder) {
+                    multiOrder.insertDetailOrder(detail);
+                    detail.createID();
+                    try {
+                        Thread.sleep(1);
+                    } 
+                    catch (InterruptedException ex) {
+                        Logger.getLogger(DialogOrder.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
+                orderBUS.insertOrder(multiOrder);
             }
-            orderBUS.insertOrder(multiOrder);
+            else {
+                table.setCustomerCode(customerCode);
+                table.setStatus("DANGSUDUNG");
+                table.setUpdateTime(date);
+                tableDAO.updateData(table);
+
+                OrderDTO multiOrder = new OrderDTO();
+                multiOrder.createID();
+                multiOrder.setStaffID(638471313653138161L);
+                multiOrder.setTableID(table.getId());
+                multiOrder.setCustomerCode(customerCode);
+                multiOrder.setIsDelete(false);
+                multiOrder.setUpdateTime(date);
+                multiOrder.setCreateTime(date);
+    //          Thêm chi tiết cho order
+                for (DetailOrderDTO detail : listDetailOrder) {
+                    multiOrder.insertDetailOrder(detail);
+                    detail.createID();
+                    try {
+                        Thread.sleep(1);
+                    } 
+                    catch (InterruptedException ex) {
+                        Logger.getLogger(DialogOrder.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                orderBUS.insertOrder(multiOrder);
+            }
         }
  
         JOptionPane.showMessageDialog(rootPane, "Gọi món thành công !!");

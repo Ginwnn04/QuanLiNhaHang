@@ -36,13 +36,15 @@ public class DialogActionTable extends javax.swing.JDialog {
             
         }
         else {
-            setIDTable(table.createID());
+            setIDTable(table.createID(), false);
         }
         
     }
     
-    public void setIDTable(long id) {
-        table = tableBUS.findTableByID(id);
+    public void setIDTable(long id, boolean isUpdate) {
+        if (isUpdate) {
+            table = tableBUS.findTableByID(id);
+        }
         txtIDTable.setText(id + "");
         setVisible(true);
     }
