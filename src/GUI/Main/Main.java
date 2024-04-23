@@ -8,6 +8,7 @@ import GUI.Comp.QuanLiBan;
 import GUI.Comp.DialogOrder;
 
 import GUI.Comp.PanelDashbroad;
+import GUI.Comp.QuanLiDatMon;
 import Helper.MyListener;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
@@ -65,6 +66,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
                     showForm(new QuanLiBan());
                     break;
                 case 2:
+                    showForm(new QuanLiDatMon());
                     break;
                 case 3:
 

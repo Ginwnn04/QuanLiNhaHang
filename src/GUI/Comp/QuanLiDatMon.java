@@ -4,9 +4,12 @@
  */
 package GUI.Comp;
 
+import BUS.OrderBUS;
 import BUS.TableBUS;
+import DTO.OrderDTO;
 
 import DTO.TableDTO;
+import GUI.Comp.DateChooser.SelectedDate;
 import com.formdev.flatlaf.FlatClientProperties;
 
 import java.awt.Color;
@@ -55,21 +58,25 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @author pc
  */
 public class QuanLiDatMon extends javax.swing.JPanel {
-    private ArrayList<TableDTO> listTable;
-    private TableBUS tableBUS = new TableBUS();
+    private ArrayList<OrderDTO> listOrder;
+    private OrderBUS orderBUS = new OrderBUS();
     int cntTableSelected = 0;
     private DefaultTableModel model;
     private boolean isSelectAll = false;
+    
+    
     public QuanLiDatMon() {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         tbBan.setRowHeight(35);
         
-//        listTable = new TableBUS().getAllData();
         // header table nam ben trai
         DefaultTableCellRenderer  renderer = (DefaultTableCellRenderer) tbBan.getTableHeader().getDefaultRenderer();
         renderer.setHorizontalAlignment(JLabel.LEFT);
-        txtTimKiem.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Nhập bàn cần tìm");
+        txtTimKiem.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Nhập bàn, mã khách hàng");
+        txtTimKiem.putClientProperty(FlatClientProperties.TEXT_FIELD_SHOW_CLEAR_BUTTON, true);
+        txtDate.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Chọn ngày cần tìm");
+        txtDate.putClientProperty(FlatClientProperties.TEXT_FIELD_SHOW_CLEAR_BUTTON, true);
         render(isSelectAll);
         
         tbBan.getModel().addTableModelListener(new TableModelListener() {
@@ -82,8 +89,8 @@ public class QuanLiDatMon extends javax.swing.JPanel {
 //                    System.out.println(row + " " + row1);
 //                    System.out.println(tbBan.getValueAt(row, 2));
                     // Your event handling code here
-                    listTable.get(row1).setIsSelected(!listTable.get(row1).isIsSelected());
-                    cntTableSelected += !listTable.get(row1).isIsSelected() ? -1 : 1;
+//                    listTable.get(row1).setIsSelected(!listTable.get(row1).isIsSelected());
+//                    cntTableSelected += !listTable.get(row1).isIsSelected() ? -1 : 1;
                     if (cntTableSelected == 1) {
                         btnSua.setEnabled(true);
                     }
@@ -98,12 +105,13 @@ public class QuanLiDatMon extends javax.swing.JPanel {
     }
 
     public void render(boolean isSelectAll) {
-        listTable = new TableBUS().getAllData();
+        
+        listOrder = orderBUS.getAllOrder();
         model = (DefaultTableModel)tbBan.getModel();
         model.setRowCount(0);
-        for (TableDTO x : listTable) {
-            x.setIsSelected(isSelectAll);
-            model.addRow(new Object[] {isSelectAll, x.getId(), x.getName(), x.getNote(), x.getStatus(), x.getCustomerCode(), Helper.FormatDate.getInstance().getFormat().format(x.getUpdateTime()), Helper.FormatDate.getInstance().getFormat().format(x.getCreateTime())});
+        for (OrderDTO x : listOrder) {
+            
+            model.addRow(new Object[] {isSelectAll, x.getId(), x.getTable().getName(), x.getCustomerCode(), Helper.FormatNumber.getInstance().getFormat().format( x.getTotal()), Helper.FormatDate.getInstance().getFormat().format(x.getUpdateTime()), Helper.FormatDate.getInstance().getFormat().format(x.getCreateTime())});
         }
         model.fireTableDataChanged();
         tbBan.setModel(model);
@@ -113,6 +121,7 @@ public class QuanLiDatMon extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        dateChooser = new GUI.Comp.DateChooser.DateChooser();
         pnContainer = new GUI.Comp.Swing.PanelBackground();
         panelBackground1 = new GUI.Comp.Swing.PanelBackground();
         panelBackground10 = new GUI.Comp.Swing.PanelBackground();
@@ -129,13 +138,20 @@ public class QuanLiDatMon extends javax.swing.JPanel {
         btnThem = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
+        btnChiTiet = new javax.swing.JButton();
         panelBackground15 = new GUI.Comp.Swing.PanelBackground();
+        txtDate = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
         panelBackground2 = new GUI.Comp.Swing.PanelBackground();
         panelBackground3 = new GUI.Comp.Swing.PanelBackground();
         panelBackground4 = new GUI.Comp.Swing.PanelBackground();
         panelBackground5 = new GUI.Comp.Swing.PanelBackground();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbBan = new javax.swing.JTable();
+
+        dateChooser.setTextRefernce(txtDate);
 
         setPreferredSize(new java.awt.Dimension(1077, 730));
 
@@ -144,10 +160,10 @@ public class QuanLiDatMon extends javax.swing.JPanel {
 
         panelBackground1.setBackground(new java.awt.Color(30, 30, 30));
         panelBackground1.setPreferredSize(new java.awt.Dimension(1077, 75));
-        panelBackground1.setLayout(new java.awt.BorderLayout());
+        panelBackground1.setLayout(new java.awt.BorderLayout(60, 0));
 
         panelBackground10.setBackground(new java.awt.Color(30, 30, 30));
-        panelBackground10.setPreferredSize(new java.awt.Dimension(300, 75));
+        panelBackground10.setPreferredSize(new java.awt.Dimension(330, 75));
         panelBackground10.setLayout(new javax.swing.BoxLayout(panelBackground10, javax.swing.BoxLayout.LINE_AXIS));
 
         panelBackground16.setBackground(new java.awt.Color(30, 30, 30));
@@ -157,7 +173,7 @@ public class QuanLiDatMon extends javax.swing.JPanel {
         panelBackground16.setLayout(panelBackground16Layout);
         panelBackground16Layout.setHorizontalGroup(
             panelBackground16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 23, Short.MAX_VALUE)
+            .addGap(0, 25, Short.MAX_VALUE)
         );
         panelBackground16Layout.setVerticalGroup(
             panelBackground16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,13 +219,13 @@ public class QuanLiDatMon extends javax.swing.JPanel {
         panelBackground10.add(pnSelectAll);
 
         panelBackground17.setBackground(new java.awt.Color(30, 30, 30));
-        panelBackground17.setPreferredSize(new java.awt.Dimension(50, 75));
+        panelBackground17.setPreferredSize(new java.awt.Dimension(30, 75));
 
         javax.swing.GroupLayout panelBackground17Layout = new javax.swing.GroupLayout(panelBackground17);
         panelBackground17.setLayout(panelBackground17Layout);
         panelBackground17Layout.setHorizontalGroup(
             panelBackground17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 34, Short.MAX_VALUE)
+            .addGap(0, 21, Short.MAX_VALUE)
         );
         panelBackground17Layout.setVerticalGroup(
             panelBackground17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,20 +236,10 @@ public class QuanLiDatMon extends javax.swing.JPanel {
 
         txtTimKiem.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         txtTimKiem.setMaximumSize(new java.awt.Dimension(200, 30));
-        txtTimKiem.setPreferredSize(new java.awt.Dimension(200, 30));
-        txtTimKiem.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                txtTimKiemMouseEntered(evt);
-            }
-        });
-        txtTimKiem.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                txtTimKiemPropertyChange(evt);
-            }
-        });
-        txtTimKiem.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtTimKiemKeyReleased(evt);
+        txtTimKiem.setPreferredSize(new java.awt.Dimension(250, 30));
+        txtTimKiem.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtTimKiemCaretUpdate(evt);
             }
         });
         panelBackground10.add(txtTimKiem);
@@ -329,22 +335,76 @@ public class QuanLiDatMon extends javax.swing.JPanel {
         });
         panelBackground8.add(btnXoa);
 
+        btnChiTiet.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        btnChiTiet.setText("Chi Tiết");
+        btnChiTiet.setMaximumSize(new java.awt.Dimension(72, 35));
+        btnChiTiet.setPreferredSize(new java.awt.Dimension(72, 30));
+        btnChiTiet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChiTietActionPerformed(evt);
+            }
+        });
+        panelBackground8.add(btnChiTiet);
+
         panelBackground14.add(panelBackground8, java.awt.BorderLayout.CENTER);
 
         panelBackground1.add(panelBackground14, java.awt.BorderLayout.LINE_END);
 
         panelBackground15.setBackground(new java.awt.Color(30, 30, 30));
+        panelBackground15.setPreferredSize(new java.awt.Dimension(200, 75));
+        panelBackground15.setLayout(new javax.swing.BoxLayout(panelBackground15, javax.swing.BoxLayout.LINE_AXIS));
 
-        javax.swing.GroupLayout panelBackground15Layout = new javax.swing.GroupLayout(panelBackground15);
-        panelBackground15.setLayout(panelBackground15Layout);
-        panelBackground15Layout.setHorizontalGroup(
-            panelBackground15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 277, Short.MAX_VALUE)
+        txtDate.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        txtDate.setMaximumSize(new java.awt.Dimension(2147483647, 30));
+        txtDate.setPreferredSize(new java.awt.Dimension(50, 30));
+        txtDate.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtDateCaretUpdate(evt);
+            }
+        });
+        panelBackground15.add(txtDate);
+
+        jPanel1.setBackground(new java.awt.Color(30, 30, 30));
+        jPanel1.setPreferredSize(new java.awt.Dimension(10, 75));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
-        panelBackground15Layout.setVerticalGroup(
-            panelBackground15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 75, Short.MAX_VALUE)
         );
+
+        panelBackground15.add(jPanel1);
+
+        jButton1.setText("Hôm nay");
+        jButton1.setMaximumSize(new java.awt.Dimension(75, 30));
+        jButton1.setPreferredSize(new java.awt.Dimension(100, 30));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        panelBackground15.add(jButton1);
+
+        jPanel2.setBackground(new java.awt.Color(30, 30, 30));
+        jPanel2.setPreferredSize(new java.awt.Dimension(5, 75));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 75, Short.MAX_VALUE)
+        );
+
+        panelBackground15.add(jPanel2);
 
         panelBackground1.add(panelBackground15, java.awt.BorderLayout.CENTER);
 
@@ -389,7 +449,7 @@ public class QuanLiDatMon extends javax.swing.JPanel {
         panelBackground4.setLayout(panelBackground4Layout);
         panelBackground4Layout.setHorizontalGroup(
             panelBackground4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1077, Short.MAX_VALUE)
+            .addGap(0, 1146, Short.MAX_VALUE)
         );
         panelBackground4Layout.setVerticalGroup(
             panelBackground4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -442,8 +502,8 @@ public class QuanLiDatMon extends javax.swing.JPanel {
             tbBan.getColumnModel().getColumn(1).setMaxWidth(180);
             tbBan.getColumnModel().getColumn(2).setPreferredWidth(120);
             tbBan.getColumnModel().getColumn(2).setMaxWidth(120);
-            tbBan.getColumnModel().getColumn(3).setPreferredWidth(75);
-            tbBan.getColumnModel().getColumn(3).setMaxWidth(75);
+            tbBan.getColumnModel().getColumn(3).setPreferredWidth(120);
+            tbBan.getColumnModel().getColumn(3).setMaxWidth(120);
         }
 
         panelBackground5.add(jScrollPane2, java.awt.BorderLayout.CENTER);
@@ -470,12 +530,11 @@ public class QuanLiDatMon extends javax.swing.JPanel {
     }//GEN-LAST:event_chbSelectAllActionPerformed
 
     public void textSorting() {
-        txtTimKiem.putClientProperty(FlatClientProperties.TEXT_FIELD_SHOW_CLEAR_BUTTON, true);
         TableRowSorter tableRowSorter = new TableRowSorter(tbBan.getModel());
         String find = txtTimKiem.getText().toUpperCase().trim();
         if (!find.isEmpty()) {
-//          Indices 2 => Sort theo cột 2 (Name)
-            tableRowSorter.setRowFilter(RowFilter.regexFilter(find, 2));
+//          Indices 2 => Sort theo cột 2 (Name), 3 (CustomerCode)
+            tableRowSorter.setRowFilter(RowFilter.regexFilter(find, 2, 3));
         }
         tbBan.setRowSorter(tableRowSorter);
         
@@ -484,60 +543,46 @@ public class QuanLiDatMon extends javax.swing.JPanel {
     
     
     
-    private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
-        textSorting();
-    }//GEN-LAST:event_txtTimKiemKeyReleased
-
-    // Khi an vao button x de clear txtTimkiem
-    private void txtTimKiemMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtTimKiemMouseEntered
-        textSorting();
-        
-    }//GEN-LAST:event_txtTimKiemMouseEntered
-
-    private void txtTimKiemPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtTimKiemPropertyChange
-        
-    }//GEN-LAST:event_txtTimKiemPropertyChange
-
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        int choice = JOptionPane.showConfirmDialog(pnContainer, "Bạn có chắc chắn xóa không ?", "Xác nhận", JOptionPane.YES_NO_OPTION);
-        if (choice == 0) {
-            String listIDDelete = "";
-            for (TableDTO table : listTable) {
-                if (table.isIsSelected()) {
-                    listIDDelete += table.getId() + ", ";
-                }
-            }
-            if (listIDDelete.isEmpty()) {
-                System.out.println("Rỗng");
-            }
-            else {
-                listIDDelete = listIDDelete.substring(0, listIDDelete.length() - 2);
-                System.out.println(listIDDelete);
-            }
-
-            boolean check = new TableBUS().deleteTable(listIDDelete);
-            if (check) {
-                JOptionPane.showMessageDialog(pnContainer, "Xóa thành công");
-//                listTable = new TableBUS().getAllData();
-                render(false);
-            }
-            else {
-                JOptionPane.showMessageDialog(pnContainer, "Xóa thất bại");
-            }
-        }
+//        int choice = JOptionPane.showConfirmDialog(pnContainer, "Bạn có chắc chắn xóa không ?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+//        if (choice == 0) {
+//            String listIDDelete = "";
+//            for (TableDTO table : listTable) {
+//                if (table.isIsSelected()) {
+//                    listIDDelete += table.getId() + ", ";
+//                }
+//            }
+//            if (listIDDelete.isEmpty()) {
+//                System.out.println("Rỗng");
+//            }
+//            else {
+//                listIDDelete = listIDDelete.substring(0, listIDDelete.length() - 2);
+//                System.out.println(listIDDelete);
+//            }
+//
+//            boolean check = new TableBUS().deleteTable(listIDDelete);
+//            if (check) {
+//                JOptionPane.showMessageDialog(pnContainer, "Xóa thành công");
+////                listTable = new TableBUS().getAllData();
+//                render(false);
+//            }
+//            else {
+//                JOptionPane.showMessageDialog(pnContainer, "Xóa thất bại");
+//            }
+//        }
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
 
-        DialogActionTable x = new DialogActionTable(null, true, true);
-        for (TableDTO table : listTable) {
-            if (table.isIsSelected()) {
-                x.setAction(true);
-                x.setIDTable(table.getId(), true);
-                break;
-            }
-        }
-        render(false);
+//        DialogActionTable x = new DialogActionTable(null, true, true);
+//        for (TableDTO table : listTable) {
+//            if (table.isIsSelected()) {
+//                x.setAction(true);
+//                x.setIDTable(table.getId(), true);
+//                break;
+//            }
+//        }
+//        render(false);
         
 
     }//GEN-LAST:event_btnSuaActionPerformed
@@ -550,12 +595,51 @@ public class QuanLiDatMon extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btnThemActionPerformed
 
+    private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChiTietActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnChiTietActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        dateChooser.toDay();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtDateCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtDateCaretUpdate
+        TableRowSorter tableRowSorter = new TableRowSorter(tbBan.getModel());
+        SelectedDate selectedDate = dateChooser.getSelectedDate();
+        int day = selectedDate.getDay();
+        int month = selectedDate.getMonth();
+        int year = selectedDate.getYear();
+        // Xây dựng ngày trong định dạng bạn muốn (ví dụ: dd/MM/yyyy)
+        String dateString = String.format("%02d/%02d/%d", day, month, year);
+        if(!txtDate.getText().isEmpty()) {
+            tableRowSorter.setRowFilter(RowFilter.regexFilter(dateString, 6));
+
+        }
+        tbBan.setRowSorter(tableRowSorter);
+        
+    }//GEN-LAST:event_txtDateCaretUpdate
+
+    private void txtTimKiemCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtTimKiemCaretUpdate
+        TableRowSorter tableRowSorter = new TableRowSorter(tbBan.getModel());
+        String find = txtTimKiem.getText().toUpperCase().trim();
+        if (!find.isEmpty()) {
+//          Indices 2 => Sort theo cột 2 (Name), 3 (CustomerCode)
+            tableRowSorter.setRowFilter(RowFilter.regexFilter(find, 2, 3));
+        }
+        tbBan.setRowSorter(tableRowSorter);
+    }//GEN-LAST:event_txtTimKiemCaretUpdate
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnChiTiet;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnXoa;
     private javax.swing.JCheckBox chbSelectAll;
+    private GUI.Comp.DateChooser.DateChooser dateChooser;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private GUI.Comp.Swing.PanelBackground panelBackground1;
     private GUI.Comp.Swing.PanelBackground panelBackground10;
@@ -574,6 +658,7 @@ public class QuanLiDatMon extends javax.swing.JPanel {
     private GUI.Comp.Swing.PanelBackground pnContainer;
     private GUI.Comp.Swing.PanelBackground pnSelectAll;
     private javax.swing.JTable tbBan;
+    private javax.swing.JTextField txtDate;
     private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 }

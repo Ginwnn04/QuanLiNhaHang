@@ -16,6 +16,12 @@ public class OrderBUS {
     private DetailOrderBUS detailOrderBUS = new DetailOrderBUS();
     private OrderDTO order;
     
+    
+    public ArrayList<OrderDTO> getAllOrder() {
+        return orderDAO.getAllData();
+    }
+    
+    
     public boolean insertOrder(OrderDTO order) {
         this.order = order;
         ArrayList<DetailOrderDTO> listDetailOrder = order.getListDetailOrder();
