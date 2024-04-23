@@ -91,13 +91,7 @@ public class QuanLiDatMon extends javax.swing.JPanel {
                     // Your event handling code here
 //                    listTable.get(row1).setIsSelected(!listTable.get(row1).isIsSelected());
 //                    cntTableSelected += !listTable.get(row1).isIsSelected() ? -1 : 1;
-                    if (cntTableSelected == 1) {
-                        btnSua.setEnabled(true);
-                    }
-                    else {
-                        btnSua.setEnabled(false);
-                        
-                    }
+                    
                 }
             }
         });
@@ -130,20 +124,18 @@ public class QuanLiDatMon extends javax.swing.JPanel {
         chbSelectAll = new javax.swing.JCheckBox();
         panelBackground17 = new GUI.Comp.Swing.PanelBackground();
         txtTimKiem = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        txtDate = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        panelBackground15 = new GUI.Comp.Swing.PanelBackground();
         panelBackground14 = new GUI.Comp.Swing.PanelBackground();
         panelBackground7 = new GUI.Comp.Swing.PanelBackground();
         panelBackground6 = new GUI.Comp.Swing.PanelBackground();
         panelBackground9 = new GUI.Comp.Swing.PanelBackground();
         panelBackground8 = new GUI.Comp.Swing.PanelBackground();
-        btnThem = new javax.swing.JButton();
-        btnSua = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
         btnChiTiet = new javax.swing.JButton();
-        panelBackground15 = new GUI.Comp.Swing.PanelBackground();
-        txtDate = new javax.swing.JTextField();
-        jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
         panelBackground2 = new GUI.Comp.Swing.PanelBackground();
         panelBackground3 = new GUI.Comp.Swing.PanelBackground();
         panelBackground4 = new GUI.Comp.Swing.PanelBackground();
@@ -163,7 +155,7 @@ public class QuanLiDatMon extends javax.swing.JPanel {
         panelBackground1.setLayout(new java.awt.BorderLayout(60, 0));
 
         panelBackground10.setBackground(new java.awt.Color(30, 30, 30));
-        panelBackground10.setPreferredSize(new java.awt.Dimension(330, 75));
+        panelBackground10.setPreferredSize(new java.awt.Dimension(650, 75));
         panelBackground10.setLayout(new javax.swing.BoxLayout(panelBackground10, javax.swing.BoxLayout.LINE_AXIS));
 
         panelBackground16.setBackground(new java.awt.Color(30, 30, 30));
@@ -173,7 +165,7 @@ public class QuanLiDatMon extends javax.swing.JPanel {
         panelBackground16.setLayout(panelBackground16Layout);
         panelBackground16Layout.setHorizontalGroup(
             panelBackground16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 25, Short.MAX_VALUE)
+            .addGap(0, 32, Short.MAX_VALUE)
         );
         panelBackground16Layout.setVerticalGroup(
             panelBackground16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,7 +217,7 @@ public class QuanLiDatMon extends javax.swing.JPanel {
         panelBackground17.setLayout(panelBackground17Layout);
         panelBackground17Layout.setHorizontalGroup(
             panelBackground17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 21, Short.MAX_VALUE)
+            .addGap(0, 27, Short.MAX_VALUE)
         );
         panelBackground17Layout.setVerticalGroup(
             panelBackground17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -244,7 +236,64 @@ public class QuanLiDatMon extends javax.swing.JPanel {
         });
         panelBackground10.add(txtTimKiem);
 
+        jPanel2.setBackground(new java.awt.Color(30, 30, 30));
+        jPanel2.setPreferredSize(new java.awt.Dimension(20, 75));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 18, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 75, Short.MAX_VALUE)
+        );
+
+        panelBackground10.add(jPanel2);
+
+        txtDate.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        txtDate.setMaximumSize(new java.awt.Dimension(2147483647, 30));
+        txtDate.setPreferredSize(new java.awt.Dimension(150, 30));
+        txtDate.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtDateCaretUpdate(evt);
+            }
+        });
+        panelBackground10.add(txtDate);
+
+        jPanel1.setBackground(new java.awt.Color(30, 30, 30));
+        jPanel1.setPreferredSize(new java.awt.Dimension(10, 75));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 75, Short.MAX_VALUE)
+        );
+
+        panelBackground10.add(jPanel1);
+
+        jButton1.setText("Hôm nay");
+        jButton1.setMaximumSize(new java.awt.Dimension(75, 30));
+        jButton1.setPreferredSize(new java.awt.Dimension(100, 30));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        panelBackground10.add(jButton1);
+
         panelBackground1.add(panelBackground10, java.awt.BorderLayout.LINE_START);
+
+        panelBackground15.setBackground(new java.awt.Color(30, 30, 30));
+        panelBackground15.setPreferredSize(new java.awt.Dimension(200, 75));
+        panelBackground15.setLayout(new javax.swing.BoxLayout(panelBackground15, javax.swing.BoxLayout.LINE_AXIS));
+        panelBackground1.add(panelBackground15, java.awt.BorderLayout.CENTER);
 
         panelBackground14.setBackground(new java.awt.Color(35, 35, 35));
         panelBackground14.setPreferredSize(new java.awt.Dimension(500, 75));
@@ -301,29 +350,6 @@ public class QuanLiDatMon extends javax.swing.JPanel {
         panelBackground8.setBackground(new java.awt.Color(35, 35, 35));
         panelBackground8.setLayout(new java.awt.GridLayout(1, 0, 15, 0));
 
-        btnThem.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        btnThem.setText("Thêm");
-        btnThem.setMaximumSize(new java.awt.Dimension(72, 35));
-        btnThem.setPreferredSize(new java.awt.Dimension(72, 35));
-        btnThem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemActionPerformed(evt);
-            }
-        });
-        panelBackground8.add(btnThem);
-
-        btnSua.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        btnSua.setText("Sửa");
-        btnSua.setEnabled(false);
-        btnSua.setMaximumSize(new java.awt.Dimension(72, 35));
-        btnSua.setPreferredSize(new java.awt.Dimension(72, 30));
-        btnSua.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSuaActionPerformed(evt);
-            }
-        });
-        panelBackground8.add(btnSua);
-
         btnXoa.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         btnXoa.setText("Xoá");
         btnXoa.setMaximumSize(new java.awt.Dimension(72, 35));
@@ -349,64 +375,6 @@ public class QuanLiDatMon extends javax.swing.JPanel {
         panelBackground14.add(panelBackground8, java.awt.BorderLayout.CENTER);
 
         panelBackground1.add(panelBackground14, java.awt.BorderLayout.LINE_END);
-
-        panelBackground15.setBackground(new java.awt.Color(30, 30, 30));
-        panelBackground15.setPreferredSize(new java.awt.Dimension(200, 75));
-        panelBackground15.setLayout(new javax.swing.BoxLayout(panelBackground15, javax.swing.BoxLayout.LINE_AXIS));
-
-        txtDate.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        txtDate.setMaximumSize(new java.awt.Dimension(2147483647, 30));
-        txtDate.setPreferredSize(new java.awt.Dimension(50, 30));
-        txtDate.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                txtDateCaretUpdate(evt);
-            }
-        });
-        panelBackground15.add(txtDate);
-
-        jPanel1.setBackground(new java.awt.Color(30, 30, 30));
-        jPanel1.setPreferredSize(new java.awt.Dimension(10, 75));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 75, Short.MAX_VALUE)
-        );
-
-        panelBackground15.add(jPanel1);
-
-        jButton1.setText("Hôm nay");
-        jButton1.setMaximumSize(new java.awt.Dimension(75, 30));
-        jButton1.setPreferredSize(new java.awt.Dimension(100, 30));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        panelBackground15.add(jButton1);
-
-        jPanel2.setBackground(new java.awt.Color(30, 30, 30));
-        jPanel2.setPreferredSize(new java.awt.Dimension(5, 75));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 75, Short.MAX_VALUE)
-        );
-
-        panelBackground15.add(jPanel2);
-
-        panelBackground1.add(panelBackground15, java.awt.BorderLayout.CENTER);
 
         pnContainer.add(panelBackground1, java.awt.BorderLayout.PAGE_START);
 
@@ -449,7 +417,7 @@ public class QuanLiDatMon extends javax.swing.JPanel {
         panelBackground4.setLayout(panelBackground4Layout);
         panelBackground4Layout.setHorizontalGroup(
             panelBackground4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1146, Short.MAX_VALUE)
+            .addGap(0, 1211, Short.MAX_VALUE)
         );
         panelBackground4Layout.setVerticalGroup(
             panelBackground4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -514,7 +482,7 @@ public class QuanLiDatMon extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 1211, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -572,29 +540,6 @@ public class QuanLiDatMon extends javax.swing.JPanel {
 //        }
     }//GEN-LAST:event_btnXoaActionPerformed
 
-    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-
-//        DialogActionTable x = new DialogActionTable(null, true, true);
-//        for (TableDTO table : listTable) {
-//            if (table.isIsSelected()) {
-//                x.setAction(true);
-//                x.setIDTable(table.getId(), true);
-//                break;
-//            }
-//        }
-//        render(false);
-        
-
-    }//GEN-LAST:event_btnSuaActionPerformed
-
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        DialogActionTable x = new DialogActionTable(null, true, false);
-        x.setAction(false);
-//        listTable = new TableBUS().getAllData();
-        render(false);
-
-    }//GEN-LAST:event_btnThemActionPerformed
-
     private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChiTietActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnChiTietActionPerformed
@@ -632,8 +577,6 @@ public class QuanLiDatMon extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChiTiet;
-    private javax.swing.JButton btnSua;
-    private javax.swing.JButton btnThem;
     private javax.swing.JButton btnXoa;
     private javax.swing.JCheckBox chbSelectAll;
     private GUI.Comp.DateChooser.DateChooser dateChooser;

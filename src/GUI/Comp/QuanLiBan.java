@@ -103,7 +103,7 @@ public class QuanLiBan extends javax.swing.JPanel {
         model.setRowCount(0);
         for (TableDTO x : listTable) {
             x.setIsSelected(isSelectAll);
-            model.addRow(new Object[] {isSelectAll, x.getId(), x.getName(), x.getNote(), x.getStatus(), x.getCustomerCode(), Helper.FormatDate.getInstance().getFormat().format(x.getUpdateTime()), Helper.FormatDate.getInstance().getFormat().format(x.getCreateTime())});
+            model.addRow(new Object[] {isSelectAll, x.getId(), x.getName(), x.getCustomerCode(), x.getStatus(), x.getNote(), Helper.FormatDate.getInstance().getFormat().format(x.getUpdateTime()), Helper.FormatDate.getInstance().getFormat().format(x.getCreateTime())});
         }
         model.fireTableDataChanged();
         tbBan.setModel(model);
@@ -223,19 +223,9 @@ public class QuanLiBan extends javax.swing.JPanel {
         txtTimKiem.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         txtTimKiem.setMaximumSize(new java.awt.Dimension(200, 30));
         txtTimKiem.setPreferredSize(new java.awt.Dimension(200, 30));
-        txtTimKiem.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                txtTimKiemMouseEntered(evt);
-            }
-        });
-        txtTimKiem.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                txtTimKiemPropertyChange(evt);
-            }
-        });
-        txtTimKiem.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtTimKiemKeyReleased(evt);
+        txtTimKiem.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtTimKiemCaretUpdate(evt);
             }
         });
         panelBackground10.add(txtTimKiem);
@@ -437,7 +427,7 @@ public class QuanLiBan extends javax.swing.JPanel {
                 {null, "aaaaaaaaaa", "ádasda", null, "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa"}
             },
             new String [] {
-                "", "Mã bàn", "Tên bàn", "Ghi chú", "Trạng thái", "Mã khách hàng", "Ngày sửa", "Ngày tạo"
+                "", "Mã bàn", "Tên bàn", "Mã khách hàng", "Trạng thái", "Ghi chú", "Ngày sửa", "Ngày tạo"
             }
         ) {
             Class[] types = new Class [] {
@@ -495,35 +485,11 @@ public class QuanLiBan extends javax.swing.JPanel {
         isSelectAll = !isSelectAll;
     }//GEN-LAST:event_chbSelectAllActionPerformed
 
-    public void textSorting() {
-        txtTimKiem.putClientProperty(FlatClientProperties.TEXT_FIELD_SHOW_CLEAR_BUTTON, true);
-        TableRowSorter tableRowSorter = new TableRowSorter(tbBan.getModel());
-        String find = txtTimKiem.getText().toUpperCase().trim();
-        if (!find.isEmpty()) {
-//          Indices 2 => Sort theo cột 2 (Name)
-            tableRowSorter.setRowFilter(RowFilter.regexFilter(find, 2));
-        }
-        tbBan.setRowSorter(tableRowSorter);
-        
-    }
-    
-    
-    
-    
-    private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
-        textSorting();
-    }//GEN-LAST:event_txtTimKiemKeyReleased
 
-    // Khi an vao button x de clear txtTimkiem
-    private void txtTimKiemMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtTimKiemMouseEntered
-        textSorting();
-        
-    }//GEN-LAST:event_txtTimKiemMouseEntered
-
-    private void txtTimKiemPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtTimKiemPropertyChange
-        
-    }//GEN-LAST:event_txtTimKiemPropertyChange
-
+    
+    
+    
+    
     private void btnXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatActionPerformed
         XSSFWorkbook work = new XSSFWorkbook();
         XSSFSheet sheet =  work.createSheet("Danh sách bàn");
@@ -535,6 +501,7 @@ public class QuanLiBan extends javax.swing.JPanel {
         cell.setCellValue("DANH SÁCH BÀN");
         
         row = sheet.createRow(1);
+        
         cell = row.createCell(1, CellType.STRING);
         cell.setCellValue("Mã bàn");
         cell = row.createCell(2, CellType.STRING);
@@ -542,11 +509,11 @@ public class QuanLiBan extends javax.swing.JPanel {
         cell = row.createCell(3, CellType.STRING);
         cell.setCellValue("Mô tả");
         cell = row.createCell(4, CellType.STRING);
-        cell.setCellValue("Ghi chú");
+        cell.setCellValue("Mã khách hàng");
         cell = row.createCell(5, CellType.STRING);
         cell.setCellValue("Trạng thái");
         cell = row.createCell(6, CellType.STRING);
-        cell.setCellValue("Mã khách hàng");
+        cell.setCellValue("Ghi chú");
         cell = row.createCell(7, CellType.STRING);
         cell.setCellValue("Ngày sửa");
         cell = row.createCell(8, CellType.STRING);
@@ -562,11 +529,11 @@ public class QuanLiBan extends javax.swing.JPanel {
             cell = row.createCell(3, CellType.STRING);
             cell.setCellValue(x.getDes());
             cell = row.createCell(4, CellType.STRING);
-            cell.setCellValue(x.getNote());
+            cell.setCellValue(x.getCustomerCode());
             cell = row.createCell(5, CellType.STRING);
             cell.setCellValue(x.getStatus());
             cell = row.createCell(6, CellType.STRING);
-            cell.setCellValue(x.getCustomerCode());
+            cell.setCellValue(x.getNote());
             cell = row.createCell(7, CellType.STRING);
             cell.setCellValue(Helper.FormatDate.getInstance().getFormat().format(x.getUpdateTime()));
             cell = row.createCell(8, CellType.STRING);
@@ -660,9 +627,9 @@ public class QuanLiBan extends javax.swing.JPanel {
                 tableDTO.setId(Long.parseLong(rowData[0]));
                 tableDTO.setName(rowData[1]);
                 tableDTO.setDes(rowData[2]);
-                tableDTO.setNote(rowData[3]);
+                tableDTO.setCustomerCode(rowData[3]);
                 tableDTO.setStatus(rowData[4]);
-                tableDTO.setCustomerCode(rowData[5]);
+                tableDTO.setNote(rowData[5]);
                 tableDTO.setUpdateTime(Helper.FormatDate.getInstance().getFormat().parse(rowData[6]));
                 tableDTO.setCreateTime(Helper.FormatDate.getInstance().getFormat().parse(rowData[7]));
                 listTableImport.add(tableDTO);
@@ -684,6 +651,17 @@ public class QuanLiBan extends javax.swing.JPanel {
         }
         
     }//GEN-LAST:event_btnNhapActionPerformed
+
+    private void txtTimKiemCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtTimKiemCaretUpdate
+        txtTimKiem.putClientProperty(FlatClientProperties.TEXT_FIELD_SHOW_CLEAR_BUTTON, true);
+        TableRowSorter tableRowSorter = new TableRowSorter(tbBan.getModel());
+        String find = txtTimKiem.getText().toUpperCase().trim();
+        if (!find.isEmpty()) {
+//          Indices 2 => Sort theo cột 2 (Name)
+            tableRowSorter.setRowFilter(RowFilter.regexFilter(find, 2));
+        }
+        tbBan.setRowSorter(tableRowSorter);
+    }//GEN-LAST:event_txtTimKiemCaretUpdate
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

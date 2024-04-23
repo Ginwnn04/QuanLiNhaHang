@@ -192,9 +192,7 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtTimKiemMouseEntered"/>
-                    <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="txtTimKiemPropertyChange"/>
-                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtTimKiemKeyReleased"/>
+                    <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="txtTimKiemCaretUpdate"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -572,14 +570,14 @@
                           <Data value="&#xe1;dasd"/>
                           <Data value="&#xe1;dasda"/>
                         </Column>
-                        <Column editable="false" title="Ghi ch&#xfa;" type="java.lang.Object"/>
+                        <Column editable="false" title="M&#xe3; kh&#xe1;ch h&#xe0;ng" type="java.lang.Object"/>
                         <Column editable="false" title="Tr&#x1ea1;ng th&#xe1;i" type="java.lang.Object">
                           <Data value="aaaaaaaaaa"/>
                           <Data value="aaaaaaaaaa"/>
                           <Data value="aaaaaaaaaa"/>
                           <Data value="aaaaaaaaaa"/>
                         </Column>
-                        <Column editable="false" title="M&#xe3; kh&#xe1;ch h&#xe0;ng" type="java.lang.Object">
+                        <Column editable="false" title="Ghi ch&#xfa;" type="java.lang.Object">
                           <Data value="aaaaaaaaaa"/>
                           <Data value="aaaaaaaaaa"/>
                           <Data value="aaaaaaaaaa"/>
