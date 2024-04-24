@@ -46,4 +46,8 @@ public class OrderBUS {
     public boolean updateCustomerCode(String listTableID, String customerCode) {
         return orderDAO.updateCustomerCode(listTableID, customerCode);
     }
+    
+    public boolean deleteOrder(String listOrderID) {
+        return orderDAO.deleteOrder(listOrderID);
+    }
 }

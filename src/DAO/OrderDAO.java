@@ -134,4 +134,18 @@ public class OrderDAO {
         }
         return false;
     }
+    
+    public boolean deleteOrder(String listOrderID) {
+        String query = "UPDATE tb_orders SET isdeleted = TRUE, update_time = ? WHERE id IN ";
+        query += "(" + listOrderID + ")";
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
+            Timestamp sqlDateUpdate = new Timestamp(new Date().getTime());
+            pstm.setTimestamp(1, sqlDateUpdate);
+            return pstm.executeUpdate() > 0;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

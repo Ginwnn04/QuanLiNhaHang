@@ -23,6 +23,7 @@ public class OrderDTO {
     private Date createTime;
     private ArrayList<DetailOrderDTO> listDetailOrder = new ArrayList<>();
     private TableDTO table;
+    private boolean isSelected;
     
     // Luc create Order
     public OrderDTO(boolean isSingle, long staffID, long tableID, String note,boolean isDelete, Date updateTime, Date createTime) {
@@ -53,6 +54,14 @@ public class OrderDTO {
  
 
     public OrderDTO() {
+    }
+
+    public boolean isIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(boolean isSelected) {
+        this.isSelected = isSelected;
     }
     
     
