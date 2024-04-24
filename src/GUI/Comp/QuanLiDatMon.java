@@ -61,7 +61,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class QuanLiDatMon extends javax.swing.JPanel {
     private ArrayList<OrderDTO> listOrder;
     private OrderBUS orderBUS = new OrderBUS();
-    
+    private String listOrderIDSelected = "";
     private DefaultTableModel model;
     private int cntOrderSelected;
     private boolean isSelectAll = false;
@@ -96,6 +96,7 @@ public class QuanLiDatMon extends javax.swing.JPanel {
                         btnChiTiet.setEnabled(false);
                         
                     }
+                    
                 }
             }
         });
@@ -115,6 +116,19 @@ public class QuanLiDatMon extends javax.swing.JPanel {
         tbDatMon.setModel(model);
     }
 
+    public void getOrderIDSelected() {
+        listOrderIDSelected = "";
+        for (OrderDTO x : listOrder) {
+            if (x.isIsSelected()) {
+                listOrderIDSelected += x.getId() + ", ";
+            }
+        }
+        if (!listOrderIDSelected.isEmpty()) {
+            listOrderIDSelected = listOrderIDSelected.substring(0, listOrderIDSelected.length() - 2);
+        }
+    }
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -486,7 +500,7 @@ public class QuanLiDatMon extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 1184, Short.MAX_VALUE)
+            .addComponent(pnContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -516,43 +530,38 @@ public class QuanLiDatMon extends javax.swing.JPanel {
     
     
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        String listOrderIDDeleted = "";
-        for (OrderDTO x : listOrder) {
-            if (x.isIsSelected()) {
-                listOrderIDDeleted += x.getId() + ", ";
+        getOrderIDSelected();
+        if (!listOrderIDSelected.isEmpty()) {
+            int choice = JOptionPane.showConfirmDialog(pnContainer, "Bạn có chắc chắn xóa không ?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+            if (choice == 0) {
+                boolean isDeleted = orderBUS.deleteOrder(listOrderIDSelected);
+                if (isDeleted) {
+                    JOptionPane.showMessageDialog(pnContainer, "Xóa thành công");
+                }
             }
-        }
-        if (listOrderIDDeleted.isEmpty()) {
-            System.out.println("Rong");
+            else {
+                JOptionPane.showMessageDialog(pnContainer, "Xóa thất bại");
+            }      
+            render(false);
         }
         else {
-            listOrderIDDeleted = listOrderIDDeleted.substring(0, listOrderIDDeleted.length() - 2);
-            System.out.println(listOrderIDDeleted);
-            
+            JOptionPane.showMessageDialog(pnContainer, "Bạn chưa chọn hoá đơn", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
-//        if (listOrderIDDeleted.isEmpty()) {
-//            JOptionPane.showMessageDialog(pnContainer, "Bạn chưa chọn dòng nào để xóa", "Lỗi", JOptionPane.ERROR_MESSAGE);
-//            return; 
-//        }
-//        int choice = JOptionPane.showConfirmDialog(pnContainer, "Bạn có chắc chắn xóa không ?", "Xác nhận", JOptionPane.YES_NO_OPTION);
-//        if (choice == 0) {
-//            listOrderIDDeleted = listOrderIDDeleted.substring(0, listOrderIDDeleted.length() - 2);
-//            boolean isDeleted = orderBUS.deleteOrder(listOrderIDDeleted);
-//            if (isDeleted) {
-//                JOptionPane.showMessageDialog(pnContainer, "Xóa thành công");
-//            }
-//            else {
-//                JOptionPane.showMessageDialog(pnContainer, "Xóa thất bại");
-//            }      
-//            render(false);
-//        }
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChiTietActionPerformed
-//        DetailsOrder x = new DetailsOrder(null, false);
-//        x.insertOrderID();
-//        x.setVisible(true);
-//        System.out.println(listOrderIDDeleted);
+        getOrderIDSelected();
+        DetailsOrder x = new DetailsOrder(null, false);
+        if (!listOrderIDSelected.isEmpty()) {
+            long orderID = Long.parseLong(listOrderIDSelected);
+            x.insertOrderID(orderID);
+            x.render();
+            x.setVisible(true);   
+        }
+        else {
+            JOptionPane.showMessageDialog(pnContainer, "Bạn chưa chọn hoá đơn", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }//GEN-LAST:event_btnChiTietActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

@@ -119,7 +119,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
     private void initComponents() {
 
         txtSaveTable = new javax.swing.JTextField();
-        panelBackground1 = new GUI.Comp.Swing.PanelBackground();
+        pnContainer = new GUI.Comp.Swing.PanelBackground();
         panelBackground2 = new GUI.Comp.Swing.PanelBackground();
         panelBackground4 = new GUI.Comp.Swing.PanelBackground();
         panelBackground5 = new GUI.Comp.Swing.PanelBackground();
@@ -143,9 +143,9 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         setBackground(new java.awt.Color(35, 35, 35));
         setPreferredSize(new java.awt.Dimension(1077, 730));
 
-        panelBackground1.setBackground(new java.awt.Color(30, 30, 30));
-        panelBackground1.setPreferredSize(new java.awt.Dimension(1077, 730));
-        panelBackground1.setLayout(new java.awt.BorderLayout());
+        pnContainer.setBackground(new java.awt.Color(30, 30, 30));
+        pnContainer.setPreferredSize(new java.awt.Dimension(1077, 730));
+        pnContainer.setLayout(new java.awt.BorderLayout());
 
         panelBackground2.setBackground(new java.awt.Color(30, 30, 30));
         panelBackground2.setLayout(new java.awt.BorderLayout());
@@ -340,17 +340,17 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
 
         panelBackground2.add(panelBackground4, java.awt.BorderLayout.CENTER);
 
-        panelBackground1.add(panelBackground2, java.awt.BorderLayout.CENTER);
+        pnContainer.add(panelBackground2, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBackground1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBackground1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         getAccessibleContext().setAccessibleName("");
@@ -384,18 +384,21 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         for (OrderDTO x : listOrder) {
             listOrderId += x.getId() + ", ";
         }
-        listOrderId = listOrderId.substring(0, listOrderId.length() - 2);
-        if (listOrderId.isEmpty()) {
-            JOptionPane.showMessageDialog(pnContainerTable, "Không tồn tại");
+        if (!listOrderId.isEmpty()) {
+            listOrderId = listOrderId.substring(0, listOrderId.length() - 2); 
+            DialogKiemTra kt = new DialogKiemTra(null, true);
+            kt.loadForm(listOrderId, table);
+            kt.setVisible(true);
+
+            addTable();
+            pnContainerTable.revalidate();
+            pnContainerTable.repaint();
+        }
+        else {
+            JOptionPane.showMessageDialog(pnContainer, "Chưa chọn bàn hoặc không tồn tại");
             return;
         }
-        DialogKiemTra kt = new DialogKiemTra(null, true);
-        kt.loadForm(listOrderId, table);
-        kt.setVisible(true);
         
-        addTable();
-        pnContainerTable.revalidate();
-        pnContainerTable.repaint();
     }//GEN-LAST:event_btnKiemTraActionPerformed
 
     private void btnGopBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGopBanActionPerformed
@@ -488,7 +491,6 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
     private javax.swing.JButton btnKiemTra;
     private javax.swing.JButton btnTachBan;
     private javax.swing.JScrollPane jScrollPane1;
-    private GUI.Comp.Swing.PanelBackground panelBackground1;
     private GUI.Comp.Swing.PanelBackground panelBackground10;
     private GUI.Comp.Swing.PanelBackground panelBackground15;
     private GUI.Comp.Swing.PanelBackground panelBackground16;
@@ -500,6 +502,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
     private GUI.Comp.Swing.PanelBackground panelBackground7;
     private GUI.Comp.Swing.PanelBackground panelBackground8;
     private GUI.Comp.Swing.PanelBackground panelBackground9;
+    private GUI.Comp.Swing.PanelBackground pnContainer;
     private GUI.Comp.Swing.PanelBackground pnContainerTable;
     private javax.swing.JTextField txtSaveTable;
     // End of variables declaration//GEN-END:variables

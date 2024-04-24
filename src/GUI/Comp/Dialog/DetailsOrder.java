@@ -10,6 +10,7 @@ import DTO.DetailOrderDTO;
 import DTO.OrderDTO;
 import java.util.ArrayList;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -22,7 +23,8 @@ public class DetailsOrder extends javax.swing.JDialog {
     private long orderID;
     private DetailOrderBUS detailOrderBUS  = new DetailOrderBUS();
     private ArrayList<DetailOrderDTO> listDetailsOrder;
-    
+    private int row;
+    private boolean isValid = true;
     
     
     public DetailsOrder(java.awt.Frame parent, boolean modal) {
@@ -52,7 +54,7 @@ public class DetailsOrder extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelBackground1 = new GUI.Comp.Swing.PanelBackground();
+        pnContainer = new GUI.Comp.Swing.PanelBackground();
         panelBackground2 = new GUI.Comp.Swing.PanelBackground();
         panelBackground3 = new GUI.Comp.Swing.PanelBackground();
         panelBackground4 = new GUI.Comp.Swing.PanelBackground();
@@ -68,7 +70,7 @@ public class DetailsOrder extends javax.swing.JDialog {
         panelBackground12 = new GUI.Comp.Swing.PanelBackground();
         panelBackground13 = new GUI.Comp.Swing.PanelBackground();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtIDMonAn = new javax.swing.JTextField();
         panelBackground14 = new GUI.Comp.Swing.PanelBackground();
         panelBackground15 = new GUI.Comp.Swing.PanelBackground();
         panelBackground16 = new GUI.Comp.Swing.PanelBackground();
@@ -76,7 +78,7 @@ public class DetailsOrder extends javax.swing.JDialog {
         panelBackground18 = new GUI.Comp.Swing.PanelBackground();
         panelBackground19 = new GUI.Comp.Swing.PanelBackground();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtTenMon = new javax.swing.JTextField();
         panelBackground20 = new GUI.Comp.Swing.PanelBackground();
         panelBackground21 = new GUI.Comp.Swing.PanelBackground();
         panelBackground22 = new GUI.Comp.Swing.PanelBackground();
@@ -84,14 +86,14 @@ public class DetailsOrder extends javax.swing.JDialog {
         panelBackground24 = new GUI.Comp.Swing.PanelBackground();
         panelBackground25 = new GUI.Comp.Swing.PanelBackground();
         jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtSoLuong = new javax.swing.JTextField();
         panelBackground32 = new GUI.Comp.Swing.PanelBackground();
         panelBackground33 = new GUI.Comp.Swing.PanelBackground();
         panelBackground34 = new GUI.Comp.Swing.PanelBackground();
         panelBackground35 = new GUI.Comp.Swing.PanelBackground();
         panelBackground36 = new GUI.Comp.Swing.PanelBackground();
         panelBackground37 = new GUI.Comp.Swing.PanelBackground();
-        jLabel4 = new javax.swing.JLabel();
+        lbThanhTien = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         panelBackground38 = new GUI.Comp.Swing.PanelBackground();
         panelBackground39 = new GUI.Comp.Swing.PanelBackground();
@@ -99,8 +101,8 @@ public class DetailsOrder extends javax.swing.JDialog {
         panelBackground41 = new GUI.Comp.Swing.PanelBackground();
         panelBackground42 = new GUI.Comp.Swing.PanelBackground();
         panelBackground43 = new GUI.Comp.Swing.PanelBackground();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnCapNhat = new javax.swing.JButton();
+        btnXoa = new javax.swing.JButton();
         panelBackground26 = new GUI.Comp.Swing.PanelBackground();
         jSeparator1 = new javax.swing.JSeparator();
         panelBackground28 = new GUI.Comp.Swing.PanelBackground();
@@ -109,12 +111,12 @@ public class DetailsOrder extends javax.swing.JDialog {
         panelBackground31 = new GUI.Comp.Swing.PanelBackground();
         panelBackground44 = new GUI.Comp.Swing.PanelBackground();
         panelBackground45 = new GUI.Comp.Swing.PanelBackground();
-        jButton3 = new javax.swing.JButton();
+        btnLuu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        panelBackground1.setBackground(new java.awt.Color(30, 30, 30));
-        panelBackground1.setLayout(new java.awt.BorderLayout());
+        pnContainer.setBackground(new java.awt.Color(30, 30, 30));
+        pnContainer.setLayout(new java.awt.BorderLayout());
 
         panelBackground2.setBackground(new java.awt.Color(30, 30, 30));
         panelBackground2.setPreferredSize(new java.awt.Dimension(20, 445));
@@ -130,7 +132,7 @@ public class DetailsOrder extends javax.swing.JDialog {
             .addGap(0, 525, Short.MAX_VALUE)
         );
 
-        panelBackground1.add(panelBackground2, java.awt.BorderLayout.LINE_START);
+        pnContainer.add(panelBackground2, java.awt.BorderLayout.LINE_START);
 
         panelBackground3.setBackground(new java.awt.Color(30, 30, 30));
         panelBackground3.setPreferredSize(new java.awt.Dimension(755, 20));
@@ -146,7 +148,7 @@ public class DetailsOrder extends javax.swing.JDialog {
             .addGap(0, 20, Short.MAX_VALUE)
         );
 
-        panelBackground1.add(panelBackground3, java.awt.BorderLayout.PAGE_END);
+        pnContainer.add(panelBackground3, java.awt.BorderLayout.PAGE_END);
 
         panelBackground4.setBackground(new java.awt.Color(30, 30, 30));
         panelBackground4.setPreferredSize(new java.awt.Dimension(20, 525));
@@ -162,7 +164,7 @@ public class DetailsOrder extends javax.swing.JDialog {
             .addGap(0, 525, Short.MAX_VALUE)
         );
 
-        panelBackground1.add(panelBackground4, java.awt.BorderLayout.LINE_END);
+        pnContainer.add(panelBackground4, java.awt.BorderLayout.LINE_END);
 
         panelBackground5.setBackground(new java.awt.Color(30, 30, 30));
         panelBackground5.setPreferredSize(new java.awt.Dimension(755, 20));
@@ -178,7 +180,7 @@ public class DetailsOrder extends javax.swing.JDialog {
             .addGap(0, 20, Short.MAX_VALUE)
         );
 
-        panelBackground1.add(panelBackground5, java.awt.BorderLayout.PAGE_START);
+        pnContainer.add(panelBackground5, java.awt.BorderLayout.PAGE_START);
 
         panelBackground6.setBackground(new java.awt.Color(30, 30, 30));
         panelBackground6.setLayout(new java.awt.GridLayout(1, 2, 20, 0));
@@ -195,6 +197,11 @@ public class DetailsOrder extends javax.swing.JDialog {
                 "Mã món ăn", "Tên món ăn", "Số lượng", "Thành tiền"
             }
         ));
+        tbMonAn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbMonAnMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbMonAn);
         if (tbMonAn.getColumnModel().getColumnCount() > 0) {
             tbMonAn.getColumnModel().getColumn(1).setPreferredWidth(170);
@@ -285,9 +292,9 @@ public class DetailsOrder extends javax.swing.JDialog {
         jLabel1.setPreferredSize(new java.awt.Dimension(100, 22));
         panelBackground13.add(jLabel1, java.awt.BorderLayout.LINE_START);
 
-        jTextField1.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        jTextField1.setEnabled(false);
-        panelBackground13.add(jTextField1, java.awt.BorderLayout.CENTER);
+        txtIDMonAn.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        txtIDMonAn.setEnabled(false);
+        panelBackground13.add(txtIDMonAn, java.awt.BorderLayout.CENTER);
 
         panelBackground8.add(panelBackground13, java.awt.BorderLayout.CENTER);
 
@@ -370,9 +377,9 @@ public class DetailsOrder extends javax.swing.JDialog {
         jLabel2.setPreferredSize(new java.awt.Dimension(100, 22));
         panelBackground19.add(jLabel2, java.awt.BorderLayout.LINE_START);
 
-        jTextField2.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        jTextField2.setEnabled(false);
-        panelBackground19.add(jTextField2, java.awt.BorderLayout.CENTER);
+        txtTenMon.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        txtTenMon.setEnabled(false);
+        panelBackground19.add(txtTenMon, java.awt.BorderLayout.CENTER);
 
         panelBackground14.add(panelBackground19, java.awt.BorderLayout.CENTER);
 
@@ -455,8 +462,13 @@ public class DetailsOrder extends javax.swing.JDialog {
         jLabel3.setPreferredSize(new java.awt.Dimension(100, 22));
         panelBackground25.add(jLabel3, java.awt.BorderLayout.LINE_START);
 
-        jTextField3.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        panelBackground25.add(jTextField3, java.awt.BorderLayout.CENTER);
+        txtSoLuong.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        txtSoLuong.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSoLuongKeyReleased(evt);
+            }
+        });
+        panelBackground25.add(txtSoLuong, java.awt.BorderLayout.CENTER);
 
         panelBackground20.add(panelBackground25, java.awt.BorderLayout.CENTER);
 
@@ -533,11 +545,11 @@ public class DetailsOrder extends javax.swing.JDialog {
         panelBackground37.setBackground(new java.awt.Color(35, 35, 35));
         panelBackground37.setLayout(new java.awt.BorderLayout(15, 0));
 
-        jLabel4.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("0");
-        jLabel4.setPreferredSize(new java.awt.Dimension(100, 16));
-        panelBackground37.add(jLabel4, java.awt.BorderLayout.CENTER);
+        lbThanhTien.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        lbThanhTien.setForeground(new java.awt.Color(255, 255, 255));
+        lbThanhTien.setText("0");
+        lbThanhTien.setPreferredSize(new java.awt.Dimension(100, 16));
+        panelBackground37.add(lbThanhTien, java.awt.BorderLayout.CENTER);
 
         jLabel5.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -620,13 +632,18 @@ public class DetailsOrder extends javax.swing.JDialog {
         panelBackground43.setBackground(new java.awt.Color(35, 35, 35));
         panelBackground43.setLayout(new java.awt.GridLayout(1, 2, 25, 0));
 
-        jButton1.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        jButton1.setText("Sửa");
-        panelBackground43.add(jButton1);
+        btnCapNhat.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        btnCapNhat.setText("Cập nhật");
+        btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCapNhatActionPerformed(evt);
+            }
+        });
+        panelBackground43.add(btnCapNhat);
 
-        jButton2.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        jButton2.setText("Xóa");
-        panelBackground43.add(jButton2);
+        btnXoa.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        btnXoa.setText("Xóa");
+        panelBackground43.add(btnXoa);
 
         panelBackground38.add(panelBackground43, java.awt.BorderLayout.CENTER);
 
@@ -709,9 +726,14 @@ public class DetailsOrder extends javax.swing.JDialog {
         panelBackground45.setBackground(new java.awt.Color(35, 35, 35));
         panelBackground45.setLayout(new java.awt.BorderLayout(15, 0));
 
-        jButton3.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        jButton3.setText("Cập nhật");
-        panelBackground45.add(jButton3, java.awt.BorderLayout.CENTER);
+        btnLuu.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        btnLuu.setText("Lưu");
+        btnLuu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLuuActionPerformed(evt);
+            }
+        });
+        panelBackground45.add(btnLuu, java.awt.BorderLayout.CENTER);
 
         panelBackground28.add(panelBackground45, java.awt.BorderLayout.CENTER);
 
@@ -719,12 +741,51 @@ public class DetailsOrder extends javax.swing.JDialog {
 
         panelBackground6.add(panelBackground7);
 
-        panelBackground1.add(panelBackground6, java.awt.BorderLayout.CENTER);
+        pnContainer.add(panelBackground6, java.awt.BorderLayout.CENTER);
 
-        getContentPane().add(panelBackground1, java.awt.BorderLayout.CENTER);
+        getContentPane().add(pnContainer, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
+        System.out.println(orderID);
+    }//GEN-LAST:event_btnLuuActionPerformed
+
+    private void tbMonAnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMonAnMouseClicked
+        row = tbMonAn.getSelectedRow();
+        txtIDMonAn.setText(listDetailsOrder.get(row).getId() + "");
+        txtTenMon.setText(listDetailsOrder.get(row).getName());
+        txtSoLuong.setText(listDetailsOrder.get(row).getQuantity()+ "");
+        lbThanhTien.setText(Helper.FormatNumber.getInstance().getFormat().format(listDetailsOrder.get(row).getTotal()));
+    }//GEN-LAST:event_tbMonAnMouseClicked
+
+    private void txtSoLuongKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSoLuongKeyReleased
+        String quantity = txtSoLuong.getText();
+        if (quantity.isEmpty()) {
+            JOptionPane.showMessageDialog(pnContainer, "Số lượng không được để trống", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            isValid = false;
+        }
+        else {
+            try {
+                lbThanhTien.setText(Helper.FormatNumber.getInstance().getFormat().format(Long.parseLong(quantity) * listDetailsOrder.get(row).getPrice()));
+                isValid = true;
+            }
+            catch(NumberFormatException nfe) {
+                JOptionPane.showMessageDialog(pnContainer, "Số lượng phải là kí tự số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                isValid = false;
+            }
+        }
+    }//GEN-LAST:event_txtSoLuongKeyReleased
+
+    private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
+        if (isValid) {
+            
+        }
+        else {
+            JOptionPane.showMessageDialog(pnContainer, "Sai định dạng số lượng. Không thể cập nhật", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnCapNhatActionPerformed
 
     /**
      * @param args the command line arguments
@@ -769,20 +830,16 @@ public class DetailsOrder extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnCapNhat;
+    private javax.swing.JButton btnLuu;
+    private javax.swing.JButton btnXoa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private GUI.Comp.Swing.PanelBackground panelBackground1;
+    private javax.swing.JLabel lbThanhTien;
     private GUI.Comp.Swing.PanelBackground panelBackground10;
     private GUI.Comp.Swing.PanelBackground panelBackground11;
     private GUI.Comp.Swing.PanelBackground panelBackground12;
@@ -826,6 +883,10 @@ public class DetailsOrder extends javax.swing.JDialog {
     private GUI.Comp.Swing.PanelBackground panelBackground7;
     private GUI.Comp.Swing.PanelBackground panelBackground8;
     private GUI.Comp.Swing.PanelBackground panelBackground9;
+    private GUI.Comp.Swing.PanelBackground pnContainer;
     private javax.swing.JTable tbMonAn;
+    private javax.swing.JTextField txtIDMonAn;
+    private javax.swing.JTextField txtSoLuong;
+    private javax.swing.JTextField txtTenMon;
     // End of variables declaration//GEN-END:variables
 }
