@@ -589,6 +589,7 @@ public class QuanLiBan extends javax.swing.JPanel {
         for (TableDTO table : listTable) {
             if (table.isIsSelected()) {
                 x.setAction(true);
+//                System.out.println(table.getId());
                 x.setIDTable(table.getId(), true);
                 break;
             }

@@ -44,6 +44,7 @@ public class DialogActionTable extends javax.swing.JDialog {
     public void setIDTable(long id, boolean isUpdate) {
         if (isUpdate) {
             table = tableBUS.findTableByID(id);
+            
         }
         txtIDTable.setText(id + "");
         setVisible(true);
@@ -191,7 +192,7 @@ public class DialogActionTable extends javax.swing.JDialog {
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
 
         Date currentDate = new Date();
-        
+
         table.setName(txtNameTable.getText());
         table.setDes(txtDesTable.getText());
         table.setStatus((String)cbxTrangThai.getSelectedItem());

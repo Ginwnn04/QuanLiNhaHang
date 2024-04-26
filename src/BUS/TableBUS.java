@@ -4,6 +4,7 @@
  */
 package BUS;
 
+import Criteria.TableCriteria;
 import DAO.TableDAO;
 import DTO.TableDTO;
 import java.util.ArrayList;
@@ -13,22 +14,23 @@ import java.util.ArrayList;
  * @author quang
  */
 public class TableBUS {
-    private ArrayList<TableDTO> list;
     private TableDAO tableDAO;
+    
+    
     public TableBUS() {
-        list = new ArrayList<>();
         tableDAO = new TableDAO();
     }
     
     public ArrayList<TableDTO> getAllData() {
-        list = tableDAO.readAllData();
-        return list;
+        TableCriteria criteria = new TableCriteria();
+        tableDAO.read(criteria);
+        return tableDAO.read(criteria);
     }
     
     
     
     public boolean insertTable(TableDTO table) {
-        return tableDAO.insertData(table);
+        return tableDAO.insert(table);
     }
     
 //    public ArrayList<TableDTO> sortNameTable(String name) {
@@ -53,16 +55,23 @@ public class TableBUS {
     }
      
     public ArrayList<TableDTO> findTableByCustomerCode(String customerCode) {
-        return tableDAO.findTableByCustomerCode(customerCode);
+        TableCriteria criteria = new TableCriteria();
+        criteria.setCustomerCode(customerCode);
+        return tableDAO.read(criteria);
          
     }
     
     public TableDTO findTableByName(String nameTable) {
-        return tableDAO.findTableByName(nameTable);
+        TableCriteria criteria = new TableCriteria();
+        criteria.setName(nameTable);
+        return tableDAO.read(criteria).size() == 0 ? null : tableDAO.read(criteria).get(0);
     }
     
     public TableDTO findTableByID(long idTable) {
-        return tableDAO.readData(idTable);
+        TableCriteria criteria = new TableCriteria();
+        criteria.setId(idTable);
+        
+        return tableDAO.read(criteria).size() == 0 ? null : tableDAO.read(criteria).get(0);
     }
      
     public boolean cancelTable(String listTabeID) {
