@@ -91,6 +91,31 @@ public class OrderDAO {
         return list;
     }
     
+    public OrderDTO findOrderByID(long id) {
+        String query = "SELECT * FROM tb_orders WHERE id = ?";
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query);) {
+            pstm.setLong(1, id);
+            ResultSet rs = pstm.executeQuery();
+           
+            if (rs.next()) {
+                OrderDTO order = new OrderDTO();
+                order.setId(rs.getLong("id"));
+                order.setCustomerCode(rs.getString("customer_code"));
+                order.setTotal(rs.getLong("total"));
+                order.setIsDelete(rs.getBoolean("isdeleted"));
+                order.setStaffID(rs.getLong("staffid"));
+                order.setTableID(rs.getLong("tableid"));
+                order.setUpdateTime(rs.getTimestamp("update_time"));
+                order.setCreateTime(rs.getTimestamp("create_time"));
+                return order;
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
     public OrderDTO findOrderByTableID(long idTable) {
         String query = "SELECT * FROM tb_orders WHERE tableid = ?";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query);) {
@@ -135,6 +160,29 @@ public class OrderDAO {
         return false;
     }
     
+    public boolean update(OrderDTO order) {
+        String query = "UPDATE  tb_orders SET customer_code = ?, total = ?, isdeleted = ?, update_time = ? WHERE id = ?";
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
+            pstm.setString(1, order.getCustomerCode());
+            pstm.setLong(2, order.getTotal());
+            pstm.setBoolean(3, order.isIsDelete());
+          
+            
+            Timestamp sqlDateUpdate = new Timestamp(order.getUpdateTime().getTime());
+            pstm.setTimestamp(4, sqlDateUpdate);
+            
+            
+            pstm.setLong(5, order.getId());
+            
+            return pstm.executeUpdate() > 0;
+        }
+        catch(Exception e) {
+                e.printStackTrace();
+            }
+        return false;
+    }
+    
+    
     public boolean deleteOrder(String listOrderID) {
         String query = "UPDATE tb_orders SET isdeleted = TRUE, update_time = ? WHERE id IN ";
         query += "(" + listOrderID + ")";
@@ -148,4 +196,5 @@ public class OrderDAO {
         }
         return false;
     }
+    
 }

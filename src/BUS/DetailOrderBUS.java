@@ -34,4 +34,8 @@ public class DetailOrderBUS {
     public boolean updateDetails(String listOrderID, long invoiceid) {
         return detailOrderDAO.updateDetails(listOrderID, invoiceid);
     }
+    
+    public boolean updateDetails(DetailOrderDTO x) {
+        return detailOrderDAO.updateDetails(x);
+    }
 }

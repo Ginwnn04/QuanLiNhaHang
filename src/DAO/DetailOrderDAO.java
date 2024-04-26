@@ -122,4 +122,18 @@ public class DetailOrderDAO {
         }
         return false;
     }
+    
+    public boolean updateDetails(DetailOrderDTO detailOrderDTO) {
+        String query = "UPDATE tb_detail_order SET isdeleted = ? WHERE id = ?";
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
+            pstm.setBoolean(1, detailOrderDTO.isIsDelete());
+            pstm.setLong(2, detailOrderDTO.getId());
+
+            return pstm.executeUpdate() > 0;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

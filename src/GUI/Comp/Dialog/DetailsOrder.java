@@ -22,6 +22,7 @@ public class DetailsOrder extends javax.swing.JDialog {
     private DefaultTableModel model;
     private long orderID;
     private DetailOrderBUS detailOrderBUS  = new DetailOrderBUS();
+    private OrderBUS orderBUS = new OrderBUS();
     private ArrayList<DetailOrderDTO> listDetailsOrder;
     private int row;
     private boolean isValid = true;
@@ -37,17 +38,30 @@ public class DetailsOrder extends javax.swing.JDialog {
         renderer.setHorizontalAlignment(JLabel.LEFT);
     }
 
-    public void render() {
+    // true => lấy data từ db lên
+    // false => lấy data hiện đang có trong listDetailsOrder
+    public void render(boolean getFormDB) {
         model = (DefaultTableModel)tbMonAn.getModel();
         model.setRowCount(0);
-        listDetailsOrder = detailOrderBUS.findDetailByOrder(orderID);
+        if (getFormDB) {
+            listDetailsOrder = detailOrderBUS.findDetailByOrder(orderID);
+        }
         for (DetailOrderDTO x : listDetailsOrder) {
-            model.addRow(new Object[] {x.getId(), x.getName(), x.getQuantity(), Helper.FormatNumber.getInstance().getFormat().format(x.getTotal())});
+            if (!x.isIsDelete()) {
+                model.addRow(new Object[] {x.getId(), x.getName(), x.getQuantity(), Helper.FormatNumber.getInstance().getFormat().format(x.getTotal())});
+            }
         }
     }
     
     public void insertOrderID(long orderID) {
         this.orderID = orderID;
+    }
+    
+    public void refresh() {
+         txtIDMonAn.setText("");
+        txtTenMon.setText("");
+        txtSoLuong.setText("");
+        lbThanhTien.setText("0");
     }
     
     @SuppressWarnings("unchecked")
@@ -643,6 +657,11 @@ public class DetailsOrder extends javax.swing.JDialog {
 
         btnXoa.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         btnXoa.setText("Xóa");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
         panelBackground43.add(btnXoa);
 
         panelBackground38.add(panelBackground43, java.awt.BorderLayout.CENTER);
@@ -749,7 +768,27 @@ public class DetailsOrder extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
-        System.out.println(orderID);
+        boolean isSuccess = true;
+        long total = 0;
+        int  cnt = 0;
+        for (DetailOrderDTO x : listDetailsOrder) {
+            if (detailOrderBUS.updateDetails(x)) {
+                cnt++;
+            }
+            total += x.getTotal();
+        }
+        OrderDTO order = orderBUS.findOrderByID(orderID);
+        order.setTotal(total);
+        
+        if (orderBUS.update(order) && cnt == listDetailsOrder.size()) {
+            JOptionPane.showMessageDialog(pnContainer, "Đã lưu thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            
+        }
+        else {
+            JOptionPane.showMessageDialog(pnContainer, "Lưu thất bại", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            
+        }
+        dispose();
     }//GEN-LAST:event_btnLuuActionPerformed
 
     private void tbMonAnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMonAnMouseClicked
@@ -780,12 +819,36 @@ public class DetailsOrder extends javax.swing.JDialog {
 
     private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
         if (isValid) {
+            DetailOrderDTO detail = new DetailOrderDTO();
+            detail = listDetailsOrder.get(row);
+            int quantity = Integer.parseInt(txtSoLuong.getText());
+            detail.setQuantity(quantity);
+            detail.setTotal(quantity * detail.getPrice());
+            listDetailsOrder.set(row, detail);
+            refresh();
+            render(false);
             
         }
         else {
             JOptionPane.showMessageDialog(pnContainer, "Sai định dạng số lượng. Không thể cập nhật", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnCapNhatActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        if (isValid) {
+            DetailOrderDTO detail = new DetailOrderDTO();
+            detail = listDetailsOrder.get(row);
+            
+            detail.setIsDelete(true);
+            listDetailsOrder.set(row, detail);
+            refresh();
+            render(false);
+            
+        }
+        else {
+            JOptionPane.showMessageDialog(pnContainer, "Sai định dạng số lượng. Không thể cập nhật", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnXoaActionPerformed
 
     /**
      * @param args the command line arguments

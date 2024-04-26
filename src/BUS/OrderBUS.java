@@ -43,8 +43,16 @@ public class OrderBUS {
         return orderDAO.findOrderByTableID(tableID);
     }
     
+    public OrderDTO findOrderByID(long id) {
+        return orderDAO.findOrderByID(id);
+    }
+    
     public boolean updateCustomerCode(String listTableID, String customerCode) {
         return orderDAO.updateCustomerCode(listTableID, customerCode);
+    }
+    
+    public boolean update(OrderDTO order){
+        return orderDAO.update(order);
     }
     
     public boolean deleteOrder(String listOrderID) {

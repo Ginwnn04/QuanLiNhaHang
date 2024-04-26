@@ -551,16 +551,19 @@ public class QuanLiDatMon extends javax.swing.JPanel {
 
     private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChiTietActionPerformed
         getOrderIDSelected();
-        DetailsOrder x = new DetailsOrder(null, false);
         if (!listOrderIDSelected.isEmpty()) {
+            DetailsOrder x = new DetailsOrder(null, true);
             long orderID = Long.parseLong(listOrderIDSelected);
             x.insertOrderID(orderID);
-            x.render();
+            x.render(true);
             x.setVisible(true);   
+            render(false);
         }
         else {
             JOptionPane.showMessageDialog(pnContainer, "Bạn chưa chọn hoá đơn", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+        
         
     }//GEN-LAST:event_btnChiTietActionPerformed
 
