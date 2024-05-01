@@ -16,6 +16,18 @@ public class DiscountBUS {
     private DiscountDAO discountDAO = new DiscountDAO();
     
     public ArrayList<DiscountDTO> getAllData() {
-        return discountDAO.readData();
+        return discountDAO.read();
+    }
+    
+    public boolean insertDiscount(DiscountDTO discount) {
+        return discountDAO.insert(discount);
+    }
+    
+    public boolean updateDiscount(DiscountDTO discount) {
+        return discountDAO.update(discount);
+    }
+    
+    public boolean deleteDiscount(DiscountDTO discount) {
+        return discountDAO.update(discount);
     }
 }

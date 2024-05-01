@@ -4,11 +4,15 @@
  */
 package GUI.Main;
 
-import GUI.Comp.QuanLiBan;
-import GUI.Comp.DialogOrder;
+import GUI.Comp.Panel.QuanLiBan;
+import GUI.Comp.Dialog.DialogOrder;
 
-import GUI.Comp.PanelDashbroad;
-import GUI.Comp.QuanLiDatMon;
+import GUI.Comp.Panel.PanelDashbroad;
+import GUI.Comp.Panel.QuanLiCongThuc;
+import GUI.Comp.Panel.QuanLiGiamGia;
+import GUI.Comp.Panel.QuanLiDatMon;
+import GUI.Comp.Panel.QuanLiMonAn;
+import GUI.Comp.Panel.QuanLiTheLoai;
 import Helper.MyListener;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
@@ -35,7 +39,7 @@ import javax.swing.border.Border;
  */
 public class Main extends javax.swing.JFrame implements PropertyChangeListener {
 
-    private PanelDashbroad a = new PanelDashbroad();
+  
 
     public Main() {
         initComponents();
@@ -46,7 +50,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
         navBar.setInformation("Nguyễn Nhật Quang", "Nhân viên");
         MyListener.getInstance().addPropertyChangeListener(this);
         setTitle("PHẦN MỀM QUẢN LÍ NHÀ HÀNG");
-        showForm(a);
+        showForm(new PanelDashbroad());
         
         
 
@@ -60,7 +64,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
             
             switch (index) {
                 case 0:
-                    showForm(a);
+                    showForm(new PanelDashbroad());
                     break;
                 case 1:
                     showForm(new QuanLiBan());
@@ -69,7 +73,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
                     showForm(new QuanLiDatMon());
                     break;
                 case 3:
-                    
+                    showForm(new QuanLiMonAn());
 
                     break;
                 case 4:
@@ -79,11 +83,29 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
 
                     break;
                 case 6:
-
+                    showForm(new QuanLiCongThuc());
                     break;
                 case 7:
-                    
+                    showForm(new QuanLiTheLoai());
                     break;
+                case 8:
+                    showForm(new QuanLiGiamGia());
+                    break;
+                case 9:
+//                    showForm(new QuanLiTheLoai());
+                    break;
+                case 10:
+//                  showForm(new QuanLiTheLoai());
+                    break;
+                case 11:
+//                    showForm(new QuanLiTheLoai());
+                    break;
+                case 12:
+//                    showForm(new QuanLiTheLoai());
+                    break;
+
+                    
+                    
                 
             }
         }

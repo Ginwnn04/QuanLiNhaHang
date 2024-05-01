@@ -4,7 +4,9 @@
  */
 package DTO;
 
-import GUI.Comp.PanelProductOrder;
+import BUS.MenuItemStatusBUS;
+import GUI.Comp.Panel.PanelProductOrder;
+import java.util.Date;
 
 /**
  *
@@ -12,7 +14,6 @@ import GUI.Comp.PanelProductOrder;
  */
 public class MenuItemDTO {
     private long id;
-    private String code;
     private String name;
     private String description;
     private String ingredient;
@@ -20,13 +21,13 @@ public class MenuItemDTO {
     private long price;
     private long profit;
     private boolean isDelete;
-    private String status;
-    private String category;
-    private String createTime;
-    private String updateTime;
-    private String statusProduct;
-    private String categories;      
+    private String statusID;
+    private long categoryID;
+    private Date createTime;
+    private Date updateTime;      
     
+    
+    private boolean isSelected;
     private int index;
     private PanelProductOrder panelProductOrder;
     
@@ -37,9 +38,8 @@ public class MenuItemDTO {
 
     
     
-    public MenuItemDTO(long id, String code, String name, String description, String ingredient, String image, long price, long profit, boolean isDelete, String status, String category, String createTime, String updateTime, String statusProduct, String categories) {
+    public MenuItemDTO(long id, String name, String description, String ingredient, String image, long price, long profit, boolean isDelete, String statusID, long categoryID, Date createTime, Date updateTime) {
         this.id = id;
-        this.code = code;
         this.name = name;
         this.description = description;
         this.ingredient = ingredient;
@@ -47,22 +47,31 @@ public class MenuItemDTO {
         this.price = price;
         this.profit = profit;
         this.isDelete = isDelete;
-        this.status = status;
-        this.category = category;
+        this.statusID = statusID;
+        this.categoryID = categoryID;
         this.createTime = createTime;
         this.updateTime = updateTime;
-        this.statusProduct = statusProduct;
-        this.categories = categories;
     }
 
     public PanelProductOrder createCart(int index) {
         this.index = index;
         panelProductOrder = new PanelProductOrder();
-        panelProductOrder.insertData(index, name, price, status, image, description, ingredient);
+        MenuItemStatusDTO menuItemStatusDTO = new MenuItemStatusBUS().findItemStatusByID(statusID);
+        panelProductOrder.insertData(index, name, price, menuItemStatusDTO.getName(), image, description, ingredient);
 //        System.out.println(description + " " + ingredient + " 1");
         
         return panelProductOrder;
     }
+
+    public boolean isIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }
+    
+    
     
     public long getId() {
         return id;
@@ -72,13 +81,6 @@ public class MenuItemDTO {
         this.id = id;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
 
     public String getName() {
         return name;
@@ -136,54 +138,36 @@ public class MenuItemDTO {
         this.isDelete = isDelete;
     }
 
-    public String getStatus() {
-        return status;
+    public String getStatusID() {
+        return statusID;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatusID(String statusID) {
+        this.statusID = statusID;
     }
 
-    public String getCategory() {
-        return category;
+    public long getCategoryID() {
+        return categoryID;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategoryID(long categoryID) {
+        this.categoryID = categoryID;
     }
 
-    
-
-    public String getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public String getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(String updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public String getStatusProduct() {
-        return statusProduct;
-    }
-
-    public void setStatusProduct(String statusProduct) {
-        this.statusProduct = statusProduct;
-    }
-
-    public String getCategories() {
-        return categories;
-    }
-
-    public void setCategories(String categories) {
-        this.categories = categories;
     }
     
     

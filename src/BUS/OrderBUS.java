@@ -4,28 +4,29 @@
  */
 package BUS;
 
+import Criteria.OrderCriteria;
 import DAO.OrderDAO;
 import DTO.DetailOrderDTO;
 import DTO.OrderDTO;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 public class OrderBUS {
     private OrderDAO orderDAO = new OrderDAO();
     private DetailOrderBUS detailOrderBUS = new DetailOrderBUS();
-    private OrderDTO order;
     
     
     public ArrayList<OrderDTO> getAllOrder() {
-        return orderDAO.getAllData();
+        OrderCriteria criteria = new OrderCriteria();
+        criteria.setIsDelete(false);
+        return orderDAO.read(criteria);
     }
     
     
     public boolean insertOrder(OrderDTO order) {
-        this.order = order;
         ArrayList<DetailOrderDTO> listDetailOrder = order.getListDetailOrder();
-        boolean check = orderDAO.insertData(order);
+        boolean check = orderDAO.insert(order);
         if (check) {
             for (DetailOrderDTO x : listDetailOrder) {
                 x.setOrderID(order.getId());
@@ -36,26 +37,47 @@ public class OrderBUS {
     }
     
     public ArrayList<OrderDTO> findOrderByCustomerCode(String customerCode) {
-        return orderDAO.findOrderByCustomerCode(customerCode);
+        OrderCriteria criteria = new OrderCriteria();
+        criteria.setCustomerCode(customerCode);
+        return orderDAO.read(criteria);
     }
     
     public OrderDTO findOrderByTableID(long tableID) {
-        return orderDAO.findOrderByTableID(tableID);
+        OrderCriteria criteria = new OrderCriteria();
+        criteria.setTableID(tableID);
+        return orderDAO.read(criteria).size() == 0 ? null : orderDAO.read(criteria).get(0);
     }
     
     public OrderDTO findOrderByID(long id) {
-        return orderDAO.findOrderByID(id);
+        OrderCriteria criteria = new OrderCriteria();
+        criteria.setId(id);
+        return orderDAO.read(criteria).size() == 0 ? null : orderDAO.read(criteria).get(0);
     }
     
-    public boolean updateCustomerCode(String listTableID, String customerCode) {
-        return orderDAO.updateCustomerCode(listTableID, customerCode);
+    public boolean updateCustomerCode(String listID, String customerCode) {
+        OrderCriteria criteria = new OrderCriteria();
+        criteria.setCustomerCode(customerCode);
+        return orderDAO.update(criteria, listID);
     }
     
-    public boolean update(OrderDTO order){
-        return orderDAO.update(order);
+    public boolean updateTotal(OrderDTO order){
+        OrderCriteria criteria = new OrderCriteria();
+        criteria.setId(order.getId());
+        criteria.setTotal(order.getTotal());
+        criteria.setUpdateTime(new Date());
+        return orderDAO.update(criteria, "");
+    }
+    
+    public boolean updateTableID(OrderDTO order) {
+        OrderCriteria criteria = new OrderCriteria();
+        criteria.setId(order.getId());
+        criteria.setTableID(order.getTableID());
+        return orderDAO.update(criteria, "");
     }
     
     public boolean deleteOrder(String listOrderID) {
-        return orderDAO.deleteOrder(listOrderID);
+        OrderCriteria criteria = new OrderCriteria();
+        criteria.setIsDelete(true);
+        return orderDAO.update(criteria, "");
     }
 }

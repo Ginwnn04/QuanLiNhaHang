@@ -1,6 +1,6 @@
 package DTO;
 
-import GUI.Comp.PanelConfirmOrder;
+import GUI.Comp.Panel.PanelConfirmOrder;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Random;

@@ -22,8 +22,5 @@ public class InvoicesBUS {
     public InvoicesDTO getInvoiceByID(long id) {
         return invoicesDAO.readData(id);
     }
-    
-//    public ArrayList<InvoicesDTO> getAllData() {
-//        return invoicesDAO.readData();
-//    }
+
 }

@@ -780,7 +780,7 @@ public class DetailsOrder extends javax.swing.JDialog {
         OrderDTO order = orderBUS.findOrderByID(orderID);
         order.setTotal(total);
         
-        if (orderBUS.update(order) && cnt == listDetailsOrder.size()) {
+        if (orderBUS.updateTotal(order) && cnt == listDetailsOrder.size()) {
             JOptionPane.showMessageDialog(pnContainer, "Đã lưu thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             
         }
