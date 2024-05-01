@@ -2,6 +2,7 @@ package GUI.Comp;
 
 import BUS.IngredientsBUS;
 import DTO.IngredientsDTO;
+import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -32,9 +33,7 @@ public class QuanLiNguyenLieu extends javax.swing.JPanel {
     public QuanLiNguyenLieu() throws Exception {
         initComponents();
         loadDataToTable(jTable1);
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-
-        });
+        jTextField1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Nhập tên nguyên liệu");
 
     }
 
@@ -70,13 +69,11 @@ public class QuanLiNguyenLieu extends javax.swing.JPanel {
             // Lấy đối tượng cột trong cấu hình cột của JTable
             columnModel.getColumn(columnIndex).setHeaderRenderer(headerRenderer);
         }
-        // Set alignment for cells in each column to left
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(JLabel.LEFT);
         for (int i = 0; i < table.getColumnCount(); i++) {
             table.getColumnModel().getColumn(i).setCellRenderer(renderer);
         }
-        // Set custom cell renderer for the first column to display checkboxes
 
         columnModel.getColumn(0).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
@@ -84,8 +81,7 @@ public class QuanLiNguyenLieu extends javax.swing.JPanel {
                 JCheckBox checkBox = new JCheckBox();
                 checkBox.setSelected((boolean) value);
                 checkBox.setHorizontalAlignment(JLabel.LEFT);
-                // Set background color of the checkbox
-                checkBox.setBackground(new Color(35, 35, 35)); // Set the desired background color
+                checkBox.setBackground(new Color(35, 35, 35));
 
                 return checkBox;
             }
@@ -218,12 +214,16 @@ public class QuanLiNguyenLieu extends javax.swing.JPanel {
         jPanel1.setPreferredSize(new java.awt.Dimension(20, 20));
         panelBackground7.add(jPanel1);
 
-        jTextField1.setText("Nhập tên");
         jTextField1.setMaximumSize(new java.awt.Dimension(175, 30));
         jTextField1.setPreferredSize(new java.awt.Dimension(150, 50));
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
+            }
+        });
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
             }
         });
         panelBackground7.add(jTextField1);
@@ -467,6 +467,10 @@ public class QuanLiNguyenLieu extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1KeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton jButton1;

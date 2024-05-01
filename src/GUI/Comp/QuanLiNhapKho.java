@@ -61,21 +61,28 @@ import javax.swing.RowFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableRowSorter;
+import GUI.Comp.DateChooser.DateChooser;
+import GUI.Comp.DateChooser.SelectedDate;
+import com.formdev.flatlaf.FlatClientProperties;
+import java.util.Calendar;
+import javax.swing.JTable;
+import javax.swing.table.TableModel;
+import java.text.SimpleDateFormat;
+import java.util.regex.PatternSyntaxException;
 
 /**
  *
  * @author Tai
  */
 public class QuanLiNhapKho extends javax.swing.JPanel {
-
     /**
      * Creates new form QuanLiNhapKho
      */
     public QuanLiNhapKho() throws Exception {
         initComponents();
         loadImportBills();
+        jTextField1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "dd/MM/YYYY");
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -106,6 +113,7 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
         jPanel12 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         panelBackground8 = new GUI.Comp.Swing.PanelBackground();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -239,12 +247,20 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
         jPanel3.setMaximumSize(new java.awt.Dimension(20, 23));
         panelBackground7.add(jPanel3);
 
-        jTextField1.setText("Nhập dd/mm/yyyy");
+        jPanel4.setBackground(new java.awt.Color(35, 35, 35));
+        jPanel4.setMaximumSize(new java.awt.Dimension(20, 23));
+        panelBackground7.add(jPanel4);
+
         jTextField1.setMaximumSize(new java.awt.Dimension(175, 30));
         jTextField1.setPreferredSize(new java.awt.Dimension(175, 40));
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
+            }
+        });
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
             }
         });
         panelBackground7.add(jTextField1);
@@ -511,7 +527,7 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
                 document.open();
 
                 // Tạo tiêu đề cho tài liệu PDF
-                Paragraph title = new Paragraph("Chi tiet hoa don", FontFactory.getFont(FontFactory.TIMES_ROMAN, 18, Font.BOLD));
+                Paragraph title = new Paragraph("Import bill detail", FontFactory.getFont(FontFactory.TIMES_ROMAN, 18, Font.BOLD));
                 title.setAlignment(Element.ALIGN_CENTER);
                 document.add(title);
 
@@ -522,7 +538,7 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
                 table.setSpacingAfter(10f);
 
                 // Header cho bảng
-                String[] detailHeaders = {"ID hoa don", "ID chi tiet", "So luong", "Gia tien moi kg/lit", "Tong tien", "ID nguyen lieu", "Ten nguyen lieu"};
+                String[] detailHeaders = {"Bill ID", "Detail ID", "Quantity", "Price", "Total", "Ingredient ID", "Ingredient Name"};
                 for (String header : detailHeaders) {
                     PdfPCell cell = new PdfPCell(new Paragraph(header));
                     cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -552,15 +568,15 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
 
                 // Thêm thông tin nhà cung cấp vào tài liệu PDF
                 if (supplier != null) {
-                    Paragraph supplierInfo = new Paragraph("Thong tin nha cung cap", FontFactory.getFont(FontFactory.TIMES_ROMAN, 14, Font.BOLD));
+                    Paragraph supplierInfo = new Paragraph("Supplier's information", FontFactory.getFont(FontFactory.TIMES_ROMAN, 14, Font.BOLD));
                     supplierInfo.setAlignment(Element.ALIGN_CENTER);
                     document.add(supplierInfo);
 
                     Paragraph supplierDetail = new Paragraph();
                     supplierDetail.add(new Phrase("ID: " + supplier.getId() + "\n"));
-                    supplierDetail.add(new Phrase("Ten: " + supplier.getName() + "\n"));
-                    supplierDetail.add(new Phrase("Dia chi: " + supplier.getAddress() + "\n"));
-                    supplierDetail.add(new Phrase("sdt: " + supplier.getPhone() + "\n"));
+                    supplierDetail.add(new Phrase("Name: " + supplier.getName() + "\n"));
+                    supplierDetail.add(new Phrase("Address: " + supplier.getAddress() + "\n"));
+                    supplierDetail.add(new Phrase("Phone: " + supplier.getPhone() + "\n"));
                     document.add(supplierDetail);
                 }
 
@@ -722,6 +738,34 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
     }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+    // Lấy ngày được nhập vào từ text field
+    String inputDate = jTextField1.getText().trim();
+
+    // Khởi tạo TableRowSorter để lọc dữ liệu trong bảng jTable
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+    jTable1.setRowSorter(sorter);
+
+    // Nếu ngày nhập vào có ít nhất 1 ký tự và đúng định dạng dd/MM/YYYY
+    if (inputDate.length() > 0 && inputDate.matches("\\d{2}/\\d{2}/\\d{4}")) {
+        // Tạo một RowFilter để lọc dữ liệu dựa trên ngày nhập vào
+        RowFilter<DefaultTableModel, Object> filter = new RowFilter<DefaultTableModel, Object>() {
+            @Override
+            public boolean include(Entry<? extends DefaultTableModel, ? extends Object> entry) {
+                String dateInTable = (String) entry.getValue(3); // Cột thứ 4 là cột import_date
+                return dateInTable.equals(inputDate);
+            }
+        };
+
+        // Áp dụng RowFilter để lọc dữ liệu
+        sorter.setRowFilter(filter);
+    } else {
+        // Nếu ngày nhập vào không hợp lệ, hiển thị toàn bộ dữ liệu trong bảng
+        sorter.setRowFilter(null);
+    }
+    }//GEN-LAST:event_jTextField1KeyReleased
+
     private void processDataFromExcel(File file) {
         Connection con = null;
         try {
@@ -802,6 +846,7 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
         }
     }
 
+ 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton jButton1;
@@ -815,6 +860,7 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
     public javax.swing.JPanel jPanel12;
     public javax.swing.JPanel jPanel2;
     public javax.swing.JPanel jPanel3;
+    public javax.swing.JPanel jPanel4;
     public javax.swing.JPanel jPanel7;
     public javax.swing.JPanel jPanel8;
     public javax.swing.JPanel jPanel9;
