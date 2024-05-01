@@ -13,7 +13,6 @@ import DTO.DetailOrderDTO;
  */
 public class DetailOrderBUS {
     private DetailOrderDAO detailOrderDAO = new DetailOrderDAO();
-    private ArrayList<DetailOrderDTO> listDetailOrder = new ArrayList<>();
     
     public boolean insertDetailOrder(DetailOrderDTO x) {
         return detailOrderDAO.insertData(x);

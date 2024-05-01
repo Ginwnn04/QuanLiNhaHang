@@ -18,45 +18,77 @@ public class TableCriteria {
     private Date updateTime;
     private Boolean isDelete;
 
-    @Override
-    public String toString() {
-        String whereClause = "";
+    
+    // true => update
+    // false => select
+    public String createClause(boolean isUpdate) {
+        String clause = "";
         
-        if (id != null) {
-            whereClause += "id = ? AND ";
+        if (isUpdate) {
+            if (name != null) {
+                clause += "name = ?, ";
+            }
+            if (des != null) {
+                clause += "des = ?, ";
+            }
+            if (isDelete != null) {
+                clause += "isdeleted = ?, ";
+            }
+            if (customerCode != null) {
+                clause += "customer_code = ?, ";
+            }
+            if (status != null) {
+                clause += "statusid = ?, ";
+            }
+            if (updateTime != null) {
+                clause += "update_time = ?, ";
+            }
+            if (note != null) {
+                clause += "note = ?, ";
+            }
+            if (!clause.isEmpty()) {
+                clause = clause.substring(0, clause.length() - 2);
+            }
         }
-        if (name != null) {
-            whereClause += "name = ? AND ";
-        }
-        if (des != null) {
-            whereClause += "des = ? AND ";
-        }
-        if (status != null) {
-            whereClause += "statusid = ? AND ";
-        }
-        if (customerCode != null) {
-            whereClause += "customer_code = ? AND ";
-        }
-        if (note != null) {
-            whereClause += "note = ? AND ";
-        }
-        if (createTime != null) {
-            whereClause += "create_time = ? AND ";
-        }
-        if (updateTime != null) {
-            whereClause += "update_time = ? AND ";
-        }
-        if (isDelete != null) {
-            whereClause += "isdeleted = ? AND ";
+        
+        else {
+            if (id != null) {
+                clause += "id = ? AND ";
+            }
+            if (name != null) {
+                clause += "name = ? AND ";
+            }
+            if (des != null) {
+                clause += "des = ? AND ";
+            }
+            if (isDelete != null) {
+                clause += "isdeleted = ? AND ";
+            }
+            if (customerCode != null) {
+                clause += "customer_code = ? AND ";
+            }
+            if (status != null) {
+                clause += "statusid = ? AND ";
+            }
+            if (updateTime != null) {
+                clause += "update_time = ? AND ";
+            }
+            if (createTime != null) {
+                clause += "create_time = ? AND ";
+            }
+            if (note != null) {
+                clause += "note = ? AND ";
+            }
+            
+            if (!clause.isEmpty()) {
+                clause = clause.substring(0, clause.length() - 5);
+            }
         }
         
         
-        if (!whereClause.isEmpty()) {
-            whereClause = whereClause.substring(0, whereClause.length() - 5);
-        }
-        return whereClause;
+        
+        return clause;
     }
-
     public Boolean getIsDelete() {
         return isDelete;
     }

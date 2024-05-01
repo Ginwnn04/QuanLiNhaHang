@@ -52,28 +52,4 @@ public class InvoicesDAO {
         return null;
     }
     
-//    public ArrayList<InvoicesDTO> readData() {
-//        ArrayList<InvoicesDTO> list = new ArrayList<>();
-//        String query = "SELECT * FROM tb_invoices";
-//        try(PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
-//            ResultSet rs = pstm.executeQuery();
-//            while (rs.next()) {
-//                InvoicesDTO invoice = new InvoicesDTO();
-//                invoice.setId(rs.getLong("id"));
-//                invoice.setAmount(rs.getLong("amount"));
-//                invoice.setDiscount(rs.getLong("discount_price"));
-//                invoice.setTotal(rs.getLong("total"));
-//                invoice.setIsDelete(rs.getBoolean("isdeleted"));
-//                invoice.setCreateTime(rs.getDate("time"));
-//                invoice.setDiscountID(rs.getString("discountid"));
-//                list.add(invoice);
-//            }
-//            return list;
-//            
-//        }
-//        catch(Exception e) {
-//            e.printStackTrace();
-//        }
-//        return list;
-//    }
 }

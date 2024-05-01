@@ -124,10 +124,16 @@ public class DetailOrderDAO {
     }
     
     public boolean updateDetails(DetailOrderDTO detailOrderDTO) {
-        String query = "UPDATE tb_detail_order SET isdeleted = ? WHERE id = ?";
+        String query = "UPDATE tb_detail_order SET price = ?, profit = ?, quantity = ?, total = ?, isdeleted = ? WHERE id = ?";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
-            pstm.setBoolean(1, detailOrderDTO.isIsDelete());
-            pstm.setLong(2, detailOrderDTO.getId());
+            pstm.setLong(1, detailOrderDTO.getPrice());
+            pstm.setLong(2, detailOrderDTO.getProfit());
+            pstm.setInt(3, detailOrderDTO.getQuantity());
+            pstm.setLong(4, detailOrderDTO.getTotal());
+            
+
+            pstm.setBoolean(5, detailOrderDTO.isIsDelete());
+            pstm.setLong(6, detailOrderDTO.getId());
 
             return pstm.executeUpdate() > 0;
         }

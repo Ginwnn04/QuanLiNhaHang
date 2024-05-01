@@ -1,7 +1,7 @@
 package DTO;
 
-import GUI.Comp.PanelTable;
-import GUI.Comp.PanelTableBooking;
+import GUI.Comp.Panel.PanelTable;
+import GUI.Comp.Panel.PanelTableBooking;
 import java.util.Date;
 import java.util.Random;
 
@@ -9,7 +9,7 @@ public class TableDTO {
     private long id;
     private String name;
     private String des;
-    private String status;
+    private String statusID;
     private String customerCode;
     private String note;
     private Date createTime;
@@ -22,11 +22,11 @@ public class TableDTO {
     public TableDTO() {
     }
 
-    public TableDTO(long id, String name, String des, String status, String customerCode, String note, Date createTime, Date updateTime, boolean isDelete) {
+    public TableDTO(long id, String name, String des, String statusID, String customerCode, String note, Date createTime, Date updateTime, boolean isDelete) {
         this.id = id;
         this.name = name;
         this.des = des;
-        this.status = status;
+        this.statusID = statusID;
         this.customerCode = customerCode;
         this.note = note;
         this.createTime = createTime;
@@ -44,7 +44,7 @@ public class TableDTO {
     public PanelTableBooking createTableBooking() {
         pnTableBooking = new PanelTableBooking();
         pnTableBooking.setNameTable(name);
-        if (status.equals("DANGSUDUNG")) {
+        if (statusID.equals("DANGSUDUNG")) {
             pnTableBooking.setStatus(false);
         }
         return pnTableBooking;
@@ -70,7 +70,7 @@ public class TableDTO {
     
     public PanelTable createTable() {
         pnTable = new PanelTable(name, customerCode);
-        if (status.equals("DANGSUDUNG")) {
+        if (statusID.equals("DANGSUDUNG")) {
             pnTable.setStatus(false);
         }
         
@@ -101,12 +101,12 @@ public class TableDTO {
         this.des = des;
     }
 
-    public String getStatus() {
-        return status;
+    public String getStatusID() {
+        return statusID;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatusID(String statusID) {
+        this.statusID = statusID;
     }
 
     public Date getCreateTime() {

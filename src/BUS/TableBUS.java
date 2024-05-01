@@ -8,6 +8,7 @@ import Criteria.TableCriteria;
 import DAO.TableDAO;
 import DTO.TableDTO;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -23,35 +24,50 @@ public class TableBUS {
     
     public ArrayList<TableDTO> getAllData() {
         TableCriteria criteria = new TableCriteria();
-        tableDAO.read(criteria);
+        criteria.setIsDelete(false);
         return tableDAO.read(criteria);
     }
     
-    
+    public ArrayList<TableDTO> getTableByCustomerCode(String customerCode) {
+        TableCriteria criteria = new TableCriteria();
+        criteria.setCustomerCode(customerCode);
+        return tableDAO.read(criteria);
+    }
     
     public boolean insertTable(TableDTO table) {
         return tableDAO.insert(table);
     }
     
-//    public ArrayList<TableDTO> sortNameTable(String name) {
-//        list = tableDAO.sortName(name);
-//        return list;
-//    }
+
     
     public boolean deleteTable(String listTableDelete) {
-        return tableDAO.deleteData(listTableDelete);
+        TableCriteria criteria = new TableCriteria();
+        criteria.setIsDelete(true);
+        return tableDAO.update(criteria, listTableDelete);
     }
     
     public boolean updateTable(TableDTO table) {
-        return tableDAO.updateData(table);
+        TableCriteria criteria = new TableCriteria();
+        criteria.setId(table.getId());
+        criteria.setName(table.getName());
+        criteria.setDes(table.getDes());
+        criteria.setStatus(table.getStatusID());
+        criteria.setCustomerCode(table.getCustomerCode());
+        criteria.setUpdateTime(table.getUpdateTime());
+        return tableDAO.update(criteria, "");
     }
     
     public boolean updateNote(TableDTO table) {
-        return tableDAO.updateNote(table);
+        TableCriteria criteria = new TableCriteria();
+        criteria.setNote(table.getNote());
+        criteria.setId(table.getId());
+        return tableDAO.update(criteria, "");
     }
     
      public boolean updateCustomerCode(String listTableID, String customerCode) {
-        return tableDAO.updateCustomerCode(listTableID, customerCode);
+        TableCriteria criteria = new TableCriteria();
+        criteria.setCustomerCode(customerCode);
+        return tableDAO.update(criteria, listTableID);
     }
      
     public ArrayList<TableDTO> findTableByCustomerCode(String customerCode) {
@@ -75,7 +91,11 @@ public class TableBUS {
     }
      
     public boolean cancelTable(String listTabeID) {
-        return tableDAO.cancelTable(listTabeID);
+        TableCriteria criteria = new TableCriteria();
+        criteria.setCustomerCode("");
+        criteria.setStatus("BANTRONG");
+        criteria.setUpdateTime(new Date());
+        return tableDAO.update(criteria, listTabeID);
     }
     
 }
