@@ -10,8 +10,9 @@ package BUS;
  */
 import DAO.IngredientsDAO;
 import DTO.IngredientsDTO;
+import java.sql.Connection;
 import java.util.ArrayList;
-
+import java.sql.SQLException;
 public class IngredientsBUS {
     private IngredientsDAO ingredientsDAO = new IngredientsDAO();
     private ArrayList<IngredientsDTO> listIngredients = new ArrayList<>();
@@ -40,5 +41,16 @@ public class IngredientsBUS {
 
     public ArrayList<IngredientsDTO> getAllActiveIngredients() throws Exception {
         return ingredientsDAO.getAllActiveIngredients();
+    }
+    public boolean checkIngredientExistence(Connection con, int ingredientId) throws SQLException {
+        return ingredientsDAO.checkIngredientExistence( con, ingredientId);
+    }
+
+    public int getIngredientQuantity(Connection con, int ingredientId) throws SQLException {
+        return ingredientsDAO.getIngredientQuantity( con, ingredientId);
+    }
+
+    public void updateIngredientQuantity(Connection con, int ingredientId, int newQuantity) throws SQLException {
+        ingredientsDAO.updateIngredientQuantity( con, ingredientId, newQuantity);
     }
 }

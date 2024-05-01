@@ -14,6 +14,9 @@ public class SupplierDTO {
     private String address;
     private String phone;
 
+    // Constructor mặc định
+    public SupplierDTO() {
+    }
     // Constructor
     public SupplierDTO(int id, String name, String address, String phone) {
         this.id = id;

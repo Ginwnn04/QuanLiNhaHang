@@ -15,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ImportBillDAO {
     // Method to get all import bills from database
@@ -40,5 +41,36 @@ public class ImportBillDAO {
             e.printStackTrace();
         }
         return null;
+    }
+    
+    public void addImportBill(Connection con, int billId, int quantity, double total, Date importDate, long userId, int supplierId) throws SQLException {
+        String sql = "INSERT INTO tb_import_bill (id, quantity, total, import_date, userid, supplierid) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setInt(1, billId);
+            pstmt.setInt(2, quantity);
+            pstmt.setDouble(3, total);
+            pstmt.setDate(4, new java.sql.Date(importDate.getTime()));
+            pstmt.setLong(5, userId);
+            pstmt.setInt(6, supplierId);
+            pstmt.executeUpdate();
+        }
+    }
+        public static void deleteImportBill(Long importBillId) throws SQLException, Exception {
+        Connection con = null;
+        PreparedStatement ps = null;
+
+        try {
+            con = ConnectDB.openConnect();
+            ps = con.prepareStatement("UPDATE tb_import_bill SET isdeleted = true WHERE id = ?");
+            ps.setLong(1, importBillId);
+            ps.executeUpdate();
+        } finally {
+            if (ps != null) {
+                ps.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
     }
 }

@@ -4,13 +4,10 @@
  */
 package GUI.Main;
 
-<<<<<<< HEAD
 import GUI.Comp.QuanLiNhapKho;
 import GUI.Comp.QuanLiNguyenLieu;
 import GUI.Comp.QuanLiMonAn;
-=======
 import GUI.Comp.QuanLiBan;
->>>>>>> 01d901903d22f0e6ba03f40f3b5db23e9c647615
 import GUI.Comp.DialogOrder;
 
 import GUI.Comp.PanelDashbroad;
@@ -88,13 +85,20 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
                     break;
 
                 case 5:
-                    showForm(new QuanLiNhapKho());
+                {
+                    try {
+                        showForm(new QuanLiNhapKho());
+                    } catch (Exception ex) {
+                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
                     break;
+
                 case 6:
 
                     break;
                 case 7:
-                    showForm(new QuanLi_Staff());
+                //    showForm(new QuanLi_Staff());
                     break;
                 case 8:
 

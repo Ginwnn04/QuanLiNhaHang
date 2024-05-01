@@ -144,4 +144,39 @@ public class IngredientsDAO {
         }
         return ingredientsList;
     }
+        public boolean checkIngredientExistence(Connection con, int ingredientId) throws SQLException {
+        String sql = "SELECT COUNT(*) AS count FROM tb_ingredients WHERE id = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setInt(1, ingredientId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    int count = rs.getInt("count");
+                    return count > 0;
+                }
+            }
+        }
+        return false;
+    }
+
+    public int getIngredientQuantity(Connection con, int ingredientId) throws SQLException {
+        String sql = "SELECT quantity FROM tb_ingredients WHERE id = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setInt(1, ingredientId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("quantity");
+                }
+            }
+        }
+        return 0;
+    }
+
+    public void updateIngredientQuantity(Connection con, int ingredientId, int newQuantity) throws SQLException {
+        String sql = "UPDATE tb_ingredients SET quantity = ? WHERE id = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setInt(1, newQuantity);
+            pstmt.setInt(2, ingredientId);
+            pstmt.executeUpdate();
+        }
+    }
 }

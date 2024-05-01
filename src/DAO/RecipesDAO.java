@@ -22,7 +22,7 @@ public class RecipesDAO {
     private static final String PASSWORD = "ii7c7AQD68CDzEpUgfU7rERpBfReKfHs";
 
     public ArrayList<RecipesDTO> readData() {
-        String query = "SELECT id, name FROM tb_recipes";
+        String query = "SELECT id, name FROM tb_recipes WHERE isdeleted = false";
         ArrayList<RecipesDTO> list = new ArrayList<>();
         try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
              PreparedStatement pstm = con.prepareStatement(query);
@@ -40,11 +40,12 @@ public class RecipesDAO {
     }
 
     public void insertData(int id, String name) {
-        String query = "INSERT INTO tb_recipes (id, name) VALUES (?, ?)";
+        String query = "INSERT INTO tb_recipes (id, name, isdeleted) VALUES (?, ?, ?)";
         try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-             PreparedStatement pstm = con.prepareStatement(query)) {
+            PreparedStatement pstm = con.prepareStatement(query)) {
             pstm.setInt(1, id);
             pstm.setString(2, name);
+            pstm.setBoolean(3, false);
             pstm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -52,7 +53,7 @@ public class RecipesDAO {
     }
 
     public void deleteData(int id) {
-        String query = "DELETE FROM tb_recipes WHERE id = ?";
+        String query = "UPDATE tb_recipes SET isdeleted = true WHERE id = ?";
         try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
              PreparedStatement pstm = con.prepareStatement(query)) {
             pstm.setInt(1, id);
@@ -93,5 +94,25 @@ public class RecipesDAO {
         
         return list;
     }
+    
+public ArrayList<RecipesDTO> getAllActiveRecipes() {
+    String query = "SELECT id, name FROM tb_recipes WHERE isdeleted = false"; // Chọn các món ăn không bị xóa
+    ArrayList<RecipesDTO> list = new ArrayList<>();
+    try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+         PreparedStatement pstm = con.prepareStatement(query);
+         ResultSet rs = pstm.executeQuery()) {
+        while (rs.next()) {
+            RecipesDTO recipe = new RecipesDTO();
+            recipe.setId(rs.getInt("id"));
+            recipe.setName(rs.getString("name"));
+            list.add(recipe);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return list;
+}
+
+
 }
 

@@ -6,13 +6,18 @@ package GUI.Comp;
 
 import BUS.RecipesBUS;
 import DTO.RecipesDTO;
+import java.awt.Color;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -31,21 +36,35 @@ public class QuanLiMonAn extends javax.swing.JPanel {
 
     // Method to load data from tb_recipes to JTable
     private void loadDataToTable() {
-        RecipesBUS recipesBUS = new RecipesBUS(); // Tạo một thể hiện của lớp RecipesBUS
-        ArrayList<RecipesDTO> listRecipes = recipesBUS.getAllData();
-        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-        model.setRowCount(0); // Clear existing rows
-        Object[] row = new Object[2]; // Assuming there are two columns: ID and Name
-        for (RecipesDTO recipe : listRecipes) {
-            row[0] = recipe.getId();
-            row[1] = recipe.getName();
-            model.addRow(row);
+    RecipesBUS recipesBUS = new RecipesBUS(); // Tạo một thể hiện của lớp RecipesBUS
+    ArrayList<RecipesDTO> listRecipes = recipesBUS.getAllActiveRecipes(); // Sử dụng phương thức mới chỉ lấy các bản ghi không bị xóa
+    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+    model.setRowCount(0); // Clear existing rows
+    Object[] row = new Object[3]; // Change the size to 3
+    for (RecipesDTO recipe : listRecipes) {
+        row[0] = false; // Assuming all checkboxes are unchecked initially
+        row[1] = recipe.getId();
+        row[2] = recipe.getName();
+        model.addRow(row);
+    }
+    DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+    renderer.setHorizontalAlignment(JLabel.CENTER);
+    for (int i = 0; i < jTable2.getColumnCount(); i++) {
+        jTable2.getColumnModel().getColumn(i).setCellRenderer(renderer);
+    }
+    // Set custom cell renderer for the first column to display checkboxes
+    TableColumnModel columnModel = jTable2.getColumnModel();
+    columnModel.getColumn(0).setCellRenderer(new DefaultTableCellRenderer() {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            JCheckBox checkBox = new JCheckBox();
+            checkBox.setSelected((boolean) value);
+            checkBox.setHorizontalAlignment(JLabel.CENTER);
+            // Set background color of the checkbox
+            checkBox.setBackground(new Color(35, 35, 35)); // Set the desired background color
+            return checkBox;
         }
-        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-        renderer.setHorizontalAlignment(JLabel.CENTER);
-        for (int i = 0; i < jTable2.getColumnCount(); i++) {
-            jTable2.getColumnModel().getColumn(i).setCellRenderer(renderer);
-        }
+    });
     }
     
     /**
@@ -63,6 +82,9 @@ public class QuanLiMonAn extends javax.swing.JPanel {
         panelBackground4 = new GUI.Comp.Swing.PanelBackground();
         panelBackground5 = new GUI.Comp.Swing.PanelBackground();
         panelBackground6 = new GUI.Comp.Swing.PanelBackground();
+        panelBackground8 = new GUI.Comp.Swing.PanelBackground();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         panelBackground7 = new GUI.Comp.Swing.PanelBackground();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -70,9 +92,6 @@ public class QuanLiMonAn extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
-        panelBackground8 = new GUI.Comp.Swing.PanelBackground();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(30, 30, 30));
         setLayout(new java.awt.BorderLayout());
@@ -100,9 +119,48 @@ public class QuanLiMonAn extends javax.swing.JPanel {
         panelBackground6.setForeground(new java.awt.Color(255, 204, 102));
         panelBackground6.setLayout(new java.awt.BorderLayout(0, 25));
 
+        panelBackground8.setBackground(new java.awt.Color(35, 35, 35));
+        panelBackground8.setLayout(new java.awt.BorderLayout());
+
+        jTable2.setBackground(new java.awt.Color(35, 35, 35));
+        jTable2.setForeground(new java.awt.Color(255, 255, 255));
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "", "ID", "Tên"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Boolean.class, java.lang.Integer.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTable2.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                jTable2ComponentResized(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTable2);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(0).setMinWidth(25);
+            jTable2.getColumnModel().getColumn(0).setPreferredWidth(25);
+            jTable2.getColumnModel().getColumn(0).setMaxWidth(25);
+            jTable2.getColumnModel().getColumn(1).setPreferredWidth(50);
+        }
+
+        panelBackground8.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+
         panelBackground7.setBackground(new java.awt.Color(35, 35, 35));
         panelBackground7.setPreferredSize(new java.awt.Dimension(100, 50));
-        panelBackground7.setLayout(new javax.swing.BoxLayout(panelBackground7, javax.swing.BoxLayout.LINE_AXIS));
+        panelBackground7.setLayout(new javax.swing.BoxLayout(panelBackground7, javax.swing.BoxLayout.Y_AXIS));
 
         jPanel1.setBackground(new java.awt.Color(35, 35, 35));
         jPanel1.setMaximumSize(new java.awt.Dimension(50, 23));
@@ -158,43 +216,7 @@ public class QuanLiMonAn extends javax.swing.JPanel {
         });
         panelBackground7.add(jButton3);
 
-        panelBackground6.add(panelBackground7, java.awt.BorderLayout.PAGE_START);
-
-        panelBackground8.setBackground(new java.awt.Color(35, 35, 35));
-        panelBackground8.setLayout(new java.awt.BorderLayout());
-
-        jTable2.setBackground(new java.awt.Color(35, 35, 35));
-        jTable2.setForeground(new java.awt.Color(255, 255, 255));
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "ID", "Tên"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jTable2.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentResized(java.awt.event.ComponentEvent evt) {
-                jTable2ComponentResized(evt);
-            }
-        });
-        jScrollPane2.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setPreferredWidth(50);
-        }
-
-        panelBackground8.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+        panelBackground8.add(panelBackground7, java.awt.BorderLayout.LINE_END);
 
         panelBackground6.add(panelBackground8, java.awt.BorderLayout.CENTER);
 
@@ -208,87 +230,97 @@ public class QuanLiMonAn extends javax.swing.JPanel {
     }//GEN-LAST:event_jTable2ComponentResized
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // Hiển thị các hộp thoại để yêu cầu nhập thông tin
-        String idInput = JOptionPane.showInputDialog(this, "Nhập ID:");
-        if (idInput == null || idInput.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "ID không được để trống.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            return; // ID không được để trống
-        }
-        int id;
-        try {
-            id = Integer.parseInt(idInput);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "ID phải là một số nguyên.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            return; // ID không hợp lệ
-        }
+    // Lấy thời gian hiện tại
+    long currentTime = System.currentTimeMillis();
+    
+    // Lấy ba chữ số cuối cùng của thời gian hiện tại
+    int id = (int) (currentTime % 1000);
+    
 
-        String name = JOptionPane.showInputDialog(this, "Nhập tên món ăn:");
-        if (name == null || name.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Tên món ăn không được để trống.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            return; // Tên món ăn không được để trống
-        }
+    String name = JOptionPane.showInputDialog(this, "Nhập tên món ăn:");
+    if (name == null || name.trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Tên món ăn không được để trống.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        return; // Tên món ăn không được để trống
+    }
 
-        // Thử thêm món ăn và xử lý ngoại lệ nếu có
-        RecipesBUS recipesBUS = new RecipesBUS();
-        try {
-            recipesBUS.insertData(id, name);
-            // Nếu không có lỗi, cập nhật dữ liệu trên JTable
-            loadDataToTable();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Thêm món ăn thất bại. Vui lòng thử lại.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
+    // Thử thêm món ăn và xử lý ngoại lệ nếu có
+    RecipesBUS recipesBUS = new RecipesBUS();
+    try {
+        recipesBUS.insertData(id, name);
+        // Nếu không có lỗi, cập nhật dữ liệu trên JTable
+        loadDataToTable();
+        JOptionPane.showMessageDialog(this, "Thêm món ăn thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Thêm món ăn thất bại. Vui lòng thử lại.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // Kiểm tra xem người dùng đã chọn một dòng để xóa hay chưa
-        int selectedRow = jTable2.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn một dòng để xóa.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            return; // Không có dòng nào được chọn, thoát khỏi phương thức
+    // Kiểm tra xem người dùng đã chọn ít nhất một dòng để xóa hay không
+    boolean atLeastOneSelected = false;
+    int rowCount = jTable2.getRowCount();
+    for (int i = 0; i < rowCount; i++) {
+        Boolean checked = (Boolean) jTable2.getValueAt(i, 0); // Lấy giá trị của checkbox từ cột đầu tiên
+        if (checked) {
+            atLeastOneSelected = true;
+            break;
         }
+    }
 
-        // Hiển thị hộp thoại xác nhận
-        int option = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa dòng này không?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+    // Nếu không có dòng nào được chọn, hiển thị thông báo và không thực hiện xóa
+    if (!atLeastOneSelected) {
+        JOptionPane.showMessageDialog(this, "Vui lòng chọn ít nhất một dòng để xóa.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        return;
+    }
 
-        // Nếu người dùng chọn "Yes" (option = 0), thực hiện xóa
-        if (option == JOptionPane.YES_OPTION) {
-            // Lấy giá trị của ID từ cột đầu tiên trong dòng đã chọn
-            int id = (int) jTable2.getValueAt(selectedRow, 0);
+    // Hiển thị hộp thoại xác nhận trước khi xóa
+    int option = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa các dòng đã chọn không?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+    if (option == JOptionPane.YES_OPTION) {
+        // Duyệt qua từng hàng để kiểm tra checkbox đã được chọn chưa
+        for (int i = rowCount - 1; i >= 0; i--) {
+            Boolean checked = (Boolean) jTable2.getValueAt(i, 0); // Lấy giá trị của checkbox từ cột đầu tiên
+            if (checked) {
+                int id = (int) jTable2.getValueAt(i, 1); // Lấy giá trị ID từ cột thứ hai
 
-            // Gọi phương thức deleteData() từ RecipesBUS để xóa dòng dữ liệu khỏi tb_recipes
-            RecipesBUS recipesBUS = new RecipesBUS();
-            recipesBUS.deleteData(id);
-
-            // Cập nhật lại dữ liệu trên JTable
-            loadDataToTable();
-        }        // TODO add your handling code here:
+                // Gọi phương thức deleteData() từ RecipesBUS để xóa dòng dữ liệu khỏi tb_recipes
+                RecipesBUS recipesBUS = new RecipesBUS();
+                recipesBUS.deleteData(id);
+            }
+        }
+        // Cập nhật lại dữ liệu trên JTable
+        loadDataToTable();
+        JOptionPane.showMessageDialog(this, "Đã xóa các dòng đã chọn thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+    }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // Kiểm tra xem người dùng đã chọn một dòng để sửa hay không
-        int selectedRow = jTable2.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn một dòng để sửa.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            return; // Không có dòng nào được chọn, thoát khỏi phương thức
+    // Lấy số lượng hàng trong JTable
+    int rowCount = jTable2.getRowCount();
+    boolean updated = false; // Biến kiểm tra xem có dòng nào được cập nhật không
+    // Duyệt qua từng hàng để kiểm tra checkbox đã được chọn chưa
+    for (int i = 0; i < rowCount; i++) {
+        Boolean checked = (Boolean) jTable2.getValueAt(i, 0); // Lấy giá trị của checkbox từ cột đầu tiên
+        if (checked) {
+            int id = (int) jTable2.getValueAt(i, 1); // Lấy giá trị ID từ cột thứ hai
+            String currentName = (String) jTable2.getValueAt(i, 2); // Lấy giá trị Name từ cột thứ ba
+
+            // Hiển thị hộp thoại cho phép người dùng nhập thông tin mới
+            String newName = JOptionPane.showInputDialog(this, "Nhập tên mới cho món ăn:", currentName);
+            if (newName != null && !newName.trim().isEmpty()) {
+                // Gọi phương thức updateData() từ RecipesBUS để cập nhật thông tin mới
+                RecipesBUS recipesBUS = new RecipesBUS();
+                recipesBUS.updateData(id, newName);
+                updated = true;
+            }
         }
-
-        // Lấy thông tin hiện tại của dòng đã chọn
-        int id = (int) jTable2.getValueAt(selectedRow, 0);
-        String currentName = (String) jTable2.getValueAt(selectedRow, 1);
-
-        // Hiển thị hộp thoại cho phép người dùng nhập thông tin mới
-        String newName = JOptionPane.showInputDialog(this, "Nhập tên mới cho món ăn:", currentName);
-        if (newName == null || newName.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Tên món ăn không được để trống.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            return; // Tên món ăn không được để trống
-        }
-
-        // Gọi phương thức updateData() từ RecipesBUS để cập nhật thông tin mới
-        RecipesBUS recipesBUS = new RecipesBUS();
-        recipesBUS.updateData(id, newName);
-
-        // Cập nhật lại dữ liệu trên JTable
-        loadDataToTable();        // TODO add your handling code here:
+    }
+    // Cập nhật lại dữ liệu trên JTable
+    loadDataToTable();
+    if (updated) {
+        JOptionPane.showMessageDialog(this, "Đã cập nhật các dòng đã chọn thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+    } else {
+        JOptionPane.showMessageDialog(this, "Vui lòng chọn ít nhất một dòng để sửa.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+    }     
     }//GEN-LAST:event_jButton2ActionPerformed
 
 

@@ -40,4 +40,8 @@ public class RecipesBUS {
         }
         return false; // ID không tồn tại
     }
+public ArrayList<RecipesDTO> getAllActiveRecipes() {
+    RecipesDAO recipesDAO = new RecipesDAO();
+    return recipesDAO.getAllActiveRecipes();
+}
 }

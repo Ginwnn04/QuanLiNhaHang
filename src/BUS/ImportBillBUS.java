@@ -8,10 +8,12 @@ package BUS;
  *
  * @author Tai
  */
+import java.sql.Connection;
 import DAO.ImportBillDAO;
 import DTO.ImportBillDTO;
 import java.util.ArrayList;
-
+import java.util.Date;
+import java.sql.SQLException;
 public class ImportBillBUS {
     private ImportBillDAO importBillDAO = new ImportBillDAO();
     private ArrayList<ImportBillDTO> listImportBills = new ArrayList<>();
@@ -20,5 +22,16 @@ public class ImportBillBUS {
     public ArrayList<ImportBillDTO> getAllImportBills() throws Exception {
         listImportBills = importBillDAO.getAllImportBills();
         return listImportBills;
+    }
+    
+    public ImportBillBUS() {
+        this.importBillDAO = new ImportBillDAO();
+    }
+
+    public void addImportBill(Connection con, int billId, int quantity, double total, Date importDate, long userId, int supplierId) throws SQLException {
+        importBillDAO.addImportBill((java.sql.Connection) con, billId, quantity, total, importDate, userId, supplierId);
+    }
+    public static void deleteImportBill(Long importBillId) throws SQLException, Exception {
+        ImportBillDAO.deleteImportBill(importBillId);
     }
 }

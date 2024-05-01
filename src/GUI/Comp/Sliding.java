@@ -17,7 +17,7 @@ public class Sliding extends javax.swing.JPanel  {
      */
     public Sliding() {
         initComponents();
-        panelBackground1.setBackground(new Color(255, 107, 39, 50));
+        panelBackground1.setBackground(new Color(75, 157, 248, 50));
         
     }
 

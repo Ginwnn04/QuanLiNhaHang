@@ -79,7 +79,7 @@ public class NavBar extends javax.swing.JPanel {
         btn.setIconTextGap(10);
         btn.setPreferredSize(new Dimension(205, 50));
         if (listButton.size() == 0) {
-            btn.setForeground(new Color(255, 107, 39));
+            btn.setForeground(new Color(75, 157, 248));
         } 
         else {
             btn.setForeground(new Color(255, 255, 255));
