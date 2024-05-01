@@ -13,7 +13,6 @@ import DTO.DetailOrderDTO;
  */
 public class DetailOrderBUS {
     private DetailOrderDAO detailOrderDAO = new DetailOrderDAO();
-    private ArrayList<DetailOrderDTO> listDetailOrder = new ArrayList<>();
     
     public boolean insertDetailOrder(DetailOrderDTO x) {
         return detailOrderDAO.insertData(x);
@@ -33,5 +32,9 @@ public class DetailOrderBUS {
     
     public boolean updateDetails(String listOrderID, long invoiceid) {
         return detailOrderDAO.updateDetails(listOrderID, invoiceid);
+    }
+    
+    public boolean updateDetails(DetailOrderDTO x) {
+        return detailOrderDAO.updateDetails(x);
     }
 }

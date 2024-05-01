@@ -1,6 +1,8 @@
 package DAO;
 
+import Criteria.OrderCriteria;
 import DTO.OrderDTO;
+import DTO.TableDTO;
 import java.sql.Connection;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -10,8 +12,64 @@ import java.util.ArrayList;
 
 public class OrderDAO {
     
+    public ArrayList<OrderDTO> read(OrderCriteria criteria) {
+        ArrayList<OrderDTO> list = new ArrayList<>();
+       String query = "SELECT * FROM tb_orders";
+        if (criteria.createClause(false).isEmpty()) {
+            return null;
+        }
+        query += " WHERE " + criteria.createClause(false);
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query);) {
+            int i = 1;
+            if (criteria.getId() != null) {
+                pstm.setLong(i++, criteria.getId());
+            }
+            if (criteria.getCustomerCode()!= null) {
+                pstm.setString(i++, criteria.getCustomerCode());
+            }
+            if (criteria.getTotal()!= null) {
+                pstm.setLong(i++, criteria.getTotal());
+            }
+            if (criteria.getIsDelete()!= null) {
+                pstm.setBoolean(i++, criteria.getIsDelete());
+            }
+            if (criteria.getStaffID()!= null) {
+                pstm.setLong(i++, criteria.getStaffID());
+            }
+            if (criteria.getTableID()!= null) {
+                pstm.setLong(i++, criteria.getTableID());
+            }
+            if (criteria.getCreateTime()!= null) {
+                pstm.setTimestamp(i++, new Timestamp(criteria.getCreateTime().getTime()));
+            }
+            if (criteria.getUpdateTime()!= null) {
+                pstm.setTimestamp(i++, new Timestamp(criteria.getUpdateTime().getTime()));
+            }
+ 
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                OrderDTO order = new OrderDTO();
+                order.setId(rs.getLong("id"));
+                order.setCustomerCode(rs.getString("customer_code"));
+                order.setTotal(rs.getLong("total"));
+                order.setIsDelete(rs.getBoolean("isdeleted"));
+                order.setStaffID(rs.getLong("staffid"));
+                order.setTableID(rs.getLong("tableid"));
+                order.setUpdateTime(rs.getTimestamp("update_time"));
+                order.setCreateTime(rs.getTimestamp("create_time"));
+                
+                list.add(order);
+            }
+            return list;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
     
-    public boolean insertData(OrderDTO order) {
+    
+    public boolean insert(OrderDTO order) {
         String query = "INSERT INTO tb_orders VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setLong(1, order.getId());
@@ -34,75 +92,58 @@ public class OrderDAO {
         return false;
     }
     
-    
-    public ArrayList<OrderDTO> findOrderByCustomerCode(String customerCode) {
-        ArrayList<OrderDTO> list = new ArrayList<>();
-        String query = "SELECT * FROM tb_orders WHERE customer_code = ?";
-        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query);) {
-            pstm.setString(1, customerCode);
-            ResultSet rs = pstm.executeQuery();
-           
-            while (rs.next()) {
-                OrderDTO order = new OrderDTO();
-                order.setId(rs.getLong("id"));
-                order.setCustomerCode(rs.getString("customer_code"));
-                order.setTotal(rs.getLong("total"));
-                order.setIsDelete(rs.getBoolean("isdeleted"));
-                order.setStaffID(rs.getLong("staffid"));
-                order.setTableID(rs.getLong("tableid"));
-                order.setUpdateTime(rs.getTimestamp("update_time"));
-                
-                list.add(order);
-            }
-            return list;
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
-    
-    public OrderDTO findOrderByTableID(long idTable) {
-        String query = "SELECT * FROM tb_orders WHERE tableid = ?";
-        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query);) {
-            pstm.setLong(1, idTable);
-            ResultSet rs = pstm.executeQuery();
-           
-            if (rs.next()) {
-                OrderDTO order = new OrderDTO();
-                order.setId(rs.getLong("id"));
-                order.setCustomerCode(rs.getString("customer_code"));
-                order.setTotal(rs.getLong("total"));
-                order.setIsDelete(rs.getBoolean("isdeleted"));
-                order.setStaffID(rs.getLong("staffid"));
-                order.setTableID(rs.getLong("tableid"));
-                order.setUpdateTime(rs.getTimestamp("update_time"));
-                
-                return order;
-            }
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    
-    public boolean updateCustomerCode(String listTableID, String customerCode) {
-        String query = "UPDATE tb_orders SET customer_code = ?, update_time = ? WHERE tableid IN ";
-        query += "(" + listTableID + ")";
-        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
-             pstm.setString(1, customerCode);
-
-            Timestamp sqlDateUpdate = new Timestamp(new Date().getTime());
-            
-            pstm.setTimestamp(2, sqlDateUpdate);
  
+   
+    
+    public boolean update(OrderCriteria criteria, String listID) {
+        String query = "UPDATE tb_orders";
+        if (criteria.createClause(true).isEmpty()) {
+            return false;
+        }
+        else {
+            if (!listID.isEmpty()) {
+                query += " SET " + criteria.createClause(true) + " WHERE id IN (" + listID + ")";
+            }
+            else {
+                query += " SET " + criteria.createClause(true) + " WHERE id IN (?)";
+            }
+        }
+
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
+            int i = 1;
+            if (criteria.getCustomerCode()!= null) {
+                pstm.setString(i++, criteria.getCustomerCode());
+            }
+            if (criteria.getTotal()!= null) {
+                pstm.setLong(i++, criteria.getTotal());
+            }
+            if (criteria.getIsDelete()!= null) {
+                pstm.setBoolean(i++, criteria.getIsDelete());
+            }
+            if (criteria.getStaffID()!= null) {
+                pstm.setLong(i++, criteria.getStaffID());
+            }
+            if (criteria.getTableID()!= null) {
+                pstm.setLong(i++, criteria.getTableID());
+            }
+            if (criteria.getCreateTime()!= null) {
+                pstm.setTimestamp(i++, new Timestamp(criteria.getCreateTime().getTime()));
+            }
+            if (criteria.getUpdateTime()!= null) {
+                pstm.setTimestamp(i++, new Timestamp(criteria.getUpdateTime().getTime()));
+            }
+            if (listID.isEmpty()) {
+                pstm.setLong(i++, criteria.getId());
+            }
             
             return pstm.executeUpdate() > 0;
         }
         catch(Exception e) {
-            e.printStackTrace();
-        }
+                e.printStackTrace();
+            }
         return false;
     }
+    
+    
+    
 }

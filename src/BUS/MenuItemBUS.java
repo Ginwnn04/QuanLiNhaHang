@@ -14,10 +14,8 @@ import java.util.ArrayList;
  */
 public class MenuItemBUS {
     private MenuItemDAO menuItemDAO = new MenuItemDAO();
-    private ArrayList<MenuItemDTO> listMenuItem = new ArrayList<>();
     
     public ArrayList<MenuItemDTO> getAllData() {
-        listMenuItem = menuItemDAO.readData();
-        return listMenuItem;
+        return menuItemDAO.readData();
     }
 }

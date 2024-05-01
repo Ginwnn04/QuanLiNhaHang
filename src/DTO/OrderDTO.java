@@ -22,6 +22,7 @@ public class OrderDTO {
     private Date updateTime;
     private Date createTime;
     private ArrayList<DetailOrderDTO> listDetailOrder = new ArrayList<>();
+    private boolean isSelected;
     
     // Luc create Order
     public OrderDTO(boolean isSingle, long staffID, long tableID, String note,boolean isDelete, Date updateTime, Date createTime) {
@@ -46,11 +47,20 @@ public class OrderDTO {
         this.isDelete = isDelete;
         this.updateTime = updateTime;
         this.createTime = createTime;
+
     }
 
  
 
     public OrderDTO() {
+    }
+
+    public boolean isIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(boolean isSelected) {
+        this.isSelected = isSelected;
     }
     
     
@@ -145,6 +155,7 @@ public class OrderDTO {
     public ArrayList<DetailOrderDTO> getListDetailOrder() {
         return listDetailOrder;
     }
+
     
     
     

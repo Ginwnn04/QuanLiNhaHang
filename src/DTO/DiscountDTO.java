@@ -47,9 +47,6 @@ public class DiscountDTO {
         return id;
     }
 
-
-    
-    
     
     public String getId() {
         return id;
