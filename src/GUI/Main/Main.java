@@ -4,6 +4,11 @@
  */
 package GUI.Main;
 
+import GUI.Comp.QuanLiNhapKho;
+import GUI.Comp.QuanLiNguyenLieu;
+//import GUI.Comp.QuanLiBan;
+//import GUI.Comp.DialogOrder;
+
 import GUI.Comp.Panel.QuanLiBan;
 import GUI.Comp.Dialog.DialogOrder;
 
@@ -11,7 +16,6 @@ import GUI.Comp.Panel.PanelDashbroad;
 import GUI.Comp.Panel.QuanLiCongThuc;
 import GUI.Comp.Panel.QuanLiGiamGia;
 import GUI.Comp.Panel.QuanLiDatMon;
-import GUI.Comp.Panel.QuanLiMonAn;
 import GUI.Comp.Panel.QuanLiTheLoai;
 import Helper.MyListener;
 
@@ -28,6 +32,8 @@ import java.awt.event.MouseEvent;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 import javax.swing.UIManager;
@@ -39,8 +45,6 @@ import javax.swing.border.Border;
  */
 public class Main extends javax.swing.JFrame implements PropertyChangeListener {
 
-  
-
     public Main() {
         initComponents();
         setLocationRelativeTo(null);
@@ -51,8 +55,6 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
         MyListener.getInstance().addPropertyChangeListener(this);
         setTitle("PHẦN MỀM QUẢN LÍ NHÀ HÀNG");
         showForm(new PanelDashbroad());
-        
-        
 
     }
 
@@ -61,7 +63,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
         if (evt.getPropertyName().equals("ItemMenu")) {
             System.out.println(evt.getOldValue() + " " + evt.getNewValue());
             int index = (int) evt.getNewValue();
-            
+
             switch (index) {
                 case 0:
                     showForm(new PanelDashbroad());
@@ -73,20 +75,34 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
                     showForm(new QuanLiDatMon());
                     break;
                 case 3:
-                    showForm(new QuanLiMonAn());
 
                     break;
-                case 4:
+                case 4: {
+                    try {
+                        showForm(new QuanLiNguyenLieu());
+                    } catch (Exception ex) {
+                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                break;
 
-                    break;
-                case 5:
+                case 5: {
+                    try {
+                        showForm(new QuanLiNhapKho());
+                    } catch (Exception ex) {
+                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                break;
 
-                    break;
                 case 6:
                     showForm(new QuanLiCongThuc());
                     break;
+
                 case 7:
+
                     showForm(new QuanLiTheLoai());
+
                     break;
                 case 8:
                     showForm(new QuanLiGiamGia());
@@ -104,9 +120,6 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
 //                    showForm(new QuanLiTheLoai());
                     break;
 
-                    
-                    
-                
             }
         }
 //        if (evt.getPropertyName().equals(ABORT))
@@ -173,13 +186,11 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
 //        UIManager.put("Table.alternateRowColor", new Color(53, 53, 53));        
         UIManager.put("TableHeader.separatorColor", new Color(0, 0, 0, 0));
         UIManager.put("TableHeader.pressedBackground", new Color(0, 0, 0, 0));
-        UIManager.put("TableHeader.height", 30);       
+        UIManager.put("TableHeader.height", 30);
         UIManager.put("RootPane.background", new Color(35, 35, 35));
         UIManager.put("TitlePane.font", new Font("Roboto", Font.BOLD, 16));
         UIManager.put("TitlePane.centerTitle", true);
-        
-       
-        
+
         FlatMacDarkLaf.setup();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
