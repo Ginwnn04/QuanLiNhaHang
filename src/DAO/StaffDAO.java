@@ -37,24 +37,35 @@ public class StaffDAO {
     }
 
     public boolean insertStaffData(StaffDTO staff) {
-        
+        // Kiểm tra xem username và email đã tồn tại chưa
+        if (isUsernameExists(staff.getUsername())) {
+            JOptionPane.showMessageDialog(null, "Username đã tồn tại. Vui lòng chọn username khác.");
+            return false;
+        }
+
+        if (isEmailExists(staff.getEmail())) {
+            JOptionPane.showMessageDialog(null, "Email đã tồn tại. Vui lòng chọn email khác.");
+            return false;
+        }
+
+        // Nếu không có trùng lặp, thực hiện thêm nhân viên vào cơ sở dữ liệu
         String query = "INSERT INTO tb_users (id, username, password, email, phone, address, isdeleted, roleid, create_time, update_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
-        	pstm.setLong(1, staff.createId());
-        	pstm.setString(2, staff.getUsername());
+            pstm.setLong(1, staff.createId());
+            pstm.setString(2, staff.getUsername());
             pstm.setString(3, staff.getPassword());
             pstm.setString(4, staff.getEmail());
             pstm.setString(5, staff.getPhone());
             pstm.setString(6, staff.getAddress());
             pstm.setBoolean(7, false);
             pstm.setString(8, staff.getRoleId());
-            
+
             Timestamp sqlDateUpdate = new Timestamp(staff.getUpdateTime().getTime());
             Timestamp sqlDateCreate = new Timestamp(staff.getCreateTime().getTime());
-            
+
             pstm.setTimestamp(9, sqlDateUpdate);
             pstm.setTimestamp(10, sqlDateCreate);
-            
+
             return pstm.executeUpdate() > 0;
         } catch(SQLException e) {
             e.printStackTrace();
@@ -62,8 +73,9 @@ public class StaffDAO {
         return false;
     }
 
+
     private boolean isUsernameExists(String username) {
-        String query = "SELECT COUNT(*) AS count FROM tb_users WHERE username = ?";
+        String query = "SELECT COUNT(*) AS count FROM tb_users WHERE username = ? AND isdeleted = false";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setString(1, username);
             ResultSet rs = pstm.executeQuery();
@@ -78,7 +90,7 @@ public class StaffDAO {
     }
 
     private boolean isEmailExists(String email) {
-        String query = "SELECT COUNT(*) AS count FROM tb_users WHERE email = ?";
+        String query = "SELECT COUNT(*) AS count FROM tb_users WHERE email = ? AND isdeleted = false";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setString(1, email);
             ResultSet rs = pstm.executeQuery();
@@ -91,8 +103,20 @@ public class StaffDAO {
         }
         return false;
     }
+
     
     public boolean updateStaffData(StaffDTO staff) {
+        // Kiểm tra trùng lặp username và email trước khi cập nhật
+        if (isUsernameExistsForUpdate(staff.getUsername(), staff.getId())) {
+            JOptionPane.showMessageDialog(null, "Username đã tồn tại!", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (isEmailExistsForUpdate(staff.getEmail(), staff.getId())) {
+            JOptionPane.showMessageDialog(null, "Email đã tồn tại!", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         String query = "UPDATE tb_users SET username = ?, password = ?, email = ?, phone = ?, address = ?, isdeleted = ?, roleid = ?, update_time = ? WHERE id = ?";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setString(1, staff.getUsername());
@@ -105,17 +129,17 @@ public class StaffDAO {
             Timestamp sqlDateUpdate = new Timestamp(staff.getUpdateTime().getTime());
             pstm.setTimestamp(8, sqlDateUpdate);
             pstm.setLong(9, staff.getId());
-            
+
             return pstm.executeUpdate() > 0;
         } catch(SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
-    
 
+    // Kiểm tra username trùng lặp khi cập nhật
     private boolean isUsernameExistsForUpdate(String username, long currentStaffId) {
-        String query = "SELECT COUNT(*) AS count FROM tb_users WHERE username = ? AND id != ?";
+        String query = "SELECT COUNT(*) AS count FROM tb_users WHERE username = ? AND id != ? AND isdeleted = false";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setString(1, username);
             pstm.setLong(2, currentStaffId);
@@ -131,7 +155,7 @@ public class StaffDAO {
     }
 
     private boolean isEmailExistsForUpdate(String email, long currentStaffId) {
-        String query = "SELECT COUNT(*) AS count FROM tb_users WHERE email = ? AND id != ?";
+        String query = "SELECT COUNT(*) AS count FROM tb_users WHERE email = ? AND id != ? AND isdeleted = false";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setString(1, email);
             pstm.setLong(2, currentStaffId);
@@ -145,6 +169,7 @@ public class StaffDAO {
         }
         return false;
     }
+
 
     private GUI.Comp.Swing.PanelBackground pnContainer;
     // Add other CRUD methods as needed

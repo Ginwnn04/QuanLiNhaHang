@@ -36,6 +36,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.TableModelEvent;
@@ -100,23 +102,15 @@ public class QuanLi_Staff extends javax.swing.JPanel {
     }
     
     public void renderStaff(boolean isSelectAll) {
-        // Lấy danh sách nhân viên từ lớp StaffBUS
         listStaff = new StaffBUS().getAllData();
-
-        // Lấy model của bảng tbStaff
         DefaultTableModel model = (DefaultTableModel) tbStaff.getModel();
-        
-        // Xóa tất cả các dòng trong bảng
         model.setRowCount(0); 
-
-        // Duyệt qua danh sách nhân viên và thêm thông tin vào bảng
         for (StaffDTO staff : listStaff) {
-            // Thêm một dòng mới với các thông tin của nhân viên
             model.addRow(new Object[]{
                 isSelectAll, 
                 staff.getId(),
                 staff.getUsername(),
-                staff.getPassword(), // Thêm password vào bảng nếu muốn hiển thị
+                staff.getPassword(), 
                 staff.getEmail(),
                 staff.getPhone(),
                 staff.getAddress(),
@@ -126,7 +120,6 @@ public class QuanLi_Staff extends javax.swing.JPanel {
             });
         }
 
-        // Cập nhật lại bảng
         model.fireTableDataChanged();
         tbStaff.setModel(model);
     }
@@ -136,9 +129,8 @@ public class QuanLi_Staff extends javax.swing.JPanel {
 
 private void renderFilteredStaff(ArrayList<StaffDTO> filteredList) {
     DefaultTableModel model = (DefaultTableModel) tbStaff.getModel();
-    model.setRowCount(0); // Xóa tất cả các dòng trong bảng
+    model.setRowCount(0);
 
-    // Thêm thông tin của các nhân viên đã lọc vào bảng
     for (StaffDTO staff : filteredList) {
         model.addRow(new Object[]{
             isSelectAll,
@@ -154,7 +146,6 @@ private void renderFilteredStaff(ArrayList<StaffDTO> filteredList) {
         });
     }
 
-    // Cập nhật lại bảng
     model.fireTableDataChanged();
     tbStaff.setModel(model);
 }
@@ -188,7 +179,7 @@ private void renderFilteredStaff(ArrayList<StaffDTO> filteredList) {
         panel_east.setBackground(new Color(30,30,30));
         panel_north.setBackground(new Color(30,30,30));
         panel_south.setBackground(new Color(30,30,30));
-        panel_center.setBackground(new Color(0,0,0));
+        panel_center.setBackground(new Color(30,30,30));
         
         add(panel_center, BorderLayout.CENTER);
         add(panel_north, BorderLayout.NORTH);
@@ -199,20 +190,26 @@ private void renderFilteredStaff(ArrayList<StaffDTO> filteredList) {
         
         panel_center.setLayout(new BorderLayout());
         
-        JPanel panel_top = new JPanel();
+        PanelBackground panel_top = new PanelBackground();
         PanelBackground panel_mid = new PanelBackground();
         PanelBackground panel_bot = new PanelBackground();
         
+        PanelBackground interactSection = new PanelBackground();
+        interactSection.setBackground(new Color(30,30,30));
+        
+        interactSection.setPreferredSize(new Dimension(800, 250));
+        interactSection.setLayout(new BorderLayout());
+        interactSection.add(panel_bot, BorderLayout.CENTER);
+        
         panel_top.setPreferredSize(new Dimension(800, 50));
-        panel_mid.setPreferredSize(new Dimension(800, 450));
+        panel_mid.setPreferredSize(new Dimension(800, 300));
         panel_bot.setPreferredSize(new Dimension(800, 200));
         
         panel_top.setBackground(new Color(35,35,35));
         panel_bot.setBackground(new Color(35,35,35));
-        panel_mid.setBackground(new Color(0, 0, 0));
-        panel_center.add(panel_top, BorderLayout.NORTH);
-        panel_center.add(panel_bot, BorderLayout.CENTER);
-        panel_center.add(panel_mid, BorderLayout.SOUTH);
+        panel_mid.setBackground(new Color(30, 30, 30));
+        panel_center.add(interactSection, BorderLayout.NORTH);
+        panel_center.add(panel_mid, BorderLayout.CENTER);
         
         //search panel
         JLabel searchLabel = new JLabel("Tìm kiếm:");
@@ -226,6 +223,7 @@ private void renderFilteredStaff(ArrayList<StaffDTO> filteredList) {
         panel_top.setLayout(new FlowLayout(FlowLayout.LEFT));
         panel_top.add(searchLabel);
         panel_top.add(searchField);
+        panel_top.setBorder(new EmptyBorder(10, 10, 10, 10));
         
         //Table
         tbStaff = new javax.swing.JTable();
@@ -285,9 +283,9 @@ private void renderFilteredStaff(ArrayList<StaffDTO> filteredList) {
         //Update panel
         panel_bot.setLayout(new BorderLayout());
         
-        JPanel staffInfo_panel_left = new JPanel();
+        PanelBackground staffInfo_panel_left = new PanelBackground();
         JPanel staffInfo_panel_center = new JPanel();
-        JPanel staffInfo_panel_right = new JPanel();
+        PanelBackground staffInfo_panel_right = new PanelBackground();
         
         staffInfo_panel_center.setBackground(new Color(35,35,35));
         staffInfo_panel_left.setBackground(new Color(35,35,35));
@@ -297,11 +295,12 @@ private void renderFilteredStaff(ArrayList<StaffDTO> filteredList) {
         staffInfo_panel_left.setPreferredSize(new Dimension(350, 200));
         staffInfo_panel_right.setPreferredSize(new Dimension(150, 200));
         
+        panel_bot.add(panel_top, BorderLayout.NORTH);
         panel_bot.add(staffInfo_panel_center, BorderLayout.CENTER);
         panel_bot.add(staffInfo_panel_left, BorderLayout.WEST);
         panel_bot.add(staffInfo_panel_right, BorderLayout.EAST);
         
-        
+        jScrollPane2.setPreferredSize(new Dimension(1250, 450));
         //Btn panel
         JButton btnThem = new JButton("Thêm");
         btnThem.setBackground(new Color(146, 227, 118));
