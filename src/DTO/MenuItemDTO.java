@@ -16,7 +16,6 @@ public class MenuItemDTO {
     private long id;
     private String name;
     private String description;
-    private String ingredient;
     private String image;
     private long price;
     private long profit;
@@ -38,11 +37,10 @@ public class MenuItemDTO {
 
     
     
-    public MenuItemDTO(long id, String name, String description, String ingredient, String image, long price, long profit, boolean isDelete, String statusID, long categoryID, Date createTime, Date updateTime) {
+    public MenuItemDTO(long id, String name, String description, String image, long price, long profit, boolean isDelete, String statusID, long categoryID, Date createTime, Date updateTime) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.ingredient = ingredient;
         this.image = image;
         this.price = price;
         this.profit = profit;
@@ -57,7 +55,7 @@ public class MenuItemDTO {
         this.index = index;
         panelProductOrder = new PanelProductOrder();
         MenuItemStatusDTO menuItemStatusDTO = new MenuItemStatusBUS().findItemStatusByID(statusID);
-        panelProductOrder.insertData(index, name, price, menuItemStatusDTO.getName(), image, description, ingredient);
+        panelProductOrder.insertData(index, name, price, menuItemStatusDTO.getName(), image, description);
 //        System.out.println(description + " " + ingredient + " 1");
         
         return panelProductOrder;
@@ -98,13 +96,6 @@ public class MenuItemDTO {
         this.description = description;
     }
 
-    public String getIngredient() {
-        return ingredient;
-    }
-
-    public void setIngredient(String ingredient) {
-        this.ingredient = ingredient;
-    }
 
     public String getImage() {
         return image;

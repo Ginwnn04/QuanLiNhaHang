@@ -16,7 +16,7 @@ public class StaffDTO {
     private Date createTime;
     private Date updateTime;
     
-    
+    public static StaffDTO staffLogging;
 
     public StaffDTO() {
     }

@@ -49,14 +49,35 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
     public Main() {
         initComponents();
         setLocationRelativeTo(null);
-//        setBackground(new Color(0, 0, 0, 0));
-//        System.out.println(body.getSize());
-//        header.actionHeader(this);
+
+        
         navBar.setInformation("Nguyễn Nhật Quang", "Nhân viên");
         MyListener.getInstance().addPropertyChangeListener(this);
-        setTitle("PHẦN MỀM QUẢN LÍ NHÀ HÀNG");
-        showForm(new PanelDashbroad());
 
+        setTitle("PHẦN MỀM QUẢN LÍ NHÀ HÀNG");
+        Helper.ConnectDB.getInstance().openConnect();
+        showForm(new PanelDashbroad());
+        
+        FlatMacDarkLaf.registerCustomDefaultsSource("style");
+        UIManager.put("TextField.font", style.MyFont.fontText);
+        UIManager.put("Label.font", style.MyFont.fontText);
+        UIManager.put("Button.font", style.MyFont.fontText);
+        UIManager.put("Table.font", style.MyFont.fontText);
+        UIManager.put("TableHeader.font", new Font("Roboto", Font.BOLD, 14));
+        UIManager.put("TableHeader.background", new Color(35, 35, 35));
+        UIManager.put("TableHeader.hoverBackground", new Color(35, 35, 35));
+
+//        UIManager.put("Table.alternateRowColor", new Color(53, 53, 53));        
+        UIManager.put("TableHeader.separatorColor", new Color(0, 0, 0, 0));
+        UIManager.put("TableHeader.pressedBackground", new Color(0, 0, 0, 0));
+        UIManager.put("TableHeader.height", 30);
+        UIManager.put("RootPane.background", new Color(35, 35, 35));
+        UIManager.put("TitlePane.font", new Font("Roboto", Font.BOLD, 16));
+        UIManager.put("TitlePane.centerTitle", true);
+
+        FlatMacDarkLaf.setup();
+        
+        setVisible(true);
     }
 
     @Override
@@ -134,6 +155,10 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
         body.repaint();
     }
 
+    public void initProperty() {
+
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -174,33 +199,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        Helper.ConnectDB.getInstance().openConnect();
-        FlatMacDarkLaf.registerCustomDefaultsSource("style");
-        UIManager.put("TextField.font", style.MyFont.fontText);
-        UIManager.put("Label.font", style.MyFont.fontText);
-        UIManager.put("Button.font", style.MyFont.fontText);
-        UIManager.put("Table.font", style.MyFont.fontText);
-        UIManager.put("TableHeader.font", new Font("Roboto", Font.BOLD, 14));
-        UIManager.put("TableHeader.background", new Color(35, 35, 35));
-        UIManager.put("TableHeader.hoverBackground", new Color(35, 35, 35));
 
-//        UIManager.put("Table.alternateRowColor", new Color(53, 53, 53));        
-        UIManager.put("TableHeader.separatorColor", new Color(0, 0, 0, 0));
-        UIManager.put("TableHeader.pressedBackground", new Color(0, 0, 0, 0));
-        UIManager.put("TableHeader.height", 30);
-        UIManager.put("RootPane.background", new Color(35, 35, 35));
-        UIManager.put("TitlePane.font", new Font("Roboto", Font.BOLD, 16));
-        UIManager.put("TitlePane.centerTitle", true);
-
-        FlatMacDarkLaf.setup();
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Main().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private GUI.Comp.Swing.PanelBackground body;
