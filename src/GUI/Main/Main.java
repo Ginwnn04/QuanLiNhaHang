@@ -22,6 +22,9 @@ import Helper.MyListener;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
+import BUS.StaffBUS;
+import DTO.StaffDTO;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
@@ -49,9 +52,11 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
     public Main() {
         initComponents();
         setLocationRelativeTo(null);
-
-        
-        navBar.setInformation("Nguyễn Nhật Quang", "Nhân viên");
+        StaffDTO staffDTO = new StaffDTO();
+        // Qua bên zalo coi cái ảnh á
+//        String fullName = staffDTO.staffLogging.getLast_name() + " " + staffDTO.staffLogging.getFirst_name();
+//        String role = RoleBUS.getNameRole(StaffDTO.staffLogging.getRoleId());
+        navBar.setInformation("", "Nhân viên");
         MyListener.getInstance().addPropertyChangeListener(this);
 
         setTitle("PHẦN MỀM QUẢN LÍ NHÀ HÀNG");

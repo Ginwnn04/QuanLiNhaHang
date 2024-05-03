@@ -125,9 +125,9 @@ public class Login extends javax.swing.JFrame {
         JLabel passwordLabel = new JLabel("Password:");
         usernameLabel.setForeground(Color.WHITE);
         passwordLabel.setForeground(Color.WHITE);
-        JTextField usernameField = new JTextField( 20); // 20 là độ rộng ước lượng của username field
+        JTextField usernameField = new JTextField(200); 
         usernameField.setBackground(new Color(35,35,35));
-        JPasswordField passwordField = new JPasswordField(20); // 20 là độ rộng ước lượng của password field
+        JPasswordField passwordField = new JPasswordField(200); 
         passwordField.setBackground(new Color(35,35,35));
         
         usernameField.setForeground(Color.WHITE);
@@ -144,7 +144,7 @@ public class Login extends javax.swing.JFrame {
 
         logSection_panel_mid.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5); // Đặt khoảng cách giữa các thành phần
+        gbc.insets = new Insets(5, 5, 5, 5);
 
 
         gbc.gridx = 0;
@@ -180,7 +180,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        // Tạo một JLabel cho label "Đăng nhập"
         JLabel login_lbl = new JLabel("Đăng nhập", SwingConstants.CENTER);
         login_lbl.setFont(new Font("Roboto", Font.BOLD, 40));
         login_lbl.setForeground(new Color(50, 168, 82));
