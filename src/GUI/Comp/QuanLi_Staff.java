@@ -124,7 +124,21 @@ public class QuanLi_Staff extends javax.swing.JPanel {
         tbStaff.setModel(model);
     }
     
-    
+    private String[] getRoleIDs() {
+        ArrayList<String> roleList = new ArrayList<>();
+        String query = "SELECT id FROM tb_roles"; 
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                roleList.add(rs.getString("id"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        String[] roles = new String[roleList.size()];
+        roles = roleList.toArray(roles);
+        return roles;
+    }
 
 
 private void renderFilteredStaff(ArrayList<StaffDTO> filteredList) {
@@ -277,8 +291,17 @@ private void renderFilteredStaff(ArrayList<StaffDTO> filteredList) {
         }
 
         // Thêm JScrollPane chứa tbStaff vào panel_mid
-        panel_mid.add(jScrollPane2, java.awt.BorderLayout.CENTER);
-        panel_mid.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel_mid.setLayout(new GridBagLayout());
+        GridBagConstraints gbc1 = new GridBagConstraints();
+
+        // Đặt hướng căn giữa cho panel_mid
+        gbc1.gridx = 0;
+        gbc1.gridy = 0;
+        gbc1.weightx = 1.0;
+        gbc1.weighty = 1.0;
+        gbc1.fill = GridBagConstraints.BOTH;
+        panel_mid.add(jScrollPane2, gbc1);
+        panel_mid.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         
         //Update panel
         panel_bot.setLayout(new BorderLayout());
@@ -418,11 +441,19 @@ private void renderFilteredStaff(ArrayList<StaffDTO> filteredList) {
         RoleID_lbl.setForeground(Color.white);
         staffInfo_panel_center.add(RoleID_lbl, gbcCenter);
         gbcCenter.gridx = 1; 
-        String[] roles = {"ADMIN", "STAFF", "MANAGER"};
+        String[] roles = getRoleIDs();
         JComboBox<String> cmbRoleID = new JComboBox<>(roles);
         staffInfo_panel_center.add(cmbRoleID, gbcCenter);
         
-        
+        Dimension textFieldSize1 = new Dimension(200, 30);
+
+     // Áp dụng cho các JTextField trong panel_left
+     txtUsername.setPreferredSize(textFieldSize1);
+     txtPassword.setPreferredSize(textFieldSize1);
+     txtEmail.setPreferredSize(textFieldSize1);
+     txtSDT.setPreferredSize(textFieldSize1);
+     txtAddress.setPreferredSize(textFieldSize1);
+     searchField.setPreferredSize(textFieldSize1);
         
         tbStaff.addMouseListener(new MouseAdapter() {
             @Override
@@ -430,7 +461,6 @@ private void renderFilteredStaff(ArrayList<StaffDTO> filteredList) {
                 int selectedRow = tbStaff.getSelectedRow();
                 if (selectedRow != -1) {
                     DefaultTableModel model = (DefaultTableModel) tbStaff.getModel();
-                    // Lấy thông tin từ dòng được chọn trong bảng và hiển thị lên các textField tương ứng
                     String username = model.getValueAt(selectedRow, 2).toString();
                     String password = model.getValueAt(selectedRow, 3).toString();
                     String email = model.getValueAt(selectedRow, 4).toString();
@@ -575,12 +605,10 @@ private void renderFilteredStaff(ArrayList<StaffDTO> filteredList) {
             public void changedUpdate(DocumentEvent e) {
                 search();
             }
-
+            
             private void search() {
                 String searchText = searchField.getText().trim().toLowerCase();
                 ArrayList<StaffDTO> filteredList = new ArrayList<>();
-
-                // Duyệt qua danh sách nhân viên và lọc ra những nhân viên có username hoặc email chứa chuỗi tìm kiếm
                 for (StaffDTO staff : listStaff) {
                     if (staff.getUsername().toLowerCase().contains(searchText) || staff.getEmail().toLowerCase().contains(searchText)) {
                         filteredList.add(staff);
