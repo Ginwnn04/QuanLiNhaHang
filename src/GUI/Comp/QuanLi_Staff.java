@@ -124,21 +124,7 @@ public class QuanLi_Staff extends javax.swing.JPanel {
         tbStaff.setModel(model);
     }
     
-    private String[] getRoleIDs() {
-        ArrayList<String> roleList = new ArrayList<>();
-        String query = "SELECT id FROM tb_roles"; 
-        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
-            ResultSet rs = pstm.executeQuery();
-            while (rs.next()) {
-                roleList.add(rs.getString("id"));
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        String[] roles = new String[roleList.size()];
-        roles = roleList.toArray(roles);
-        return roles;
-    }
+    
 
 
 private void renderFilteredStaff(ArrayList<StaffDTO> filteredList) {
@@ -441,7 +427,7 @@ private void renderFilteredStaff(ArrayList<StaffDTO> filteredList) {
         RoleID_lbl.setForeground(Color.white);
         staffInfo_panel_center.add(RoleID_lbl, gbcCenter);
         gbcCenter.gridx = 1; 
-        String[] roles = getRoleIDs();
+        String[] roles = staffBUS.getRoleIDs();
         JComboBox<String> cmbRoleID = new JComboBox<>(roles);
         staffInfo_panel_center.add(cmbRoleID, gbcCenter);
         

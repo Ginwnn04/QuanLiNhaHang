@@ -36,6 +36,22 @@ public class StaffDAO {
         return list;
     }
 
+    public String[] getRoleIDs() {
+        ArrayList<String> roleList = new ArrayList<>();
+        String query = "SELECT id FROM tb_roles";
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                roleList.add(rs.getString("id"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        String[] roles = new String[roleList.size()];
+        roles = roleList.toArray(roles);
+        return roles;
+    }
+    
     public boolean insertStaffData(StaffDTO staff) {
         // Kiểm tra xem username và email đã tồn tại chưa
         if (isUsernameExists(staff.getUsername())) {
