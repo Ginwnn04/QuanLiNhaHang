@@ -5,11 +5,9 @@ import DTO.StaffDTO;
 import java.util.ArrayList;
 
 public class StaffBUS {
-    private ArrayList<StaffDTO> list;
     private StaffDAO staffDAO;
     
     public StaffBUS() {
-        list = new ArrayList<>();
         staffDAO = new StaffDAO();
     }
     
@@ -30,4 +28,8 @@ public class StaffBUS {
         return staffDAO.getRoleIDs();
     }
 
+    public StaffDTO isExists(String username, String password) {
+        return staffDAO.isExists(username, password);
+    }
+    
 }

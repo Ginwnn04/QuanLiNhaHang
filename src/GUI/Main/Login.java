@@ -4,6 +4,8 @@
  */
 package GUI.Main;
 
+import BUS.StaffBUS;
+import DTO.StaffDTO;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -31,6 +33,7 @@ import javax.swing.SwingConstants;
 import Helper.ConnectDB;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import javax.swing.JPasswordField;
 import javax.swing.UIManager;
 
 /**
@@ -38,18 +41,17 @@ import javax.swing.UIManager;
  * @author vuled
  */
 public class Login extends javax.swing.JFrame {
-    private ConnectDB connectDB;
+    private StaffBUS staffBUS = new StaffBUS();
 
 
     public Login() {
         initComponents();
         LoginLayout();
-        connectDB = ConnectDB.getInstance(); 
-        connectDB.openConnect();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         
-      
+      Helper.ConnectDB.getInstance().openConnect();
     }
     
     private void LoginLayout() {
@@ -125,7 +127,7 @@ public class Login extends javax.swing.JFrame {
         passwordLabel.setForeground(Color.WHITE);
         JTextField usernameField = new JTextField( 20); // 20 là độ rộng ước lượng của username field
         usernameField.setBackground(new Color(35,35,35));
-        JTextField passwordField = new JTextField( 20); // 20 là độ rộng ước lượng của password field
+        JPasswordField passwordField = new JPasswordField(20); // 20 là độ rộng ước lượng của password field
         passwordField.setBackground(new Color(35,35,35));
         
         usernameField.setForeground(Color.WHITE);
@@ -134,10 +136,13 @@ public class Login extends javax.swing.JFrame {
         usernameField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Nhập tài khoản");
         passwordField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Nhập mật khẩu"); 
         
+       
+      
+        
         usernameField.setPreferredSize(new Dimension(300, 35));
         passwordField.setPreferredSize(new Dimension(300, 35));
 
-                logSection_panel_mid.setLayout(new GridBagLayout());
+        logSection_panel_mid.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5); // Đặt khoảng cách giữa các thành phần
 
@@ -187,28 +192,18 @@ public class Login extends javax.swing.JFrame {
     private void loginButtonActionPerformed(JTextField usernameField, JTextField passwordField) {
         String username = usernameField.getText(); 
         String password = passwordField.getText(); 
-        
-
-        String sql = "SELECT * FROM tb_users WHERE username = ? AND password = ?";
-        
-        try {
-            PreparedStatement statement = connectDB.getConnection().prepareStatement(sql);
-            statement.setString(1, username);
-            statement.setString(2, password);
-            
-            ResultSet resultSet = statement.executeQuery();
-            
-
-            if (resultSet.next()) {
-                dispose();
-                Main main = new Main();
-               
-            } else {
-                JOptionPane.showMessageDialog(this, "Tên đăng nhập hoặc mật khẩu không chính xác!");
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Lỗi khi đăng nhập: " + ex.getMessage());
+        StaffDTO staff = staffBUS.isExists(username, password);
+        if (staff == null) {
+            JOptionPane.showMessageDialog(rootPane, "Sai tài khoản hoặc mật khẩu");
+            return;
         }
+        else {
+            StaffDTO.staffLogging = staff;
+            dispose();
+            Main main = new Main();
+        }
+        
+        
     }
     
     
@@ -247,6 +242,8 @@ public class Login extends javax.swing.JFrame {
         UIManager.put("Label.font", style.MyFont.fontText);
         UIManager.put("Button.font", style.MyFont.fontText);
         UIManager.put("Table.font", style.MyFont.fontText);
+        UIManager.put("PasswordField.font", style.MyFont.fontText);
+        UIManager.put("PasswordField.showRevealButton", true); 
         UIManager.put("RootPane.background", new Color(35, 35, 35));
         UIManager.put("TitlePane.font", new Font("Roboto", Font.BOLD, 16));
         UIManager.put("TitlePane.centerTitle", true);

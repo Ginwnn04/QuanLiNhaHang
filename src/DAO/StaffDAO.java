@@ -1,6 +1,7 @@
 package DAO;
 
 import DTO.StaffDTO;
+import GUI.Main.Main;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -186,7 +187,36 @@ public class StaffDAO {
         return false;
     }
 
+    public StaffDTO isExists(String username, String password) {
+        String sql = "SELECT * FROM tb_users WHERE username = ? AND password = ?";
+        
+        try {
+            PreparedStatement statement = Helper.ConnectDB.getInstance().getConnection().prepareStatement(sql);
+            statement.setString(1, username);
+            statement.setString(2, password);
+            
+            ResultSet rs = statement.executeQuery();
+            
 
-    private GUI.Comp.Swing.PanelBackground pnContainer;
-    // Add other CRUD methods as needed
+            if (rs.next()) {
+                StaffDTO staff = new StaffDTO();
+                staff.setId(rs.getLong("id"));
+                staff.setUsername(rs.getString("username"));
+                staff.setPassword(rs.getString("password"));
+                staff.setEmail(rs.getString("email"));
+                staff.setPhone(rs.getString("phone"));
+                staff.setAddress(rs.getString("address"));
+                staff.setisDeleted(rs.getBoolean("isdeleted"));
+                staff.setRoleId(rs.getString("roleid"));
+                staff.setCreateTime(rs.getDate("create_time"));
+                staff.setUpdateTime(rs.getDate("update_time"));
+                return staff;
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+    
 }
