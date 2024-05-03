@@ -13,7 +13,7 @@ public class StaffDAO {
     
     public ArrayList<StaffDTO> readAllStaffData() {
         ArrayList<StaffDTO> list = new ArrayList<>();
-        String query = "SELECT * FROM tb_users WHERE isdeleted = false";
+        String query = "SELECT * FROM tb_staff WHERE isdeleted = false";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             ResultSet rs = pstm.executeQuery();
             while(rs.next()) {
@@ -65,7 +65,7 @@ public class StaffDAO {
         }
 
         // Nếu không có trùng lặp, thực hiện thêm nhân viên vào cơ sở dữ liệu
-        String query = "INSERT INTO tb_users (id, username, password, email, phone, address, isdeleted, roleid, create_time, update_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO tb_staff (id, username, password, email, phone, address, isdeleted, roleid, create_time, update_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setLong(1, staff.createId());
             pstm.setString(2, staff.getUsername());
@@ -91,7 +91,7 @@ public class StaffDAO {
 
 
     private boolean isUsernameExists(String username) {
-        String query = "SELECT COUNT(*) AS count FROM tb_users WHERE username = ? AND isdeleted = false";
+        String query = "SELECT COUNT(*) AS count FROM tb_staff WHERE username = ? AND isdeleted = false";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setString(1, username);
             ResultSet rs = pstm.executeQuery();
@@ -106,7 +106,7 @@ public class StaffDAO {
     }
 
     private boolean isEmailExists(String email) {
-        String query = "SELECT COUNT(*) AS count FROM tb_users WHERE email = ? AND isdeleted = false";
+        String query = "SELECT COUNT(*) AS count FROM tb_staff WHERE email = ? AND isdeleted = false";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setString(1, email);
             ResultSet rs = pstm.executeQuery();
@@ -133,7 +133,7 @@ public class StaffDAO {
             return false;
         }
 
-        String query = "UPDATE tb_users SET username = ?, password = ?, email = ?, phone = ?, address = ?, isdeleted = ?, roleid = ?, update_time = ? WHERE id = ?";
+        String query = "UPDATE tb_staff SET username = ?, password = ?, email = ?, phone = ?, address = ?, isdeleted = ?, roleid = ?, update_time = ? WHERE id = ?";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setString(1, staff.getUsername());
             pstm.setString(2, staff.getPassword());
@@ -155,7 +155,7 @@ public class StaffDAO {
 
     // Kiểm tra username trùng lặp khi cập nhật
     private boolean isUsernameExistsForUpdate(String username, long currentStaffId) {
-        String query = "SELECT COUNT(*) AS count FROM tb_users WHERE username = ? AND id != ? AND isdeleted = false";
+        String query = "SELECT COUNT(*) AS count FROM tb_staff WHERE username = ? AND id != ? AND isdeleted = false";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setString(1, username);
             pstm.setLong(2, currentStaffId);
@@ -171,7 +171,7 @@ public class StaffDAO {
     }
 
     private boolean isEmailExistsForUpdate(String email, long currentStaffId) {
-        String query = "SELECT COUNT(*) AS count FROM tb_users WHERE email = ? AND id != ? AND isdeleted = false";
+        String query = "SELECT COUNT(*) AS count FROM tb_staff WHERE email = ? AND id != ? AND isdeleted = false";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setString(1, email);
             pstm.setLong(2, currentStaffId);
@@ -186,6 +186,19 @@ public class StaffDAO {
         return false;
     }
 
+<<<<<<< Updated upstream
+=======
+    public StaffDTO isExists(String username, String password) {
+        String sql = "SELECT * FROM tb_staff WHERE username = ? AND password = ?";
+        
+        try {
+            PreparedStatement statement = Helper.ConnectDB.getInstance().getConnection().prepareStatement(sql);
+            statement.setString(1, username);
+            statement.setString(2, password);
+            
+            ResultSet rs = statement.executeQuery();
+            
+>>>>>>> Stashed changes
 
     private GUI.Comp.Swing.PanelBackground pnContainer;
     // Add other CRUD methods as needed
