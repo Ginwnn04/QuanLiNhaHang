@@ -25,5 +25,9 @@ public class StaffBUS {
     public boolean updateStaff(StaffDTO staff) {
         return staffDAO.updateStaffData(staff);
     }
+    
+    public String[] getRoleIDs() {
+        return staffDAO.getRoleIDs();
+    }
 
 }
