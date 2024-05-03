@@ -63,22 +63,20 @@ public class NavBar extends javax.swing.JPanel {
         addMenuItem("Trang chủ", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
         addMenuItem("Bàn", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
         addMenuItem("Đặt món", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
+        addMenuItem("Món ăn", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
         
         // Tài
-        addMenuItem("Món ăn", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
         addMenuItem("Nguyên liệu", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
-
-        addMenuItem("Nhập kho", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
-        addMenuItem("Hóa đơn", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
-
         addMenuItem("Kiểm kê", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
+
+
         
         
         // Nhân
         addMenuItem("Công thức", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
         addMenuItem("Thể loại", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
-
         addMenuItem("Giảm giá", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
+
         
         
         // Sinh
@@ -99,7 +97,7 @@ public class NavBar extends javax.swing.JPanel {
         btn.setIconTextGap(10);
         btn.setPreferredSize(new Dimension(205, 50));
         if (listButton.size() == 0) {
-            btn.setForeground(new Color(75, 157, 248));
+            btn.setForeground(new Color(255, 107, 39));
         } 
         else {
             btn.setForeground(new Color(255, 255, 255));

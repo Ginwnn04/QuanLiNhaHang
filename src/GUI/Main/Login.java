@@ -13,27 +13,39 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import Helper.ConnectDB;
 
 /**
  *
  * @author vuled
  */
 public class Login extends javax.swing.JFrame {
-
+	private ConnectDB connectDB;
     /**
      * Creates new form LogIn
      */
     public Login() {
         initComponents();
         LoginLayout();
+        connectDB = ConnectDB.getInstance(); 
+        connectDB.openConnect();
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
     }
     
     private void LoginLayout() {
@@ -140,6 +152,7 @@ public class Login extends javax.swing.JFrame {
         gbc.gridy = 1;
         logSection_panel_mid.add(passwordField, gbc);
         
+        //Login Btn
         JButton loginBtn = new JButton("ĐĂNG NHẬP");
         loginBtn.setPreferredSize(new Dimension(280, 35));
         loginBtn.setBackground(new Color(50, 168, 82));
@@ -147,6 +160,13 @@ public class Login extends javax.swing.JFrame {
         logSection_panel_bot.add(loginBtn);
         
         logSection_panel_top.setLayout(new BorderLayout());
+        
+        loginBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loginButtonActionPerformed(usernameField, passwordField);
+            }
+        });
 
         // Tạo một JLabel cho label "Đăng nhập"
         JLabel login_lbl = new JLabel("Đăng nhập", SwingConstants.CENTER);
@@ -157,6 +177,32 @@ public class Login extends javax.swing.JFrame {
         logSection_panel_top.setBackground(new Color(35,35,35));
     }
     
+    private void loginButtonActionPerformed(JTextField usernameField, JTextField passwordField) {
+        String username = usernameField.getText(); 
+        String password = passwordField.getText(); 
+        
+
+        String sql = "SELECT * FROM tb_users WHERE username = ? AND password = ?";
+        
+        try {
+            PreparedStatement statement = connectDB.getConnection().prepareStatement(sql);
+            statement.setString(1, username);
+            statement.setString(2, password);
+            
+            ResultSet resultSet = statement.executeQuery();
+            
+
+            if (resultSet.next()) {
+                Main main = new Main();
+                main.setVisible(true);
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Tên đăng nhập hoặc mật khẩu không chính xác!");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi đăng nhập: " + ex.getMessage());
+        }
+    }
     
     
 

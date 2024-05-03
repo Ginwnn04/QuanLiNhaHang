@@ -5,6 +5,7 @@
 package GUI.Main;
 
 import GUI.Comp.QuanLiNhapKho;
+import GUI.Comp.QuanLi_Staff;
 import GUI.Comp.QuanLiNguyenLieu;
 //import GUI.Comp.QuanLiBan;
 //import GUI.Comp.DialogOrder;
@@ -116,9 +117,10 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
                 case 11:
 //                    showForm(new QuanLiTheLoai());
                     break;
-                case 12:
-//                    showForm(new QuanLiTheLoai());
+                case 14:
+                    showForm(new QuanLi_Staff());
                     break;
+                    
 
             }
         }
