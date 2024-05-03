@@ -29,16 +29,18 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import Helper.ConnectDB;
+import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import javax.swing.UIManager;
 
 /**
  *
  * @author vuled
  */
 public class Login extends javax.swing.JFrame {
-	private ConnectDB connectDB;
-    /**
-     * Creates new form LogIn
-     */
+    private ConnectDB connectDB;
+
+
     public Login() {
         initComponents();
         LoginLayout();
@@ -46,6 +48,8 @@ public class Login extends javax.swing.JFrame {
         connectDB.openConnect();
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        
+      
     }
     
     private void LoginLayout() {
@@ -119,13 +123,16 @@ public class Login extends javax.swing.JFrame {
         JLabel passwordLabel = new JLabel("Password:");
         usernameLabel.setForeground(Color.WHITE);
         passwordLabel.setForeground(Color.WHITE);
-        JTextField usernameField = new JTextField("Username", 20); // 20 là độ rộng ước lượng của username field
+        JTextField usernameField = new JTextField( 20); // 20 là độ rộng ước lượng của username field
         usernameField.setBackground(new Color(35,35,35));
-        JTextField passwordField = new JTextField("Password", 20); // 20 là độ rộng ước lượng của password field
+        JTextField passwordField = new JTextField( 20); // 20 là độ rộng ước lượng của password field
         passwordField.setBackground(new Color(35,35,35));
+        
         usernameField.setForeground(Color.WHITE);
         passwordField.setForeground(Color.WHITE);
 
+        usernameField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Nhập tài khoản");
+        passwordField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Nhập mật khẩu"); 
         
         usernameField.setPreferredSize(new Dimension(300, 35));
         passwordField.setPreferredSize(new Dimension(300, 35));
@@ -193,9 +200,9 @@ public class Login extends javax.swing.JFrame {
             
 
             if (resultSet.next()) {
-                Main main = new Main();
-                main.setVisible(true);
                 dispose();
+                Main main = new Main();
+               
             } else {
                 JOptionPane.showMessageDialog(this, "Tên đăng nhập hoặc mật khẩu không chính xác!");
             }
@@ -235,29 +242,15 @@ public class Login extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+        FlatMacDarkLaf.registerCustomDefaultsSource("style");
+        UIManager.put("TextField.font", style.MyFont.fontText);
+        UIManager.put("Label.font", style.MyFont.fontText);
+        UIManager.put("Button.font", style.MyFont.fontText);
+        UIManager.put("Table.font", style.MyFont.fontText);
+        UIManager.put("RootPane.background", new Color(35, 35, 35));
+        UIManager.put("TitlePane.font", new Font("Roboto", Font.BOLD, 16));
+        UIManager.put("TitlePane.centerTitle", true);
+        FlatMacDarkLaf.setup();
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
