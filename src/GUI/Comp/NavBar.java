@@ -20,9 +20,7 @@ import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 import org.jdesktop.animation.timing.Animator;
@@ -51,7 +49,7 @@ public class NavBar extends javax.swing.JPanel {
         int op = (int) (255 * 0.8);
         jSeparator2.setForeground(new Color(204, 204, 204, op));
         btnDangXuat.setIconTextGap(10);
-       
+        
     }
     
     public void setInformation(String name, String role) {
@@ -62,30 +60,34 @@ public class NavBar extends javax.swing.JPanel {
 
     public void initMenu() {
 //        panelBackground1.setBackground(new Color(255, 107, 39, 30));
-        addMenuItem("Trang chủ", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/home.png")));
-        addMenuItem("Bàn", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/lamp.png")));
-        addMenuItem("Đặt món", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/room-service.png")));
-        addMenuItem("Món ăn", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/restaurant.png")));
+        addMenuItem("Trang chủ", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
+        addMenuItem("Bàn", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
+        addMenuItem("Đặt món", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
         
         // Tài
-        addMenuItem("Nguyên liệu", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/mortar.png")));
-        addMenuItem("Kiểm kê", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/shopping-cart.png")));
+        addMenuItem("Món ăn", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
+        addMenuItem("Nguyên liệu", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
 
+        addMenuItem("Nhập kho", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
+        addMenuItem("Hóa đơn", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
+
+        addMenuItem("Kiểm kê", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
+        
         
         // Nhân
-        addMenuItem("Công thức", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/recipe.png")));
-        addMenuItem("Thể loại", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/category.png")));
-        addMenuItem("Giảm giá", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/offer.png")));
+        addMenuItem("Công thức", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
+        addMenuItem("Thể loại", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
 
+        addMenuItem("Giảm giá", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
         
         
         // Sinh
-        addMenuItem("Hóa đơn", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/receipt.png")));
-        addMenuItem("Thống kê", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/chart-area.png")));
+        addMenuItem("Hóa đơn", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
+        addMenuItem("Thống kê", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
         
         // Đức Anh
-        addMenuItem("Nhà cung cấp", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/supplier.png")));
-        addMenuItem("Nhân viên", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/employees.png")));
+        addMenuItem("Nhà cung cấp", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
+        addMenuItem("Nhân viên", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/1_s.png")));
         
         sliding.setBounds(xPanel, yPanel, 15, 20);
         pnContainer.add(sliding);
@@ -97,7 +99,7 @@ public class NavBar extends javax.swing.JPanel {
         btn.setIconTextGap(10);
         btn.setPreferredSize(new Dimension(205, 50));
         if (listButton.size() == 0) {
-            btn.setForeground(new Color(255, 107, 39));
+            btn.setForeground(new Color(75, 157, 248));
         } 
         else {
             btn.setForeground(new Color(255, 255, 255));
@@ -186,13 +188,18 @@ public class NavBar extends javax.swing.JPanel {
         btnDangXuat.setBackground(new java.awt.Color(35, 35, 35));
         btnDangXuat.setFont(new java.awt.Font("Roboto", 1, 20)); // NOI18N
         btnDangXuat.setForeground(new java.awt.Color(255, 255, 255));
-        btnDangXuat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Comp/Icon/sign-out-alt.png"))); // NOI18N
+        btnDangXuat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Comp/Icon/9_s.png"))); // NOI18N
         btnDangXuat.setText("Đăng xuất");
         btnDangXuat.setBorderPainted(false);
         btnDangXuat.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnDangXuat.setMargin(new java.awt.Insets(2, 5, 2, 14));
         btnDangXuat.setName(""); // NOI18N
         btnDangXuat.setPreferredSize(new java.awt.Dimension(205, 50));
+        btnDangXuat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDangXuatActionPerformed(evt);
+            }
+        });
 
         jSeparator2.setBackground(new java.awt.Color(102, 255, 51));
         jSeparator2.setForeground(new java.awt.Color(102, 255, 102));
@@ -247,6 +254,10 @@ public class NavBar extends javax.swing.JPanel {
 
         add(pnContainer, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDangXuatActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -4,8 +4,6 @@
  */
 package GUI.Main;
 
-import BUS.StaffBUS;
-import DTO.StaffDTO;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,44 +13,27 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-
-import Helper.ConnectDB;
-import com.formdev.flatlaf.FlatClientProperties;
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import java.awt.event.KeyEvent;
-import javax.swing.JPasswordField;
-import javax.swing.UIManager;
 
 /**
  *
  * @author vuled
  */
 public class Login extends javax.swing.JFrame {
-    private StaffBUS staffBUS = new StaffBUS();
 
-
+    /**
+     * Creates new form LogIn
+     */
     public Login() {
         initComponents();
         LoginLayout();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        
-        Helper.ConnectDB.getInstance().openConnect();
     }
     
     private void LoginLayout() {
@@ -126,26 +107,20 @@ public class Login extends javax.swing.JFrame {
         JLabel passwordLabel = new JLabel("Password:");
         usernameLabel.setForeground(Color.WHITE);
         passwordLabel.setForeground(Color.WHITE);
-        JTextField usernameField = new JTextField(20); 
+        JTextField usernameField = new JTextField("Username", 20); // 20 là độ rộng ước lượng của username field
         usernameField.setBackground(new Color(35,35,35));
-        JPasswordField passwordField = new JPasswordField(20); 
+        JTextField passwordField = new JTextField("Password", 20); // 20 là độ rộng ước lượng của password field
         passwordField.setBackground(new Color(35,35,35));
-        
         usernameField.setForeground(Color.WHITE);
         passwordField.setForeground(Color.WHITE);
 
-        usernameField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Nhập tài khoản");
-        passwordField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Nhập mật khẩu"); 
-        
-       
-      
         
         usernameField.setPreferredSize(new Dimension(300, 35));
         passwordField.setPreferredSize(new Dimension(300, 35));
 
-        logSection_panel_mid.setLayout(new GridBagLayout());
+                logSection_panel_mid.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets = new Insets(5, 5, 5, 5); // Đặt khoảng cách giữa các thành phần
 
 
         gbc.gridx = 0;
@@ -165,23 +140,15 @@ public class Login extends javax.swing.JFrame {
         gbc.gridy = 1;
         logSection_panel_mid.add(passwordField, gbc);
         
-        //Login Btn
         JButton loginBtn = new JButton("ĐĂNG NHẬP");
         loginBtn.setPreferredSize(new Dimension(280, 35));
         loginBtn.setBackground(new Color(50, 168, 82));
         loginBtn.setForeground(Color.white);
-        loginBtn.setMnemonic(KeyEvent.VK_ENTER);
         logSection_panel_bot.add(loginBtn);
         
         logSection_panel_top.setLayout(new BorderLayout());
-        
-        loginBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loginButtonActionPerformed(usernameField, passwordField);
-            }
-        });
 
+        // Tạo một JLabel cho label "Đăng nhập"
         JLabel login_lbl = new JLabel("Đăng nhập", SwingConstants.CENTER);
         login_lbl.setFont(new Font("Roboto", Font.BOLD, 40));
         login_lbl.setForeground(new Color(50, 168, 82));
@@ -190,22 +157,6 @@ public class Login extends javax.swing.JFrame {
         logSection_panel_top.setBackground(new Color(35,35,35));
     }
     
-    private void loginButtonActionPerformed(JTextField usernameField, JTextField passwordField) {
-        String username = usernameField.getText(); 
-        String password = passwordField.getText(); 
-        StaffDTO staff = staffBUS.isExists(username, password);
-        if (staff == null) {
-            JOptionPane.showMessageDialog(rootPane, "Sai tài khoản hoặc mật khẩu");
-            return;
-        }
-        else {
-            StaffDTO.staffLogging = staff;
-            dispose();
-            Main main = new Main();
-        }
-        
-        
-    }
     
     
 
@@ -238,17 +189,29 @@ public class Login extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        FlatMacDarkLaf.registerCustomDefaultsSource("style");
-        UIManager.put("TextField.font", style.MyFont.fontText);
-        UIManager.put("Label.font", style.MyFont.fontText);
-        UIManager.put("Button.font", style.MyFont.fontText);
-        UIManager.put("Table.font", style.MyFont.fontText);
-        UIManager.put("PasswordField.font", style.MyFont.fontText);
-        UIManager.put("PasswordField.showRevealButton", true); 
-        UIManager.put("RootPane.background", new Color(35, 35, 35));
-        UIManager.put("TitlePane.font", new Font("Roboto", Font.BOLD, 16));
-        UIManager.put("TitlePane.centerTitle", true);
-        FlatMacDarkLaf.setup();
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

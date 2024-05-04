@@ -10,7 +10,6 @@ import DTO.DetailOrderDTO;
 import DTO.InvoicesDTO;
 import DTO.MenuItemDTO;
 import DTO.OrderDTO;
-import DTO.StaffDTO;
 import DTO.TableDTO;
 import Helper.MyListener;
 import java.awt.Component;
@@ -514,8 +513,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
             if (isOrderMore) {
                 OrderDTO multiOrder = new OrderDTO();
                 multiOrder.createID();
-                
-                multiOrder.setStaffID(StaffDTO.staffLogging.getId());
+                multiOrder.setStaffID(638471313653138161L);
                 multiOrder.setTableID(table.getId());
                 multiOrder.setCustomerCode(table.getCustomerCode());
                 multiOrder.setIsDelete(false);
@@ -542,7 +540,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
 
                 OrderDTO multiOrder = new OrderDTO();
                 multiOrder.createID();
-                multiOrder.setStaffID(StaffDTO.staffLogging.getId());
+                multiOrder.setStaffID(638471313653138161L);
                 multiOrder.setTableID(table.getId());
                 multiOrder.setCustomerCode(customerCode);
                 multiOrder.setIsDelete(false);

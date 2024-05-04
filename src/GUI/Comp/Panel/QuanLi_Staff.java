@@ -7,7 +7,6 @@ package GUI.Comp.Panel;
 import GUI.Main.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -130,18 +129,9 @@ public class QuanLi_Staff extends javax.swing.JPanel {
         JScrollPane scrollPane = new JScrollPane(table);
 
         // Create a JPanel to hold the table
-        panel_mid.setLayout(new GridBagLayout());
-        GridBagConstraints gbc1 = new GridBagConstraints();
-
-
-        gbc1.gridx = 0;
-        gbc1.gridy = 0;
-        gbc1.weightx = 1.0;
-        gbc1.weighty = 1.0;
-        gbc1.fill = GridBagConstraints.BOTH;
-        panel_mid.add(scrollPane, gbc1);
+        panel_mid.setLayout(new BorderLayout());
+        panel_mid.add(scrollPane, BorderLayout.CENTER);
         
-       
         
         //Update panel
         panel_bot.setLayout(new BorderLayout());
