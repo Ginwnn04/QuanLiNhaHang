@@ -33,7 +33,6 @@ public class MenuItemDAO {
                 menuItem.setStatusID(rs.getString("statusid"));
                 menuItem.setCategoryID(rs.getLong("categoryid"));
                 menuItem.setDescription(rs.getString("description"));
-                menuItem.setIngredient(rs.getString("ingredients"));
                 list.add(menuItem);
             }
             return list;

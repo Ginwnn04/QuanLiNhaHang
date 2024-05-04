@@ -21,10 +21,9 @@ public class DialogItem extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }
     
-    public void insertData(ImageIcon icon, String desc, String ingredient) {
+    public void insertData(ImageIcon icon, String desc) {
         image.setIcon(icon);
         lbDesc.setText("<html>" + desc + "</html>");
-        lbIngredient.setText("<html>" + ingredient + "</html>");
     }
 
     @SuppressWarnings("unchecked")
@@ -40,8 +39,6 @@ public class DialogItem extends javax.swing.JDialog {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         lbDesc = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        lbIngredient = new javax.swing.JLabel();
         image = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -142,31 +139,6 @@ public class DialogItem extends javax.swing.JDialog {
 
         jTabbedPane1.addTab("Mô tả", jPanel2);
 
-        lbIngredient.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        lbIngredient.setText("jLabel1");
-        lbIngredient.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        lbIngredient.setMaximumSize(new java.awt.Dimension(400, 102));
-        lbIngredient.setPreferredSize(new java.awt.Dimension(400, 102));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbIngredient, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(lbIngredient, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jTabbedPane1.addTab("Công thức", jPanel3);
-
         jPanel1.add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
         image.setPreferredSize(new java.awt.Dimension(400, 250));
@@ -182,7 +154,7 @@ public class DialogItem extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -232,7 +204,6 @@ public class DialogItem extends javax.swing.JDialog {
     private javax.swing.JLabel image;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -240,6 +211,5 @@ public class DialogItem extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lbDesc;
-    private javax.swing.JLabel lbIngredient;
     // End of variables declaration//GEN-END:variables
 }

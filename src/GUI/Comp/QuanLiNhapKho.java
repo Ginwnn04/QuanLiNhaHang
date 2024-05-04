@@ -107,15 +107,14 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
-        jButton6 = new javax.swing.JButton();
-        jPanel9 = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
         jButton8 = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
+        jButton6 = new javax.swing.JButton();
+        jPanel9 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
-        jPanel12 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         panelBackground8 = new GUI.Comp.Swing.PanelBackground();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -152,89 +151,25 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
         jPanel8.setMaximumSize(new java.awt.Dimension(20, 23));
         panelBackground7.add(jPanel8);
 
-        jButton1.setBackground(new java.awt.Color(102, 102, 102));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jButton1.setText("Thêm");
-        jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(53, 53, 53)));
-        jButton1.setMaximumSize(new java.awt.Dimension(72, 40));
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jButton1MousePressed(evt);
-            }
-        });
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        jButton1.setMaximumSize(new java.awt.Dimension(84, 40));
         panelBackground7.add(jButton1);
 
         jPanel2.setBackground(new java.awt.Color(35, 35, 35));
         jPanel2.setMaximumSize(new java.awt.Dimension(20, 23));
         panelBackground7.add(jPanel2);
 
-        jButton4.setBackground(new java.awt.Color(102, 102, 102));
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jButton4.setText("Chi tiết");
-        jButton4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(53, 53, 53)));
-        jButton4.setMaximumSize(new java.awt.Dimension(72, 40));
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
+        jButton4.setMaximumSize(new java.awt.Dimension(84, 40));
         panelBackground7.add(jButton4);
 
         jPanel7.setBackground(new java.awt.Color(35, 35, 35));
         jPanel7.setMaximumSize(new java.awt.Dimension(20, 23));
         panelBackground7.add(jPanel7);
 
-        jButton6.setBackground(new java.awt.Color(102, 102, 102));
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Xuất file Excel");
-        jButton6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(53, 53, 53)));
-        jButton6.setMaximumSize(new java.awt.Dimension(103, 40));
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-        panelBackground7.add(jButton6);
-
-        jPanel9.setBackground(new java.awt.Color(35, 35, 35));
-        jPanel9.setMaximumSize(new java.awt.Dimension(20, 23));
-        panelBackground7.add(jPanel9);
-
-        jButton8.setBackground(new java.awt.Color(102, 102, 102));
-        jButton8.setForeground(new java.awt.Color(255, 255, 255));
-        jButton8.setText("In ra PDF");
-        jButton8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(53, 53, 53)));
-        jButton8.setMaximumSize(new java.awt.Dimension(103, 40));
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-        panelBackground7.add(jButton8);
-
-        jPanel11.setBackground(new java.awt.Color(35, 35, 35));
-        jPanel11.setMaximumSize(new java.awt.Dimension(20, 23));
-        panelBackground7.add(jPanel11);
-
-        jButton2.setText("Nhập từ Excel");
-        jButton2.setMaximumSize(new java.awt.Dimension(140, 40));
-        jButton2.setPreferredSize(new java.awt.Dimension(140, 40));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        panelBackground7.add(jButton2);
-
-        jPanel12.setBackground(new java.awt.Color(35, 35, 35));
-        jPanel12.setMaximumSize(new java.awt.Dimension(20, 23));
-        panelBackground7.add(jPanel12);
-
+        jButton3.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jButton3.setText("Xóa");
         jButton3.setMaximumSize(new java.awt.Dimension(72, 40));
         jButton3.setPreferredSize(new java.awt.Dimension(72, 40));
@@ -245,13 +180,42 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
         });
         panelBackground7.add(jButton3);
 
-        jPanel3.setBackground(new java.awt.Color(35, 35, 35));
-        jPanel3.setMaximumSize(new java.awt.Dimension(20, 23));
-        panelBackground7.add(jPanel3);
-
         jPanel4.setBackground(new java.awt.Color(35, 35, 35));
         jPanel4.setMaximumSize(new java.awt.Dimension(20, 23));
         panelBackground7.add(jPanel4);
+
+        jButton8.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jButton8.setText("In PDF");
+        jButton8.setMaximumSize(new java.awt.Dimension(75, 40));
+        panelBackground7.add(jButton8);
+
+        jPanel11.setBackground(new java.awt.Color(35, 35, 35));
+        jPanel11.setMaximumSize(new java.awt.Dimension(20, 23));
+        panelBackground7.add(jPanel11);
+
+        jButton6.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jButton6.setText("Xuất Excel");
+        jButton6.setMaximumSize(new java.awt.Dimension(84, 40));
+        panelBackground7.add(jButton6);
+
+        jPanel9.setBackground(new java.awt.Color(35, 35, 35));
+        jPanel9.setMaximumSize(new java.awt.Dimension(20, 23));
+        panelBackground7.add(jPanel9);
+
+        jButton2.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jButton2.setText("Nhập  Excel");
+        jButton2.setMaximumSize(new java.awt.Dimension(140, 40));
+        jButton2.setPreferredSize(new java.awt.Dimension(140, 40));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        panelBackground7.add(jButton2);
+
+        jPanel3.setBackground(new java.awt.Color(35, 35, 35));
+        jPanel3.setMaximumSize(new java.awt.Dimension(20, 23));
+        panelBackground7.add(jPanel3);
 
         jTextField1.setMaximumSize(new java.awt.Dimension(175, 30));
         jTextField1.setPreferredSize(new java.awt.Dimension(175, 40));
@@ -305,6 +269,7 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
@@ -610,10 +575,6 @@ private void loadImportBills() throws Exception {
     }
 }
 
-    private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1MousePressed
-
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // Lấy ngày được nhập vào từ text field
         String inputDate = jTextField1.getText().trim();
@@ -813,7 +774,6 @@ private void loadImportBills() throws Exception {
     public javax.swing.JButton jButton8;
     public javax.swing.JPanel jPanel1;
     public javax.swing.JPanel jPanel11;
-    public javax.swing.JPanel jPanel12;
     public javax.swing.JPanel jPanel2;
     public javax.swing.JPanel jPanel3;
     public javax.swing.JPanel jPanel4;

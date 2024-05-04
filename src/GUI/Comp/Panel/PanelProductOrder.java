@@ -41,10 +41,9 @@ public class PanelProductOrder extends javax.swing.JPanel {
         });
     }
 
-    public void insertData(int index, String nameProduct, long price, String status, String imagePath, String desc, String ingredient) {
+    public void insertData(int index, String nameProduct, long price, String status, String imagePath, String desc) {
         this.index = index;
         this.desc = desc;
-        this.ingredient = ingredient;
         
         lbNameProduct.setText(nameProduct);
         lbShowPrice.setText(Helper.FormatNumber.getInstance().getFormat().format(price) + "đ");
@@ -57,7 +56,7 @@ public class PanelProductOrder extends javax.swing.JPanel {
 
         avatarProduct.setImage(image);
       
-        modal.insertData(imageModal, desc, ingredient);
+        modal.insertData(imageModal, desc);
         
         
         pnDetailProduct.setColor(new Color(53, 53, 53));
