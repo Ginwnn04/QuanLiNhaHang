@@ -75,10 +75,9 @@ import java.util.regex.PatternSyntaxException;
  * @author Tai
  */
 public class QuanLiNhapKho extends javax.swing.JPanel {
-    /**
-     * Creates new form QuanLiNhapKho
-     */
-    public QuanLiNhapKho() throws Exception {
+    private ImportBillBUS importBillBUS = new ImportBillBUS();
+    
+    public QuanLiNhapKho() {
         initComponents();
         loadImportBills();
         jTextField1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "dd/MM/YYYY");
@@ -152,6 +151,11 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
         jButton1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jButton1.setText("Thêm");
         jButton1.setMaximumSize(new java.awt.Dimension(84, 40));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         panelBackground7.add(jButton1);
 
         jPanel2.setBackground(new java.awt.Color(35, 35, 35));
@@ -161,6 +165,11 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
         jButton4.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jButton4.setText("Chi tiết");
         jButton4.setMaximumSize(new java.awt.Dimension(84, 40));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         panelBackground7.add(jButton4);
 
         jPanel7.setBackground(new java.awt.Color(35, 35, 35));
@@ -185,6 +194,11 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
         jButton8.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jButton8.setText("In PDF");
         jButton8.setMaximumSize(new java.awt.Dimension(75, 40));
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
         panelBackground7.add(jButton8);
 
         jPanel11.setBackground(new java.awt.Color(35, 35, 35));
@@ -194,6 +208,11 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
         jButton6.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jButton6.setText("Xuất Excel");
         jButton6.setMaximumSize(new java.awt.Dimension(84, 40));
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
         panelBackground7.add(jButton6);
 
         jPanel9.setBackground(new java.awt.Color(35, 35, 35));
@@ -269,69 +288,26 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 
-    private void loadImportBills() throws Exception {
-    try {
-        // Kết nối cơ sở dữ liệu và thực hiện truy vấn
-        Connection con = ConnectDB.openConnect();
-        PreparedStatement ps = con.prepareStatement("SELECT i.id, i.quantity, i.total, i.import_date, u.username AS username, s.name AS supplierName, userid, supplierid FROM tb_import_bill AS i LEFT JOIN tb_staff AS u ON i.userid = u.id LEFT JOIN tb_supplier AS s ON i.supplierID = s.id WHERE i.isdeleted = false");
-        ResultSet rs = ps.executeQuery();
+ 
+    private void loadImportBills(){
+        importBillBUS.loadImportBills((DefaultTableModel) jTable1.getModel());
 
-        // Lấy model của jTable
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        // Cấu hình renderer cho cột
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.LEFT);
+        for (int i = 0; i < jTable1.getColumnCount(); i++) {
+            TableColumnModel columnModel = jTable1.getColumnModel();
+            columnModel.getColumn(i).setCellRenderer(centerRenderer);
 
-        // Xóa dữ liệu cũ trong bảng
-        model.setRowCount(0);
-
-        // Duyệt qua các dòng dữ liệu từ ResultSet và thêm vào bảng
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY");
-        while (rs.next()) {
-            double total = rs.getDouble("total");
-            String formattedTotal = FormatNumber.getInstance().getFormat().format(total);
-            Date importDate = rs.getDate("import_date");
-            String formattedImportDate = (importDate != null) ? dateFormat.format(importDate) : "";
-            Object[] row = {
-                rs.getLong("id"),
-                rs.getInt("quantity"),
-                formattedTotal, // Format tổng tiền using FormatNumber
-                formattedImportDate,
-                rs.getLong("userid"), // Sử dụng getLong() cho cột có kiểu int8
-                rs.getLong("supplierid"), // Sử dụng getLong() cho cột có kiểu int8
-                rs.getString("username"),
-                rs.getString("supplierName")
-            };
-            model.addRow(row);
-        }
-
-        // Đóng kết nối
-        rs.close();
-        ps.close();
-        con.close();
-        // Thông báo cho jTable biết rằng dữ liệu đã thay đổi và cần phải vẽ lại
-        model.fireTableDataChanged();
-        // Lấy đối tượng header của JTable
-        TableColumnModel columnModel = jTable1.getColumnModel();
-
-        // Lặp qua từng cột trong JTable
-        for (int columnIndex = 0; columnIndex < jTable1.getColumnCount(); columnIndex++) {
-            // Lấy renderer của header của từng cột
+                    // Cấu hình renderer cho header sang bên trái
             DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) jTable1.getTableHeader().getDefaultRenderer();
-
-            // Đặt căn lề trái cho renderer của header
             headerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.LEFT);
+            columnModel.getColumn(i).setHeaderRenderer(headerRenderer);
+    }
+}
 
-            // Lấy đối tượng cột trong cấu hình cột của JTable
-            columnModel.getColumn(columnIndex).setHeaderRenderer(headerRenderer);
-        }
-    } catch (SQLException | ParseException e) {
-        e.printStackTrace();
-    }
-    DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-    centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.LEFT);
-    for (int i = 0; i < jTable1.getColumnCount(); i++) {
-        jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-    }
-    }
-
+    
+    
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // Lấy ngày được nhập vào từ text field
         String inputDate = jTextField1.getText().trim();
@@ -389,22 +365,15 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
         
         // Kiểm tra xem người dùng đã xác nhận xóa hay không
         if (option == JOptionPane.YES_OPTION) {
-            try {
-                // Xóa chi tiết hóa đơn nhập
-                DetailImportBillBUS.deleteDetailImportBill(importBillId);
+            // Xóa chi tiết hóa đơn nhập
+            DetailImportBillBUS.deleteDetailImportBill(importBillId);
 
-                // Xóa hóa đơn nhập
-                ImportBillBUS.deleteImportBill(importBillId);
+            // Xóa hóa đơn nhập
+            ImportBillBUS.deleteImportBill(importBillId);
 
-                // Sau khi xóa thành công, cập nhật lại hiển thị trên JTable và thông báo thành công
-                loadImportBills();
-                JOptionPane.showMessageDialog(null, "Đã xóa hóa đơn thành công.");
-            } catch (SQLException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi xóa dữ liệu.");
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            // Sau khi xóa thành công, cập nhật lại hiển thị trên JTable và thông báo thành công
+            loadImportBills();
+            JOptionPane.showMessageDialog(null, "Đã xóa hóa đơn thành công.");
         }
     } else {
         // Hiển thị thông báo nếu không có dòng nào được chọn
@@ -439,6 +408,292 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
         sorter.setRowFilter(null);
     }
     }//GEN-LAST:event_jTextField1KeyReleased
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            // Tạo một JDialog mới
+            JDialog dialog = new JDialog();
+
+            // Thiết lập JPanel DialogDetailImport làm nội dung của JDialog
+            DialogDetailImport dialogPanel = new DialogDetailImport();
+            dialog.getContentPane().add(dialogPanel);
+
+            // Thiết lập thuộc tính cho JDialog
+            dialog.setSize(800, 600); // Thiết lập kích thước
+            dialog.setLocationRelativeTo(this); // Hiển thị JDialog ở giữa cửa sổ cha
+            dialog.setModal(true); // Thiết lập JDialog là modal để chặn tương tác với các thành phần khác trong cửa sổ cha
+            dialog.setVisible(true); // Hiển thị JDialog
+            loadImportBills();
+        } catch (Exception ex) {
+            Logger.getLogger(QuanLiNhapKho.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+
+            loadImportBills();
+        } catch (Exception ex) {
+            Logger.getLogger(QuanLiNhapKho.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một hóa đơn để xem chi tiết.");
+            return;
+        }
+        long selectedBillId = (long) jTable1.getValueAt(selectedRow, 0);
+        StringBuilder detailInfo = new StringBuilder();
+        try {
+            // Lấy chi tiết hóa đơn từ BUS
+            DetailImportBillBUS detailImportBillBUS = new DetailImportBillBUS();
+            ArrayList<DetailImportBillDTO> importBillDetails = detailImportBillBUS.getDetailImportBillByBillId(selectedBillId);
+
+            // Kiểm tra nếu không có chi tiết nào cho hóa đơn này
+            if (importBillDetails.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Không có chi tiết nào cho hóa đơn này.");
+                return;
+            }
+
+            // Lấy thông tin nhà cung cấp từ BUS
+            long supplierId = (long) jTable1.getValueAt(selectedRow, 5);
+            SupplierDTO supplier = detailImportBillBUS.getSupplierById(supplierId);
+            if (supplier != null) {
+                detailInfo.append("Thông tin nhà cung cấp:\n");
+                detailInfo.append("ID: ").append(supplier.getId()).append("\n");
+                detailInfo.append("Tên: ").append(supplier.getName()).append("\n");
+                detailInfo.append("Địa chỉ: ").append(supplier.getAddress()).append("\n");
+                detailInfo.append("Số điện thoại: ").append(supplier.getPhone()).append("\n\n");
+            }
+
+            // Thêm thông tin chi tiết hóa đơn vào StringBuilder
+            detailInfo.append("Chi tiết nhập hàng cho hóa đơn có ID: ").append(selectedBillId).append("\n\n");
+            for (DetailImportBillDTO importBillDetail : importBillDetails) {
+                detailInfo.append("ID chi tiết: ").append(importBillDetail.getId()).append("\n");
+                detailInfo.append("Số lượng: ").append(importBillDetail.getQuantity()).append("\n");
+                detailInfo.append("Giá tiền mỗi kg/lít: ").append(importBillDetail.getPrice()).append("\n");
+                detailInfo.append("Tổng tiền: ").append(importBillDetail.getTotal()).append("\n");
+                detailInfo.append("ID nguyên liệu: ").append(importBillDetail.getIngredientid()).append("\n");
+
+                // Lấy tên nguyên liệu từ BUS
+                try {
+                    String ingredientName = detailImportBillBUS.getIngredientNameById(importBillDetail.getIngredientid());
+                    detailInfo.append("Tên nguyên liệu: ").append(ingredientName).append("\n");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    detailInfo.append("Không thể lấy tên nguyên liệu cho ID ").append(importBillDetail.getIngredientid()).append("\n");
+                }
+                detailInfo.append("\n");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi tải chi tiết nhập hàng.");
+            return;
+        }
+        // Hiển thị dialog chi tiết hóa đơn
+        BillDetailDialog dialog = new BillDetailDialog((JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), "Chi tiết hóa đơn", detailInfo.toString());
+        dialog.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một hóa đơn để xuất file PDF.");
+            return;
+        }
+
+        try {
+            // Tạo hộp thoại để người dùng chọn thư mục lưu file PDF
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Chọn nơi lưu file PDF");
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+            // Hiển thị hộp thoại và lấy kết quả từ người dùng
+            int userSelection = fileChooser.showSaveDialog(this);
+
+            // Nếu người dùng chọn một thư mục và nhấn OK
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                // Lấy thư mục được chọn bởi người dùng
+                File selectedDirectory = fileChooser.getSelectedFile();
+
+                // Tạo đường dẫn đầy đủ cho file PDF
+                String filePath = selectedDirectory.getAbsolutePath() + "/ChiTietHoaDon_" + jTable1.getValueAt(selectedRow, 0) + ".pdf";
+
+                // Tạo một thể hiện của lớp DetailImportBillBUS
+                DetailImportBillBUS detailImportBillBUS = new DetailImportBillBUS();
+
+                // Lấy thông tin chi tiết từ JTable
+                long selectedBillId = (long) jTable1.getValueAt(selectedRow, 0);
+                ArrayList<DetailImportBillDTO> detailImportBillList = detailImportBillBUS.getDetailImportBillByBillId(selectedBillId);
+                SupplierDTO supplier = detailImportBillBUS.getSupplierById((long) jTable1.getValueAt(selectedRow, 5));
+
+                // Tạo tài liệu PDF mới
+                Document document = new Document();
+                PdfWriter.getInstance(document, new FileOutputStream(filePath));
+                document.open();
+
+                // Tạo tiêu đề cho tài liệu PDF
+                Paragraph title = new Paragraph("Import bill detail", FontFactory.getFont(FontFactory.TIMES_ROMAN, 18, Font.BOLD));
+                title.setAlignment(Element.ALIGN_CENTER);
+                document.add(title);
+
+                // Thêm thông tin chi tiết hóa đơn vào tài liệu PDF
+                PdfPTable table = new PdfPTable(7); // 7 cột cho thông tin chi tiết hóa đơn
+                table.setWidthPercentage(100);
+                table.setSpacingBefore(10f);
+                table.setSpacingAfter(10f);
+
+                // Header cho bảng
+                String[] detailHeaders = {"Bill ID", "Detail ID", "Quantity", "Price", "Total", "Ingredient ID", "Ingredient Name"};
+                for (String header : detailHeaders) {
+                    PdfPCell cell = new PdfPCell(new Paragraph(header));
+                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                    table.addCell(cell);
+                }
+
+                // Dữ liệu chi tiết hóa đơn
+                for (DetailImportBillDTO detailImportBill : detailImportBillList) {
+                    table.addCell(String.valueOf(detailImportBill.getBillid()));
+                    table.addCell(String.valueOf(detailImportBill.getId()));
+                    table.addCell(String.valueOf(detailImportBill.getQuantity()));
+                    table.addCell(String.valueOf(detailImportBill.getPrice()));
+                    table.addCell(String.valueOf(detailImportBill.getTotal()));
+                    table.addCell(String.valueOf(detailImportBill.getIngredientid()));
+                    long ingredientId = detailImportBill.getIngredientid();
+                    // Lấy tên nguyên liệu từ bảng tb_ingredients
+                    String ingredientName = detailImportBillBUS.getIngredientNameById(ingredientId);
+                    if (ingredientName != null) {
+                        table.addCell(ingredientName);
+                    } else {
+                        table.addCell("");
+                    }
+                }
+
+                document.add(table);
+
+                // Thêm thông tin nhà cung cấp vào tài liệu PDF
+                if (supplier != null) {
+                    Paragraph supplierInfo = new Paragraph("Supplier's information", FontFactory.getFont(FontFactory.TIMES_ROMAN, 14, Font.BOLD));
+                    supplierInfo.setAlignment(Element.ALIGN_CENTER);
+                    document.add(supplierInfo);
+
+                    Paragraph supplierDetail = new Paragraph();
+                    supplierDetail.add(new Phrase("ID: " + supplier.getId() + "\n"));
+                    supplierDetail.add(new Phrase("Name: " + supplier.getName() + "\n"));
+                    supplierDetail.add(new Phrase("Address: " + supplier.getAddress() + "\n"));
+                    supplierDetail.add(new Phrase("Phone: " + supplier.getPhone() + "\n"));
+                    document.add(supplierDetail);
+                }
+
+                document.close();
+
+                // Hiển thị thông báo khi xuất file PDF thành công
+                JOptionPane.showMessageDialog(this, "Xuất file PDF thành công.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi xuất file PDF.");
+        }
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một hóa đơn để xuất file Excel.");
+            return;
+        }
+
+        try {
+            // Tạo hộp thoại để người dùng chọn thư mục lưu file Excel
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Chọn nơi lưu file Excel");
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+            // Hiển thị hộp thoại và lấy kết quả từ người dùng
+            int userSelection = fileChooser.showSaveDialog(this);
+
+            // Nếu người dùng chọn một thư mục và nhấn OK
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                // Lấy thư mục được chọn bởi người dùng
+                File selectedDirectory = fileChooser.getSelectedFile();
+
+                // Tạo đường dẫn đầy đủ cho file Excel
+                String filePath = selectedDirectory.getAbsolutePath() + "/ChiTietHoaDon_" + jTable1.getValueAt(selectedRow, 0) + ".xlsx";
+
+                // Tạo workbook mới
+                Workbook workbook = new XSSFWorkbook();
+                Sheet sheet = workbook.createSheet("Chi tiết hóa đơn");
+
+                // Code xuất file Excel
+                // Tạo header cho thông tin chi tiết
+                Row detailHeaderRow = sheet.createRow(0);
+                String[] detailHeaders = {"ID hóa đơn", "ID chi tiết", "Số lượng", "Giá tiền mỗi kg/lít", "Tổng tiền", "ID nguyên liệu", "Tên nguyên liệu"};
+                for (int i = 0; i < detailHeaders.length; i++) {
+                    Cell cell = detailHeaderRow.createCell(i);
+                    cell.setCellValue(detailHeaders[i]);
+                }
+
+                // Lấy thông tin chi tiết từ JTable
+                long selectedBillId = (long) jTable1.getValueAt(selectedRow, 0);
+                int rowIndex = 1;
+
+                // Tạo một thể hiện của lớp DetailImportBillBUS
+                DetailImportBillBUS detailImportBillBUS = new DetailImportBillBUS();
+
+                // Gọi phương thức từ thể hiện đã tạo
+                ArrayList<DetailImportBillDTO> detailImportBillList = detailImportBillBUS.getDetailImportBillByBillId(selectedBillId);
+                SupplierDTO supplier = detailImportBillBUS.getSupplierById((long) jTable1.getValueAt(selectedRow, 5));
+
+                for (DetailImportBillDTO detailImportBill : detailImportBillList) {
+                    Row row = sheet.createRow(rowIndex++);
+                    row.createCell(0).setCellValue(detailImportBill.getBillid()); // Bổ sung cột billid
+                    row.createCell(1).setCellValue(detailImportBill.getId());
+                    row.createCell(2).setCellValue(detailImportBill.getQuantity());
+                    row.createCell(3).setCellValue(detailImportBill.getPrice());
+                    row.createCell(4).setCellValue(detailImportBill.getTotal());
+                    row.createCell(5).setCellValue(detailImportBill.getIngredientid());
+                    long ingredientId = detailImportBill.getIngredientid();
+                    //row.createCell(6).setCellValue(ingredientId); // Lưu ID nguyên liệu vào cột
+                    // Lấy tên nguyên liệu từ bảng tb_ingredients
+                    String ingredientName = detailImportBillBUS.getIngredientNameById(ingredientId);
+                    if (ingredientName != null) {
+                        row.createCell(6).setCellValue(ingredientName); // Lưu tên nguyên liệu vào cột
+                    }
+                }
+
+                // Lấy thông tin nhà cung cấp từ BUS
+                Row supplierHeaderRow = sheet.createRow(rowIndex++);
+                supplierHeaderRow.createCell(0).setCellValue("Thông tin nhà cung cấp");
+                rowIndex++;
+                if (supplier != null) {
+                    Row row = sheet.createRow(rowIndex++);
+                    row.createCell(0).setCellValue("ID");
+                    row.createCell(1).setCellValue(supplier.getId());
+                    row = sheet.createRow(rowIndex++);
+                    row.createCell(0).setCellValue("Tên");
+                    row.createCell(1).setCellValue(supplier.getName());
+                    row = sheet.createRow(rowIndex++);
+                    row.createCell(0).setCellValue("Địa chỉ");
+                    row.createCell(1).setCellValue(supplier.getAddress());
+                    row = sheet.createRow(rowIndex++);
+                    row.createCell(0).setCellValue("Số điện thoại");
+                    row.createCell(1).setCellValue(supplier.getPhone());
+                }
+
+                // Lưu file Excel vào đường dẫn đã chọn
+                FileOutputStream fileOut = new FileOutputStream(filePath);
+                workbook.write(fileOut);
+                fileOut.close();
+
+                // Hiển thị thông báo khi xuất file Excel thành công
+                JOptionPane.showMessageDialog(this, "Xuất file Excel thành công.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi xuất file Excel.");
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     private void processDataFromExcel(File file) {
         Connection con = null;
@@ -490,14 +745,14 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
                     long detailId = System.currentTimeMillis() % 1000000;
 
                     DetailImportBillBUS detailImportBillBUS = new DetailImportBillBUS();
-                    detailImportBillBUS.addDetailImportBill(con, detailId, detailQuantity, price, detailTotal, billId, ingredientId);
+                    detailImportBillBUS.addDetailImportBill(detailId, detailQuantity, price, detailTotal, billId, ingredientId);
 
                     IngredientsBUS ingredientsBUS = new IngredientsBUS();
-                    boolean ingredientExists = ingredientsBUS.checkIngredientExistence(con, ingredientId);
+                    boolean ingredientExists = ingredientsBUS.checkIngredientExistence(ingredientId);
                     if (ingredientExists) {
-                        int existingQuantity = ingredientsBUS.getIngredientQuantity(con, ingredientId);
+                        int existingQuantity = ingredientsBUS.getIngredientQuantity(ingredientId);
                         int newQuantity = existingQuantity + detailQuantity;
-                        ingredientsBUS.updateIngredientQuantity(con, ingredientId, newQuantity);
+                        ingredientsBUS.updateIngredientQuantity(ingredientId, newQuantity);
                     }
                 }
             }

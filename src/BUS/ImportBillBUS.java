@@ -11,27 +11,43 @@ package BUS;
 import java.sql.Connection;
 import DAO.ImportBillDAO;
 import DTO.ImportBillDTO;
+import Helper.FormatNumber;
 import java.util.ArrayList;
 import java.util.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import javax.swing.JTable;
+import java.sql.ResultSet;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
+import javax.swing.table.TableColumnModel;
 public class ImportBillBUS {
     private ImportBillDAO importBillDAO = new ImportBillDAO();
     private ArrayList<ImportBillDTO> listImportBills = new ArrayList<>();
 
-    // Method to get all import bills
-    public ArrayList<ImportBillDTO> getAllImportBills() throws Exception {
-        listImportBills = importBillDAO.getAllImportBills();
-        return listImportBills;
+    public void loadImportBills(DefaultTableModel model) {
+        ArrayList<Object[]> importBillData = importBillDAO.getImportBills();
+
+        // Xóa dữ liệu cũ trong bảng
+        model.setRowCount(0);
+
+        // Thêm dữ liệu mới vào bảng
+        for (Object[] row : importBillData) {
+            model.addRow(row);
+        } 
     }
     
     public ImportBillBUS() {
         this.importBillDAO = new ImportBillDAO();
     }
 
-    public void addImportBill(Connection con, int billId, int quantity, double total, Date importDate, long userId, int supplierId) throws SQLException {
+    public void addImportBill(Connection con, int billId, int quantity, double total, Date importDate, long userId, int supplierId) {
         importBillDAO.addImportBill((java.sql.Connection) con, billId, quantity, total, importDate, userId, supplierId);
     }
-    public static void deleteImportBill(Long importBillId) throws SQLException, Exception {
+    public static void deleteImportBill(Long importBillId) {
         ImportBillDAO.deleteImportBill(importBillId);
     }
+
 }

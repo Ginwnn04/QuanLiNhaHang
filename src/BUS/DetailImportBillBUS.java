@@ -20,21 +20,16 @@ public class DetailImportBillBUS {
     private DetailImportBillDAO detailImportBillDAO = new DetailImportBillDAO();
     private ArrayList<DetailImportBillDTO> listDetailImportBills = new ArrayList<>();
 
-    public ArrayList<DetailImportBillDTO> getAllDetailImportBills() throws Exception {
-        listDetailImportBills = detailImportBillDAO.getAllDetailImportBills();
-        return listDetailImportBills;
-    }
-
     public ArrayList<DetailImportBillDTO> getDetailImportBillByBillId(long billId) throws SQLException, Exception {
         return detailImportBillDAO.getDetailImportBillByBillId(billId);
     }
 
     // Phương thức để lấy thông tin chi tiết nhà cung cấp theo ID nhà cung cấp
-    public SupplierDTO getSupplierById(long supplierId) throws SQLException, Exception {
+    public SupplierDTO getSupplierById(long supplierId) {
         return detailImportBillDAO.getSupplierById(supplierId);
     }
 
-    public String getIngredientNameById(long ingredientId) throws SQLException, Exception {
+    public String getIngredientNameById(long ingredientId){
         DetailImportBillDAO detailImportBillDAO = new DetailImportBillDAO();
         return detailImportBillDAO.getIngredientNameById(ingredientId);
     }
@@ -42,10 +37,10 @@ public class DetailImportBillBUS {
         this.detailImportBillDAO = new DetailImportBillDAO();
     }
 
-    public void addDetailImportBill(Connection con, long detailId, int quantity, double price, double total, int billId, int ingredientId) throws SQLException {
-        detailImportBillDAO.addDetailImportBill( con, detailId, quantity, price, total, billId, ingredientId);
+    public void addDetailImportBill(long detailId, int quantity, double price, double total, int billId, int ingredientId) {
+        detailImportBillDAO.addDetailImportBill(detailId, quantity, price, total, billId, ingredientId);
     }
-    public static void deleteDetailImportBill(Long importBillId) throws SQLException, Exception {
+    public static void deleteDetailImportBill(Long importBillId) {
         DetailImportBillDAO.deleteDetailImportBill(importBillId);
     }
 

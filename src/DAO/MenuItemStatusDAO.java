@@ -9,6 +9,7 @@ import DTO.OrderDTO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,6 +17,26 @@ import java.sql.Timestamp;
  */
 public class MenuItemStatusDAO {
     
+    public ArrayList<MenuItemStatusDTO> read() {
+        ArrayList<MenuItemStatusDTO> list = new ArrayList<>();
+        String query = "SELECT * FROM tb_menu_item_status WHERE isdeleted = FALSE"; 
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query);) {
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                MenuItemStatusDTO menuItemStatusDTO = new MenuItemStatusDTO();
+                menuItemStatusDTO.setId(rs.getString("id"));
+                menuItemStatusDTO.setName(rs.getString("name"));
+                menuItemStatusDTO.setDes(rs.getString("des"));
+                menuItemStatusDTO.setIsDelete(rs.getBoolean("isdeleted"));
+                list.add(menuItemStatusDTO);
+            }
+            return list;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
     
     
     public MenuItemStatusDTO findByID(String id) {

@@ -6,6 +6,7 @@ package BUS;
 
 import DAO.MenuItemStatusDAO;
 import DTO.MenuItemStatusDTO;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,8 +15,14 @@ import DTO.MenuItemStatusDTO;
 public class MenuItemStatusBUS {
     private MenuItemStatusDAO menuItemStatusDAO = new MenuItemStatusDAO();
     
+    public ArrayList<MenuItemStatusDTO> getAll() {
+        return menuItemStatusDAO.read();
+    }
+    
      public MenuItemStatusDTO findItemStatusByID(String id) {
          return menuItemStatusDAO.findByID(id);
      }
+     
+     
     
 }

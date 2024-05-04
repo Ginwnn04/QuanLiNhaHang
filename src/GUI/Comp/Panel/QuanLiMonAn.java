@@ -50,13 +50,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 
 /**
  *
@@ -68,18 +62,19 @@ public class QuanLiMonAn extends javax.swing.JPanel {
     int cntTableSelected = 0;
     private DefaultTableModel model;
     private boolean isSelectAll = false;
+    private MenuItemDTO itemSelected = new MenuItemDTO();
     public QuanLiMonAn() {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
-        tbBan.setRowHeight(35);
+        tbMonAn.setRowHeight(35);
         
         // header table nam ben trai
-        DefaultTableCellRenderer  renderer = (DefaultTableCellRenderer) tbBan.getTableHeader().getDefaultRenderer();
+        DefaultTableCellRenderer  renderer = (DefaultTableCellRenderer) tbMonAn.getTableHeader().getDefaultRenderer();
         renderer.setHorizontalAlignment(JLabel.LEFT);
         txtTimKiem.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Nhập bàn cần tìm");
         render(isSelectAll);
         
-        tbBan.getModel().addTableModelListener(new TableModelListener() {
+        tbMonAn.getModel().addTableModelListener(new TableModelListener() {
             public void tableChanged(TableModelEvent e) {
                 if (e.getColumn() == 0) { 
 
@@ -103,7 +98,7 @@ public class QuanLiMonAn extends javax.swing.JPanel {
 
     public void render(boolean isSelectAll) {
         listItem = menuItemBUS.getAllData();
-        model = (DefaultTableModel)tbBan.getModel();
+        model = (DefaultTableModel)tbMonAn.getModel();
         model.setRowCount(0);
         for (MenuItemDTO x : listItem) {
             x.setIsSelected(isSelectAll);
@@ -113,7 +108,7 @@ public class QuanLiMonAn extends javax.swing.JPanel {
             model.addRow(new Object[] {x.isIsSelected(), x.getId(), x.getName(), x.getDescription(), Helper.FormatNumber.getInstance().getFormat().format(x.getPrice()), Helper.FormatNumber.getInstance().getFormat().format(x.getProfit()), Helper.FormatDate.getInstance().getFormat().format(x.getUpdateTime()), Helper.FormatDate.getInstance().getFormat().format(x.getCreateTime())});
         }
         model.fireTableDataChanged();
-        tbBan.setModel(model);
+        tbMonAn.setModel(model);
     }
 
     @SuppressWarnings("unchecked")
@@ -141,7 +136,7 @@ public class QuanLiMonAn extends javax.swing.JPanel {
         panelBackground4 = new GUI.Comp.Swing.PanelBackground();
         panelBackground5 = new GUI.Comp.Swing.PanelBackground();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tbBan = new javax.swing.JTable();
+        tbMonAn = new javax.swing.JTable();
 
         setPreferredSize(new java.awt.Dimension(1077, 730));
 
@@ -381,11 +376,11 @@ public class QuanLiMonAn extends javax.swing.JPanel {
         panelBackground5.setBackground(new java.awt.Color(35, 35, 35));
         panelBackground5.setLayout(new java.awt.BorderLayout());
 
-        tbBan.setAutoCreateRowSorter(true);
-        tbBan.setBackground(new java.awt.Color(35, 35, 35));
-        tbBan.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        tbBan.setForeground(new java.awt.Color(255, 255, 255));
-        tbBan.setModel(new javax.swing.table.DefaultTableModel(
+        tbMonAn.setAutoCreateRowSorter(true);
+        tbMonAn.setBackground(new java.awt.Color(35, 35, 35));
+        tbMonAn.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        tbMonAn.setForeground(new java.awt.Color(255, 255, 255));
+        tbMonAn.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, "aaaaaaaaaa", "ádasdasd", null, "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa", null, null},
                 {null, "aaaaaaaaaa", "ádasd", null, "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa", null, null},
@@ -411,13 +406,18 @@ public class QuanLiMonAn extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tbBan.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        tbBan.getTableHeader().setResizingAllowed(false);
-        tbBan.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(tbBan);
-        if (tbBan.getColumnModel().getColumnCount() > 0) {
-            tbBan.getColumnModel().getColumn(0).setPreferredWidth(20);
-            tbBan.getColumnModel().getColumn(0).setMaxWidth(20);
+        tbMonAn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tbMonAn.getTableHeader().setResizingAllowed(false);
+        tbMonAn.getTableHeader().setReorderingAllowed(false);
+        tbMonAn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbMonAnMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tbMonAn);
+        if (tbMonAn.getColumnModel().getColumnCount() > 0) {
+            tbMonAn.getColumnModel().getColumn(0).setPreferredWidth(20);
+            tbMonAn.getColumnModel().getColumn(0).setMaxWidth(20);
         }
 
         panelBackground5.add(jScrollPane2, java.awt.BorderLayout.CENTER);
@@ -452,15 +452,16 @@ public class QuanLiMonAn extends javax.swing.JPanel {
         int choice = JOptionPane.showConfirmDialog(pnContainer, "Bạn có chắc chắn xóa không ?", "Xác nhận", JOptionPane.YES_NO_OPTION);
         if (choice == 0) {
             
-            boolean check = true;
-            if (check == false) {
-                JOptionPane.showMessageDialog(pnContainer, "Xóa thành công");
-//                listTable = new TableBUS().getAllData();
-                render(false);
-            }
-            else {
-                JOptionPane.showMessageDialog(pnContainer, "Xóa thất bại");
-            }
+        itemSelected.setIsDelete(true);
+        itemSelected.setUpdateTime(new Date());
+        if (menuItemBUS.updateData(itemSelected)) {
+            JOptionPane.showMessageDialog(pnContainer, "Xóa thành công");
+            listItem = menuItemBUS.getAllData();
+            render(false);
+        }
+        else {
+            JOptionPane.showMessageDialog(pnContainer, "Xóa thất bại");
+        }
         }
     }//GEN-LAST:event_btnXoaActionPerformed
 
@@ -479,14 +480,19 @@ public class QuanLiMonAn extends javax.swing.JPanel {
 
     private void txtTimKiemCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtTimKiemCaretUpdate
         txtTimKiem.putClientProperty(FlatClientProperties.TEXT_FIELD_SHOW_CLEAR_BUTTON, true);
-        TableRowSorter tableRowSorter = new TableRowSorter(tbBan.getModel());
+        TableRowSorter tableRowSorter = new TableRowSorter(tbMonAn.getModel());
         String find = txtTimKiem.getText().trim();
         if (!find.isEmpty()) {
 //          Indices 2 => Sort theo cột 2 (Name)
             tableRowSorter.setRowFilter(RowFilter.regexFilter(find, 2));
         }
-        tbBan.setRowSorter(tableRowSorter);
+        tbMonAn.setRowSorter(tableRowSorter);
     }//GEN-LAST:event_txtTimKiemCaretUpdate
+
+    private void tbMonAnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMonAnMouseClicked
+//        int row = tbMonAn.getSelectedRow();
+//        itemSelected = listItem.get(row);
+    }//GEN-LAST:event_tbMonAnMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -510,7 +516,7 @@ public class QuanLiMonAn extends javax.swing.JPanel {
     private GUI.Comp.Swing.PanelBackground panelBackground9;
     private GUI.Comp.Swing.PanelBackground pnContainer;
     private GUI.Comp.Swing.PanelBackground pnSelectAll;
-    private javax.swing.JTable tbBan;
+    private javax.swing.JTable tbMonAn;
     private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 }

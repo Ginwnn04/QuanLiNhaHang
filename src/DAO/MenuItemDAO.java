@@ -6,9 +6,11 @@ package DAO;
 
 import DTO.MenuItemDTO;
 import java.util.ArrayList;
-import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Date;
 /**
  *
  * @author quang
@@ -43,7 +45,39 @@ public class MenuItemDAO {
         return null;
     }
     
+    public boolean update(MenuItemDTO menuItemDTO) {
+        String query = "UPDATE tb_menu_item SET name = ?, description = ?, price = ?, profit = ?, image_path = ?, isdeleted = ?, update_time = ?, statusid = ?, categoryid = ? WHERE id = ?";
+        try(PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query);) {
+            pstm.setString(1, menuItemDTO.getName());
+            pstm.setString(2, menuItemDTO.getDescription());
+            pstm.setLong(3, menuItemDTO.getPrice());
+            pstm.setLong(4, menuItemDTO.getProfit());
+            pstm.setString(5, menuItemDTO.getImage());
+            pstm.setBoolean(6, menuItemDTO.isIsDelete());
+            pstm.setTimestamp(7, new Timestamp(menuItemDTO.getUpdateTime().getTime()));
+            pstm.setString(8, menuItemDTO.getStatusID());
+            pstm.setLong(9, menuItemDTO.getCategoryID());
+            pstm.setLong(10, menuItemDTO.getId());
+            
+            return pstm.executeUpdate() > 0;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     
-    
+    public boolean delete(String listID) {
+        String query = "UPDATE tb_menu_item SET isdeleted = ?, update_time = ? WHERE id iN ( + " + listID + ")";
+        try(PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query);) {
+            pstm.setBoolean(1, true);
+            pstm.setTimestamp(2, new Timestamp(new Date().getTime()));
+            return pstm.executeUpdate() > 0;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     
 }

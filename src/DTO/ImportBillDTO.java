@@ -15,11 +15,11 @@ public class ImportBillDTO {
     private int quantity;
     private float total;
     private Date import_date;
-    private int userId;
+    private long userId;
     private int supplierID;
 
     // Constructor
-    public ImportBillDTO(int id, int quantity, float total, Date import_date, int userId, int supplierID) {
+    public ImportBillDTO(int id, int quantity, float total, Date import_date, long userId, int supplierID) {
         this.id = id;
         this.quantity = quantity;
         this.total = total;
@@ -61,11 +61,11 @@ public class ImportBillDTO {
         this.import_date = import_date;
     }
 
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 

@@ -17,40 +17,34 @@ public class IngredientsBUS {
     private IngredientsDAO ingredientsDAO = new IngredientsDAO();
     private ArrayList<IngredientsDTO> listIngredients = new ArrayList<>();
     
-    public ArrayList<IngredientsDTO> getAllIngredients() throws Exception {
-        listIngredients = ingredientsDAO.getAllIngredients();
-        return listIngredients;
-    }
-    public IngredientsDTO getIngredientById(int id) throws Exception {
+    public IngredientsDTO getIngredientById(int id) {
         return ingredientsDAO.getIngredientById(id);
     }
     
-    public boolean addIngredient(IngredientsDTO ingredient) throws Exception {
+    public boolean addIngredient(IngredientsDTO ingredient){
         return ingredientsDAO.addIngredient(ingredient);
     }
     
-    public boolean updateIngredient(IngredientsDTO ingredient) throws Exception {
+    public boolean updateIngredient(IngredientsDTO ingredient) {
         return ingredientsDAO.updateIngredient(ingredient);
     }
-    public boolean deleteIngredient(int id) throws Exception {
-        return ingredientsDAO.deleteIngredient(id);
-    }
-    public boolean setIngredientAsDeleted(int id) throws Exception {
+
+    public boolean setIngredientAsDeleted(int id) {
         return ingredientsDAO.setIngredientAsDeleted(id);
     }
 
-    public ArrayList<IngredientsDTO> getAllActiveIngredients() throws Exception {
+    public ArrayList<IngredientsDTO> getAllActiveIngredients() {
         return ingredientsDAO.getAllActiveIngredients();
     }
-    public boolean checkIngredientExistence(Connection con, int ingredientId) throws SQLException {
-        return ingredientsDAO.checkIngredientExistence( con, ingredientId);
+    public boolean checkIngredientExistence(int ingredientId){
+        return ingredientsDAO.checkIngredientExistence(ingredientId);
     }
 
-    public int getIngredientQuantity(Connection con, int ingredientId) throws SQLException {
-        return ingredientsDAO.getIngredientQuantity( con, ingredientId);
+    public int getIngredientQuantity(int ingredientId){
+        return ingredientsDAO.getIngredientQuantity(ingredientId);
     }
 
-    public void updateIngredientQuantity(Connection con, int ingredientId, int newQuantity) throws SQLException {
-        ingredientsDAO.updateIngredientQuantity( con, ingredientId, newQuantity);
+    public void updateIngredientQuantity(int ingredientId, int newQuantity){
+        ingredientsDAO.updateIngredientQuantity(ingredientId, newQuantity);
     }
 }

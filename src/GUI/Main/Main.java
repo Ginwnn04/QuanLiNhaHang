@@ -25,6 +25,7 @@ import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
 import BUS.StaffBUS;
 import DTO.StaffDTO;
+import GUI.Comp.Panel.QuanLiMonAn;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -103,7 +104,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
                     showForm(new QuanLiDatMon());
                     break;
                 case 3:
-
+                    showForm(new QuanLiMonAn());
                     break;
                 case 4: {
                     try {

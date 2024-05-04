@@ -18,4 +18,12 @@ public class MenuItemBUS {
     public ArrayList<MenuItemDTO> getAllData() {
         return menuItemDAO.readData();
     }
+    
+    public boolean updateData(MenuItemDTO item) {
+        return menuItemDAO.update(item);
+    }
+    
+    public boolean deleteData(String listID) {
+        return menuItemDAO.delete(listID);
+    }
 }
