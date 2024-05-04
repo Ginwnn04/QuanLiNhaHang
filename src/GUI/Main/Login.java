@@ -33,6 +33,7 @@ import javax.swing.SwingConstants;
 import Helper.ConnectDB;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import java.awt.event.KeyEvent;
 import javax.swing.JPasswordField;
 import javax.swing.UIManager;
 
@@ -51,7 +52,7 @@ public class Login extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         
-      Helper.ConnectDB.getInstance().openConnect();
+        Helper.ConnectDB.getInstance().openConnect();
     }
     
     private void LoginLayout() {
@@ -125,9 +126,9 @@ public class Login extends javax.swing.JFrame {
         JLabel passwordLabel = new JLabel("Password:");
         usernameLabel.setForeground(Color.WHITE);
         passwordLabel.setForeground(Color.WHITE);
-        JTextField usernameField = new JTextField(200); 
+        JTextField usernameField = new JTextField(20); 
         usernameField.setBackground(new Color(35,35,35));
-        JPasswordField passwordField = new JPasswordField(200); 
+        JPasswordField passwordField = new JPasswordField(20); 
         passwordField.setBackground(new Color(35,35,35));
         
         usernameField.setForeground(Color.WHITE);
@@ -169,6 +170,7 @@ public class Login extends javax.swing.JFrame {
         loginBtn.setPreferredSize(new Dimension(280, 35));
         loginBtn.setBackground(new Color(50, 168, 82));
         loginBtn.setForeground(Color.white);
+        loginBtn.setMnemonic(KeyEvent.VK_ENTER);
         logSection_panel_bot.add(loginBtn);
         
         logSection_panel_top.setLayout(new BorderLayout());

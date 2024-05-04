@@ -155,16 +155,9 @@ public class QuanLiNguyenLieu extends javax.swing.JPanel {
         jPanel2.setPreferredSize(new java.awt.Dimension(50, 23));
         panelBackground7.add(jPanel2);
 
-        jButton1.setBackground(new java.awt.Color(102, 102, 102));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jButton1.setText("Thêm");
-        jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(53, 53, 53)));
         jButton1.setMaximumSize(new java.awt.Dimension(72, 40));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
         panelBackground7.add(jButton1);
 
         jPanel4.setBackground(new java.awt.Color(35, 35, 35));
@@ -172,16 +165,9 @@ public class QuanLiNguyenLieu extends javax.swing.JPanel {
         jPanel4.setPreferredSize(new java.awt.Dimension(50, 23));
         panelBackground7.add(jPanel4);
 
-        jButton3.setBackground(new java.awt.Color(102, 102, 102));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jButton3.setText("Sửa");
-        jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(53, 53, 53)));
         jButton3.setMaximumSize(new java.awt.Dimension(72, 40));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
         panelBackground7.add(jButton3);
 
         jPanel5.setBackground(new java.awt.Color(35, 35, 35));
@@ -189,16 +175,9 @@ public class QuanLiNguyenLieu extends javax.swing.JPanel {
         jPanel5.setPreferredSize(new java.awt.Dimension(50, 23));
         panelBackground7.add(jPanel5);
 
-        jButton4.setBackground(new java.awt.Color(102, 102, 102));
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jButton4.setText("Xóa");
-        jButton4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(53, 53, 53)));
         jButton4.setMaximumSize(new java.awt.Dimension(72, 40));
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
         panelBackground7.add(jButton4);
 
         jPanel6.setBackground(new java.awt.Color(35, 35, 35));
@@ -270,173 +249,6 @@ public class QuanLiNguyenLieu extends javax.swing.JPanel {
         add(panelBackground1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            // Tạo một JDialog mới
-            JDialog dialog = new JDialog();
-
-            // Thiết lập JPanel DialogIngredient làm nội dung của JDialog
-            DialogIngredient dialogPanel = new DialogIngredient();
-            dialog.getContentPane().add(dialogPanel);
-
-            // Thiết lập thuộc tính cho JDialog
-            dialog.setSize(600, 500); // Thiết lập kích thước
-            dialog.setLocationRelativeTo(this); // Hiển thị JDialog ở giữa cửa sổ cha
-            dialog.setModal(true); // Thiết lập JDialog là modal để chặn tương tác với các thành phần khác trong cửa sổ cha
-            dialog.setVisible(true); // Hiển thị JDialog
-
-            // Sau khi JDialog đóng lại, có thể thực hiện các hành động cần thiết tại đây
-            loadDataToTable(jTable1);
-        } catch (Exception ex) {
-            Logger.getLogger(QuanLiNhapKho.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        int rowCount = model.getRowCount();
-        boolean isSelected = false; // Biến này để kiểm tra xem có ít nhất một dòng được chọn hay không
-
-        for (int i = rowCount - 1; i >= 0; i--) {
-            Boolean checked = (Boolean) jTable1.getValueAt(i, 0); // Lấy giá trị của checkbox từ cột đầu tiên
-            if (checked) {
-                isSelected = true;
-                int id = (int) jTable1.getValueAt(i, 1); // Lấy giá trị ID từ cột thứ hai
-                String currentName = (String) jTable1.getValueAt(i, 2);
-                String currentDes = (String) jTable1.getValueAt(i, 3);
-                int currentQuantity = (int) jTable1.getValueAt(i, 4);
-                String currentUnit = (String) jTable1.getValueAt(i, 5);
-
-                // Hiển thị hộp thoại cho phép người dùng nhập thông tin mới
-                String newName = JOptionPane.showInputDialog(this, "Nhập tên mới cho nguyên liệu:", currentName);
-                if (newName == null || newName.trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Tên nguyên liệu không được để trống.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    return; // Dừng phương thức nếu tên nguyên liệu bị bỏ trống
-                }
-
-                String newDes = JOptionPane.showInputDialog(this, "Nhập mô tả mới cho nguyên liệu:", currentDes);
-                if (newDes == null) {
-                    // Người dùng bấm Cancel
-                    return; // Dừng phương thức nếu người dùng hủy bỏ
-                }
-
-                String newQuantityStr = JOptionPane.showInputDialog(this, "Nhập số lượng mới cho nguyên liệu:", currentQuantity);
-                if (newQuantityStr == null) {
-                    // Người dùng bấm Cancel
-                    return; // Dừng phương thức nếu người dùng hủy bỏ
-                }
-                int newQuantity;
-                try {
-                    newQuantity = Integer.parseInt(newQuantityStr);
-                    if (newQuantity < 0) {
-                        JOptionPane.showMessageDialog(this, "Số lượng không được là số âm.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                        return; // Dừng phương thức nếu số lượng âm
-                    }
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(this, "Số lượng phải là một số nguyên.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    return; // Dừng phương thức nếu số lượng không hợp lệ
-                }
-
-                String newUnit = JOptionPane.showInputDialog(this, "Nhập đơn vị mới cho nguyên liệu:", currentUnit);
-                if (newUnit == null) {
-                    // Người dùng bấm Cancel
-                    return; // Dừng phương thức nếu người dùng hủy bỏ
-                }
-
-                // Tạo một đối tượng IngredientsDTO mới để cập nhật
-                IngredientsDTO ingredient = new IngredientsDTO();
-                ingredient.setId(id);
-                ingredient.setName(newName);
-                ingredient.setDes(newDes);
-                ingredient.setQuantity(newQuantity);
-                ingredient.setUnit(newUnit);
-
-                // Gọi phương thức updateIngredient() từ IngredientsBUS để cập nhật thông tin mới
-                IngredientsBUS ingredientsBUS = new IngredientsBUS();
-                boolean success = false;
-                try {
-                    success = ingredientsBUS.updateIngredient(ingredient);
-                } catch (Exception ex) {
-                    Logger.getLogger(QuanLiNguyenLieu.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                if (!success) {
-                    JOptionPane.showMessageDialog(this, "Cập nhật nguyên liệu không thành công!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                    return; // Dừng phương thức nếu cập nhật không thành công
-                }
-            }
-        }
-
-        // Kiểm tra xem có ít nhất một dòng được chọn không
-        if (!isSelected) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn ít nhất một dòng để sửa.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            return; // Dừng phương thức nếu không có dòng nào được chọn
-        }
-
-        // Hiển thị thông báo sửa thành công
-        JOptionPane.showMessageDialog(this, "Sửa nguyên liệu thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-
-        try {
-            // Cập nhật lại dữ liệu trên jTable
-            loadDataToTable(jTable1);
-        } catch (Exception ex) {
-            Logger.getLogger(QuanLiNguyenLieu.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        int rowCount = model.getRowCount();
-        boolean isSelected = false; // Biến này để kiểm tra xem có ít nhất một dòng được chọn hay không
-        boolean showMessage = true; // Biến này để kiểm tra xem thông báo đã được hiển thị chưa
-
-        for (int i = rowCount - 1; i >= 0; i--) {
-            Boolean checked = (Boolean) jTable1.getValueAt(i, 0); // Lấy giá trị của checkbox từ cột đầu tiên
-            if (checked) {
-                isSelected = true;
-                int id = (int) jTable1.getValueAt(i, 1); // Lấy giá trị ID từ cột thứ hai
-
-                // Hỏi lại người dùng có chắc chắn muốn xóa không, chỉ hiển thị một lần
-                if (showMessage) {
-                    int option = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa dòng đã chọn?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
-                    if (option != JOptionPane.YES_OPTION) {
-                        // Người dùng không đồng ý xóa, dừng vòng lặp
-                        return;
-                    }
-                    showMessage = false; // Đánh dấu rằng thông báo đã được hiển thị
-                }
-
-                // Gọi phương thức deleteIngredient() từ IngredientsBUS để set cột isDeleted thành True
-                IngredientsBUS ingredientsBUS = new IngredientsBUS();
-                boolean success = false;
-                try {
-                    success = ingredientsBUS.setIngredientAsDeleted(id);
-                } catch (Exception ex) {
-                    Logger.getLogger(QuanLiNguyenLieu.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                if (!success) {
-                    JOptionPane.showMessageDialog(this, "Xóa nguyên liệu không thành công!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                    return; // Dừng phương thức nếu xóa không thành công
-                }
-            }
-        }
-
-        // Kiểm tra xem có ít nhất một dòng được chọn không
-        if (!isSelected) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn ít nhất một dòng để xóa.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            return; // Dừng phương thức nếu không có dòng nào được chọn
-        }
-
-        // Hiển thị thông báo xóa thành công
-        JOptionPane.showMessageDialog(this, "Xóa nguyên liệu thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-
-        try {
-            // Cập nhật lại dữ liệu trên jTable
-            loadDataToTable(jTable1);
-        } catch (Exception ex) {
-            Logger.getLogger(QuanLiNguyenLieu.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // Lấy dữ liệu nhập vào từ ô text field

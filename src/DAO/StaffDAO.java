@@ -236,7 +236,7 @@ public class StaffDAO {
     }
 
     public StaffDTO isExists(String username, String password) {
-        String sql = "SELECT * FROM tb_staff WHERE username = ? AND password = ?";
+        String sql = "SELECT * FROM tb_staff WHERE username = ? AND password = ? AND isdeleted = false";
         
         try {
             PreparedStatement statement = Helper.ConnectDB.getInstance().getConnection().prepareStatement(sql);
@@ -244,9 +244,10 @@ public class StaffDAO {
             statement.setString(2, password);
             
             ResultSet rs = statement.executeQuery();
-            
+            System.out.println("z");
 
             if (rs.next()) {
+                System.out.println("a");
                 StaffDTO staff = new StaffDTO();
                 staff.setId(rs.getLong("id"));
                 staff.setUsername(rs.getString("username"));
@@ -258,6 +259,8 @@ public class StaffDAO {
                 staff.setRoleId(rs.getString("roleid"));
                 staff.setCreateTime(rs.getDate("create_time"));
                 staff.setUpdateTime(rs.getDate("update_time"));
+                staff.setFirst_name(rs.getString("first_name"));
+                staff.setLast_name(rs.getString("last_name"));
                 return staff;
             }
             
