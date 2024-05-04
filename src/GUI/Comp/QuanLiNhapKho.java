@@ -64,11 +64,13 @@ import javax.swing.table.TableRowSorter;
 import GUI.Comp.DateChooser.DateChooser;
 import GUI.Comp.DateChooser.SelectedDate;
 import com.formdev.flatlaf.FlatClientProperties;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import java.text.SimpleDateFormat;
 import java.util.regex.PatternSyntaxException;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -284,7 +286,7 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.Double.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Double.class, java.lang.String.class, java.lang.Long.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -590,69 +592,23 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi xuất file PDF.");
         }
     }//GEN-LAST:event_jButton8ActionPerformed
+private ImportBillBUS importBillBUS = new ImportBillBUS();
+private void loadImportBills() throws Exception {
+    importBillBUS.loadImportBills((DefaultTableModel) jTable1.getModel());
 
-    private void loadImportBills() throws Exception {
-    try {
-        // Kết nối cơ sở dữ liệu và thực hiện truy vấn
-        Connection con = ConnectDB.openConnect();
-        PreparedStatement ps = con.prepareStatement("SELECT i.id, i.quantity, i.total, i.import_date, u.username AS username, s.name AS supplierName, userid, supplierid FROM tb_import_bill AS i LEFT JOIN tb_users AS u ON i.userid = u.id LEFT JOIN tb_supplier AS s ON i.supplierID = s.id WHERE i.isdeleted = false");
-        ResultSet rs = ps.executeQuery();
-
-        // Lấy model của jTable
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-
-        // Xóa dữ liệu cũ trong bảng
-        model.setRowCount(0);
-
-        // Duyệt qua các dòng dữ liệu từ ResultSet và thêm vào bảng
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY");
-        while (rs.next()) {
-            double total = rs.getDouble("total");
-            String formattedTotal = FormatNumber.getInstance().getFormat().format(total);
-            Date importDate = rs.getDate("import_date");
-            String formattedImportDate = (importDate != null) ? dateFormat.format(importDate) : "";
-            Object[] row = {
-                rs.getLong("id"),
-                rs.getInt("quantity"),
-                formattedTotal, // Format tổng tiền using FormatNumber
-                formattedImportDate,
-                rs.getLong("userid"), // Sử dụng getLong() cho cột có kiểu int8
-                rs.getLong("supplierid"), // Sử dụng getLong() cho cột có kiểu int8
-                rs.getString("username"),
-                rs.getString("supplierName")
-            };
-            model.addRow(row);
-        }
-
-        // Đóng kết nối
-        rs.close();
-        ps.close();
-        con.close();
-        // Thông báo cho jTable biết rằng dữ liệu đã thay đổi và cần phải vẽ lại
-        model.fireTableDataChanged();
-        // Lấy đối tượng header của JTable
-        TableColumnModel columnModel = jTable1.getColumnModel();
-
-        // Lặp qua từng cột trong JTable
-        for (int columnIndex = 0; columnIndex < jTable1.getColumnCount(); columnIndex++) {
-            // Lấy renderer của header của từng cột
-            DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) jTable1.getTableHeader().getDefaultRenderer();
-
-            // Đặt căn lề trái cho renderer của header
-            headerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.LEFT);
-
-            // Lấy đối tượng cột trong cấu hình cột của JTable
-            columnModel.getColumn(columnIndex).setHeaderRenderer(headerRenderer);
-        }
-    } catch (SQLException | ParseException e) {
-        e.printStackTrace();
-    }
+    // Cấu hình renderer cho cột
     DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
     centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.LEFT);
     for (int i = 0; i < jTable1.getColumnCount(); i++) {
-        jTable1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        TableColumnModel columnModel = jTable1.getColumnModel();
+        columnModel.getColumn(i).setCellRenderer(centerRenderer);
+        
+                // Cấu hình renderer cho header sang bên trái
+        DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) jTable1.getTableHeader().getDefaultRenderer();
+        headerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.LEFT);
+        columnModel.getColumn(i).setHeaderRenderer(headerRenderer);
     }
-    }
+}
 
     private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
         // TODO add your handling code here:

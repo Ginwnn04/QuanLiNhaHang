@@ -317,7 +317,7 @@ public class DialogDetailImport extends javax.swing.JPanel {
 
             // Thêm dòng dữ liệu vào tb_import_bill
             Connection conn = openConnect();
-            String sqlInsertImportBill = "INSERT INTO tb_import_bill (id, quantity, total, import_date, userid, supplierid, isdeleted) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sqlInsertImportBill = "INSERT INTO tb_import_bill (id, quantity, total, import_date, staffid, supplierid, isdeleted) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pstmt = conn.prepareStatement(sqlInsertImportBill);
             pstmt.setInt(1, currentBillId);
             pstmt.setInt(2, totalQuantity);

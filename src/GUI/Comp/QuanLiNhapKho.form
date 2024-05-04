@@ -405,7 +405,7 @@
                                 <Column editable="true" title="S&#x1ed1; lo&#x1ea1;i nguy&#xea;n li&#x1ec7;u" type="java.lang.Integer"/>
                                 <Column editable="true" title="T&#x1ed5;ng ti&#x1ec1;n" type="java.lang.Double"/>
                                 <Column editable="true" title="Ng&#xe0;y nh&#x1ead;p h&#xe0;ng" type="java.lang.String"/>
-                                <Column editable="true" title="ID ng&#x1b0;&#x1edd;i nh&#x1ead;p" type="java.lang.Integer"/>
+                                <Column editable="true" title="ID ng&#x1b0;&#x1edd;i nh&#x1ead;p" type="java.lang.Long"/>
                                 <Column editable="true" title="ID NCC" type="java.lang.Integer"/>
                                 <Column editable="true" title="T&#xea;n ng&#x1b0;&#x1edd;i nh&#x1ead;p" type="java.lang.String"/>
                                 <Column editable="true" title="T&#xea;n NCC" type="java.lang.String"/>

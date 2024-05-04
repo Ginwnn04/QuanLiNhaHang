@@ -17,10 +17,6 @@ public class IngredientsBUS {
     private IngredientsDAO ingredientsDAO = new IngredientsDAO();
     private ArrayList<IngredientsDTO> listIngredients = new ArrayList<>();
     
-    public ArrayList<IngredientsDTO> getAllIngredients() throws Exception {
-        listIngredients = ingredientsDAO.getAllIngredients();
-        return listIngredients;
-    }
     public IngredientsDTO getIngredientById(int id) throws Exception {
         return ingredientsDAO.getIngredientById(id);
     }
@@ -32,9 +28,7 @@ public class IngredientsBUS {
     public boolean updateIngredient(IngredientsDTO ingredient) throws Exception {
         return ingredientsDAO.updateIngredient(ingredient);
     }
-    public boolean deleteIngredient(int id) throws Exception {
-        return ingredientsDAO.deleteIngredient(id);
-    }
+
     public boolean setIngredientAsDeleted(int id) throws Exception {
         return ingredientsDAO.setIngredientAsDeleted(id);
     }

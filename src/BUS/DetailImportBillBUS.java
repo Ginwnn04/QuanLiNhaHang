@@ -20,11 +20,6 @@ public class DetailImportBillBUS {
     private DetailImportBillDAO detailImportBillDAO = new DetailImportBillDAO();
     private ArrayList<DetailImportBillDTO> listDetailImportBills = new ArrayList<>();
 
-    public ArrayList<DetailImportBillDTO> getAllDetailImportBills() throws Exception {
-        listDetailImportBills = detailImportBillDAO.getAllDetailImportBills();
-        return listDetailImportBills;
-    }
-
     public ArrayList<DetailImportBillDTO> getDetailImportBillByBillId(long billId) throws SQLException, Exception {
         return detailImportBillDAO.getDetailImportBillByBillId(billId);
     }
