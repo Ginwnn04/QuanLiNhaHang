@@ -182,6 +182,8 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
 
         panelBackground.setBackground(new java.awt.Color(35, 35, 35));
         panelBackground.setLayout(new java.awt.BorderLayout());
+
+        navBar.setPreferredSize(new java.awt.Dimension(245, 765));
         panelBackground.add(navBar, java.awt.BorderLayout.LINE_START);
 
         body.setBackground(new java.awt.Color(35, 35, 35));
