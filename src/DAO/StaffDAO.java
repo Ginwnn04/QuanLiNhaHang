@@ -29,6 +29,8 @@ public class StaffDAO {
                 staff.setRoleId(rs.getString("roleid"));
                 staff.setCreateTime(rs.getDate("create_time"));
                 staff.setUpdateTime(rs.getDate("update_time"));
+                staff.setFirst_name(rs.getString("first_name"));
+                staff.setLast_name(rs.getString("last_name"));
                 list.add(staff);
             }
         } catch(SQLException e) {
@@ -64,9 +66,14 @@ public class StaffDAO {
             JOptionPane.showMessageDialog(null, "Email đã tồn tại. Vui lòng chọn email khác.");
             return false;
         }
+        
+        if (isPhoneExists(staff.getPhone())) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại đã tồn tại. Vui lòng chọn số điện thoại khác.");
+            return false;
+        }
 
         // Nếu không có trùng lặp, thực hiện thêm nhân viên vào cơ sở dữ liệu
-        String query = "INSERT INTO tb_staff (id, username, password, email, phone, address, isdeleted, roleid, create_time, update_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO tb_staff (id, username, password, email, phone, address, isdeleted, roleid, create_time, update_time, first_name, last_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setLong(1, staff.createId());
             pstm.setString(2, staff.getUsername());
@@ -82,6 +89,8 @@ public class StaffDAO {
 
             pstm.setTimestamp(9, sqlDateUpdate);
             pstm.setTimestamp(10, sqlDateCreate);
+            pstm.setString(11, staff.getFirst_name());
+            pstm.setString(12, staff.getLast_name());
 
             return pstm.executeUpdate() > 0;
         } catch(SQLException e) {
@@ -95,6 +104,21 @@ public class StaffDAO {
         String query = "SELECT COUNT(*) AS count FROM tb_staff WHERE username = ? AND isdeleted = false";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setString(1, username);
+            ResultSet rs = pstm.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt("count");
+                return count > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    private boolean isPhoneExists(String phone) {
+        String query = "SELECT COUNT(*) AS count FROM tb_staff WHERE phone = ? AND isdeleted = false";
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
+            pstm.setString(1, phone);
             ResultSet rs = pstm.executeQuery();
             if (rs.next()) {
                 int count = rs.getInt("count");
@@ -133,8 +157,13 @@ public class StaffDAO {
             JOptionPane.showMessageDialog(null, "Email đã tồn tại!", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
+        
+        if (isPhoneExistsForUpdate(staff.getPhone(), staff.getId())) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại đã tồn tại!", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
 
-        String query = "UPDATE tb_users SET username = ?, password = ?, email = ?, phone = ?, address = ?, isdeleted = ?, roleid = ?, update_time = ? WHERE id = ?";
+        String query = "UPDATE tb_staff SET username = ?, password = ?, email = ?, phone = ?, address = ?, isdeleted = ?, roleid = ?, update_time = ?, first_name = ?, last_name = ? WHERE id = ?";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setString(1, staff.getUsername());
             pstm.setString(2, staff.getPassword());
@@ -145,7 +174,9 @@ public class StaffDAO {
             pstm.setString(7, staff.getRoleId());
             Timestamp sqlDateUpdate = new Timestamp(staff.getUpdateTime().getTime());
             pstm.setTimestamp(8, sqlDateUpdate);
-            pstm.setLong(9, staff.getId());
+            pstm.setString(9, staff.getFirst_name());
+            pstm.setString(10, staff.getLast_name());
+            pstm.setLong(11, staff.getId());
 
             return pstm.executeUpdate() > 0;
         } catch(SQLException e) {
@@ -154,7 +185,8 @@ public class StaffDAO {
         return false;
     }
 
-    // Kiểm tra username trùng lặp khi cập nhật
+
+
     private boolean isUsernameExistsForUpdate(String username, long currentStaffId) {
         String query = "SELECT COUNT(*) AS count FROM tb_staff WHERE username = ? AND id != ? AND isdeleted = false";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
@@ -186,9 +218,25 @@ public class StaffDAO {
         }
         return false;
     }
+    
+    private boolean isPhoneExistsForUpdate(String phone, long currentStaffId) {
+        String query = "SELECT COUNT(*) AS count FROM tb_staff WHERE phone = ? AND id != ? AND isdeleted = false";
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
+            pstm.setString(1, phone);
+            pstm.setLong(2, currentStaffId);
+            ResultSet rs = pstm.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt("count");
+                return count > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public StaffDTO isExists(String username, String password) {
-        String sql = "SELECT * FROM tb_staff WHERE username = ? AND password = ?";
+        String sql = "SELECT * FROM tb_staff WHERE username = ? AND password = ? AND isdeleted = false";
         
         try {
             PreparedStatement statement = Helper.ConnectDB.getInstance().getConnection().prepareStatement(sql);
@@ -196,9 +244,10 @@ public class StaffDAO {
             statement.setString(2, password);
             
             ResultSet rs = statement.executeQuery();
-            
+            System.out.println("z");
 
             if (rs.next()) {
+                System.out.println("a");
                 StaffDTO staff = new StaffDTO();
                 staff.setId(rs.getLong("id"));
                 staff.setUsername(rs.getString("username"));
@@ -210,6 +259,8 @@ public class StaffDAO {
                 staff.setRoleId(rs.getString("roleid"));
                 staff.setCreateTime(rs.getDate("create_time"));
                 staff.setUpdateTime(rs.getDate("update_time"));
+                staff.setFirst_name(rs.getString("first_name"));
+                staff.setLast_name(rs.getString("last_name"));
                 return staff;
             }
             

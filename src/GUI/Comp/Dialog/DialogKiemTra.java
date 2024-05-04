@@ -10,6 +10,7 @@ import DTO.DetailOrderDTO;
 import DTO.DiscountDTO;
 import DTO.InvoicesDTO;
 import DTO.OrderDTO;
+import DTO.StaffDTO;
 import DTO.TableDTO;
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Paragraph;
@@ -659,7 +660,8 @@ public class DialogKiemTra extends javax.swing.JDialog {
             tbInformation.addCell(new Paragraph("Date:"));
             tbInformation.addCell(new Paragraph(Helper.FormatDate.getInstance().getFormat().format(new Date()) + ""));
             tbInformation.addCell(new Paragraph("Employee:"));
-            tbInformation.addCell(new Paragraph("Nguyen Nhat Quang"));
+            String nameStaff = StaffDTO.staffLogging.getLast_name() + " " + StaffDTO.staffLogging.getFirst_name();
+            tbInformation.addCell(new Paragraph(nameStaff));
             tbInformation.addCell(new Paragraph("Table:"));
             tbInformation.addCell(new Paragraph(table.getName()));
             

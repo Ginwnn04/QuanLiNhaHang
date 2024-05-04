@@ -4,6 +4,7 @@
  */
 package GUI.Main;
 
+import BUS.RoleBUS;
 import GUI.Comp.QuanLiNhapKho;
 import GUI.Comp.QuanLi_Staff;
 import GUI.Comp.QuanLiNguyenLieu;
@@ -21,6 +22,9 @@ import GUI.Comp.Panel.QuanLiTheLoai;
 import Helper.MyListener;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+
+import BUS.StaffBUS;
+import DTO.StaffDTO;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -50,8 +54,10 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
         initComponents();
         setLocationRelativeTo(null);
 
-        
-        navBar.setInformation("Nguyễn Nhật Quang", "Nhân viên");
+        // Qua bên zalo coi cái ảnh á
+        String fullName = StaffDTO.staffLogging.getLast_name() + " " + StaffDTO.staffLogging.getFirst_name();
+        String role = new RoleBUS().getRoleByID(StaffDTO.staffLogging.getRoleId()).getName();
+        navBar.setInformation(fullName, role);
         MyListener.getInstance().addPropertyChangeListener(this);
 
         setTitle("PHẦN MỀM QUẢN LÍ NHÀ HÀNG");
@@ -145,7 +151,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
 
             }
         }
-//        if (evt.getPropertyName().equals(ABORT))
+       
     }
 
     public void showForm(JPanel com) {
