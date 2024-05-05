@@ -29,6 +29,12 @@ public class DetailsRecipeDTO {
         this.isDelete = isDelete;
     }
 
+    public long createID() {
+        this.id = System.currentTimeMillis();
+        return id;
+    }
+    
+    
     public long getId() {
         return id;
     }

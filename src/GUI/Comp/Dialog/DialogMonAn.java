@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -69,6 +70,7 @@ public class DialogMonAn extends javax.swing.JDialog {
         txtLoiNhuan.setText(item.getProfit() + "");
         cbxTrangThai.setSelectedIndex(getIndexSelectedItemTrangThai(item.getStatusID()));
         cbxTheLoai.setSelectedIndex(getIndexSelectedItemTheLoai(item.getCategoryID()));        
+        listDetailsOfMenuItem = new DetailsReciptBUS().readByIDItem(item.getId());
         renderTable();
         
     }
@@ -76,11 +78,12 @@ public class DialogMonAn extends javax.swing.JDialog {
     public void renderTable() {
         model = (DefaultTableModel)tbIngre.getModel();
         model.setRowCount(0);
-        listDetailsOfMenuItem = new DetailsReciptBUS().readByIDItem(item.getId());
-        System.out.println(listDetailsOfMenuItem.size());
         for (DetailsRecipeDTO x : listDetailsOfMenuItem) {
-            IngredientsDTO ingre = new IngredientsBUS().getIngredientById(x.getIngredientID());
-            model.addRow(new Object[] {ingre.getName(), x.getUnit(), x.getQuantity()});
+            if (x.isIsDelete() == false) {
+                System.out.println(x.getIngredientID());
+                IngredientsDTO ingre = new IngredientsBUS().getIngredientById(x.getIngredientID());
+                model.addRow(new Object[] {ingre.getName(), x.getUnit(), x.getQuantity()});  
+            }
         }
         model.fireTableDataChanged();
         tbIngre.setModel(model);
@@ -357,6 +360,11 @@ public class DialogMonAn extends javax.swing.JDialog {
 
         btnThem.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         btnThem.setText("Thêm");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
         panelBackground21.add(btnThem, java.awt.BorderLayout.CENTER);
 
         jPanel2.setBackground(new java.awt.Color(35, 35, 35));
@@ -418,6 +426,11 @@ public class DialogMonAn extends javax.swing.JDialog {
         panelBackground24.add(jLabel8, java.awt.BorderLayout.LINE_START);
 
         cbxNguyenLieu.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        cbxNguyenLieu.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxNguyenLieuItemStateChanged(evt);
+            }
+        });
         panelBackground24.add(cbxNguyenLieu, java.awt.BorderLayout.CENTER);
 
         panelBackground26.add(panelBackground24, java.awt.BorderLayout.CENTER);
@@ -512,6 +525,11 @@ public class DialogMonAn extends javax.swing.JDialog {
 
         btnSua.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         btnSua.setText("Sửa");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
         panelBackground75.add(btnSua, java.awt.BorderLayout.CENTER);
 
         jPanel4.setBackground(new java.awt.Color(35, 35, 35));
@@ -621,6 +639,11 @@ public class DialogMonAn extends javax.swing.JDialog {
 
         btnXoa.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         btnXoa.setText("Xoá");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
         panelBackground76.add(btnXoa, java.awt.BorderLayout.CENTER);
 
         jPanel6.setBackground(new java.awt.Color(35, 35, 35));
@@ -683,6 +706,11 @@ public class DialogMonAn extends javax.swing.JDialog {
 
         btnLuu.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         btnLuu.setText("Lưu");
+        btnLuu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLuuActionPerformed(evt);
+            }
+        });
         panelBackground73.add(btnLuu, java.awt.BorderLayout.CENTER);
 
         panelBackground18.add(panelBackground73, java.awt.BorderLayout.PAGE_END);
@@ -1355,7 +1383,7 @@ public class DialogMonAn extends javax.swing.JDialog {
         JFileChooser file = new JFileChooser();
         file.showOpenDialog(pnContainer);
         String path = file.getSelectedFile().getAbsolutePath();
-        lbAnh.setIcon(new ImageIcon(new ImageIcon(path).getImage().getScaledInstance(300, 150, 4)));
+        btnAnh.setText(path.substring(path.lastIndexOf("\\") + 1 ));
         
     }//GEN-LAST:event_btnAnhActionPerformed
 
@@ -1366,6 +1394,60 @@ public class DialogMonAn extends javax.swing.JDialog {
         txtDonVi.setText(detailSelected.getUnit());
         cbxNguyenLieu.setSelectedIndex(getIndexSelectedItemNguyenLieu(detailSelected.getIngredientID()));
     }//GEN-LAST:event_tbIngreMouseClicked
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        if (txtSoLuong.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(pnContainer, "Vui lòng nhập số lượng");
+            return;
+        }
+        DetailsRecipeDTO detailsRecipeDTO = new DetailsRecipeDTO();
+        detailsRecipeDTO.createID();
+        detailsRecipeDTO.setQuantity(Integer.parseInt(txtSoLuong.getText()));
+        detailsRecipeDTO.setUnit(txtDonVi.getText());
+        
+        int indexIngredientSelected = cbxNguyenLieu.getSelectedIndex();
+        
+        detailsRecipeDTO.setIngredientID(listIngredients.get(indexIngredientSelected).getId());
+        detailsRecipeDTO.setItemid(item.getId());
+        
+        for (DetailsRecipeDTO x : listDetailsOfMenuItem) {
+            if (x.getIngredientID() == detailsRecipeDTO.getIngredientID()) {
+                JOptionPane.showMessageDialog(pnContainer, "Nguyên liệu này đã tồn tại vui lòng thử lại");
+                return;
+            }
+        }
+        listDetailsOfMenuItem.add(detailsRecipeDTO);
+        renderTable();
+        txtSoLuong.setText("");
+        
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void cbxNguyenLieuItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxNguyenLieuItemStateChanged
+        IngredientsDTO ingre = listIngredients.get(cbxNguyenLieu.getSelectedIndex());
+        txtDonVi.setText(ingre.getUnit());
+    }//GEN-LAST:event_cbxNguyenLieuItemStateChanged
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        int row = tbIngre.getSelectedRow();
+        DetailsRecipeDTO detailsRecipe = listDetailsOfMenuItem.get(row);
+        detailsRecipe.setQuantity(Integer.parseInt(txtSoLuong.getText()));
+        renderTable();
+        txtSoLuong.setText("");
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        int row = tbIngre.getSelectedRow();
+        listDetailsOfMenuItem.get(row).setIsDelete(true);
+        System.out.println(row);
+        listDetailsOfMenuItem.remove(row);
+        
+        renderTable();
+        txtSoLuong.setText("");
+    }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
+        
+    }//GEN-LAST:event_btnLuuActionPerformed
 
     /**
      * @param args the command line arguments

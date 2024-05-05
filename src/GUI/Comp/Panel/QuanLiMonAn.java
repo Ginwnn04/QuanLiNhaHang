@@ -485,7 +485,6 @@ public class QuanLiMonAn extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         DialogMonAn x = new DialogMonAn(null, isSelectAll);
-        x.setItem(itemSelected);
         x.setVisible(true);
 
     }//GEN-LAST:event_btnThemActionPerformed
