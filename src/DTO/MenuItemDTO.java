@@ -61,6 +61,11 @@ public class MenuItemDTO {
         return panelProductOrder;
     }
 
+    public long createID() {
+        this.id = System.currentTimeMillis();
+        return id;
+    }
+    
     public boolean isIsSelected() {
         return isSelected;
     }

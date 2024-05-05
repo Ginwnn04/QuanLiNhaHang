@@ -23,6 +23,10 @@ public class MenuItemBUS {
         return menuItemDAO.update(item);
     }
     
+    public boolean insertData(MenuItemDTO item) {
+        return menuItemDAO.insert(item);
+    }
+    
     public boolean deleteData(String listID) {
         return menuItemDAO.delete(listID);
     }

@@ -45,6 +45,29 @@ public class MenuItemDAO {
         return null;
     }
     
+    public boolean insert(MenuItemDTO menuItemDTO) {
+        String query = "INSERT INTO tb_menu_item VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try(PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query);) {
+            pstm.setLong(1, menuItemDTO.getId());
+            pstm.setString(2, menuItemDTO.getName());
+            pstm.setString(3, menuItemDTO.getDescription());
+            pstm.setString(4, menuItemDTO.getImage());
+            pstm.setLong(5, menuItemDTO.getPrice());
+            pstm.setLong(6, menuItemDTO.getProfit());
+            pstm.setBoolean(7, menuItemDTO.isIsDelete());
+            pstm.setString(8, menuItemDTO.getStatusID());
+            pstm.setLong(9, menuItemDTO.getCategoryID());
+            pstm.setTimestamp(10, new Timestamp(menuItemDTO.getCreateTime().getTime()));
+            pstm.setTimestamp(11, new Timestamp(menuItemDTO.getUpdateTime().getTime()));
+            
+            return pstm.executeUpdate() > 0;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
     public boolean update(MenuItemDTO menuItemDTO) {
         String query = "UPDATE tb_menu_item SET name = ?, description = ?, price = ?, profit = ?, image_path = ?, isdeleted = ?, update_time = ?, statusid = ?, categoryid = ? WHERE id = ?";
         try(PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query);) {

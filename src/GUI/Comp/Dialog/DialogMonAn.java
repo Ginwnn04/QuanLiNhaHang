@@ -7,13 +7,22 @@ package GUI.Comp.Dialog;
 import BUS.CategoriesBUS;
 import BUS.DetailsReciptBUS;
 import BUS.IngredientsBUS;
+import BUS.MenuItemBUS;
 import BUS.MenuItemStatusBUS;
 import DTO.CategoriesDTO;
 import DTO.DetailsRecipeDTO;
 import DTO.IngredientsDTO;
 import DTO.MenuItemDTO;
 import DTO.MenuItemStatusDTO;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -30,8 +39,10 @@ public class DialogMonAn extends javax.swing.JDialog {
     private ArrayList<CategoriesDTO> listCate = new ArrayList<>();
     private ArrayList<MenuItemStatusDTO> listMenuItemStatus = new ArrayList<>();
     private ArrayList<DetailsRecipeDTO> listDetailsOfMenuItem = new ArrayList<>();
+    private MenuItemBUS menuItemBUS = new MenuItemBUS();
     private MenuItemDTO item = new MenuItemDTO();
     private DefaultTableModel model;
+    private String pathSource = "";
     
     public DialogMonAn(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -1380,10 +1391,28 @@ public class DialogMonAn extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAnhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnhActionPerformed
+        String regex = "^.+\\.(jpg|jpeg|png|gif|bmp)$";
         JFileChooser file = new JFileChooser();
         file.showOpenDialog(pnContainer);
-        String path = file.getSelectedFile().getAbsolutePath();
-        btnAnh.setText(path.substring(path.lastIndexOf("\\") + 1 ));
+        pathSource = file.getSelectedFile().getAbsolutePath();
+        String nameFile = pathSource.substring(pathSource.lastIndexOf("\\") + 1);
+        if (nameFile.matches(regex)) {
+            btnAnh.setText(nameFile);
+            Path sourceFile = Paths.get(pathSource);
+            Path destinationFile = Paths.get(System.getProperty("user.dir") + "/src/GUI/ImageProduct/" + nameFile);
+
+            try {
+                Files.copy(sourceFile, destinationFile);
+            } catch (IOException ex) {
+                Logger.getLogger(DialogMonAn.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            
+
+        }
+        else {
+            JOptionPane.showMessageDialog(pnContainer, "File bạn chọn không phải là ẢNH");
+        }
         
     }//GEN-LAST:event_btnAnhActionPerformed
 
@@ -1446,6 +1475,53 @@ public class DialogMonAn extends javax.swing.JDialog {
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
+        boolean isValid = true;
+        if (txtTenMon.getText().isEmpty()) {
+            isValid = false;
+        }
+        if (txtMoTa.getText().isEmpty()) {
+            isValid = false;
+        }
+        if (txtGiaBan.getText().isEmpty()) {
+            isValid = false;
+        }
+        if (txtLoiNhuan.getText().isEmpty()) {
+            isValid = false;
+        }
+        if (txtTenMon.getText().isEmpty()) {
+            isValid = false;
+        }
+        if (btnAnh.getText().equals("Open")) {
+            isValid = false;
+        }
+        if (listDetailsOfMenuItem.size() == 0) {
+            isValid = false;
+        }
+        if (!isValid) {
+            JOptionPane.showMessageDialog(pnContainer, "Vui lòng nhập đầy đủ thông tin");
+            return;
+        }
+        
+        MenuItemDTO item = new MenuItemDTO();
+        item.createID();
+        item.setName(txtTenMon.getText());
+        item.setDescription(txtMoTa.getText());
+        item.setImage(btnAnh.getText());
+        item.setPrice(Long.parseLong(txtGiaBan.getText()));
+        item.setProfit(Long.parseLong(txtGiaBan.getText()));
+        item.setIsDelete(false);
+        item.setStatusID(listMenuItemStatus.get(cbxTrangThai.getSelectedIndex()).getId());
+        item.setCategoryID(listCate.get(cbxTheLoai.getSelectedIndex()).getId());
+        item.setUpdateTime(new Date());
+        item.setCreateTime(new Date());
+        
+        if (menuItemBUS.insertData(item)) {
+            JOptionPane.showMessageDialog(pnContainer, "Thêm thành công");
+        }
+        else {
+            JOptionPane.showMessageDialog(pnContainer, "Thêm thất bại");
+        }
+        
         
     }//GEN-LAST:event_btnLuuActionPerformed
 
