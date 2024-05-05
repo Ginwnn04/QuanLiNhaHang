@@ -198,6 +198,7 @@ public class Login extends javax.swing.JFrame {
         }
         else {
             StaffDTO.staffLogging = staff;
+           
             dispose();
             Main main = new Main();
         }

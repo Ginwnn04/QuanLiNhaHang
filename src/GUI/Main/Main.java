@@ -135,13 +135,13 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
                     showForm(new QuanLiGiamGia());
                     break;
                 case 8:
-//                    showForm(new QuanLiTheLoai());
+//                    hoa don
                     break;
                 case 9:
                     showForm(new PanelStatistic());
                     break;
                 case 10:
-//                    showForm(new QuanLiTheLoai());
+//                    ncc
                     break;
                 case 11:
                     showForm(new QuanLi_Staff());
@@ -151,10 +151,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
             }
         }
        
-        if(evt.getPropertyName().equals("Test")) {
-            System.out.println("Dang xuat");
-        }
-        System.out.println(evt.getPropertyName());
+       
     }
 
     public void showForm(JPanel com) {

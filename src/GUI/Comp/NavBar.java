@@ -63,14 +63,18 @@ public class NavBar extends javax.swing.JPanel {
     }
     
     public void roles() {
+        System.out.println(StaffDTO.staffLogging);
         if (StaffDTO.staffLogging.getRoleId().equals("STAFF")) {
             for (int i = 1; i < listButton.size(); i++) {
                 listButton.get(i).setEnabled(false);
+                
             }
+            System.out.println("staff");
         }
         if (StaffDTO.staffLogging.getRoleId().equals("MANAGER")) {
             listButton.get(9).setEnabled(false);
             listButton.get(11).setEnabled(false);
+            System.out.println("manager");
         }
     }
 

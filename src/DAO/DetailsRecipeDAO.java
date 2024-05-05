@@ -25,6 +25,7 @@ public class DetailsRecipeDAO {
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
                 DetailsRecipeDTO detailRecipe = new DetailsRecipeDTO();
+                detailRecipe.setId(rs.getLong("id"));
                 detailRecipe.setQuantity(rs.getInt("quantity"));
                 detailRecipe.setUnit(rs.getString("unit"));
                 detailRecipe.setIngredientID(rs.getLong("ingredientid"));

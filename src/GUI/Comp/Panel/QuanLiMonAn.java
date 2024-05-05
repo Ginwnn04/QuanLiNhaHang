@@ -101,6 +101,8 @@ public class QuanLiMonAn extends javax.swing.JPanel {
     }
 
     public void render(boolean isSelectAll) {
+        itemSelected = null;
+        cntRowSelected = 0;
         listItem = menuItemBUS.getAllData();
         model = (DefaultTableModel)tbMonAn.getModel();
         model.setRowCount(0);
@@ -471,14 +473,15 @@ public class QuanLiMonAn extends javax.swing.JPanel {
             }
         }
         render(false);
+      
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        if (cntRowSelected != 1) {
+        if (cntRowSelected > 1) {
             JOptionPane.showMessageDialog(pnContainer, "Vui lòng chỉ chọn 1 Món Ăn cần sửa");
             return;
         }
-        DialogMonAn x = new DialogMonAn(null, isSelectAll);
+        DialogMonAn x = new DialogMonAn(null, true);
         x.setItem(itemSelected);
         x.setVisible(true);
         render(false);
@@ -486,7 +489,7 @@ public class QuanLiMonAn extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        DialogMonAn x = new DialogMonAn(null, isSelectAll);
+        DialogMonAn x = new DialogMonAn(null, true);
         x.setVisible(true);
         render(false);
 

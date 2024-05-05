@@ -85,20 +85,20 @@ public class DialogMonAn extends javax.swing.JDialog {
         txtLoiNhuan.setText(item.getProfit() + "");
         cbxTrangThai.setSelectedIndex(getIndexSelectedItemTrangThai(item.getStatusID()));
         cbxTheLoai.setSelectedIndex(getIndexSelectedItemTheLoai(item.getCategoryID()));        
-        listDetailsOfMenuItem = new DetailsReciptBUS().readByIDItem(item.getId());
+        
         renderTable();
         
     }
     
     public void renderTable() {
+        if (isUpdate) {
+            listDetailsOfMenuItem = new DetailsReciptBUS().readByIDItem(item.getId());
+        }
         model = (DefaultTableModel)tbIngre.getModel();
         model.setRowCount(0);
         for (DetailsRecipeDTO x : listDetailsOfMenuItem) {
-            if (x.isIsDelete() == false) {
-                System.out.println(x.getIngredientID());
-                IngredientsDTO ingre = new IngredientsBUS().getIngredientById(x.getIngredientID());
-                model.addRow(new Object[] {ingre.getName(), x.getUnit(), x.getQuantity()});  
-            }
+            IngredientsDTO ingre = new IngredientsBUS().getIngredientById(x.getIngredientID());
+            model.addRow(new Object[] {ingre.getName(), x.getUnit(), x.getQuantity()});  
         }
         model.fireTableDataChanged();
         tbIngre.setModel(model);
@@ -1464,14 +1464,27 @@ public class DialogMonAn extends javax.swing.JDialog {
         int row = tbIngre.getSelectedRow();
         DetailsRecipeDTO detailsRecipe = listDetailsOfMenuItem.get(row);
         detailsRecipe.setQuantity(Integer.parseInt(txtSoLuong.getText()));
+        System.out.println(detailsRecipe.getId());
+        System.out.println(detailsRecipe.getQuantity());
+        System.out.println(detailsRecipe.getUnit());
+        System.out.println(detailsRecipe.getIngredientID());
+        System.out.println(detailsRecipe.isIsDelete());
+        System.out.println(detailsRecipe.getItemid());
+        if (detailsReciptBUS.updateDetail(detailsRecipe)) {
+            System.out.println("Thanh cong");
+        }
+        else {
+            System.out.println("Tach");
+        }
         renderTable();
         txtSoLuong.setText("");
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         int row = tbIngre.getSelectedRow();
-        listDetailsOfMenuItem.get(row).setIsDelete(true);
-        
+        DetailsRecipeDTO detailsRecipe = listDetailsOfMenuItem.get(row);
+        detailsRecipe.setIsDelete(true);
+        detailsReciptBUS.updateDetail(detailsRecipe);
         renderTable();
         txtSoLuong.setText("");
     }//GEN-LAST:event_btnXoaActionPerformed
@@ -1504,6 +1517,7 @@ public class DialogMonAn extends javax.swing.JDialog {
             return;
         }
         
+        boolean isSuccess = true;
         if (isUpdate) {
             item.setName(txtTenMon.getText());
             item.setDescription(txtMoTa.getText());
@@ -1515,21 +1529,8 @@ public class DialogMonAn extends javax.swing.JDialog {
             item.setCategoryID(listCate.get(cbxTheLoai.getSelectedIndex()).getId());
             item.setUpdateTime(new Date());
             
-            boolean isSuccess = menuItemBUS.updateData(item);
+            isSuccess = menuItemBUS.updateData(item);
 
-            for (DetailsRecipeDTO x : listDetailsOfMenuItem) {
-                x.setItemid(item.getId());
-                if (detailsReciptBUS.updateDetail(x) == false) {
-                    System.out.println("xc");
-                }
-            }
-
-            if (isSuccess) {
-                JOptionPane.showMessageDialog(pnContainer, "Sửa thành công");
-            }
-            else {
-                JOptionPane.showMessageDialog(pnContainer, "Sửa thất bại");
-            }
         }
         else {
             MenuItemDTO itemNew = new MenuItemDTO();
@@ -1547,7 +1548,7 @@ public class DialogMonAn extends javax.swing.JDialog {
 
 
 
-            boolean isSuccess = menuItemBUS.insertData(itemNew);
+            isSuccess = menuItemBUS.insertData(itemNew);
 
             for (DetailsRecipeDTO x : listDetailsOfMenuItem) {
                 x.setItemid(itemNew.getId());
@@ -1555,14 +1556,13 @@ public class DialogMonAn extends javax.swing.JDialog {
                     isSuccess = false;
                 }
             }
-
-            if (isSuccess) {
-                JOptionPane.showMessageDialog(pnContainer, "Thêm thành công");
-            }
-            else {
-                JOptionPane.showMessageDialog(pnContainer, "Thêm thất bại");
-            }
             
+        }
+        if (isSuccess) {
+                JOptionPane.showMessageDialog(pnContainer, "Lưu thành công");
+            }
+        else {
+            JOptionPane.showMessageDialog(pnContainer, "Lưu thất bại");
         }
         dispose();
         
