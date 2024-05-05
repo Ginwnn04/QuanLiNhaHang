@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 public class InvoicesDAO {
     
     public boolean insertData(InvoicesDTO invoices) {
@@ -45,6 +46,30 @@ public class InvoicesDAO {
                 return invoice;
             }
             
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public List<InvoicesDTO> readData() {
+        String query;
+        query = "SELECT * FROM tb_invoices";
+        List<InvoicesDTO> res = new ArrayList<>();
+        try(PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                InvoicesDTO invoice = new InvoicesDTO();
+                invoice.setId(rs.getLong("id"));
+                invoice.setAmount(rs.getLong("amount"));
+                invoice.setDiscount(rs.getLong("discount_price"));
+                invoice.setTotal(rs.getLong("total"));
+                invoice.setIsDelete(rs.getBoolean("isdeleted"));
+                invoice.setCreateTime(rs.getTimestamp("time"));
+                invoice.setDiscountID(rs.getString("discountid"));
+                res.add(invoice);
+            }
+            return res;
         }
         catch(Exception e) {
             e.printStackTrace();

@@ -7,6 +7,7 @@ package BUS;
 import DAO.InvoicesDAO;
 import DTO.InvoicesDTO;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -22,5 +23,9 @@ public class InvoicesBUS {
     public InvoicesDTO getInvoiceByID(long id) {
         return invoicesDAO.readData(id);
     }
-
+    
+    public List<InvoicesDTO> getInvoice(){
+        return invoicesDAO.readData();
+    }
+    
 }
