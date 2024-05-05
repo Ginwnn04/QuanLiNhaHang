@@ -470,6 +470,7 @@ public class QuanLiMonAn extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(pnContainer, "Xóa thất bại");
             }
         }
+        render(false);
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
@@ -480,12 +481,14 @@ public class QuanLiMonAn extends javax.swing.JPanel {
         DialogMonAn x = new DialogMonAn(null, isSelectAll);
         x.setItem(itemSelected);
         x.setVisible(true);
+        render(false);
 
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         DialogMonAn x = new DialogMonAn(null, isSelectAll);
         x.setVisible(true);
+        render(false);
 
     }//GEN-LAST:event_btnThemActionPerformed
 

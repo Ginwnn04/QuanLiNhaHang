@@ -40,6 +40,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Action;
 import javax.swing.JPanel;
 
 import javax.swing.UIManager;
@@ -83,7 +84,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
         UIManager.put("TitlePane.centerTitle", true);
 
         FlatMacDarkLaf.setup();
-        
+        logout();
         setVisible(true);
     }
 
@@ -92,7 +93,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
         if (evt.getPropertyName().equals("ItemMenu")) {
             System.out.println(evt.getOldValue() + " " + evt.getNewValue());
             int index = (int) evt.getNewValue();
-
+       
             switch (index) {
                 case 0:
                     showForm(new PanelDashbroad());
@@ -149,6 +150,10 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
             }
         }
        
+        if(evt.getPropertyName().equals("Test")) {
+            System.out.println("Dang xuat");
+        }
+        System.out.println(evt.getPropertyName());
     }
 
     public void showForm(JPanel com) {
@@ -158,8 +163,16 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
         body.repaint();
     }
 
-    public void initProperty() {
-
+    public void logout() {
+        navBar.btnDangXuat.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new Login().setVisible(true);
+                System.out.println("zzscsdsd");
+            }
+        
+        });
     }
     
     @SuppressWarnings("unchecked")

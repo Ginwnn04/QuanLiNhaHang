@@ -48,8 +48,24 @@ public class DetailsRecipeDAO {
             pstm.setLong(3, x.getIngredientID());
             pstm.setBoolean(4, x.isIsDelete());
             pstm.setLong(5, x.getItemid());
-            pstm.setBoolean(6, false);
-            pstm.setLong(7, x.getId());
+            pstm.setLong(6, x.getId());
+            return pstm.executeUpdate() > 0;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public boolean insert(DetailsRecipeDTO x) {
+        String query = "INSERT INTO tb_detail_recipe VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
+            pstm.setLong(1, x.getId());
+            pstm.setInt(2, x.getQuantity());
+            pstm.setString(3, x.getUnit());
+            pstm.setLong(4, x.getIngredientID());
+            pstm.setBoolean(5, x.isIsDelete());
+            pstm.setLong(6, x.getItemid());
             return pstm.executeUpdate() > 0;
         }
         catch (Exception e) {

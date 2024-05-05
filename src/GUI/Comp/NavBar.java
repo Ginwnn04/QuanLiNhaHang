@@ -4,6 +4,7 @@
  */
 package GUI.Comp;
 
+import DTO.StaffDTO;
 import GUI.Comp.Swing.MenuButton;
 import Helper.MyListener;
 import java.awt.Color;
@@ -43,6 +44,7 @@ public class NavBar extends javax.swing.JPanel {
     // Vị trí y của thanh panel trượt
     int yPanel = 184 + 15;
     List<JButton> listButton = new ArrayList<>();
+    
 
     public NavBar() {
         initComponents();
@@ -51,7 +53,8 @@ public class NavBar extends javax.swing.JPanel {
         int op = (int) (255 * 0.8);
         jSeparator2.setForeground(new Color(204, 204, 204, op));
         btnDangXuat.setIconTextGap(10);
-       
+        roles();
+
     }
     
     public void setInformation(String name, String role) {
@@ -59,6 +62,17 @@ public class NavBar extends javax.swing.JPanel {
         lbRole.setText(role);
     }
     
+    public void roles() {
+        if (StaffDTO.staffLogging.getRoleId().equals("STAFF")) {
+            for (int i = 1; i < listButton.size(); i++) {
+                listButton.get(i).setEnabled(false);
+            }
+        }
+        if (StaffDTO.staffLogging.getRoleId().equals("MANAGER")) {
+            listButton.get(9).setEnabled(false);
+            listButton.get(11).setEnabled(false);
+        }
+    }
 
     public void initMenu() {
 //        panelBackground1.setBackground(new Color(255, 107, 39, 30));
@@ -119,10 +133,10 @@ public class NavBar extends javax.swing.JPanel {
                 
             }
         });
+        
         listButton.add(btn);
     }
 
-    
     
     public void clearSelected() {
         for (JButton btn : listButton) {
@@ -249,7 +263,7 @@ public class NavBar extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnDangXuat;
+    public javax.swing.JButton btnDangXuat;
     private GUI.Comp.Menu.ImageAvatar imageAvatar2;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lbName;

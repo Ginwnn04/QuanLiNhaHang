@@ -41,8 +41,10 @@ public class DialogMonAn extends javax.swing.JDialog {
     private ArrayList<DetailsRecipeDTO> listDetailsOfMenuItem = new ArrayList<>();
     private MenuItemBUS menuItemBUS = new MenuItemBUS();
     private MenuItemDTO item = new MenuItemDTO();
+    private DetailsReciptBUS detailsReciptBUS = new DetailsReciptBUS();
     private DefaultTableModel model;
     private String pathSource = "";
+    private boolean isUpdate = false;
     
     public DialogMonAn(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -54,6 +56,7 @@ public class DialogMonAn extends javax.swing.JDialog {
         renderer.setHorizontalAlignment(JLabel.LEFT);
     }
 
+    
     public void initCombobox() {
         listIngredients = new IngredientsBUS().getAllActiveIngredients();
         listCate = new CategoriesBUS().getAll();
@@ -71,6 +74,7 @@ public class DialogMonAn extends javax.swing.JDialog {
 
     public void setItem(MenuItemDTO item) {
         this.item = item;
+        isUpdate = true;
         loadData();
     }
     
@@ -1502,25 +1506,67 @@ public class DialogMonAn extends javax.swing.JDialog {
             return;
         }
         
-        MenuItemDTO item = new MenuItemDTO();
-        item.createID();
-        item.setName(txtTenMon.getText());
-        item.setDescription(txtMoTa.getText());
-        item.setImage(btnAnh.getText());
-        item.setPrice(Long.parseLong(txtGiaBan.getText()));
-        item.setProfit(Long.parseLong(txtGiaBan.getText()));
-        item.setIsDelete(false);
-        item.setStatusID(listMenuItemStatus.get(cbxTrangThai.getSelectedIndex()).getId());
-        item.setCategoryID(listCate.get(cbxTheLoai.getSelectedIndex()).getId());
-        item.setUpdateTime(new Date());
-        item.setCreateTime(new Date());
-        
-        if (menuItemBUS.insertData(item)) {
-            JOptionPane.showMessageDialog(pnContainer, "Thêm thành công");
+        if (isUpdate) {
+            item.setName(txtTenMon.getText());
+            item.setDescription(txtMoTa.getText());
+            item.setImage(btnAnh.getText());
+            item.setPrice(Long.parseLong(txtGiaBan.getText()));
+            item.setProfit(Long.parseLong(txtGiaBan.getText()));
+            item.setIsDelete(false);
+            item.setStatusID(listMenuItemStatus.get(cbxTrangThai.getSelectedIndex()).getId());
+            item.setCategoryID(listCate.get(cbxTheLoai.getSelectedIndex()).getId());
+            item.setUpdateTime(new Date());
+            
+            boolean isSuccess = menuItemBUS.updateData(item);
+
+            for (DetailsRecipeDTO x : listDetailsOfMenuItem) {
+                x.setItemid(item.getId());
+                if (detailsReciptBUS.updateDetail(x) == false) {
+                    isSuccess = false;
+                }
+            }
+
+            if (isSuccess) {
+                JOptionPane.showMessageDialog(pnContainer, "Sửa thành công");
+            }
+            else {
+                JOptionPane.showMessageDialog(pnContainer, "Sửa thất bại");
+            }
         }
         else {
-            JOptionPane.showMessageDialog(pnContainer, "Thêm thất bại");
+            MenuItemDTO itemNew = new MenuItemDTO();
+            itemNew.createID();
+            itemNew.setName(txtTenMon.getText());
+            itemNew.setDescription(txtMoTa.getText());
+            itemNew.setImage(btnAnh.getText());
+            itemNew.setPrice(Long.parseLong(txtGiaBan.getText()));
+            itemNew.setProfit(Long.parseLong(txtGiaBan.getText()));
+            itemNew.setIsDelete(false);
+            itemNew.setStatusID(listMenuItemStatus.get(cbxTrangThai.getSelectedIndex()).getId());
+            itemNew.setCategoryID(listCate.get(cbxTheLoai.getSelectedIndex()).getId());
+            itemNew.setUpdateTime(new Date());
+            itemNew.setCreateTime(new Date());
+
+
+
+            boolean isSuccess = menuItemBUS.insertData(itemNew);
+
+            for (DetailsRecipeDTO x : listDetailsOfMenuItem) {
+                x.setItemid(itemNew.getId());
+                if (detailsReciptBUS.insertDetail(x) == false) {
+                    isSuccess = false;
+                }
+            }
+
+            if (isSuccess) {
+                JOptionPane.showMessageDialog(pnContainer, "Thêm thành công");
+            }
+            else {
+                JOptionPane.showMessageDialog(pnContainer, "Thêm thất bại");
+            }
+            
         }
+        dispose();
         
         
     }//GEN-LAST:event_btnLuuActionPerformed
