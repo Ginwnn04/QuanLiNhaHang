@@ -1471,8 +1471,6 @@ public class DialogMonAn extends javax.swing.JDialog {
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         int row = tbIngre.getSelectedRow();
         listDetailsOfMenuItem.get(row).setIsDelete(true);
-        System.out.println(row);
-        listDetailsOfMenuItem.remove(row);
         
         renderTable();
         txtSoLuong.setText("");
@@ -1522,7 +1520,7 @@ public class DialogMonAn extends javax.swing.JDialog {
             for (DetailsRecipeDTO x : listDetailsOfMenuItem) {
                 x.setItemid(item.getId());
                 if (detailsReciptBUS.updateDetail(x) == false) {
-                    isSuccess = false;
+                    System.out.println("xc");
                 }
             }
 
