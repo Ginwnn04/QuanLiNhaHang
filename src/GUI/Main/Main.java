@@ -125,27 +125,23 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
                 break;
 
                 case 6:
-                    showForm(new QuanLiCongThuc());
-                    break;
-
-                case 7:
 
                     showForm(new QuanLiTheLoai());
 
                     break;
-                case 8:
+                case 7:
                     showForm(new QuanLiGiamGia());
                     break;
-                case 9:
+                case 8:
 //                    showForm(new QuanLiTheLoai());
                     break;
-                case 10:
+                case 9:
 //                  showForm(new QuanLiTheLoai());
                     break;
-                case 11:
+                case 10:
 //                    showForm(new QuanLiTheLoai());
                     break;
-                case 12:
+                case 11:
                     showForm(new QuanLi_Staff());
                     break;
                     

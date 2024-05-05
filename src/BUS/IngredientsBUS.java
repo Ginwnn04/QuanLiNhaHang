@@ -17,7 +17,7 @@ public class IngredientsBUS {
     private IngredientsDAO ingredientsDAO = new IngredientsDAO();
     private ArrayList<IngredientsDTO> listIngredients = new ArrayList<>();
     
-    public IngredientsDTO getIngredientById(int id) {
+    public IngredientsDTO getIngredientById(long id) {
         return ingredientsDAO.getIngredientById(id);
     }
     
@@ -29,22 +29,22 @@ public class IngredientsBUS {
         return ingredientsDAO.updateIngredient(ingredient);
     }
 
-    public boolean setIngredientAsDeleted(int id) {
+    public boolean setIngredientAsDeleted(long id) {
         return ingredientsDAO.setIngredientAsDeleted(id);
     }
 
     public ArrayList<IngredientsDTO> getAllActiveIngredients() {
         return ingredientsDAO.getAllActiveIngredients();
     }
-    public boolean checkIngredientExistence(int ingredientId){
+    public boolean checkIngredientExistence(long ingredientId){
         return ingredientsDAO.checkIngredientExistence(ingredientId);
     }
 
-    public int getIngredientQuantity(int ingredientId){
+    public int getIngredientQuantity(long ingredientId){
         return ingredientsDAO.getIngredientQuantity(ingredientId);
     }
 
-    public void updateIngredientQuantity(int ingredientId, int newQuantity){
+    public void updateIngredientQuantity(long ingredientId, int newQuantity){
         ingredientsDAO.updateIngredientQuantity(ingredientId, newQuantity);
     }
 }

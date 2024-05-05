@@ -9,7 +9,7 @@ package DTO;
  * @author Tai
  */
 public class IngredientsDTO {
-    private int id;
+    private long id;
     private String name;
     private String des;
     private int quantity;
@@ -20,7 +20,7 @@ public class IngredientsDTO {
     public IngredientsDTO() {
     }
 
-    public IngredientsDTO(int id, String name, String des, int quantity, String unit, boolean isDeleted) {
+    public IngredientsDTO(long id, String name, String des, int quantity, String unit, boolean isDeleted) {
         this.id = id;
         this.name = name;
         this.des = des;
@@ -30,11 +30,11 @@ public class IngredientsDTO {
     }
 
     // Getters and Setters
-    public int getId() {
+    public long getId() {
         return (int) id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

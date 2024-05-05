@@ -13,19 +13,20 @@ public class DetailsRecipeDTO {
     private int quantity;
     private String unit;
     private long ingredientID;
-    private long recipeID;
-
+    private long itemid;
+    private boolean isDelete;
     public DetailsRecipeDTO() {
     }
 
     
     
-    public DetailsRecipeDTO(long id, int quantity, String unit, long ingredientID, long recipeID) {
+    public DetailsRecipeDTO(long id, int quantity, String unit, long ingredientID, long itemid, boolean isDelete) {
         this.id = id;
         this.quantity = quantity;
         this.unit = unit;
         this.ingredientID = ingredientID;
-        this.recipeID = recipeID;
+        this.itemid = itemid;
+        this.isDelete = isDelete;
     }
 
     public long getId() {
@@ -60,13 +61,22 @@ public class DetailsRecipeDTO {
         this.ingredientID = ingredientID;
     }
 
-    public long getRecipeID() {
-        return recipeID;
+    public long getItemid() {
+        return itemid;
     }
 
-    public void setRecipeID(long recipeID) {
-        this.recipeID = recipeID;
+    public void setItemid(long itemid) {
+        this.itemid = itemid;
     }
+
+    public boolean isIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(boolean isDelete) {
+        this.isDelete = isDelete;
+    }
+    
     
     
 }

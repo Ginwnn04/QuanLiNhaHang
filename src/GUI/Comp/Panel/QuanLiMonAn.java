@@ -59,7 +59,7 @@ import javax.swing.table.TableRowSorter;
 public class QuanLiMonAn extends javax.swing.JPanel {
     private ArrayList<MenuItemDTO> listItem;
     private MenuItemBUS menuItemBUS = new MenuItemBUS();
-    int cntTableSelected = 0;
+    int cntRowSelected = 0;
     private DefaultTableModel model;
     private boolean isSelectAll = false;
     private MenuItemDTO itemSelected = new MenuItemDTO();
@@ -77,19 +77,23 @@ public class QuanLiMonAn extends javax.swing.JPanel {
         tbMonAn.getModel().addTableModelListener(new TableModelListener() {
             public void tableChanged(TableModelEvent e) {
                 if (e.getColumn() == 0) { 
-
+                    
                     // Lay row cua table ban dau
                     int row = e.getFirstRow();
-
-                    listItem.get(row).setIsSelected(!listItem.get(row).isIsSelected());
-                    cntTableSelected += !listItem.get(row).isIsSelected() ? -1 : 1;
-                    if (cntTableSelected == 1) {
-                        btnSua.setEnabled(true);
-                    }
-                    else {
-                        btnSua.setEnabled(false);
+                    
+                    if (listItem.get(row).isIsSelected()) {
+                        cntRowSelected--;
+                        if (cntRowSelected == 0) {
+                            itemSelected = null;
+                        }
                         
                     }
+                    else {
+                        itemSelected = listItem.get(row);
+                        cntRowSelected++;
+                    }
+                    listItem.get(row).setIsSelected(!listItem.get(row).isIsSelected());
+                    
                 }
             }
         });
@@ -409,11 +413,6 @@ public class QuanLiMonAn extends javax.swing.JPanel {
         tbMonAn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tbMonAn.getTableHeader().setResizingAllowed(false);
         tbMonAn.getTableHeader().setReorderingAllowed(false);
-        tbMonAn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbMonAnMouseClicked(evt);
-            }
-        });
         jScrollPane2.setViewportView(tbMonAn);
         if (tbMonAn.getColumnModel().getColumnCount() > 0) {
             tbMonAn.getColumnModel().getColumn(0).setPreferredWidth(20);
@@ -449,31 +448,44 @@ public class QuanLiMonAn extends javax.swing.JPanel {
     
     
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        String listID = "";
+        for (MenuItemDTO x : listItem) {
+            if (x.isIsSelected()) {
+                listID += x.getId() + ", ";
+            }
+        }
+        if (listID.isEmpty()) {
+            JOptionPane.showMessageDialog(pnContainer, "Bạn vui lòng chọn Món Ăn cần xoá");
+            return;
+        }
+        listID = listID.substring(0, listID.length() - 2);
         int choice = JOptionPane.showConfirmDialog(pnContainer, "Bạn có chắc chắn xóa không ?", "Xác nhận", JOptionPane.YES_NO_OPTION);
         if (choice == 0) {
-            
-        itemSelected.setIsDelete(true);
-        itemSelected.setUpdateTime(new Date());
-        if (menuItemBUS.updateData(itemSelected)) {
-            JOptionPane.showMessageDialog(pnContainer, "Xóa thành công");
-            listItem = menuItemBUS.getAllData();
-            render(false);
-        }
-        else {
-            JOptionPane.showMessageDialog(pnContainer, "Xóa thất bại");
-        }
+            if (menuItemBUS.deleteData(listID)) {
+                JOptionPane.showMessageDialog(pnContainer, "Xóa thành công");
+                listItem = menuItemBUS.getAllData();
+                render(false);
+            }
+            else {
+                JOptionPane.showMessageDialog(pnContainer, "Xóa thất bại");
+            }
         }
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-
-       
-        
+        if (cntRowSelected != 1) {
+            JOptionPane.showMessageDialog(pnContainer, "Vui lòng chỉ chọn 1 Món Ăn cần sửa");
+            return;
+        }
+        DialogMonAn x = new DialogMonAn(null, isSelectAll);
+        x.setItem(itemSelected);
+        x.setVisible(true);
 
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         DialogMonAn x = new DialogMonAn(null, isSelectAll);
+        x.setItem(itemSelected);
         x.setVisible(true);
 
     }//GEN-LAST:event_btnThemActionPerformed
@@ -488,11 +500,6 @@ public class QuanLiMonAn extends javax.swing.JPanel {
         }
         tbMonAn.setRowSorter(tableRowSorter);
     }//GEN-LAST:event_txtTimKiemCaretUpdate
-
-    private void tbMonAnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMonAnMouseClicked
-//        int row = tbMonAn.getSelectedRow();
-//        itemSelected = listItem.get(row);
-    }//GEN-LAST:event_tbMonAnMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

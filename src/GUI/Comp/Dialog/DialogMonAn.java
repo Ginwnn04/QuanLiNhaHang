@@ -5,30 +5,41 @@
 package GUI.Comp.Dialog;
 
 import BUS.CategoriesBUS;
+import BUS.DetailsReciptBUS;
 import BUS.IngredientsBUS;
 import BUS.MenuItemStatusBUS;
 import DTO.CategoriesDTO;
+import DTO.DetailsRecipeDTO;
 import DTO.IngredientsDTO;
+import DTO.MenuItemDTO;
 import DTO.MenuItemStatusDTO;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author quang
  */
 public class DialogMonAn extends javax.swing.JDialog {
-    ArrayList<IngredientsDTO> listIngredients = new ArrayList<>();
-    ArrayList<CategoriesDTO> listCate = new ArrayList<>();
-    ArrayList<MenuItemStatusDTO> listMenuItemStatus = new ArrayList<>();
-    
+    private ArrayList<IngredientsDTO> listIngredients = new ArrayList<>();
+    private ArrayList<CategoriesDTO> listCate = new ArrayList<>();
+    private ArrayList<MenuItemStatusDTO> listMenuItemStatus = new ArrayList<>();
+    private ArrayList<DetailsRecipeDTO> listDetailsOfMenuItem = new ArrayList<>();
+    private MenuItemDTO item = new MenuItemDTO();
+    private DefaultTableModel model;
     
     public DialogMonAn(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
         initCombobox();
+        
+        DefaultTableCellRenderer  renderer = (DefaultTableCellRenderer) tbIngre.getTableHeader().getDefaultRenderer();
+        renderer.setHorizontalAlignment(JLabel.LEFT);
     }
 
     public void initCombobox() {
@@ -45,7 +56,70 @@ public class DialogMonAn extends javax.swing.JDialog {
             cbxTrangThai.addItem(x.getName());
         }
     }
+
+    public void setItem(MenuItemDTO item) {
+        this.item = item;
+        loadData();
+    }
     
+    public void loadData() {
+        txtTenMon.setText(item.getName());
+        txtMoTa.setText(item.getDescription());
+        txtGiaBan.setText(item.getPrice() + "");
+        txtLoiNhuan.setText(item.getProfit() + "");
+        cbxTrangThai.setSelectedIndex(getIndexSelectedItemTrangThai(item.getStatusID()));
+        cbxTheLoai.setSelectedIndex(getIndexSelectedItemTheLoai(item.getCategoryID()));        
+        renderTable();
+        
+    }
+    
+    public void renderTable() {
+        model = (DefaultTableModel)tbIngre.getModel();
+        model.setRowCount(0);
+        listDetailsOfMenuItem = new DetailsReciptBUS().readByIDItem(item.getId());
+        System.out.println(listDetailsOfMenuItem.size());
+        for (DetailsRecipeDTO x : listDetailsOfMenuItem) {
+            IngredientsDTO ingre = new IngredientsBUS().getIngredientById(x.getIngredientID());
+            model.addRow(new Object[] {ingre.getName(), x.getUnit(), x.getQuantity()});
+        }
+        model.fireTableDataChanged();
+        tbIngre.setModel(model);
+        
+    }
+    
+    
+    public int getIndexSelectedItemTrangThai(String statusID) {
+        int i = 0;
+        for (MenuItemStatusDTO x : listMenuItemStatus) {
+            if (x.getId().equals(statusID)) {
+                break;
+            }
+            i++;
+        }
+        return i;
+    }
+    
+    public int getIndexSelectedItemTheLoai(long cateID) {
+        int i = 0;
+        for (CategoriesDTO x : listCate) {
+            if (x.getId() == cateID) {
+                break;
+            }
+            i++;
+        }
+        return i;
+    }
+    
+    public int getIndexSelectedItemNguyenLieu(long IngreID) {
+        int i = 0;
+        for (IngredientsDTO x : listIngredients) {
+            if (x.getId() == IngreID) {
+                break;
+            }
+            i++;
+        }
+        return i;
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -62,6 +136,9 @@ public class DialogMonAn extends javax.swing.JDialog {
         panelBackground26 = new GUI.Comp.Swing.PanelBackground();
         panelBackground20 = new GUI.Comp.Swing.PanelBackground();
         panelBackground21 = new GUI.Comp.Swing.PanelBackground();
+        jPanel1 = new javax.swing.JPanel();
+        btnThem = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
         panelBackground22 = new GUI.Comp.Swing.PanelBackground();
         panelBackground23 = new GUI.Comp.Swing.PanelBackground();
         panelBackground24 = new GUI.Comp.Swing.PanelBackground();
@@ -69,24 +146,31 @@ public class DialogMonAn extends javax.swing.JDialog {
         cbxNguyenLieu = new javax.swing.JComboBox<>();
         panelBackground58 = new GUI.Comp.Swing.PanelBackground();
         panelBackground25 = new GUI.Comp.Swing.PanelBackground();
-        panelBackground59 = new GUI.Comp.Swing.PanelBackground();
         panelBackground60 = new GUI.Comp.Swing.PanelBackground();
         panelBackground61 = new GUI.Comp.Swing.PanelBackground();
         panelBackground62 = new GUI.Comp.Swing.PanelBackground();
         jLabel9 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtDonVi = new javax.swing.JTextField();
+        panelBackground75 = new GUI.Comp.Swing.PanelBackground();
+        jPanel3 = new javax.swing.JPanel();
+        btnSua = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
         panelBackground63 = new GUI.Comp.Swing.PanelBackground();
         panelBackground64 = new GUI.Comp.Swing.PanelBackground();
-        panelBackground65 = new GUI.Comp.Swing.PanelBackground();
         panelBackground66 = new GUI.Comp.Swing.PanelBackground();
         panelBackground67 = new GUI.Comp.Swing.PanelBackground();
         panelBackground68 = new GUI.Comp.Swing.PanelBackground();
         jLabel10 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtSoLuong = new javax.swing.JTextField();
+        panelBackground76 = new GUI.Comp.Swing.PanelBackground();
+        jPanel5 = new javax.swing.JPanel();
+        btnXoa = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
         panelBackground18 = new GUI.Comp.Swing.PanelBackground();
-        jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tbIngre = new javax.swing.JTable();
+        panelBackground73 = new GUI.Comp.Swing.PanelBackground();
+        btnLuu = new javax.swing.JButton();
         panelBackground6 = new GUI.Comp.Swing.PanelBackground();
         panelBackground19 = new GUI.Comp.Swing.PanelBackground();
         panelBackground7 = new GUI.Comp.Swing.PanelBackground();
@@ -252,18 +336,44 @@ public class DialogMonAn extends javax.swing.JDialog {
         panelBackground26.add(panelBackground20, java.awt.BorderLayout.LINE_START);
 
         panelBackground21.setBackground(new java.awt.Color(35, 35, 35));
-        panelBackground21.setPreferredSize(new java.awt.Dimension(15, 88));
+        panelBackground21.setPreferredSize(new java.awt.Dimension(100, 88));
+        panelBackground21.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout panelBackground21Layout = new javax.swing.GroupLayout(panelBackground21);
-        panelBackground21.setLayout(panelBackground21Layout);
-        panelBackground21Layout.setHorizontalGroup(
-            panelBackground21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanel1.setBackground(new java.awt.Color(35, 35, 35));
+        jPanel1.setPreferredSize(new java.awt.Dimension(15, 50));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 15, Short.MAX_VALUE)
         );
-        panelBackground21Layout.setVerticalGroup(
-            panelBackground21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 36, Short.MAX_VALUE)
         );
+
+        panelBackground21.add(jPanel1, java.awt.BorderLayout.LINE_END);
+
+        btnThem.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        btnThem.setText("Thêm");
+        panelBackground21.add(btnThem, java.awt.BorderLayout.CENTER);
+
+        jPanel2.setBackground(new java.awt.Color(35, 35, 35));
+        jPanel2.setPreferredSize(new java.awt.Dimension(15, 36));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 15, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 36, Short.MAX_VALUE)
+        );
+
+        panelBackground21.add(jPanel2, java.awt.BorderLayout.LINE_START);
 
         panelBackground26.add(panelBackground21, java.awt.BorderLayout.LINE_END);
 
@@ -333,22 +443,6 @@ public class DialogMonAn extends javax.swing.JDialog {
 
         panelBackground58.add(panelBackground25, java.awt.BorderLayout.LINE_START);
 
-        panelBackground59.setBackground(new java.awt.Color(35, 35, 35));
-        panelBackground59.setPreferredSize(new java.awt.Dimension(15, 88));
-
-        javax.swing.GroupLayout panelBackground59Layout = new javax.swing.GroupLayout(panelBackground59);
-        panelBackground59.setLayout(panelBackground59Layout);
-        panelBackground59Layout.setHorizontalGroup(
-            panelBackground59Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 15, Short.MAX_VALUE)
-        );
-        panelBackground59Layout.setVerticalGroup(
-            panelBackground59Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 36, Short.MAX_VALUE)
-        );
-
-        panelBackground58.add(panelBackground59, java.awt.BorderLayout.LINE_END);
-
         panelBackground60.setBackground(new java.awt.Color(35, 35, 35));
         panelBackground60.setPreferredSize(new java.awt.Dimension(500, 15));
 
@@ -390,11 +484,53 @@ public class DialogMonAn extends javax.swing.JDialog {
         jLabel9.setPreferredSize(new java.awt.Dimension(70, 17));
         panelBackground62.add(jLabel9, java.awt.BorderLayout.LINE_START);
 
-        jTextField2.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        jTextField2.setEnabled(false);
-        panelBackground62.add(jTextField2, java.awt.BorderLayout.CENTER);
+        txtDonVi.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        txtDonVi.setEnabled(false);
+        panelBackground62.add(txtDonVi, java.awt.BorderLayout.CENTER);
 
         panelBackground58.add(panelBackground62, java.awt.BorderLayout.CENTER);
+
+        panelBackground75.setBackground(new java.awt.Color(35, 35, 35));
+        panelBackground75.setPreferredSize(new java.awt.Dimension(100, 88));
+        panelBackground75.setLayout(new java.awt.BorderLayout());
+
+        jPanel3.setBackground(new java.awt.Color(35, 35, 35));
+        jPanel3.setPreferredSize(new java.awt.Dimension(15, 50));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 15, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 36, Short.MAX_VALUE)
+        );
+
+        panelBackground75.add(jPanel3, java.awt.BorderLayout.LINE_END);
+
+        btnSua.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        btnSua.setText("Sửa");
+        panelBackground75.add(btnSua, java.awt.BorderLayout.CENTER);
+
+        jPanel4.setBackground(new java.awt.Color(35, 35, 35));
+        jPanel4.setPreferredSize(new java.awt.Dimension(15, 36));
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 15, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 36, Short.MAX_VALUE)
+        );
+
+        panelBackground75.add(jPanel4, java.awt.BorderLayout.LINE_START);
+
+        panelBackground58.add(panelBackground75, java.awt.BorderLayout.LINE_END);
 
         panelBackground17.add(panelBackground58);
 
@@ -416,22 +552,6 @@ public class DialogMonAn extends javax.swing.JDialog {
         );
 
         panelBackground63.add(panelBackground64, java.awt.BorderLayout.LINE_START);
-
-        panelBackground65.setBackground(new java.awt.Color(35, 35, 35));
-        panelBackground65.setPreferredSize(new java.awt.Dimension(15, 88));
-
-        javax.swing.GroupLayout panelBackground65Layout = new javax.swing.GroupLayout(panelBackground65);
-        panelBackground65.setLayout(panelBackground65Layout);
-        panelBackground65Layout.setHorizontalGroup(
-            panelBackground65Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 15, Short.MAX_VALUE)
-        );
-        panelBackground65Layout.setVerticalGroup(
-            panelBackground65Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 36, Short.MAX_VALUE)
-        );
-
-        panelBackground63.add(panelBackground65, java.awt.BorderLayout.LINE_END);
 
         panelBackground66.setBackground(new java.awt.Color(35, 35, 35));
         panelBackground66.setPreferredSize(new java.awt.Dimension(500, 15));
@@ -474,25 +594,62 @@ public class DialogMonAn extends javax.swing.JDialog {
         jLabel10.setPreferredSize(new java.awt.Dimension(70, 17));
         panelBackground68.add(jLabel10, java.awt.BorderLayout.LINE_START);
 
-        jTextField1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        panelBackground68.add(jTextField1, java.awt.BorderLayout.CENTER);
+        txtSoLuong.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        panelBackground68.add(txtSoLuong, java.awt.BorderLayout.CENTER);
 
         panelBackground63.add(panelBackground68, java.awt.BorderLayout.CENTER);
+
+        panelBackground76.setBackground(new java.awt.Color(35, 35, 35));
+        panelBackground76.setPreferredSize(new java.awt.Dimension(100, 88));
+        panelBackground76.setLayout(new java.awt.BorderLayout());
+
+        jPanel5.setBackground(new java.awt.Color(35, 35, 35));
+        jPanel5.setPreferredSize(new java.awt.Dimension(15, 50));
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 15, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 36, Short.MAX_VALUE)
+        );
+
+        panelBackground76.add(jPanel5, java.awt.BorderLayout.LINE_END);
+
+        btnXoa.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        btnXoa.setText("Xoá");
+        panelBackground76.add(btnXoa, java.awt.BorderLayout.CENTER);
+
+        jPanel6.setBackground(new java.awt.Color(35, 35, 35));
+        jPanel6.setPreferredSize(new java.awt.Dimension(15, 36));
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 15, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 36, Short.MAX_VALUE)
+        );
+
+        panelBackground76.add(jPanel6, java.awt.BorderLayout.LINE_START);
+
+        panelBackground63.add(panelBackground76, java.awt.BorderLayout.LINE_END);
 
         panelBackground17.add(panelBackground63);
 
         panelBackground1.add(panelBackground17, java.awt.BorderLayout.PAGE_START);
 
-        panelBackground18.setBackground(new java.awt.Color(35, 35, 35));
+        panelBackground18.setBackground(new java.awt.Color(30, 30, 30));
         panelBackground18.setLayout(new java.awt.BorderLayout(0, 25));
 
-        jButton1.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        jButton1.setText("Lưu");
-        jButton1.setPreferredSize(new java.awt.Dimension(72, 50));
-        panelBackground18.add(jButton1, java.awt.BorderLayout.PAGE_END);
-
-        jTable2.setBackground(new java.awt.Color(35, 35, 35));
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tbIngre.setBackground(new java.awt.Color(35, 35, 35));
+        tbIngre.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -511,9 +668,24 @@ public class DialogMonAn extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        tbIngre.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbIngreMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tbIngre);
 
         panelBackground18.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+
+        panelBackground73.setBackground(new java.awt.Color(30, 30, 30));
+        panelBackground73.setPreferredSize(new java.awt.Dimension(500, 50));
+        panelBackground73.setLayout(new java.awt.BorderLayout(40, 0));
+
+        btnLuu.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        btnLuu.setText("Lưu");
+        panelBackground73.add(btnLuu, java.awt.BorderLayout.CENTER);
+
+        panelBackground18.add(panelBackground73, java.awt.BorderLayout.PAGE_END);
 
         panelBackground1.add(panelBackground18, java.awt.BorderLayout.CENTER);
 
@@ -1187,6 +1359,14 @@ public class DialogMonAn extends javax.swing.JDialog {
         
     }//GEN-LAST:event_btnAnhActionPerformed
 
+    private void tbIngreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbIngreMouseClicked
+        int row = tbIngre.getSelectedRow();
+        DetailsRecipeDTO detailSelected = listDetailsOfMenuItem.get(row);
+        txtSoLuong.setText(detailSelected.getQuantity() + "");
+        txtDonVi.setText(detailSelected.getUnit());
+        cbxNguyenLieu.setSelectedIndex(getIndexSelectedItemNguyenLieu(detailSelected.getIngredientID()));
+    }//GEN-LAST:event_tbIngreMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1231,10 +1411,13 @@ public class DialogMonAn extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnh;
+    private javax.swing.JButton btnLuu;
+    private javax.swing.JButton btnSua;
+    private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnXoa;
     private javax.swing.JComboBox<String> cbxNguyenLieu;
     private javax.swing.JComboBox<String> cbxTheLoai;
     private javax.swing.JComboBox<String> cbxTrangThai;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -1245,10 +1428,13 @@ public class DialogMonAn extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lbAnh;
     private GUI.Comp.Swing.PanelBackground panelBackground1;
     private GUI.Comp.Swing.PanelBackground panelBackground10;
@@ -1304,14 +1490,12 @@ public class DialogMonAn extends javax.swing.JDialog {
     private GUI.Comp.Swing.PanelBackground panelBackground56;
     private GUI.Comp.Swing.PanelBackground panelBackground57;
     private GUI.Comp.Swing.PanelBackground panelBackground58;
-    private GUI.Comp.Swing.PanelBackground panelBackground59;
     private GUI.Comp.Swing.PanelBackground panelBackground6;
     private GUI.Comp.Swing.PanelBackground panelBackground60;
     private GUI.Comp.Swing.PanelBackground panelBackground61;
     private GUI.Comp.Swing.PanelBackground panelBackground62;
     private GUI.Comp.Swing.PanelBackground panelBackground63;
     private GUI.Comp.Swing.PanelBackground panelBackground64;
-    private GUI.Comp.Swing.PanelBackground panelBackground65;
     private GUI.Comp.Swing.PanelBackground panelBackground66;
     private GUI.Comp.Swing.PanelBackground panelBackground67;
     private GUI.Comp.Swing.PanelBackground panelBackground68;
@@ -1320,14 +1504,20 @@ public class DialogMonAn extends javax.swing.JDialog {
     private GUI.Comp.Swing.PanelBackground panelBackground70;
     private GUI.Comp.Swing.PanelBackground panelBackground71;
     private GUI.Comp.Swing.PanelBackground panelBackground72;
+    private GUI.Comp.Swing.PanelBackground panelBackground73;
     private GUI.Comp.Swing.PanelBackground panelBackground74;
+    private GUI.Comp.Swing.PanelBackground panelBackground75;
+    private GUI.Comp.Swing.PanelBackground panelBackground76;
     private GUI.Comp.Swing.PanelBackground panelBackground8;
     private GUI.Comp.Swing.PanelBackground panelBackground9;
     private GUI.Comp.Swing.PanelBackground pnCenter;
     private GUI.Comp.Swing.PanelBackground pnContainer;
+    private javax.swing.JTable tbIngre;
+    private javax.swing.JTextField txtDonVi;
     private javax.swing.JTextField txtGiaBan;
     private javax.swing.JTextField txtLoiNhuan;
     private javax.swing.JTextField txtMoTa;
+    private javax.swing.JTextField txtSoLuong;
     private javax.swing.JTextField txtTenMon;
     // End of variables declaration//GEN-END:variables
 }
