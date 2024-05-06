@@ -1,7 +1,8 @@
-package GUI.Comp;
+package GUI.Comp.Panel;
 
 import BUS.IngredientsBUS;
 import DTO.IngredientsDTO;
+import GUI.Comp.Dialog.DialogIngredient;
 import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Color;
 import java.awt.Component;
@@ -330,7 +331,7 @@ public class QuanLiNguyenLieu extends javax.swing.JPanel {
             Boolean checked = (Boolean) jTable1.getValueAt(i, 0); // Lấy giá trị của checkbox từ cột đầu tiên
             if (checked) {
                 isSelected = true;
-                int id = (int) jTable1.getValueAt(i, 1); // Lấy giá trị ID từ cột thứ hai
+                long id = (long) jTable1.getValueAt(i, 1); // Lấy giá trị ID từ cột thứ hai
                 String currentName = (String) jTable1.getValueAt(i, 2);
                 String currentDes = (String) jTable1.getValueAt(i, 3);
                 int currentQuantity = (int) jTable1.getValueAt(i, 4);

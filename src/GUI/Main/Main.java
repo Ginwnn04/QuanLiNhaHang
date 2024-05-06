@@ -5,9 +5,9 @@
 package GUI.Main;
 
 import BUS.RoleBUS;
-import GUI.Comp.QuanLiNhapKho;
-import GUI.Comp.QuanLi_Staff;
-import GUI.Comp.QuanLiNguyenLieu;
+import GUI.Comp.Panel.QuanLiNhapKho;
+import GUI.Comp.Panel.QuanLi_Staff;
+import GUI.Comp.Panel.QuanLiNguyenLieu;
 //import GUI.Comp.QuanLiBan;
 //import GUI.Comp.DialogOrder;
 
@@ -27,7 +27,7 @@ import BUS.StaffBUS;
 import DTO.StaffDTO;
 import GUI.Comp.Panel.PanelStatistic;
 import GUI.Comp.Panel.QuanLiMonAn;
-import GUI.Comp.QuanLiSupplier;
+import GUI.Comp.Panel.QuanLiSupplier;
 
 import java.awt.Color;
 import java.awt.Font;

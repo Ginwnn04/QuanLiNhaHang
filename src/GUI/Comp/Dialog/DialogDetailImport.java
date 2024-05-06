@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package GUI.Comp;
+package GUI.Comp.Dialog;
 
 import static BUS.ConnectDB.openConnect;
 import BUS.DetailImportBillBUS;
@@ -102,6 +102,7 @@ public class DialogDetailImport extends javax.swing.JPanel {
         jPanel18.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jPanel1.add(jPanel18);
 
+        jLabel1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jLabel1.setText("số lượng");
         jPanel1.add(jLabel1);
 
@@ -109,6 +110,7 @@ public class DialogDetailImport extends javax.swing.JPanel {
         jPanel19.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jPanel1.add(jPanel19);
 
+        jTextField1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jTextField1.setMaximumSize(new java.awt.Dimension(72, 20));
         jTextField1.setPreferredSize(new java.awt.Dimension(72, 16));
         jPanel1.add(jTextField1);
@@ -117,6 +119,7 @@ public class DialogDetailImport extends javax.swing.JPanel {
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jPanel1.add(jPanel3);
 
+        jLabel3.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jLabel3.setText("giá mỗi kg/lít");
         jPanel1.add(jLabel3);
 
@@ -124,6 +127,7 @@ public class DialogDetailImport extends javax.swing.JPanel {
         jPanel20.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jPanel1.add(jPanel20);
 
+        jTextField2.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jTextField2.setMaximumSize(new java.awt.Dimension(72, 20));
         jTextField2.setPreferredSize(new java.awt.Dimension(72, 16));
         jPanel1.add(jTextField2);
@@ -132,6 +136,7 @@ public class DialogDetailImport extends javax.swing.JPanel {
         jPanel4.setLayout(new java.awt.BorderLayout());
         jPanel1.add(jPanel4);
 
+        jLabel5.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jLabel5.setText("Nguyên liệu");
         jPanel1.add(jLabel5);
 
@@ -139,6 +144,7 @@ public class DialogDetailImport extends javax.swing.JPanel {
         jPanel21.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jPanel1.add(jPanel21);
 
+        jComboBox1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jComboBox1.setMaximumSize(new java.awt.Dimension(90, 20));
         jComboBox1.setPreferredSize(new java.awt.Dimension(90, 20));
         jPanel1.add(jComboBox1);
@@ -147,13 +153,15 @@ public class DialogDetailImport extends javax.swing.JPanel {
         jPanel22.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jPanel1.add(jPanel22);
 
-        jLabel6.setText("Nguyên liệu");
+        jLabel6.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        jLabel6.setText("Nhà cung cấp");
         jPanel1.add(jLabel6);
 
         jPanel23.setMaximumSize(new java.awt.Dimension(20, 16));
         jPanel23.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jPanel1.add(jPanel23);
 
+        jComboBox2.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jComboBox2.setMaximumSize(new java.awt.Dimension(90, 20));
         jComboBox2.setPreferredSize(new java.awt.Dimension(90, 20));
         jPanel1.add(jComboBox2);
@@ -164,6 +172,7 @@ public class DialogDetailImport extends javax.swing.JPanel {
         jPanel2.setPreferredSize(new java.awt.Dimension(100, 100));
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
 
+        jButton1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jButton1.setText("Thêm");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -176,6 +185,7 @@ public class DialogDetailImport extends javax.swing.JPanel {
         jPanel12.setLayout(new java.awt.BorderLayout());
         jPanel2.add(jPanel12);
 
+        jButton3.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jButton3.setText("Xóa");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -226,6 +236,7 @@ public class DialogDetailImport extends javax.swing.JPanel {
         jPanel17.setLayout(new java.awt.BorderLayout());
         jPanel2.add(jPanel17);
 
+        jButton4.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         jButton4.setText("Xác nhận");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

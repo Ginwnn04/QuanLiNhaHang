@@ -507,21 +507,30 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         ArrayList<IngredientsDTO> listIngredient = new ArrayList<>();
         ArrayList<DetailsRecipeDTO> listDetailRecipe = new DetailsReciptBUS().readByIDItem(listDetailOrder.get(0).getItemID());
 
-        for (DetailsRecipeDTO y : listDetailRecipe) {
-            IngredientsDTO ingre = new IngredientsBUS().getIngredientById(y.getIngredientID());
+        for (DetailsRecipeDTO x : listDetailRecipe) {
+            IngredientsDTO ingre = new IngredientsBUS().getIngredientById(x.getIngredientID());
             listIngredient.add(ingre);
             System.out.println(ingre.getId());
             System.out.println(ingre.getQuantity());
         }
         
+        int size = listTableSelected.size();
         
-        
-//        for (DetailOrderDTO x : listDetailOrder) {
-//            ArrayList<DetailsRecipeDTO> listDetailRecipe = new DetailsReciptBUS().readByIDItem(x.getItemID());
-//            for (DetailsRecipeDTO y : listDetailRecipe) {
-//                
-//            }
-//        }
+        for (DetailOrderDTO x : listDetailOrder) {
+            listDetailRecipe = new DetailsReciptBUS().readByIDItem(x.getItemID());
+            for (int i = 0; i < listDetailRecipe.size(); i++) {
+                if (listDetailRecipe.get(i).getQuantity() * size * x.getQuantity() <= listIngredient.get(i).getQuantity()) {
+//                    System.out.println(listDetailRecipe.get(i).getQuantity() + " " + size + " " + x.getQuantity());
+//                    System.out.println("True");
+                        int newQuantity = listIngredient.get(i).getQuantity() - (listDetailRecipe.get(i).getQuantity() * size * x.getQuantity());
+                        listIngredient.get(i).setQuantity(newQuantity);
+                }
+                else {
+                    JOptionPane.showMessageDialog(pnContainer, "Món " + x.getName() + " Không đủ số lượng");
+                    return;
+                }
+            }
+        }
         
 
 

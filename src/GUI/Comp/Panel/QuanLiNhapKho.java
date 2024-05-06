@@ -2,18 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package GUI.Comp;
+package GUI.Comp.Panel;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileOutputStream;
-import GUI.Comp.BillDetailDialog;
+import GUI.Comp.Dialog.BillDetailDialog;
 import BUS.ConnectDB;
 import BUS.DetailImportBillBUS;
 import BUS.ImportBillBUS;
 import BUS.IngredientsBUS;
 import DTO.DetailImportBillDTO;
 import DTO.SupplierDTO;
+import GUI.Comp.Dialog.BillDetailDialog;
 import Helper.FormatNumber;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -63,6 +64,7 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableRowSorter;
 import GUI.Comp.DateChooser.DateChooser;
 import GUI.Comp.DateChooser.SelectedDate;
+import GUI.Comp.Dialog.DialogDetailImport;
 import com.formdev.flatlaf.FlatClientProperties;
 import java.util.Calendar;
 import javax.swing.JTable;
