@@ -1,28 +1,60 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package BUS;
 
-/**
- *
- * @author Tai
- */
 import DAO.SupplierDAO;
 import DTO.SupplierDTO;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class SupplierBUS {
-    private SupplierDAO supplierDAO = new SupplierDAO();
-
-    // Method to get all suppliers
-    public ArrayList<SupplierDTO> getAllSuppliers() throws Exception {
-        try {
-            return supplierDAO.getAllSuppliers();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+    private SupplierDAO supplierDAO;
+    
+    public SupplierBUS() {
+        supplierDAO = new SupplierDAO();
     }
+    
+    public ArrayList<SupplierDTO> getAllData() {
+        try {
+            return supplierDAO.readAllSuppliers();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public boolean insertSupplier(SupplierDTO supplier) {
+        try {
+            return supplierDAO.insertSupplierData(supplier);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean updateSupplier(SupplierDTO supplier) {
+        try {
+            return supplierDAO.updateSupplierData(supplier);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public ArrayList<SupplierDTO> getAllActiveSupplier() {
+        try {
+            ArrayList<SupplierDTO> allSuppliers = supplierDAO.readAllSuppliers();
+            ArrayList<SupplierDTO> activeSuppliers = new ArrayList<>();
+
+            // Lọc ra các nhà quản lí có isdeleted = false
+            for (SupplierDTO supplier : allSuppliers) {
+                if (!supplier.getIsdeleted()) {
+                    activeSuppliers.add(supplier);
+                }
+            }
+
+            return activeSuppliers;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

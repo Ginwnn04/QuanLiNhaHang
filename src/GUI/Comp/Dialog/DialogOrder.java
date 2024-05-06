@@ -1,5 +1,6 @@
 package GUI.Comp.Dialog;
 
+import BUS.DetailsReciptBUS;
 import GUI.Comp.Panel.PanelTableBooking;
 import BUS.MenuItemBUS;
 import BUS.OrderBUS;
@@ -7,6 +8,7 @@ import BUS.TableBUS;
 import DAO.InvoicesDAO;
 import DAO.TableDAO;
 import DTO.DetailOrderDTO;
+import DTO.DetailsRecipeDTO;
 import DTO.InvoicesDTO;
 import DTO.MenuItemDTO;
 import DTO.OrderDTO;
@@ -497,12 +499,21 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
             return;
         }
         
+        
+        for (DetailOrderDTO x : listDetailOrder) {
+            int[] totalIngre;
+            ArrayList<DetailsRecipeDTO> listDetailRecipe = new DetailsReciptBUS().readByIDItem(x.getId());
+            for (DetailsRecipeDTO y : listDetailRecipe) {
+                
+            }
+        }
+        
         Date date = new Date();
         
         boolean isSingle = listTableSelected.size() == 1 ? true : false;
         boolean isOrderMore = listTableSelected.get(0).getStatusID().equals("DANGSUDUNG") ? true : false;
         
-        // Lay 1 ban dai dien de fill order vao
+        
         OrderDTO order = new OrderDTO();
         String customerCode = order.createCustomerCode(isSingle);
         

@@ -27,6 +27,7 @@ import BUS.StaffBUS;
 import DTO.StaffDTO;
 import GUI.Comp.Panel.PanelStatistic;
 import GUI.Comp.Panel.QuanLiMonAn;
+import GUI.Comp.QuanLiSupplier;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -141,7 +142,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
                     showForm(new PanelStatistic());
                     break;
                 case 10:
-//                    ncc
+                    showForm(new QuanLiSupplier());
                     break;
                 case 11:
                     showForm(new QuanLi_Staff());

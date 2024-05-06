@@ -4,9 +4,14 @@
  */
 package DTO;
 
+import BUS.DetailsReciptBUS;
+import BUS.IngredientsBUS;
+import BUS.MenuItemBUS;
 import BUS.MenuItemStatusBUS;
 import GUI.Comp.Panel.PanelProductOrder;
+import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -54,6 +59,21 @@ public class MenuItemDTO {
     public PanelProductOrder createCart(int index) {
         this.index = index;
         panelProductOrder = new PanelProductOrder();
+        boolean isValid = true;
+        ArrayList<DetailsRecipeDTO> listDetail = new DetailsReciptBUS().readByIDItem(id);
+        for (DetailsRecipeDTO x : listDetail) {
+            IngredientsDTO ingre = new IngredientsBUS().getIngredientById(x.getIngredientID());
+            if (x.getQuantity() > ingre.getQuantity()) {
+                isValid = false;
+            }
+        }
+        if (!isValid) {
+            statusID = "TAMHET";
+            new MenuItemBUS().updateData(this);
+            JOptionPane.showMessageDialog(null, "Món " + name + "tạm hết");
+            
+        }
+        
         MenuItemStatusDTO menuItemStatusDTO = new MenuItemStatusBUS().findItemStatusByID(statusID);
         panelProductOrder.insertData(index, name, price, menuItemStatusDTO.getName(), image, description);
 //        System.out.println(description + " " + ingredient + " 1");
