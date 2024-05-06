@@ -293,7 +293,11 @@ public class DialogDetailImport extends javax.swing.JPanel {
             // Lấy giá trị từ các text field
             int quantity = Integer.parseInt(jTextField1.getText());
             long price = Long.parseLong(jTextField2.getText());
-
+                    // Kiểm tra điều kiện số lượng không được bé hơn hoặc bằng 0
+        if (quantity <= 0) {
+            JOptionPane.showMessageDialog(this, "Số lượng phải lớn hơn 0.", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+            return; // Thoát khỏi phương thức nếu số lượng không hợp lệ
+        }
             // Tính tổng tiền
             long total = quantity * price;
 

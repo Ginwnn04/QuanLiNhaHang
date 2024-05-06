@@ -51,11 +51,6 @@ public class DialogIngredient extends javax.swing.JPanel {
         jPanel10 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
-        jPanel11 = new javax.swing.JPanel();
-        jPanel12 = new javax.swing.JPanel();
-        jPanel13 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
         jPanel14 = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
@@ -137,28 +132,6 @@ public class DialogIngredient extends javax.swing.JPanel {
 
         pnCenter.add(jPanel8);
 
-        jPanel11.setBackground(new java.awt.Color(35, 35, 35));
-        jPanel11.setLayout(new java.awt.BorderLayout(30, 0));
-
-        jPanel12.setBackground(new java.awt.Color(35, 35, 35));
-        jPanel12.setPreferredSize(new java.awt.Dimension(100, 20));
-        jPanel11.add(jPanel12, java.awt.BorderLayout.PAGE_START);
-
-        jPanel13.setBackground(new java.awt.Color(35, 35, 35));
-        jPanel13.setPreferredSize(new java.awt.Dimension(100, 20));
-        jPanel11.add(jPanel13, java.awt.BorderLayout.PAGE_END);
-
-        jLabel7.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Số lượng");
-        jLabel7.setPreferredSize(new java.awt.Dimension(96, 17));
-        jPanel11.add(jLabel7, java.awt.BorderLayout.LINE_START);
-
-        jTextField4.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        jPanel11.add(jTextField4, java.awt.BorderLayout.CENTER);
-
-        pnCenter.add(jPanel11);
-
         jPanel14.setBackground(new java.awt.Color(35, 35, 35));
         jPanel14.setLayout(new java.awt.BorderLayout(30, 0));
 
@@ -230,7 +203,7 @@ public class DialogIngredient extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String name = jTextField2.getText().trim();
         String des = jTextField3.getText().trim();
-        String quantityInput = jTextField4.getText().trim();
+        String quantityInput = "0";
         String unit = jTextField1.getText().trim();
 
         // Kiểm tra các trường dữ liệu có bị bỏ trống hay không
@@ -298,13 +271,9 @@ public class DialogIngredient extends javax.swing.JPanel {
     public javax.swing.JButton jButton2;
     public javax.swing.JLabel jLabel5;
     public javax.swing.JLabel jLabel6;
-    public javax.swing.JLabel jLabel7;
     public javax.swing.JLabel jLabel8;
     public javax.swing.JPanel jPanel1;
     public javax.swing.JPanel jPanel10;
-    public javax.swing.JPanel jPanel11;
-    public javax.swing.JPanel jPanel12;
-    public javax.swing.JPanel jPanel13;
     public javax.swing.JPanel jPanel14;
     public javax.swing.JPanel jPanel15;
     public javax.swing.JPanel jPanel16;
@@ -324,7 +293,6 @@ public class DialogIngredient extends javax.swing.JPanel {
     public javax.swing.JTextField jTextField1;
     public javax.swing.JTextField jTextField2;
     public javax.swing.JTextField jTextField3;
-    public javax.swing.JTextField jTextField4;
     public javax.swing.JPanel pnCenter;
     public javax.swing.JPanel pnContainer;
     // End of variables declaration//GEN-END:variables
