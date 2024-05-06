@@ -423,7 +423,7 @@ public class QuanLiNguyenLieu extends javax.swing.JPanel {
             Boolean checked = (Boolean) jTable1.getValueAt(i, 0); // Lấy giá trị của checkbox từ cột đầu tiên
             if (checked) {
                 isSelected = true;
-                int id = (int) jTable1.getValueAt(i, 1); // Lấy giá trị ID từ cột thứ hai
+                long id = (long) jTable1.getValueAt(i, 1); // Lấy giá trị ID từ cột thứ hai
 
                 // Hỏi lại người dùng có chắc chắn muốn xóa không, chỉ hiển thị một lần
                 if (showMessage) {
