@@ -337,12 +337,11 @@ public class DialogDetailImport extends javax.swing.JPanel {
     int confirmation = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn thêm dữ liệu?", "Xác nhận", JOptionPane.YES_NO_OPTION);
     if (confirmation == JOptionPane.YES_OPTION) {
         try {
-            // Yêu cầu người dùng nhập supplierid
-            long supplierIdInput = Long.parseLong(JOptionPane.showInputDialog(this, "Nhập SupplierID:"));
+
 
             // Lấy số lượng dòng dữ liệu trong jTable
             int totalQuantity = jTable2.getRowCount();
-
+            System.out.println(supplierList.get(jComboBox2.getSelectedIndex()).getId());
             // Tính tổng tiền
             long totalAmount = 0;
             DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
@@ -351,7 +350,7 @@ public class DialogDetailImport extends javax.swing.JPanel {
             }
 
             // Thêm dữ liệu vào cơ sở dữ liệu thông qua BUS
-            DetailImportBillBUS.insertImportBill(currentBillId, totalQuantity, totalAmount, supplierIdInput, model, ingredientsList.get(jComboBox1.getSelectedIndex()).getId());
+            DetailImportBillBUS.insertImportBill(currentBillId, totalQuantity, totalAmount, supplierList.get(jComboBox2.getSelectedIndex()).getId(), model, ingredientsList.get(jComboBox1.getSelectedIndex()).getId());
             JOptionPane.showMessageDialog(this, "Thêm thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 
             dispose(); // Đóng dialog sau khi thêm dữ liệu thành công
