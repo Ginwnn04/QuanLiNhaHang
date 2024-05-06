@@ -13,6 +13,7 @@ import BUS.DetailImportBillBUS;
 import BUS.ImportBillBUS;
 import BUS.IngredientsBUS;
 import DTO.DetailImportBillDTO;
+import DTO.StaffDTO;
 import DTO.SupplierDTO;
 import GUI.Comp.Dialog.BillDetailDialog;
 import Helper.FormatNumber;
@@ -724,8 +725,8 @@ public class QuanLiNhapKho extends javax.swing.JPanel {
             // Get current date
             java.util.Date currentDate = new java.util.Date();
 
-            String userIdInput = JOptionPane.showInputDialog(null, "Nhập userid:");
-            long userId = Long.parseLong(userIdInput);
+            
+            long userId = StaffDTO.staffLogging.getId();
 
             String supplierIdInput = JOptionPane.showInputDialog(null, "Nhập supplierid:");
             int supplierId = Integer.parseInt(supplierIdInput);

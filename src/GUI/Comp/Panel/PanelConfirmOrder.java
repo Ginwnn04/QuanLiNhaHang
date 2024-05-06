@@ -53,7 +53,7 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
                         MyListener.getInstance().firePropertyChange("Quantity0", "", nameProduct);
                     }
                     else {
-                        MyListener.getInstance().firePropertyChange("Order", 0,  price * -1);
+                        MyListener.getInstance().firePropertyChange("Order", nameProduct,  price * -1);
                     }
                 }
                 update();
@@ -65,7 +65,7 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 lbQuantity.setText(++quantity + "");
-                MyListener.getInstance().firePropertyChange("Order", 0, price);
+                MyListener.getInstance().firePropertyChange("Order", nameProduct, price);
                 update();
             }
             
