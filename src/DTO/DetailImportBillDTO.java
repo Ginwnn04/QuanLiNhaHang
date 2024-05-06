@@ -10,23 +10,24 @@ package DTO;
  */
 public class DetailImportBillDTO {
 
-    private int id;
+    private long id;
     private int quantity;
-    private double price;
-    private double total;
-    private int billid;
-    private int ingredientid;
+    private long price;
+    private long total;
+    private long billid;
+    private long ingredientid;
 
     // Constructor
     public DetailImportBillDTO() {
     }
 
     // Getters and Setters
-    public int getId() {
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -38,35 +39,36 @@ public class DetailImportBillDTO {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
+    public long getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(long price) {
         this.price = price;
     }
 
-    public double getTotal() {
+    public long getTotal() {
         return total;
     }
 
-    public void setTotal(double total) {
+    public void setTotal(long total) {
         this.total = total;
     }
 
-    public int getBillid() {
+    public long getBillid() {
         return billid;
     }
 
-    public void setBillid(int billid) {
+    public void setBillid(long billid) {
         this.billid = billid;
     }
 
-    public int getIngredientid() {
+    public long getIngredientid() {
         return ingredientid;
     }
 
-    public void setIngredientid(int ingredientiid) {
-        this.ingredientid = ingredientiid;
+    public void setIngredientid(long ingredientid) {
+        this.ingredientid = ingredientid;
     }
+    
 }

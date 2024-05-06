@@ -8,6 +8,8 @@ import static BUS.ConnectDB.openConnect;
 import BUS.DetailImportBillBUS;
 import BUS.IngredientsBUS;
 import DTO.DetailImportBillDTO;
+import DTO.IngredientsDTO;
+import DTO.StaffDTO;
 import java.awt.Dialog;
 import java.awt.Window;
 import javax.swing.JOptionPane;
@@ -18,21 +20,27 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+
 /**
  *
  * @author Tai
  */
 public class DialogDetailImport extends javax.swing.JPanel {
+
     private int currentBillId; // Biến để lưu trữ mã bill hiện tại
     // Thêm biến instance để lưu trữ chỉ mục của dòng được chọn trong JTable
     private int selectedRowIndex = -1;
+    private List<IngredientsDTO> ingredientsList= new ArrayList<>();
     public DialogDetailImport() throws Exception {
         initComponents();
         currentBillId = (int) System.currentTimeMillis();
+        initComboBox();
     }
 
     /**
@@ -44,8 +52,6 @@ public class DialogDetailImport extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -58,7 +64,7 @@ public class DialogDetailImport extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jPanel21 = new javax.swing.JPanel();
-        jTextField4 = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
@@ -74,29 +80,10 @@ public class DialogDetailImport extends javax.swing.JPanel {
         jPanel16 = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
 
         setLayout(new java.awt.BorderLayout(30, 0));
-
-        jTable1.setBackground(new java.awt.Color(35, 35, 35));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Số lượng", "Giá mỗi kg/lít", "Tổng tiền", "Mã Bill", "Mã nguyên liệu"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class, java.lang.Integer.class, java.lang.Integer.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(jTable1);
-
-        add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jPanel1.setMaximumSize(new java.awt.Dimension(100, 100));
         jPanel1.setPreferredSize(new java.awt.Dimension(100, 100));
@@ -136,16 +123,16 @@ public class DialogDetailImport extends javax.swing.JPanel {
         jPanel4.setLayout(new java.awt.BorderLayout());
         jPanel1.add(jPanel4);
 
-        jLabel5.setText("ID của nguyên liệu");
+        jLabel5.setText("Nguyên liệu");
         jPanel1.add(jLabel5);
 
         jPanel21.setMaximumSize(new java.awt.Dimension(20, 16));
         jPanel21.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jPanel1.add(jPanel21);
 
-        jTextField4.setMaximumSize(new java.awt.Dimension(72, 20));
-        jTextField4.setPreferredSize(new java.awt.Dimension(72, 16));
-        jPanel1.add(jTextField4);
+        jComboBox1.setMaximumSize(new java.awt.Dimension(90, 20));
+        jComboBox1.setPreferredSize(new java.awt.Dimension(90, 20));
+        jPanel1.add(jComboBox1);
 
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
@@ -224,175 +211,138 @@ public class DialogDetailImport extends javax.swing.JPanel {
         jPanel2.add(jButton4);
 
         add(jPanel2, java.awt.BorderLayout.LINE_END);
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+            },
+            new String [] {
+                "ID", "số lượng", "giá mỗi kg/lít", "tổng tiền", "Bill ID", "Tên nguyên liệu"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Long.class, java.lang.Integer.class, java.lang.Long.class, java.lang.Long.class, java.lang.Long.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTable2);
+
+        add(jScrollPane2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    public void initComboBox() {
+        ingredientsList = new IngredientsBUS().getAllActiveIngredients();
+        for (IngredientsDTO x : ingredientsList) {
+            jComboBox1.addItem(x.getName());
+        }
+    }
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    // Kiểm tra xem các trường text field có trống không
-    if (jTextField1.getText().isEmpty() || jTextField2.getText().isEmpty() || jTextField4.getText().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin.", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
-        return; // Thoát khỏi phương thức nếu có trường trống
-    }
+        // Kiểm tra xem các trường text field có trống không
+        if (jTextField1.getText().isEmpty() || jTextField2.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin.", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+            return; // Thoát khỏi phương thức nếu có trường trống
+        }
 
-    try {
-        // Lấy giá trị từ các text field
-        int quantity = Integer.parseInt(jTextField1.getText());
-        double price = Double.parseDouble(jTextField2.getText());
-        int ingredientId = Integer.parseInt(jTextField4.getText()); // Lấy ingredientId từ text field
+        try {
+            // Lấy giá trị từ các text field
+            int quantity = Integer.parseInt(jTextField1.getText());
+            long price = Long.parseLong(jTextField2.getText());
 
-        // Tính tổng tiền
-        double total = quantity * price;
+            // Tính tổng tiền
+            long total = quantity * price;
 
-        // Tạo ID mới sử dụng System.currentTimeMillis()
-        long id = System.currentTimeMillis();
+            // Tạo ID mới sử dụng System.currentTimeMillis()
+            long id = System.currentTimeMillis();
 
-        // Tạo một đối tượng DetailImportBillDTO mới
-        DetailImportBillDTO detail = new DetailImportBillDTO();
-        detail.setId((int) id);
-        detail.setQuantity(quantity);
-        detail.setPrice(price);
-        detail.setTotal(total);
-        detail.setBillid(currentBillId); // Sử dụng mã Bill hiện tại
-        detail.setIngredientid(ingredientId);
+            // Tạo một đối tượng DetailImportBillDTO mới
+            DetailImportBillDTO detail = new DetailImportBillDTO();
+            detail.setId((int) id);
+            detail.setQuantity(quantity);
+            detail.setPrice(price);
+            detail.setTotal(total);
+            detail.setBillid(currentBillId); // Sử dụng mã Bill hiện tại
+            detail.setIngredientid(ingredientsList.get(jComboBox1.getSelectedIndex()).getId());
+            
+            // Thêm dòng dữ liệu vào JTable1
+            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+            model.addRow(new Object[]{detail.getId(), detail.getQuantity(), detail.getPrice(), detail.getTotal(), detail.getBillid(), ingredientsList.get(jComboBox1.getSelectedIndex()).getName()});
 
-        // Thêm dòng dữ liệu vào JTable1
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.addRow(new Object[]{detail.getId(), detail.getQuantity(), detail.getPrice(), detail.getTotal(), detail.getBillid(), detail.getIngredientid()});
+            // Thông báo thêm thành công
+            JOptionPane.showMessageDialog(this, "Thêm thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 
-        // Thông báo thêm thành công
-        JOptionPane.showMessageDialog(this, "Thêm thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-
-        // Reset các text field sau khi thêm thành công
-        jTextField1.setText("");
-        jTextField2.setText("");
-        jTextField4.setText("");
-    } catch (NumberFormatException ex) {
-        // Xử lý nếu người dùng nhập không đúng định dạng số
-        JOptionPane.showMessageDialog(this, "Vui lòng nhập số vào các trường số lượng, giá và mã nguyên liệu.", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
-    } catch (Exception ex) {
-        // Xử lý nếu có lỗi khi thêm dữ liệu
-        JOptionPane.showMessageDialog(this, "Lỗi khi thêm dữ liệu: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
-    }
+            // Reset các text field sau khi thêm thành công
+            jTextField1.setText("");
+            jTextField2.setText("");
+        } catch (NumberFormatException ex) {
+            // Xử lý nếu người dùng nhập không đúng định dạng số
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập số vào các trường số lượng, giá và mã nguyên liệu.", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+        } catch (Exception ex) {
+            // Xử lý nếu có lỗi khi thêm dữ liệu
+            JOptionPane.showMessageDialog(this, "Lỗi khi thêm dữ liệu: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+            System.out.println(ingredientsList.get(jComboBox1.getSelectedIndex()).getId());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-    // Kiểm tra xem có dòng nào được chọn không
-    if (jTable1.getSelectedRow() == -1) {
-        JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng cần xóa.", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-    
-    // Lấy chỉ mục của dòng được chọn
-    int selectedRow = jTable1.getSelectedRow();
-    
-    // Xóa dòng được chọn khỏi JTable
-    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    model.removeRow(selectedRow);
+        // Kiểm tra xem có dòng nào được chọn không
+        if (jTable2.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng cần xóa.", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Lấy chỉ mục của dòng được chọn
+        int selectedRow = jTable2.getSelectedRow();
+
+        // Xóa dòng được chọn khỏi JTable
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        model.removeRow(selectedRow);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
     int confirmation = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn thêm dữ liệu?", "Xác nhận", JOptionPane.YES_NO_OPTION);
     if (confirmation == JOptionPane.YES_OPTION) {
         try {
-            // Tiếp tục với quá trình thêm dữ liệu
-
-            // Yêu cầu người dùng nhập userid
-            long userIdInput = Long.parseLong(JOptionPane.showInputDialog(this, "Nhập UserID:"));
-
             // Yêu cầu người dùng nhập supplierid
             long supplierIdInput = Long.parseLong(JOptionPane.showInputDialog(this, "Nhập SupplierID:"));
 
             // Lấy số lượng dòng dữ liệu trong jTable
-            int totalQuantity = jTable1.getRowCount();
+            int totalQuantity = jTable2.getRowCount();
 
             // Tính tổng tiền
-            double totalAmount = 0;
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            long totalAmount = 0;
+            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
             for (int i = 0; i < model.getRowCount(); i++) {
-                totalAmount += (double) model.getValueAt(i, 3);
+                totalAmount += (long) model.getValueAt(i, 3);
             }
 
-            // Lấy ngày hiện tại
-            java.util.Date date = new java.util.Date();
-            java.sql.Date importDate = new java.sql.Date(date.getTime());
+            // Thêm dữ liệu vào cơ sở dữ liệu thông qua BUS
+            DetailImportBillBUS.insertImportBill(currentBillId, totalQuantity, totalAmount, supplierIdInput, model, ingredientsList.get(jComboBox1.getSelectedIndex()).getId());
+            JOptionPane.showMessageDialog(this, "Thêm thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 
-            // Thêm dòng dữ liệu vào tb_import_bill
-            Connection conn = openConnect();
-            String sqlInsertImportBill = "INSERT INTO tb_import_bill (id, quantity, total, import_date, userid, supplierid, isdeleted) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement pstmt = conn.prepareStatement(sqlInsertImportBill);
-            pstmt.setInt(1, currentBillId);
-            pstmt.setInt(2, totalQuantity);
-            pstmt.setDouble(3, totalAmount);
-            pstmt.setDate(4, importDate);
-            pstmt.setLong(5, userIdInput);
-            pstmt.setLong(6, supplierIdInput);
-            pstmt.setBoolean(7, false);
-            pstmt.executeUpdate();
-
-            // Thêm các dòng dữ liệu trong JTable vào tb_detail_import_bill
-            String sqlInsertDetailImportBill = "INSERT INTO tb_detail_import_bill (id, quantity, price, total, billid, ingredientid, isdeleted) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            pstmt = conn.prepareStatement(sqlInsertDetailImportBill);
-            for (int i = 0; i < model.getRowCount(); i++) {
-                pstmt.setInt(1, (int) model.getValueAt(i, 0));
-                pstmt.setInt(2, (int) model.getValueAt(i, 1));
-                pstmt.setDouble(3, (double) model.getValueAt(i, 2));
-                pstmt.setDouble(4, (double) model.getValueAt(i, 3));
-                pstmt.setInt(5, currentBillId);
-                pstmt.setInt(6, (int) model.getValueAt(i, 5));
-                pstmt.setBoolean(7, false);
-                pstmt.addBatch();
-            }
-            pstmt.executeBatch();
-
-            // Kiểm tra và cập nhật quantity trong tb_ingredients
-            String sqlUpdateIngredients = "UPDATE tb_ingredients SET quantity = quantity + ? WHERE id = ?";
-            pstmt = conn.prepareStatement(sqlUpdateIngredients);
-            for (int i = 0; i < model.getRowCount(); i++) {
-                // Lấy ingredientid từ JTable
-                int ingredientId = (int) model.getValueAt(i, 5);
-                // Kiểm tra ingredientid trong tb_ingredients
-                String sqlCheckIngredient = "SELECT id FROM tb_ingredients WHERE id = ?";
-                PreparedStatement checkStmt = conn.prepareStatement(sqlCheckIngredient);
-                checkStmt.setInt(1, ingredientId);
-                ResultSet rs = checkStmt.executeQuery();
-                if (rs.next()) { // Nếu ingredientid tồn tại trong tb_ingredients
-                    // Cộng dồn quantity từ tb_detail_import_bill vào tb_ingredients
-                    pstmt.setInt(1, (int) model.getValueAt(i, 1)); // quantity từ tb_detail_import_bill
-                    pstmt.setInt(2, ingredientId);
-                    pstmt.addBatch();
-                }
-                rs.close();
-                checkStmt.close();
-            }
-            pstmt.executeBatch();
-
-            // Đóng kết nối
-            pstmt.close();
-            conn.close();
-            JOptionPane.showMessageDialog(this, "Thêm dữ liệu thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            dispose();
+            dispose(); // Đóng dialog sau khi thêm dữ liệu thành công
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "UserID và SupplierID phải là số nguyên.", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Lỗi khi thêm dữ liệu vào cơ sở dữ liệu: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     // Thêm phương thức dispose vào JDialog
-private void dispose() {
-    Window window = SwingUtilities.getWindowAncestor(this);
-    if (window instanceof Dialog) {
-        Dialog dialog = (Dialog) window;
-        dialog.dispose();
+    private void dispose() {
+        Window window = SwingUtilities.getWindowAncestor(this);
+        if (window instanceof Dialog) {
+            Dialog dialog = (Dialog) window;
+            dialog.dispose();
+        }
     }
-}
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton jButton1;
     public javax.swing.JButton jButton3;
     public javax.swing.JButton jButton4;
+    public javax.swing.JComboBox<String> jComboBox1;
     public javax.swing.JLabel jLabel1;
     public javax.swing.JLabel jLabel3;
     public javax.swing.JLabel jLabel5;
@@ -415,11 +365,10 @@ private void dispose() {
     public javax.swing.JPanel jPanel7;
     public javax.swing.JPanel jPanel8;
     public javax.swing.JPanel jPanel9;
-    public javax.swing.JScrollPane jScrollPane1;
-    public javax.swing.JTable jTable1;
+    public javax.swing.JScrollPane jScrollPane2;
+    public javax.swing.JTable jTable2;
     public javax.swing.JTextField jTextField1;
     public javax.swing.JTextField jTextField2;
-    public javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 
     private boolean isBillIdExists(int billId) {

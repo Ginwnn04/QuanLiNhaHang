@@ -1,6 +1,7 @@
 package GUI.Comp.Dialog;
 
 import BUS.DetailsReciptBUS;
+import BUS.IngredientsBUS;
 import GUI.Comp.Panel.PanelTableBooking;
 import BUS.MenuItemBUS;
 import BUS.OrderBUS;
@@ -9,6 +10,7 @@ import DAO.InvoicesDAO;
 import DAO.TableDAO;
 import DTO.DetailOrderDTO;
 import DTO.DetailsRecipeDTO;
+import DTO.IngredientsDTO;
 import DTO.InvoicesDTO;
 import DTO.MenuItemDTO;
 import DTO.OrderDTO;
@@ -499,84 +501,100 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
             return;
         }
         
-        
-        for (DetailOrderDTO x : listDetailOrder) {
-            int[] totalIngre;
-            ArrayList<DetailsRecipeDTO> listDetailRecipe = new DetailsReciptBUS().readByIDItem(x.getId());
-            for (DetailsRecipeDTO y : listDetailRecipe) {
-                
-            }
-        }
-        
-        Date date = new Date();
-        
-        boolean isSingle = listTableSelected.size() == 1 ? true : false;
-        boolean isOrderMore = listTableSelected.get(0).getStatusID().equals("DANGSUDUNG") ? true : false;
+        System.out.println("---------------");
         
         
-        OrderDTO order = new OrderDTO();
-        String customerCode = order.createCustomerCode(isSingle);
-        
-        OrderBUS orderBUS = new OrderBUS();
-        
-        // Update customer vào tb_table
-        TableBUS tableBUS = new TableBUS();
-        for (TableDTO table : listTableSelected) {
-            if (isOrderMore) {
-                OrderDTO multiOrder = new OrderDTO();
-                multiOrder.createID();
-                
-                multiOrder.setStaffID(StaffDTO.staffLogging.getId());
-                multiOrder.setTableID(table.getId());
-                multiOrder.setCustomerCode(table.getCustomerCode());
-                multiOrder.setIsDelete(false);
-                multiOrder.setUpdateTime(date);
-                multiOrder.setCreateTime(date);
-    //          Thêm chi tiết cho order
-                for (DetailOrderDTO detail : listDetailOrder) {
-                    multiOrder.insertDetailOrder(detail);
-                    detail.createID();
-                    try {
-                        Thread.sleep(1);
-                    } 
-                    catch (InterruptedException ex) {
-                        Logger.getLogger(DialogOrder.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-                orderBUS.insertOrder(multiOrder);
-            }
-            else {
-                table.setCustomerCode(customerCode);
-                table.setStatusID("DANGSUDUNG");
-                table.setUpdateTime(date);
-                tableBUS.updateTable(table);
+        ArrayList<IngredientsDTO> listIngredient = new ArrayList<>();
+        ArrayList<DetailsRecipeDTO> listDetailRecipe = new DetailsReciptBUS().readByIDItem(listDetailOrder.get(0).getItemID());
 
-                OrderDTO multiOrder = new OrderDTO();
-                multiOrder.createID();
-                multiOrder.setStaffID(StaffDTO.staffLogging.getId());
-                multiOrder.setTableID(table.getId());
-                multiOrder.setCustomerCode(customerCode);
-                multiOrder.setIsDelete(false);
-                multiOrder.setUpdateTime(date);
-                multiOrder.setCreateTime(date);
-    //          Thêm chi tiết cho order
-                for (DetailOrderDTO detail : listDetailOrder) {
-                    multiOrder.insertDetailOrder(detail);
-                    detail.createID();
-                    try {
-                        Thread.sleep(1);
-                    } 
-                    catch (InterruptedException ex) {
-                        Logger.getLogger(DialogOrder.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-                orderBUS.insertOrder(multiOrder);
-            }
+        for (DetailsRecipeDTO y : listDetailRecipe) {
+            IngredientsDTO ingre = new IngredientsBUS().getIngredientById(y.getIngredientID());
+            listIngredient.add(ingre);
+            System.out.println(ingre.getId());
+            System.out.println(ingre.getQuantity());
         }
- 
-        JOptionPane.showMessageDialog(rootPane, "Gọi món thành công !!");
-        // Sau khi goi mon xong thi close dialog order
-        dispose();
+        
+        
+        
+//        for (DetailOrderDTO x : listDetailOrder) {
+//            ArrayList<DetailsRecipeDTO> listDetailRecipe = new DetailsReciptBUS().readByIDItem(x.getItemID());
+//            for (DetailsRecipeDTO y : listDetailRecipe) {
+//                
+//            }
+//        }
+        
+
+
+
+//        Date date = new Date();
+//        
+//        boolean isSingle = listTableSelected.size() == 1 ? true : false;
+//        boolean isOrderMore = listTableSelected.get(0).getStatusID().equals("DANGSUDUNG") ? true : false;
+//        
+//        
+//        OrderDTO order = new OrderDTO();
+//        String customerCode = order.createCustomerCode(isSingle);
+//        
+//        OrderBUS orderBUS = new OrderBUS();
+//        
+//        // Update customer vào tb_table
+//        TableBUS tableBUS = new TableBUS();
+//        for (TableDTO table : listTableSelected) {
+//            if (isOrderMore) {
+//                OrderDTO multiOrder = new OrderDTO();
+//                multiOrder.createID();
+//                
+//                multiOrder.setStaffID(StaffDTO.staffLogging.getId());
+//                multiOrder.setTableID(table.getId());
+//                multiOrder.setCustomerCode(table.getCustomerCode());
+//                multiOrder.setIsDelete(false);
+//                multiOrder.setUpdateTime(date);
+//                multiOrder.setCreateTime(date);
+//    //          Thêm chi tiết cho order
+//                for (DetailOrderDTO detail : listDetailOrder) {
+//                    multiOrder.insertDetailOrder(detail);
+//                    detail.createID();
+//                    try {
+//                        Thread.sleep(1);
+//                    } 
+//                    catch (InterruptedException ex) {
+//                        Logger.getLogger(DialogOrder.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+//                }
+//                orderBUS.insertOrder(multiOrder);
+//            }
+//            else {
+//                table.setCustomerCode(customerCode);
+//                table.setStatusID("DANGSUDUNG");
+//                table.setUpdateTime(date);
+//                tableBUS.updateTable(table);
+//
+//                OrderDTO multiOrder = new OrderDTO();
+//                multiOrder.createID();
+//                multiOrder.setStaffID(StaffDTO.staffLogging.getId());
+//                multiOrder.setTableID(table.getId());
+//                multiOrder.setCustomerCode(customerCode);
+//                multiOrder.setIsDelete(false);
+//                multiOrder.setUpdateTime(date);
+//                multiOrder.setCreateTime(date);
+//    //          Thêm chi tiết cho order
+//                for (DetailOrderDTO detail : listDetailOrder) {
+//                    multiOrder.insertDetailOrder(detail);
+//                    detail.createID();
+//                    try {
+//                        Thread.sleep(1);
+//                    } 
+//                    catch (InterruptedException ex) {
+//                        Logger.getLogger(DialogOrder.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+//                }
+//                orderBUS.insertOrder(multiOrder);
+//            }
+//        }
+// 
+//        JOptionPane.showMessageDialog(rootPane, "Gọi món thành công !!");
+//        // Sau khi goi mon xong thi close dialog order
+//        dispose();
     }//GEN-LAST:event_btnOrderActionPerformed
 
     public static void main(String args[]) {

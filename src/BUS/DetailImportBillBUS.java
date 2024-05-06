@@ -15,6 +15,8 @@ import DTO.SupplierDTO;
 import java.util.ArrayList;
 import java.sql.SQLException;
 import java.sql.Connection;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 public class DetailImportBillBUS {
 
     private DetailImportBillDAO detailImportBillDAO = new DetailImportBillDAO();
@@ -43,5 +45,7 @@ public class DetailImportBillBUS {
     public static void deleteDetailImportBill(Long importBillId) {
         DetailImportBillDAO.deleteDetailImportBill(importBillId);
     }
-
+    public static void insertImportBill(long currentBillId, int totalQuantity, long totalAmount, long supplierIdInput, DefaultTableModel model, long x) {
+        DetailImportBillDAO.insertImportBill(currentBillId, totalQuantity, totalAmount, supplierIdInput, model, x); // Xử lý ngoại lệ hoặc thông báo lỗi
+    }
 }
