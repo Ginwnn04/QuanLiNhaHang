@@ -7,9 +7,11 @@ package GUI.Comp;
 import static BUS.ConnectDB.openConnect;
 import BUS.DetailImportBillBUS;
 import BUS.IngredientsBUS;
+import BUS.SupplierBUS;
 import DTO.DetailImportBillDTO;
 import DTO.IngredientsDTO;
 import DTO.StaffDTO;
+import DTO.SupplierDTO;
 import java.awt.Dialog;
 import java.awt.Window;
 import javax.swing.JOptionPane;
@@ -32,7 +34,7 @@ import javax.swing.SwingUtilities;
  * @author Tai
  */
 public class DialogDetailImport extends javax.swing.JPanel {
-
+    private List<SupplierDTO> supplierList = new ArrayList<>();
     private int currentBillId; // Biến để lưu trữ mã bill hiện tại
     // Thêm biến instance để lưu trữ chỉ mục của dòng được chọn trong JTable
     private int selectedRowIndex = -1;
@@ -41,6 +43,7 @@ public class DialogDetailImport extends javax.swing.JPanel {
         initComponents();
         currentBillId = (int) System.currentTimeMillis();
         initComboBox();
+        initComboBoxSupplier();
     }
 
     /**
@@ -65,6 +68,10 @@ public class DialogDetailImport extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jPanel21 = new javax.swing.JPanel();
         jComboBox1 = new javax.swing.JComboBox<>();
+        jPanel22 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jPanel23 = new javax.swing.JPanel();
+        jComboBox2 = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
@@ -83,6 +90,8 @@ public class DialogDetailImport extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
 
+        setMaximumSize(new java.awt.Dimension(810, 430));
+        setPreferredSize(new java.awt.Dimension(810, 430));
         setLayout(new java.awt.BorderLayout(30, 0));
 
         jPanel1.setMaximumSize(new java.awt.Dimension(100, 100));
@@ -133,6 +142,21 @@ public class DialogDetailImport extends javax.swing.JPanel {
         jComboBox1.setMaximumSize(new java.awt.Dimension(90, 20));
         jComboBox1.setPreferredSize(new java.awt.Dimension(90, 20));
         jPanel1.add(jComboBox1);
+
+        jPanel22.setMaximumSize(new java.awt.Dimension(20, 16));
+        jPanel22.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.add(jPanel22);
+
+        jLabel6.setText("Nguyên liệu");
+        jPanel1.add(jLabel6);
+
+        jPanel23.setMaximumSize(new java.awt.Dimension(20, 16));
+        jPanel23.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.add(jPanel23);
+
+        jComboBox2.setMaximumSize(new java.awt.Dimension(90, 20));
+        jComboBox2.setPreferredSize(new java.awt.Dimension(90, 20));
+        jPanel1.add(jComboBox2);
 
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
@@ -236,6 +260,14 @@ public class DialogDetailImport extends javax.swing.JPanel {
         ingredientsList = new IngredientsBUS().getAllActiveIngredients();
         for (IngredientsDTO x : ingredientsList) {
             jComboBox1.addItem(x.getName());
+        }
+    }
+    
+    
+    public void initComboBoxSupplier() {
+        supplierList = new SupplierBUS().getAllData();
+        for (SupplierDTO x : supplierList) {
+            jComboBox2.addItem(x.getName());
         }
     }
 
@@ -343,9 +375,11 @@ public class DialogDetailImport extends javax.swing.JPanel {
     public javax.swing.JButton jButton3;
     public javax.swing.JButton jButton4;
     public javax.swing.JComboBox<String> jComboBox1;
+    public javax.swing.JComboBox<String> jComboBox2;
     public javax.swing.JLabel jLabel1;
     public javax.swing.JLabel jLabel3;
     public javax.swing.JLabel jLabel5;
+    public javax.swing.JLabel jLabel6;
     public javax.swing.JPanel jPanel1;
     public javax.swing.JPanel jPanel10;
     public javax.swing.JPanel jPanel11;
@@ -359,6 +393,8 @@ public class DialogDetailImport extends javax.swing.JPanel {
     public javax.swing.JPanel jPanel2;
     public javax.swing.JPanel jPanel20;
     public javax.swing.JPanel jPanel21;
+    public javax.swing.JPanel jPanel22;
+    public javax.swing.JPanel jPanel23;
     public javax.swing.JPanel jPanel3;
     public javax.swing.JPanel jPanel4;
     public javax.swing.JPanel jPanel5;
