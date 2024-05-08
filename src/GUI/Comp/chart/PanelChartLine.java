@@ -35,8 +35,8 @@ public class PanelChartLine extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private double getMax() {
-        double max = 0;
+    private long getMax() {
+        long max = 0;
         for (ModelChartLine d : list) {
             if (d.getValue() > max) {
                 max = d.getValue();

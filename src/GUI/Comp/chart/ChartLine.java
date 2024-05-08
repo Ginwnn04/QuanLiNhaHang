@@ -27,14 +27,18 @@ public class ChartLine extends javax.swing.JPanel {
 
     private void initData() {
         panelChartLine.removeAllData();
+        panelData.removeAll();
+        panelData.repaint();
         if (model != null) {
             for (ModelChartLine data : model) {
                 panelChartLine.addItem(data);
                 panelData.add(new ItemChartLine(data));
+                panelData.repaint();
             }
         }
+        panelData.updateUI();
     }
-
+    
     @Override
     protected void paintComponent(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs;

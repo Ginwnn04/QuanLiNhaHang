@@ -14,15 +14,15 @@ public class ModelChartLine {
         this.name = name;
     }
 
-    public double getValue() {
+    public long getValue() {
         return value;
     }
 
-    public void setValue(double value) {
+    public void setValue(long value) {
         this.value = value;
     }
 
-    public ModelChartLine(String name, double value) {
+    public ModelChartLine(String name, long value) {
         this.name = name;
         this.value = value;
     }
@@ -31,5 +31,5 @@ public class ModelChartLine {
     }
 
     private String name;
-    private double value;
+    private long value;
 }
