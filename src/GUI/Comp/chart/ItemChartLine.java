@@ -9,7 +9,7 @@ public class ItemChartLine extends javax.swing.JPanel {
     public ItemChartLine(ModelChartLine data) {
         initComponents();
         setOpaque(false);
-        DecimalFormat df = new DecimalFormat("$ #,##0.##");
+        DecimalFormat df = new DecimalFormat("VND #,##0.##");
         lbName.setText(data.getName());
         lbValues.setText(df.format(data.getValue()));
     }
@@ -21,10 +21,10 @@ public class ItemChartLine extends javax.swing.JPanel {
         lbName = new javax.swing.JLabel();
         lbValues = new javax.swing.JLabel();
 
-        lbName.setForeground(new java.awt.Color(69, 69, 69));
+        lbName.setForeground(new java.awt.Color(204, 255, 204));
         lbName.setText("Name");
 
-        lbValues.setForeground(new java.awt.Color(69, 69, 69));
+        lbValues.setForeground(new java.awt.Color(204, 255, 204));
         lbValues.setText("Values");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -45,13 +45,13 @@ public class ItemChartLine extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    @Override
+    /*@Override
     protected void paintComponent(Graphics g) {
         //  Create line
         g.setColor(new Color(240, 240, 240));
         g.drawLine(0, getHeight() - 1, getWidth(), getHeight() - 1);
         super.paintComponent(g);
-    }
+    }*/
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lbName;

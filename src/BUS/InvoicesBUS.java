@@ -6,7 +6,7 @@ package BUS;
 
 import DAO.InvoicesDAO;
 import DTO.InvoicesDTO;
-import java.util.ArrayList;
+import GUI.Comp.chart.ModelChartPie;
 import java.util.List;
 
 /**
@@ -15,7 +15,6 @@ import java.util.List;
  */
 public class InvoicesBUS {
     private InvoicesDAO invoicesDAO = new InvoicesDAO();
-    
     public boolean  insertInvoices(InvoicesDTO invoices) {
         return invoicesDAO.insertData(invoices);
     }
@@ -26,6 +25,10 @@ public class InvoicesBUS {
     
     public List<InvoicesDTO> getInvoice(){
         return invoicesDAO.readData();
+    }
+    
+    public List<ModelChartPie> getDetailByTime(int index){
+        return invoicesDAO.readDetail(index + 1);
     }
     
 }

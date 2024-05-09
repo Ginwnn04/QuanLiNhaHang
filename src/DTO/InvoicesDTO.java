@@ -13,6 +13,10 @@ public class InvoicesDTO {
     private Date createTime;
     private String discountID;
     private boolean isDelete;
+    
+    
+    private MenuItemDTO a;
+    
  
     public InvoicesDTO(long amount, long total, Date createTime, boolean isDelete) {
         createID();
