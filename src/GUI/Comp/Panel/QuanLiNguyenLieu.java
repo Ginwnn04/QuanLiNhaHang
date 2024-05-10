@@ -350,23 +350,6 @@ public class QuanLiNguyenLieu extends javax.swing.JPanel {
                     return; // Dừng phương thức nếu người dùng hủy bỏ
                 }
 
-                String newQuantityStr = JOptionPane.showInputDialog(this, "Nhập số lượng mới cho nguyên liệu:", currentQuantity);
-                if (newQuantityStr == null) {
-                    // Người dùng bấm Cancel
-                    return; // Dừng phương thức nếu người dùng hủy bỏ
-                }
-                int newQuantity;
-                try {
-                    newQuantity = Integer.parseInt(newQuantityStr);
-                    if (newQuantity < 0) {
-                        JOptionPane.showMessageDialog(this, "Số lượng không được là số âm.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                        return; // Dừng phương thức nếu số lượng âm
-                    }
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(this, "Số lượng phải là một số nguyên.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    return; // Dừng phương thức nếu số lượng không hợp lệ
-                }
-
                 String newUnit = JOptionPane.showInputDialog(this, "Nhập đơn vị mới cho nguyên liệu:", currentUnit);
                 if (newUnit == null) {
                     // Người dùng bấm Cancel
@@ -378,7 +361,7 @@ public class QuanLiNguyenLieu extends javax.swing.JPanel {
                 ingredient.setId(id);
                 ingredient.setName(newName);
                 ingredient.setDes(newDes);
-                ingredient.setQuantity(newQuantity);
+                ingredient.setQuantity(currentQuantity);
                 ingredient.setUnit(newUnit);
 
                 // Gọi phương thức updateIngredient() từ IngredientsBUS để cập nhật thông tin mới
