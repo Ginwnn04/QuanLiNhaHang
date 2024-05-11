@@ -224,6 +224,11 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         btnDatBan.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         btnDatBan.setText("ĐẶT/HỦY ");
         btnDatBan.setToolTipText("");
+        btnDatBan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDatBanActionPerformed(evt);
+            }
+        });
         panelBackground10.add(btnDatBan);
 
         btnChuyenBan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -532,6 +537,24 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         pnContainerTable.revalidate();
         pnContainerTable.repaint();  
     }//GEN-LAST:event_btnChuyenBanActionPerformed
+
+    private void btnDatBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatBanActionPerformed
+        TableDTO tableSelected = tableBUS.findTableByName(txtSaveTable.getText());
+        if (tableSelected.getStatusID().equals("BANTRONG")) {
+            tableSelected.setStatusID("DADATTRUOC");
+        }
+        else if (tableSelected.getStatusID().equals("DADATTRUOC")) {
+            tableSelected.setStatusID("BANTRONG");
+        }
+        else {
+            JOptionPane.showMessageDialog(pnContainer, "Không thể đặt/hủy bàn");
+            return;
+        }
+        tableBUS.updateTable(tableSelected);
+        addTable();
+        pnContainerTable.revalidate();
+        pnContainerTable.repaint();
+    }//GEN-LAST:event_btnDatBanActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

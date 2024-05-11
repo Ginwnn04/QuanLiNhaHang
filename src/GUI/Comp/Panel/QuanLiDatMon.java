@@ -88,15 +88,9 @@ public class QuanLiDatMon extends javax.swing.JPanel {
 
                     int row1 = e.getFirstRow();
 
-                    listOrder.get(row1).setIsSelected(!listOrder.get(row1).isIsSelected());
-                    cntOrderSelected += !listOrder.get(row1).isIsSelected() ? -1 : 1;
-                    if (cntOrderSelected == 1) {
-                        btnChiTiet.setEnabled(true);
-                    }
-                    else {
-                        btnChiTiet.setEnabled(false);
-                        
-                    }
+                    listOrder.get(row1).setIsSelected((boolean)tbDatMon.getValueAt(row1, 0));
+                    cntOrderSelected += listOrder.get(row1).isIsSelected() ? 1 : -1;
+                    System.out.println(cntOrderSelected);
                     
                 }
             }
@@ -556,6 +550,7 @@ public class QuanLiDatMon extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(pnContainer, "Xóa thất bại");
             }      
             render(false);
+            cntOrderSelected = 0;
         }
         else {
             JOptionPane.showMessageDialog(pnContainer, "Bạn chưa chọn hoá đơn", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -563,20 +558,28 @@ public class QuanLiDatMon extends javax.swing.JPanel {
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChiTietActionPerformed
-        getOrderIDSelected();
-        if (!listOrderIDSelected.isEmpty()) {
-            DetailsOrder x = new DetailsOrder(null, true);
-            long orderID = Long.parseLong(listOrderIDSelected);
-            x.insertOrderID(orderID);
-            x.render(true);
-            x.setVisible(true);   
+        if (cntOrderSelected > 1) {
+            JOptionPane.showMessageDialog(pnContainer, "Chỉ sửa được 1 bàn. Vui lòng thao tác lại");
+            cntOrderSelected = 0;
             render(false);
+   
         }
         else {
-            JOptionPane.showMessageDialog(pnContainer, "Bạn chưa chọn hoá đơn", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return;
+            getOrderIDSelected();
+            if (!listOrderIDSelected.isEmpty()) {
+                DetailsOrder x = new DetailsOrder(null, true);
+                long orderID = Long.parseLong(listOrderIDSelected);
+                x.insertOrderID(orderID);
+                x.render(true);
+                x.setVisible(true); 
+            }
+            else {
+                JOptionPane.showMessageDialog(pnContainer, "Bạn chưa chọn hoá đơn", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
         }
-        
+        cntOrderSelected = 0;
+        render(false);
         
     }//GEN-LAST:event_btnChiTietActionPerformed
 
@@ -611,6 +614,13 @@ public class QuanLiDatMon extends javax.swing.JPanel {
 
     private void chbSelectAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbSelectAllActionPerformed
         isSelectAll = !isSelectAll;
+        if (isSelectAll) {
+            cntOrderSelected = listOrder.size();
+        }
+        else {
+            cntOrderSelected = 0;
+
+        }
         render(isSelectAll);
     }//GEN-LAST:event_chbSelectAllActionPerformed
 

@@ -80,8 +80,9 @@ public class QuanLiBan extends javax.swing.JPanel {
                     int row = tbBan.getSelectedRow();
                     // Lay row cua table ban dau
                     int row1 = e.getFirstRow();
-                    listTable.get(row1).setIsSelected(!listTable.get(row1).isIsSelected());
-                    cntTableSelected += !listTable.get(row1).isIsSelected() ? -1 : 1;
+                    
+                    listTable.get(row1).setIsSelected((boolean)tbBan.getValueAt(row1, 0));
+                    cntTableSelected += listTable.get(row1).isIsSelected() ? 1 : -1;
 
                 }
             }
@@ -448,8 +449,15 @@ public class QuanLiBan extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void chbSelectAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbSelectAllActionPerformed
-        render(!isSelectAll);
         isSelectAll = !isSelectAll;
+        if (isSelectAll) {
+            cntTableSelected = listTable.size();
+        }
+        else {
+            cntTableSelected = 0;
+
+        }
+        render(isSelectAll);
     }//GEN-LAST:event_chbSelectAllActionPerformed
 
 
@@ -479,6 +487,7 @@ public class QuanLiBan extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(pnContainer, "Xóa thành công");
 //                listTable = new TableBUS().getAllData();
                 render(false);
+                cntTableSelected = 0;
             }
             else {
                 JOptionPane.showMessageDialog(pnContainer, "Xóa thất bại");
@@ -490,18 +499,22 @@ public class QuanLiBan extends javax.swing.JPanel {
         if (cntTableSelected > 1) {
             JOptionPane.showMessageDialog(pnContainer, "Chỉ sửa được 1 bàn. Vui lòng thao tác lại");
             cntTableSelected = 0;
-            return;
+            render(false);
+        
         }
-        DialogActionTable x = new DialogActionTable(null, true, true);
-        for (TableDTO table : listTable) {
-            if (table.isIsSelected()) {
-                x.setTable(table);
-                x.setAction(true);
-                x.setVisible(true);
-//                x.setIDTable(table.getId(), true);
-                break;
+        else {
+            DialogActionTable x = new DialogActionTable(null, true, true);
+            for (TableDTO table : listTable) {
+                if (table.isIsSelected()) {
+                    x.setTable(table);
+                    x.setAction(true);
+                    x.setVisible(true);
+    //                x.setIDTable(table.getId(), true);
+                    break;
+                }
             }
         }
+        cntTableSelected = 0;
         render(false);
         
 

@@ -226,6 +226,9 @@
                             <Property name="text" type="java.lang.String" value="&#x110;&#x1eb6;T/H&#x1ee6;Y "/>
                             <Property name="toolTipText" type="java.lang.String" value=""/>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDatBanActionPerformed"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JButton" name="btnChuyenBan">
                           <Properties>
