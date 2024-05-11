@@ -19,6 +19,7 @@ public class TableDTO {
 
     private PanelTable pnTable;
     private PanelTableBooking pnTableBooking;
+    private TableStatusDTO tableStatusDTO;
     public TableDTO() {
     }
 
@@ -142,6 +143,14 @@ public class TableDTO {
 
     public PanelTableBooking getPnTableBooking() {
         return pnTableBooking;
+    }
+
+    public TableStatusDTO getTableStatusDTO() {
+        return tableStatusDTO;
+    }
+
+    public void setTableStatusDTO(TableStatusDTO tableStatusDTO) {
+        this.tableStatusDTO = tableStatusDTO;
     }
     
     

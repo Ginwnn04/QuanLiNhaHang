@@ -4,7 +4,9 @@
  */
 package DAO;
 
+import DTO.CategoriesDTO;
 import DTO.MenuItemDTO;
+import DTO.MenuItemStatusDTO;
 import java.util.ArrayList;
 
 import java.sql.PreparedStatement;
@@ -18,8 +20,9 @@ import java.util.Date;
 public class MenuItemDAO {
     
     public ArrayList<MenuItemDTO> readData() {
-        String query = "SELECT * FROM tb_menu_item WHERE isdeleted = FALSE";
+        String query = "SELECT tb_menu_item.*, tb_menu_item_status.name AS status_name, tb_categories.name AS cate_name FROM tb_menu_item_status JOIN tb_menu_item ON tb_menu_item_status.id = tb_menu_item.statusid JOIN tb_categories ON tb_menu_item.categoryid = tb_categories.id WHERE tb_menu_item.isdeleted = ?";
         try(PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query);) {
+            pstm.setBoolean(1, false);
             ResultSet rs = pstm.executeQuery();
             ArrayList<MenuItemDTO> list = new ArrayList<>();
             while(rs.next()) {
@@ -35,6 +38,16 @@ public class MenuItemDAO {
                 menuItem.setStatusID(rs.getString("statusid"));
                 menuItem.setCategoryID(rs.getLong("categoryid"));
                 menuItem.setDescription(rs.getString("description"));
+                
+                MenuItemStatusDTO itemStatusDTO = new MenuItemStatusDTO();
+                itemStatusDTO.setName(rs.getString("status_name"));
+                
+                CategoriesDTO categoriesDTO = new CategoriesDTO();
+                categoriesDTO.setName(rs.getString("cate_name"));
+                
+                menuItem.setMenuItemStatusDTO(itemStatusDTO);
+                menuItem.setCategoriesDTO(categoriesDTO);
+                
                 list.add(menuItem);
             }
             return list;

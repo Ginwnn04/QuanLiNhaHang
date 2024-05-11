@@ -48,29 +48,30 @@ public class OrderCriteria {
         }
         
         else {
+            String nameTable = "tb_orders" + ".";
             if (id != null) {
-                clause += "id = ? AND ";
+                clause += nameTable + "id = ? AND ";
             }
             if (customerCode != null) {
-                 clause += "customer_code = ? AND ";
+                 clause += nameTable + "customer_code = ? AND ";
             }
             if (total != null) {
-                clause += "total = ? AND ";
+                clause += nameTable + "total = ? AND ";
             }
             if (isDelete != null) {
-                clause += "isdeleted = ? AND ";
+                clause += nameTable + "isdeleted = ? AND ";
             }
             if (staffID != null) {
-                clause += "staffid = ? AND ";
+                clause += nameTable + "staffid = ? AND ";
             }
             if (tableID != null) {
-                clause += "tableid = ? AND ";
+                clause += nameTable + "tableid = ? AND ";
             }
             if (createTime != null) {
-               clause += "create_time = ? AND ";
+               clause += nameTable + "create_time = ? AND ";
             }
             if (updateTime != null) {
-                clause += "update_time = ? AND ";
+                clause += nameTable + "update_time = ? AND ";
             }
             if (!clause.isEmpty()) {
                 clause = clause.substring(0, clause.length() - 5);

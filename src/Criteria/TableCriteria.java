@@ -52,32 +52,33 @@ public class TableCriteria {
         }
         
         else {
+            String nameTable = "tb_tables" + ".";
             if (id != null) {
-                clause += "id = ? AND ";
+                clause += nameTable + "id = ? AND ";
             }
             if (name != null) {
-                clause += "name = ? AND ";
+                clause += nameTable + "name = ? AND ";
             }
             if (des != null) {
-                clause += "des = ? AND ";
+                clause += nameTable + "des = ? AND ";
             }
             if (isDelete != null) {
-                clause += "isdeleted = ? AND ";
+                clause += nameTable + "isdeleted = ? AND ";
             }
             if (customerCode != null) {
-                clause += "customer_code = ? AND ";
+                clause += nameTable + "customer_code = ? AND ";
             }
             if (status != null) {
-                clause += "statusid = ? AND ";
+                clause += nameTable + "statusid = ? AND ";
             }
             if (updateTime != null) {
-                clause += "update_time = ? AND ";
+                clause += nameTable + "update_time = ? AND ";
             }
             if (createTime != null) {
-                clause += "create_time = ? AND ";
+                clause += nameTable + "create_time = ? AND ";
             }
             if (note != null) {
-                clause += "note = ? AND ";
+                clause += nameTable + "note = ? AND ";
             }
             
             if (!clause.isEmpty()) {

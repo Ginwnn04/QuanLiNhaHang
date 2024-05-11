@@ -105,8 +105,8 @@ public class QuanLiDatMon extends javax.swing.JPanel {
         model.setRowCount(0);
         for (OrderDTO x : listOrder) {
             x.setIsSelected(isSelectAll);
-            TableDTO table = tableBUS.findTableByID(x.getTableID());
-            model.addRow(new Object[] {x.isIsSelected(), x.getId(), table.getName(), x.getCustomerCode(), Helper.FormatNumber.getInstance().getFormat().format( x.getTotal()), Helper.FormatDate.getInstance().getFormat().format(x.getUpdateTime()), Helper.FormatDate.getInstance().getFormat().format(x.getCreateTime())});
+//            TableDTO table = tableBUS.findTableByID(x.getTableID());
+            model.addRow(new Object[] {x.isIsSelected(), x.getId(), x.getTableDTO().getName(), x.getCustomerCode(), Helper.FormatNumber.getInstance().getFormat().format( x.getTotal()), Helper.FormatDate.getInstance().getFormat().format(x.getUpdateTime()), Helper.FormatDate.getInstance().getFormat().format(x.getCreateTime())});
         }
         model.fireTableDataChanged();
         tbDatMon.setModel(model);

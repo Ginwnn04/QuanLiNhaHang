@@ -6,6 +6,7 @@ package DAO;
 
 import Criteria.TableCriteria;
 import DTO.TableDTO;
+import DTO.TableStatusDTO;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.sql.Connection;
@@ -23,11 +24,11 @@ public class TableDAO {
 
     public ArrayList<TableDTO> read(TableCriteria criteria) {
         ArrayList<TableDTO> list = new ArrayList<>();
-        String query = "SELECT * FROM tb_tables";
+        String query = "SELECT tb_tables.*, tb_table_status.name AS status_name FROM tb_tables LEFT JOIN tb_table_status ON statusid = tb_table_status.id";
         if (criteria.createClause(false).isEmpty()) {
-            return null;
+            return list;
         }
-        query += " WHERE " + criteria.createClause(false);
+        query += " WHERE " + criteria.createClause(false) + " ORDER BY tb_tables.name";
 
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)){
             int i = 1;
@@ -58,6 +59,8 @@ public class TableDAO {
             if (criteria.getNote()!= null) {
                 pstm.setString(i++, criteria.getNote());
             }
+            
+            
             ResultSet rs = pstm.executeQuery();
             while(rs.next()) {
                 TableDTO table = new TableDTO();
@@ -70,6 +73,10 @@ public class TableDAO {
                 table.setUpdateTime(rs.getTimestamp("update_time"));
                 table.setIsDelete(rs.getBoolean("isdeleted"));
                 table.setNote(rs.getString("note"));
+                
+                TableStatusDTO tableStatusDTO = new TableStatusDTO();
+                tableStatusDTO.setName(rs.getString("status_name"));
+                table.setTableStatusDTO(tableStatusDTO);
                 list.add(table);
             }
         }

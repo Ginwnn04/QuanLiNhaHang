@@ -14,7 +14,7 @@ public class OrderDAO {
     
     public ArrayList<OrderDTO> read(OrderCriteria criteria) {
         ArrayList<OrderDTO> list = new ArrayList<>();
-       String query = "SELECT * FROM tb_orders";
+       String query = "SELECT tb_orders.*, name FROM tb_orders LEFT JOIN tb_tables ON tb_orders.tableid = tb_tables.id";
         if (criteria.createClause(false).isEmpty()) {
             return null;
         }
@@ -57,6 +57,10 @@ public class OrderDAO {
                 order.setTableID(rs.getLong("tableid"));
                 order.setUpdateTime(rs.getTimestamp("update_time"));
                 order.setCreateTime(rs.getTimestamp("create_time"));
+                
+                TableDTO table = new TableDTO();
+                table.setName(rs.getString("name"));
+                order.setTableDTO(table);
                 
                 list.add(order);
             }

@@ -5,8 +5,10 @@
 package GUI.Comp.Panel;
 
 import BUS.TableBUS;
+import BUS.TableStatusBUS;
 
 import DTO.TableDTO;
+import DTO.TableStatusDTO;
 import GUI.Comp.Dialog.DialogActionTable;
 import com.formdev.flatlaf.FlatClientProperties;
 
@@ -96,7 +98,8 @@ public class QuanLiBan extends javax.swing.JPanel {
         model.setRowCount(0);
         for (TableDTO x : listTable) {
             x.setIsSelected(isSelectAll);
-            model.addRow(new Object[] {isSelectAll, x.getId(), x.getName(), x.getCustomerCode(), x.getStatusID(), x.getNote(), Helper.FormatDate.getInstance().getFormat().format(x.getUpdateTime()), Helper.FormatDate.getInstance().getFormat().format(x.getCreateTime())});
+//            TableStatusDTO statusDTO = new TableStatusBUS().getTableStatusByID(x.getStatusID());
+            model.addRow(new Object[] {isSelectAll, x.getId(), x.getName(), x.getCustomerCode(), x.getTableStatusDTO().getName(), x.getNote(), Helper.FormatDate.getInstance().getFormat().format(x.getUpdateTime()), Helper.FormatDate.getInstance().getFormat().format(x.getCreateTime())});
         }
         model.fireTableDataChanged();
         tbBan.setModel(model);

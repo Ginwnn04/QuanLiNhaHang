@@ -35,6 +35,9 @@ public class MenuItemDTO {
     private int index;
     private PanelProductOrder panelProductOrder;
     
+    private CategoriesDTO categoriesDTO;
+    private MenuItemStatusDTO menuItemStatusDTO;
+    
     
     public MenuItemDTO() {
         
@@ -171,6 +174,22 @@ public class MenuItemDTO {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public CategoriesDTO getCategoriesDTO() {
+        return categoriesDTO;
+    }
+
+    public void setCategoriesDTO(CategoriesDTO categoriesDTO) {
+        this.categoriesDTO = categoriesDTO;
+    }
+
+    public MenuItemStatusDTO getMenuItemStatusDTO() {
+        return menuItemStatusDTO;
+    }
+
+    public void setMenuItemStatusDTO(MenuItemStatusDTO menuItemStatusDTO) {
+        this.menuItemStatusDTO = menuItemStatusDTO;
     }
     
     
