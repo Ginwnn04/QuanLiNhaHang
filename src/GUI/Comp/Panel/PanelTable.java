@@ -4,6 +4,9 @@
  */
 package GUI.Comp.Panel;
 
+import BUS.TableStatusBUS;
+import DAO.TableStatusDAO;
+import DTO.TableStatusDTO;
 import Helper.MyListener;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -16,6 +19,7 @@ import javax.swing.ImageIcon;
  */
 public class PanelTable extends javax.swing.JPanel {
     private String customerCode;
+    private String statusID;
     private String nameTable;
     private boolean isEmpty = true;
     private boolean isSelected = false;
@@ -23,9 +27,10 @@ public class PanelTable extends javax.swing.JPanel {
     public PanelTable() {
     }
 
-    public PanelTable(String nameTable, String customerCode) {
+    public PanelTable(String nameTable, String statusID,String customerCode) {
         this.nameTable = nameTable;
         this.customerCode = customerCode;
+        this.statusID = statusID;
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         init();
@@ -36,16 +41,29 @@ public class PanelTable extends javax.swing.JPanel {
     }
     
     public void init() {
-        if (isEmpty) {
+        TableStatusDTO statusDTO = new TableStatusBUS().getTableStatusByID(statusID);
+        String status = statusDTO.getName();
+        if (statusID.equals("BANTRONG")) {
             panelBackground.setBackground(new Color(103, 199, 143, 255));
             lbIcon.setIcon(new ImageIcon(getClass().getResource("/GUI/Comp/Icon/check.png")));
-            lbStatus.setText("Bàn trống");
-        } else {
+            
+        } 
+        else if (statusID.equals("DANGSUDUNG")) {
             panelBackground.setBackground(new Color(62, 72, 97, 255));
             lbIcon.setIcon(new ImageIcon(getClass().getResource("/GUI/Comp/Icon/user.png")));
-
-            lbStatus.setText("Đang sử dụng");
+     
         }
+        else if (statusID.equals("DANGSUACHUA")) {
+            panelBackground.setBackground(new Color(255, 51, 51, 255));
+            lbIcon.setIcon(new ImageIcon(getClass().getResource("/GUI/Comp/Icon/repair.png")));
+      
+        }
+        else {
+            panelBackground.setBackground(new Color(255, 107, 39, 255));
+            lbIcon.setIcon(new ImageIcon(getClass().getResource("/GUI/Comp/Icon/booking.png")));
+   
+        }
+        lbStatus.setText(status);
     }
     
     public void update() {
@@ -54,21 +72,29 @@ public class PanelTable extends javax.swing.JPanel {
             // Opacity 0.3
             alpha = 178;
         }
-        if (isEmpty) {
+        if (statusID.equals("BANTRONG")) {
             panelBackground.setBackground(new Color(103, 199, 143, alpha));
-        } else {
+        } 
+        else if (statusID.equals("DANGSUDUNG")){
             panelBackground.setBackground(new Color(62, 72, 97, alpha));
         }
-    }
-    
-    public void setStatus(boolean isEmpty) {
-        this.isEmpty = isEmpty;
-        init();
+        else if (statusID.equals("DANGSUACHUA")){
+            panelBackground.setBackground(new Color(255, 51, 51, alpha));
+        }
+        else{
+            panelBackground.setBackground(new Color(255, 107, 39, alpha));
+        }
     }
 
-    public boolean getStatus() {
-        return isEmpty;
+    public String getStatusID() {
+        return statusID;
     }
+
+    public void setStatusID(String statusID) {
+        this.statusID = statusID;
+    }
+    
+    
 
     public boolean isSelected() {
         return isSelected;

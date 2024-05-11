@@ -99,23 +99,23 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         }
     }
 
-    public void setStatusTable(String nameTable, boolean isEmpty) {
-        for (PanelTable x : listPanelTable) {
-            if (x.getNameTable().equals(nameTable)) {
-                x.setStatus(isEmpty);
-            }
-        }
-    }
+//    public void setStatusTable(String nameTable, boolean isEmpty) {
+//        for (PanelTable x : listPanelTable) {
+//            if (x.getNameTable().equals(nameTable)) {
+//                x.setStatus(isEmpty);
+//            }
+//        }
+//    }
 
-    public boolean isUsed(String nameTable) {
-
-        for (PanelTable x : listPanelTable) {
-            if (x.getNameTable().equals(nameTable)) {
-                return x.getStatus();
-            }
-        }
-        return false;
-    }
+//    public boolean isUsed(String nameTable) {
+//
+//        for (PanelTable x : listPanelTable) {
+//            if (x.getNameTable().equals(nameTable)) {
+//                return x.getStatus();
+//            }
+//        }
+//        return false;
+//    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

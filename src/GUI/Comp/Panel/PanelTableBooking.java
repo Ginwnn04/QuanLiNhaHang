@@ -1,11 +1,14 @@
 package GUI.Comp.Panel;
 
+import BUS.TableStatusBUS;
+import DTO.TableStatusDTO;
 import Helper.MyListener;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 
 public class PanelTableBooking extends javax.swing.JPanel {
     private String nameTable;
+    private String statusID;
     private boolean isSelected = false;
     private boolean isEmpty = true;
     
@@ -36,20 +39,15 @@ public class PanelTableBooking extends javax.swing.JPanel {
         return isEmpty;
     }
 
-    public void setStatus(boolean isEmpty) {
-        this.isEmpty = isEmpty;
+    public void setStatusID(String statusID) {
+        this.statusID = statusID;
         update();
     }
     
     public void update() {
-        String status = "";
-        if (isEmpty) {
-            status = "Bàn trống";
-        }
-        else {
-           status = "Đang sử dụng";
-
-        }
+        TableStatusDTO statusDTO = new TableStatusBUS().getTableStatusByID(statusID);
+        String status = statusDTO.getName();
+        
         lbTrangThai.setText(status);
         lbTenBan.setText("Bàn "+ nameTable);
     }
@@ -73,7 +71,7 @@ public class PanelTableBooking extends javax.swing.JPanel {
 
     public void setNameTable(String nameTable) {
         this.nameTable = nameTable;
-        update();
+//        update();
     }
     
     
@@ -125,9 +123,9 @@ public class PanelTableBooking extends javax.swing.JPanel {
                     .addGroup(panelBackground1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(15, 15, 15)
-                        .addComponent(lbTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lbTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lbTenBan))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(btnSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
@@ -152,7 +150,7 @@ public class PanelTableBooking extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBackground1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addComponent(panelBackground1, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

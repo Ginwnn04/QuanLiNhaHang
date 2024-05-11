@@ -75,23 +75,14 @@ public class QuanLiBan extends javax.swing.JPanel {
         
         tbBan.getModel().addTableModelListener(new TableModelListener() {
             public void tableChanged(TableModelEvent e) {
-                if (e.getColumn() == 0) { // Check if the event is from the first column
+                if (e.getColumn() == 0) { 
                     // Lay row cua table hien tai
                     int row = tbBan.getSelectedRow();
                     // Lay row cua table ban dau
                     int row1 = e.getFirstRow();
-//                    System.out.println(row + " " + row1);
-//                    System.out.println(tbBan.getValueAt(row, 2));
-                    // Your event handling code here
                     listTable.get(row1).setIsSelected(!listTable.get(row1).isIsSelected());
                     cntTableSelected += !listTable.get(row1).isIsSelected() ? -1 : 1;
-                    if (cntTableSelected == 1) {
-                        btnSua.setEnabled(true);
-                    }
-                    else {
-                        btnSua.setEnabled(false);
-                        
-                    }
+
                 }
             }
         });
@@ -299,7 +290,6 @@ public class QuanLiBan extends javax.swing.JPanel {
 
         btnSua.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         btnSua.setText("Sửa");
-        btnSua.setEnabled(false);
         btnSua.setMaximumSize(new java.awt.Dimension(72, 35));
         btnSua.setPreferredSize(new java.awt.Dimension(72, 30));
         btnSua.addActionListener(new java.awt.event.ActionListener() {
@@ -497,13 +487,18 @@ public class QuanLiBan extends javax.swing.JPanel {
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-
+        if (cntTableSelected > 1) {
+            JOptionPane.showMessageDialog(pnContainer, "Chỉ sửa được 1 bàn. Vui lòng thao tác lại");
+            cntTableSelected = 0;
+            return;
+        }
         DialogActionTable x = new DialogActionTable(null, true, true);
         for (TableDTO table : listTable) {
             if (table.isIsSelected()) {
+                x.setTable(table);
                 x.setAction(true);
-//                System.out.println(table.getId());
-                x.setIDTable(table.getId(), true);
+                x.setVisible(true);
+//                x.setIDTable(table.getId(), true);
                 break;
             }
         }
@@ -514,7 +509,9 @@ public class QuanLiBan extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         DialogActionTable x = new DialogActionTable(null, true, false);
+      
         x.setAction(false);
+        x.setVisible(true);
 //        listTable = new TableBUS().getAllData();
         render(false);
 

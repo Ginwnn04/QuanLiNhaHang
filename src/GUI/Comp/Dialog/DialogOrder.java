@@ -76,16 +76,22 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         if (evt.getPropertyName().equals("SelectedTable")) {
             TableDTO table = listTable.get(getTable((String)evt.getOldValue()));
             PanelTableBooking pnTable = table.getPnTableBooking();
+            
+            if (table.getStatusID().equals("DANGSUACHUA")) {
+                JOptionPane.showMessageDialog(rootPane, "Bàn đang sửa chữa");
+                return;
+            }
+            
             if (listTableSelected.size() == 0) {
                 totalSelected += 1;
                 pnTable.setSelected(true);
                 listTableSelected.add(table);
             } 
             else {
-                TableDTO tableTailList = listTableSelected.get(0);
-                PanelTableBooking pnTableHead = tableTailList.getPnTableBooking();
+                TableDTO tableHeadList = listTableSelected.get(0);
+                PanelTableBooking pnTableHead = tableHeadList.getPnTableBooking();
                 if (pnTableHead.isIsEmpty() == pnTable.isIsEmpty()) {
-                    if (findTableselected(table.getName())) {
+                    if (findTableSelected(table.getName())) {
                         totalSelected -= 1;
                         pnTable.setSelected(false);
                         listTableSelected.remove(table);
@@ -108,6 +114,8 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
                         listTableSelected.add(table);
                     }
                 }
+
+                
             }
 
             lbTotalSelected.setText(listTableSelected.size() + "");
@@ -115,7 +123,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         
     }
     
-    public boolean findTableselected(String nameTable) {
+    public boolean findTableSelected(String nameTable) {
         for (TableDTO x : listTableSelected) {
             if (x.getName().equals(nameTable)) {
                 return true;

@@ -44,12 +44,22 @@ public class TableDTO {
     public PanelTableBooking createTableBooking() {
         pnTableBooking = new PanelTableBooking();
         pnTableBooking.setNameTable(name);
-        if (statusID.equals("DANGSUDUNG")) {
-            pnTableBooking.setStatus(false);
-        }
+//        if (statusID.equals("DANGSUDUNG")) {
+//            pnTableBooking.setStatusID(statusID);
+//        }
+        pnTableBooking.setStatusID(statusID);
         return pnTableBooking;
+    } 
+    
+    public PanelTable createTable() {
+        pnTable = new PanelTable(name, statusID, customerCode);
+        if (statusID.equals("DANGSUDUNG")) {
+            pnTable.setStatusID(statusID);
+        }
+//        pnTable.
+        return pnTable;
     }
-
+    
     public boolean isIsSelected() {
         return isSelected;
     }
@@ -64,17 +74,6 @@ public class TableDTO {
 
     public void setNote(String note) {
         this.note = note;
-    }
-    
-    
-    
-    public PanelTable createTable() {
-        pnTable = new PanelTable(name, customerCode);
-        if (statusID.equals("DANGSUDUNG")) {
-            pnTable.setStatus(false);
-        }
-        
-        return pnTable;
     }
     
     public long getId() {

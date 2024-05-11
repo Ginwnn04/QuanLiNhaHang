@@ -1,17 +1,21 @@
 package GUI.Comp.Dialog;
 
 import BUS.TableBUS;
+import BUS.TableStatusBUS;
 import DAO.TableDAO;
 import DTO.TableDTO;
+import DTO.TableStatusDTO;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
 
 
 public class DialogActionTable extends javax.swing.JDialog {
-    private TableDTO table  = new TableDTO();
+    private TableDTO table = new TableDTO();
     private TableBUS tableBUS  = new TableBUS();
     private boolean isUpdate;
+    private ArrayList<TableStatusDTO> listStatus;
     
     public DialogActionTable(java.awt.Frame parent, boolean modal, boolean enable) {
         
@@ -20,11 +24,17 @@ public class DialogActionTable extends javax.swing.JDialog {
         setLocationRelativeTo(null);
        
         cbxTrangThai.setEnabled(enable);
-        
+        initCombobox();
         
         // Set visible phai de cuoi cung
-        
-      
+
+    }
+    
+    public void initCombobox() {
+        listStatus = new TableStatusBUS().getAll();
+        for (TableStatusDTO x : listStatus) {
+            cbxTrangThai.addItem(x.getName());
+        }
         
     }
     
@@ -33,21 +43,28 @@ public class DialogActionTable extends javax.swing.JDialog {
         if (isUpdate) {
             jLabel5.setText("SỦA THÔNG TIN BÀN");
             btnThem.setText("SỬA");
+            txtIDTable.setText(table.getId() + "");
+            txtNameTable.setText(table.getName());
+            txtDesTable.setText(table.getDes());
             
         }
         else {
-            setIDTable(table.createID(), false);
+             txtIDTable.setText(table.createID() + "");
         }
         
     }
     
-    public void setIDTable(long id, boolean isUpdate) {
-        if (isUpdate) {
-            table = tableBUS.findTableByID(id);
-            
-        }
-        txtIDTable.setText(id + "");
-        setVisible(true);
+//    public void setIDTable(long id, boolean isUpdate) {
+//        if (isUpdate) {
+//            table = tableBUS.findTableByID(id);
+//            
+//        }
+//        txtIDTable.setText(id + "");
+//        setVisible(true);
+//    }
+
+    public void setTable(TableDTO table) {
+        this.table = table;
     }
     
     
@@ -420,7 +437,6 @@ public class DialogActionTable extends javax.swing.JDialog {
 
         cbxTrangThai.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         cbxTrangThai.setForeground(new java.awt.Color(255, 255, 255));
-        cbxTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BANTRONG", "DANGSUDUNG", "DANGSUACHUA" }));
         panelBackground21.add(cbxTrangThai, java.awt.BorderLayout.CENTER);
 
         pnCenter.add(panelBackground21);
@@ -456,7 +472,7 @@ public class DialogActionTable extends javax.swing.JDialog {
 
         table.setName(txtNameTable.getText());
         table.setDes(txtDesTable.getText());
-        table.setStatusID((String)cbxTrangThai.getSelectedItem());
+        table.setStatusID(listStatus.get(cbxTrangThai.getSelectedIndex()).getId());
         table.setCreateTime(currentDate);
         table.setUpdateTime(currentDate);
         
