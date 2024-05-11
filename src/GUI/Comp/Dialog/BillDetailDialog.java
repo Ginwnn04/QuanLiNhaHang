@@ -10,6 +10,7 @@ package GUI.Comp.Dialog;
  */
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class BillDetailDialog extends JDialog {
@@ -17,8 +18,9 @@ public class BillDetailDialog extends JDialog {
         super(parent, title, true);
         JTextArea textArea = new JTextArea(detailInfo);
         textArea.setEditable(false);
-        add(textArea);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        add(scrollPane);
         pack();
-        setLocationRelativeTo(parent);
+        setLocationRelativeTo(null); // Hiển thị dialog ở giữa màn hình
     }
 }

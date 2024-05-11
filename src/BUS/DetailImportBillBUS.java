@@ -8,6 +8,7 @@ package BUS;
  *
  * @author Tai
  */
+
 import static BUS.ConnectDB.openConnect;
 import DAO.DetailImportBillDAO;
 import DTO.DetailImportBillDTO;
@@ -45,7 +46,7 @@ public class DetailImportBillBUS {
     public static void deleteDetailImportBill(Long importBillId) {
         DetailImportBillDAO.deleteDetailImportBill(importBillId);
     }
-    public static void insertImportBill(long currentBillId, int totalQuantity, long totalAmount, long supplierIdInput, DefaultTableModel model, long x) {
-        DetailImportBillDAO.insertImportBill(currentBillId, totalQuantity, totalAmount, supplierIdInput, model, x); // Xử lý ngoại lệ hoặc thông báo lỗi
+    public static void insertImportBill(long currentBillId, int totalQuantity, long totalAmount, long supplierIdInput, DefaultTableModel model, long[] ingredientIds) {
+        DetailImportBillDAO.insertImportBill(currentBillId, totalQuantity, totalAmount, supplierIdInput, model, ingredientIds); // Xử lý ngoại lệ hoặc thông báo lỗi
     }
 }

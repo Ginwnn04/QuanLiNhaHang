@@ -247,6 +247,7 @@ public class DialogDetailImport extends javax.swing.JPanel {
 
         add(jPanel2, java.awt.BorderLayout.LINE_END);
 
+        jTable2.setBackground(new java.awt.Color(35, 35, 35));
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
             },
@@ -281,7 +282,7 @@ public class DialogDetailImport extends javax.swing.JPanel {
             jComboBox2.addItem(x.getName());
         }
     }
-
+    // nút thêm
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Kiểm tra xem các trường text field có trống không
         if (jTextField1.getText().isEmpty() || jTextField2.getText().isEmpty()) {
@@ -332,7 +333,7 @@ public class DialogDetailImport extends javax.swing.JPanel {
         }
             System.out.println(ingredientsList.get(jComboBox1.getSelectedIndex()).getId());
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    // nút xóa
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // Kiểm tra xem có dòng nào được chọn không
         if (jTable2.getSelectedRow() == -1) {
@@ -347,25 +348,42 @@ public class DialogDetailImport extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         model.removeRow(selectedRow);
     }//GEN-LAST:event_jButton3ActionPerformed
-
+    // nút xác nhận
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
     int confirmation = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn thêm dữ liệu?", "Xác nhận", JOptionPane.YES_NO_OPTION);
     if (confirmation == JOptionPane.YES_OPTION) {
         try {
-
-
             // Lấy số lượng dòng dữ liệu trong jTable
             int totalQuantity = jTable2.getRowCount();
-            System.out.println(supplierList.get(jComboBox2.getSelectedIndex()).getId());
+
             // Tính tổng tiền
             long totalAmount = 0;
             DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+            List<Long> ingredientIds = new ArrayList<>(); // Danh sách chứa Ingredientid của các dòng
             for (int i = 0; i < model.getRowCount(); i++) {
                 totalAmount += (long) model.getValueAt(i, 3);
+                // Lấy tên nguyên liệu từ cột "Tên nguyên liệu" (cột cuối cùng)
+                String selectedIngredientName = (String) model.getValueAt(i, model.getColumnCount() - 1);
+                int selectedIngredientIndex = -1; // Chuyển từ long sang int
+                for (int j = 0; j < ingredientsList.size(); j++) {
+                    if (ingredientsList.get(j).getName().equals(selectedIngredientName)) {
+                        selectedIngredientIndex = j;
+                        break;
+                    }
+                }
+                if (selectedIngredientIndex != -1) {
+                    ingredientIds.add(ingredientsList.get(selectedIngredientIndex).getId());
+                }
+            }
+
+            // Chuyển đổi danh sách ingredientIds thành mảng long[]
+            long[] ingredientIdsArray = new long[ingredientIds.size()];
+            for (int i = 0; i < ingredientIds.size(); i++) {
+                ingredientIdsArray[i] = ingredientIds.get(i);
             }
 
             // Thêm dữ liệu vào cơ sở dữ liệu thông qua BUS
-            DetailImportBillBUS.insertImportBill(currentBillId, totalQuantity, totalAmount, supplierList.get(jComboBox2.getSelectedIndex()).getId(), model, ingredientsList.get(jComboBox1.getSelectedIndex()).getId());
+            DetailImportBillBUS.insertImportBill(currentBillId, totalQuantity, totalAmount, supplierList.get(jComboBox2.getSelectedIndex()).getId(), model, ingredientIdsArray);
             JOptionPane.showMessageDialog(this, "Thêm thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 
             dispose(); // Đóng dialog sau khi thêm dữ liệu thành công

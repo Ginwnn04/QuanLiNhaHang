@@ -102,7 +102,7 @@ public class DetailImportBillDAO {
             e.printStackTrace(); 
         }
     }
-        public static void insertImportBill(long currentBillId, int totalQuantity, long totalAmount, long supplierIdInput, DefaultTableModel model, long x) {
+     public static void insertImportBill(long currentBillId, int totalQuantity, long totalAmount, long supplierIdInput, DefaultTableModel model, long[] ingredientIds) {
         String insertImportBillQuery = "INSERT INTO tb_import_bill (id, quantity, total, import_date, staffid, supplierid, isdeleted) VALUES (?, ?, ?, ?, ?, ?, ?)";
         String insertDetailImportBillQuery = "INSERT INTO tb_detail_import_bill (id, quantity, price, total, billid, ingredientid, isdeleted) VALUES (?, ?, ?, ?, ?, ?, ?)";
         String updateIngredientsQuery = "UPDATE tb_ingredients SET quantity = quantity + ? WHERE id = ?";
@@ -130,13 +130,13 @@ public class DetailImportBillDAO {
                 insertDetailImportBillStmt.setLong(3, (long) model.getValueAt(i, 2));
                 insertDetailImportBillStmt.setLong(4, (long) model.getValueAt(i, 3));
                 insertDetailImportBillStmt.setLong(5, currentBillId);
-                insertDetailImportBillStmt.setLong(6, x);
+                insertDetailImportBillStmt.setLong(6, ingredientIds[i]);
                 insertDetailImportBillStmt.setBoolean(7, false);
                 insertDetailImportBillStmt.addBatch();
 
                 // Cập nhật quantity trong tb_ingredients
                 updateIngredientsStmt.setInt(1, (int) model.getValueAt(i, 1)); // quantity từ tb_detail_import_bill
-                updateIngredientsStmt.setLong(2, x);
+                updateIngredientsStmt.setLong(2, ingredientIds[i]);
                 updateIngredientsStmt.addBatch();
             }
 
