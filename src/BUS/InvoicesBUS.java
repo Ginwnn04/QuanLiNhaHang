@@ -15,6 +15,9 @@ import java.util.List;
  */
 public class InvoicesBUS {
     private InvoicesDAO invoicesDAO = new InvoicesDAO();
+    public boolean deleteInvoices(String id){
+        return invoicesDAO.removeInvoice(id);
+    }
     public boolean  insertInvoices(InvoicesDTO invoices) {
         return invoicesDAO.insertData(invoices);
     }

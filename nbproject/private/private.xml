@@ -3,14 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/ADMIN/Desktop/QuanLiNhaHang/src/GUI/Comp/Panel/QuanLiDatMon.java</file>
             <file>file:/C:/Users/ADMIN/Desktop/QuanLiNhaHang/src/GUI/Main/Login.java</file>
-            <file>file:/C:/Users/ADMIN/Desktop/QuanLiNhaHang/src/GUI/Comp/chart/ItemChartPie.java</file>
-            <file>file:/C:/Users/ADMIN/Desktop/QuanLiNhaHang/src/BUS/InvoicesBUS.java</file>
-            <file>file:/C:/Users/ADMIN/Desktop/QuanLiNhaHang/src/GUI/Comp/Panel/PanelStatistic.java</file>
-            <file>file:/C:/Users/ADMIN/Desktop/QuanLiNhaHang/src/DAO/InvoicesDAO.java</file>
-            <file>file:/C:/Users/ADMIN/Desktop/QuanLiNhaHang/src/GUI/Comp/chart/ItemChartLine.java</file>
+            <file>file:/C:/Users/ADMIN/Desktop/QuanLiNhaHang/src/GUI/Comp/Dialog/DetailsOrder.java</file>
+            <file>file:/C:/Users/ADMIN/Desktop/QuanLiNhaHang/src/GUI/Comp/Panel/QuanLiHoaDon.java</file>
             <file>file:/C:/Users/ADMIN/Desktop/QuanLiNhaHang/src/GUI/Main/Main.java</file>
-            <file>file:/C:/Users/ADMIN/Desktop/QuanLiNhaHang/src/DAO/MenuItemDAO.java</file>
         </group>
     </open-files>
 </project-private>

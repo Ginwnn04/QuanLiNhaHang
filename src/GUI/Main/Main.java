@@ -26,6 +26,7 @@ import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import BUS.StaffBUS;
 import DTO.StaffDTO;
 import GUI.Comp.Panel.PanelStatistic;
+import GUI.Comp.Panel.QuanLiHoaDon;
 import GUI.Comp.Panel.QuanLiMonAn;
 import GUI.Comp.Panel.QuanLiSupplier;
 
@@ -136,7 +137,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
                     showForm(new QuanLiGiamGia());
                     break;
                 case 8:
-//                    hoa don
+                    showForm(new QuanLiHoaDon());
                     break;
                 case 9:
                     showForm(new PanelStatistic());

@@ -120,4 +120,16 @@ public class InvoicesDAO {
         }
         return null;
     }
+    
+    public boolean removeInvoice(String listID){
+        String query = "UPDATE tb_invoices SET isdeleted = true WHERE id IN (" + listID + ")";
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)){
+            return pstm.executeUpdate() > 0;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+   
 }
