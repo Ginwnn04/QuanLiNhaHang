@@ -94,13 +94,13 @@ public class InvoicesDAO {
         LocalDate startOfWeek = firstDay.with(IsoFields.WEEK_OF_WEEK_BASED_YEAR, index).with(DayOfWeek.MONDAY);
         LocalDate endOfWeek = startOfWeek.plusDays(6);
         java.sql.Date convertedStart = java.sql.Date.valueOf(startOfWeek);
-        java.sql.Date convertedEnd = java.sql.Date.valueOf(endOfWeek);
+        java.sql.Date convertedEnd = java.sql.Date.valueOf(endOfWeek.plusDays(1));
         query = """
                 SELECT tb_menu_item.name as name, SUM(tb_detail_order.total) as total
                 FROM tb_invoices
                 JOIN tb_detail_order ON tb_invoices.id = tb_detail_order.invoiceid
                 JOIN tb_menu_item ON tb_detail_order.itemid = tb_menu_item.id
-                WHERE tb_invoices.time BETWEEN ? AND ?
+                WHERE tb_invoices.time >= ? AND tb_invoices.time <= ?
                 GROUP BY tb_menu_item.name""";
         List<ModelChartPie> res = new ArrayList<>();
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
