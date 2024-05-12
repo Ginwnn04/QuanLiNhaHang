@@ -12,7 +12,7 @@ public class ItemChartPie extends javax.swing.JPanel {
         this.data = data;
         initComponents();
         setOpaque(false);
-        DecimalFormat df = new DecimalFormat("$ #,##0.##");
+        DecimalFormat df = new DecimalFormat("VND #,##0.##");
         lbName.setText(data.getName());
         lbValues.setText(df.format(data.getValue()));
     }
@@ -24,10 +24,10 @@ public class ItemChartPie extends javax.swing.JPanel {
         lbName = new javax.swing.JLabel();
         lbValues = new javax.swing.JLabel();
 
-        lbName.setForeground(new java.awt.Color(69, 69, 69));
+        lbName.setForeground(new java.awt.Color(255, 255, 255));
         lbName.setText("Name");
 
-        lbValues.setForeground(new java.awt.Color(69, 69, 69));
+        lbValues.setForeground(new java.awt.Color(255, 255, 255));
         lbValues.setText("Values");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
