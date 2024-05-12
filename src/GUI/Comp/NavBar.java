@@ -89,7 +89,7 @@ public class NavBar extends javax.swing.JPanel {
         
         // Tài
         addMenuItem("Nguyên liệu", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/mortar.png")));
-        addMenuItem("Kiểm kê", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/shopping-cart.png")));
+        addMenuItem("Nhập kho", new ImageIcon(getClass().getResource("/GUI/Comp/Icon/shopping-cart.png")));
 
         
         // Nhân
@@ -190,7 +190,7 @@ public class NavBar extends javax.swing.JPanel {
         pnContainer.setBackground(new java.awt.Color(35, 35, 35));
         pnContainer.setPreferredSize(new java.awt.Dimension(230, 765));
 
-        imageAvatar2.setImage(new javax.swing.ImageIcon(getClass().getResource("/GUI/Comp/Icon/cross-circle.png"))); // NOI18N
+        imageAvatar2.setImage(new javax.swing.ImageIcon(getClass().getResource("/GUI/Comp/Icon/385514898_1350252949206356_5905706099619149463_n.jpg"))); // NOI18N
 
         lbRole.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         lbRole.setForeground(new java.awt.Color(154, 154, 154));
@@ -244,7 +244,7 @@ public class NavBar extends javax.swing.JPanel {
                     .addGroup(pnContainerLayout.createSequentialGroup()
                         .addGap(64, 64, 64)
                         .addComponent(imageAvatar2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(173, Short.MAX_VALUE))
         );
         pnContainerLayout.setVerticalGroup(
             pnContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,7 +256,7 @@ public class NavBar extends javax.swing.JPanel {
                 .addGap(5, 5, 5)
                 .addComponent(lbRole, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(pnMenuItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnMenuItem, javax.swing.GroupLayout.DEFAULT_SIZE, 17, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

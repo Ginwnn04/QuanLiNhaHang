@@ -49,17 +49,19 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("Selected")) {
 //            jTextField1.setText(evt.getNewValue() + "");
-            txtSaveTable.setText(evt.getNewValue() + "");
+//            txtSaveTable.setText(evt.getNewValue() + "");
             System.out.println(evt.getNewValue());
             for (PanelTable x : listPanelTable) {
                 if (x.getNameTable().equals(evt.getNewValue())) {
                     boolean check = x.isSelected();
                     for (PanelTable y : listPanelTable) {
                         y.setIsSelected(false);
+                        txtSaveTable.setText( "");
                         y.update();
                     }
                     if (!check) {
                         x.setIsSelected(true);
+                        txtSaveTable.setText(evt.getNewValue() + "");
                         x.update();
                         break;
                     }
@@ -416,6 +418,16 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
 
     private void btnGopBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGopBanActionPerformed
         // CustomerCode này là của table muốn gộp 
+        if (txtSaveTable.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(pnContainer, "Bạn chưa chọn bàn");
+            return;
+        }
+        TableDTO tableSelected = tableBUS.findTableByName(txtSaveTable.getText());
+        if (!tableSelected.getTableStatusDTO().equals("DANGSUADUNG")) {
+            JOptionPane.showMessageDialog(pnContainer, "Bàn này là bàn trống. Không thể chuyển");
+            return;
+        }
+        
         String customerCode =  JOptionPane.showInputDialog(pnContainerTable, "Mã khách muốn gộp bàn");
         if (customerCode == null) {
             return;
@@ -432,7 +444,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
         // Bàn muốn gộp đến đang là bàn Đơn => Tạo lại customer code để gán cho cả 2 table
         if (customerCode.substring(0, 1).equals("S")) {
             // Table chọn để gộp với bàn khác
-            TableDTO tableSelected = tableBUS.findTableByName(txtSaveTable.getText());
+           
             // Kiểm tra coi nó là bàn Đơn hay không ?
             if (tableSelected.getCustomerCode().substring(0, 1).equals("S")) {
                 // Lúc này ta biết bàn này là bàn đơn => chắc chắn sẽ có duy nhất 1 obj order được trả ra
@@ -452,7 +464,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
             }
         }
         else {
-            TableDTO tableSelected = tableBUS.findTableByName(txtSaveTable.getText());
+            
             if (tableSelected.getCustomerCode().substring(0, 1).equals("S")) {
                 TableDTO tableWillMove = listTableMerge.get(0);
                 customerCodeNew = tableWillMove.getCustomerCode();
@@ -481,6 +493,10 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
     }//GEN-LAST:event_btnGopBanActionPerformed
 
     private void btnTachBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTachBanActionPerformed
+        if (txtSaveTable.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(pnContainer, "Bạn chưa chọn bàn");
+            return;
+        }
         TableDTO tableSelected = tableBUS.findTableByName(txtSaveTable.getText());
         if (tableSelected == null) {
             JOptionPane.showMessageDialog(pnContainerTable, "Vui lòng chọn Bàn cần tách");
@@ -519,8 +535,15 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
     }//GEN-LAST:event_btnTachBanActionPerformed
 
     private void btnChuyenBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChuyenBanActionPerformed
+        if (txtSaveTable.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(pnContainer, "Bạn chưa chọn bàn");
+            return;
+        }
         TableDTO tableSelected = tableBUS.findTableByName(txtSaveTable.getText());
-
+        if (!tableSelected.getTableStatusDTO().equals("DANGSUADUNG")) {
+            JOptionPane.showMessageDialog(pnContainer, "Bàn này là bàn trống. Không thể chuyển");
+            return;
+        }
         String nameTableMove = JOptionPane.showInputDialog(pnContainer, "Nhập tên bàn muốn chuyển đến", "Chuyển bàn", HEIGHT);
         TableDTO tableMove = tableBUS.findTableByName(nameTableMove);
         tableMove.setCustomerCode(tableSelected.getCustomerCode());
@@ -539,7 +562,12 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
     }//GEN-LAST:event_btnChuyenBanActionPerformed
 
     private void btnDatBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatBanActionPerformed
+        if (txtSaveTable.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(pnContainer, "Bạn chưa chọn bàn");
+            return;
+        }
         TableDTO tableSelected = tableBUS.findTableByName(txtSaveTable.getText());
+      
         if (tableSelected.getStatusID().equals("BANTRONG")) {
             tableSelected.setStatusID("DADATTRUOC");
         }

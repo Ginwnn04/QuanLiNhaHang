@@ -19,6 +19,10 @@ public class DetailsReciptBUS {
         return detailsRecipeDAO.readByIDItem(itemid);
     }
     
+    public DetailsRecipeDTO findDetailsByIngreNItem(long ingreid, long itemid) {
+        return detailsRecipeDAO.findDetailsByIngreNItem(ingreid, itemid);
+    }
+    
     public boolean updateDetail(DetailsRecipeDTO x) {
         return detailsRecipeDAO.update(x);
     }

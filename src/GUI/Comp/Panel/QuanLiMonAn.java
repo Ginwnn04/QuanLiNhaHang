@@ -97,7 +97,7 @@ public class QuanLiMonAn extends javax.swing.JPanel {
 //            CategoriesDTO cate = new CategoriesBUS().findCategoriByID(x.getCategoryID());
 //            MenuItemStatusDTO status = new MenuItemStatusBUS().findItemStatusByID(x.getStatusID());
             
-            model.addRow(new Object[] {x.isIsSelected(), x.getId(), x.getName(), x.getDescription(), Helper.FormatNumber.getInstance().getFormat().format(x.getPrice()), Helper.FormatNumber.getInstance().getFormat().format(x.getProfit()), x.getMenuItemStatusDTO().getName(), x.getCategoriesDTO().getName(),Helper.FormatDate.getInstance().getFormat().format(x.getUpdateTime()), Helper.FormatDate.getInstance().getFormat().format(x.getCreateTime())});
+            model.addRow(new Object[] {x.isIsSelected(), x.getId(), x.getName(), Helper.FormatNumber.getInstance().getFormat().format(x.getPrice()), Helper.FormatNumber.getInstance().getFormat().format(x.getProfit()), x.getMenuItemStatusDTO().getName(), x.getCategoriesDTO().getName(),Helper.FormatDate.getInstance().getFormat().format(x.getUpdateTime()), Helper.FormatDate.getInstance().getFormat().format(x.getCreateTime())});
         }
         model.fireTableDataChanged();
         tbMonAn.setModel(model);
@@ -374,20 +374,20 @@ public class QuanLiMonAn extends javax.swing.JPanel {
         tbMonAn.setForeground(new java.awt.Color(255, 255, 255));
         tbMonAn.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, "aaaaaaaaaa", "ádasdasd", null, "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa", null, null},
-                {null, "aaaaaaaaaa", "ádasd", null, "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa", null, null},
-                {null, "aaaaaaaaaa", "ádasd", null, "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa", null, null},
-                {null, "aaaaaaaaaa", "ádasda", null, "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa", null, null}
+                {null, "aaaaaaaaaa", "ádasdasd", "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa", null, null},
+                {null, "aaaaaaaaaa", "ádasd", "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa", null, null},
+                {null, "aaaaaaaaaa", "ádasd", "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa", null, null},
+                {null, "aaaaaaaaaa", "ádasda", "aaaaaaaaaa", "aaaaaaaaaa", null, "aaaaaaaaaa", null, null}
             },
             new String [] {
-                "", "Mã món ăn", "Tên món ăn", "Mô tả", "Giá bán", "Lợi nhuận", "Trạng thái", "Thể loại", "Ngày sửa", "Ngày tạo"
+                "", "Mã món ăn", "Tên món ăn", "Giá bán", "Lợi nhuận", "Trạng thái", "Thể loại", "Ngày sửa", "Ngày tạo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false, false, false, false, false
+                true, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -405,6 +405,10 @@ public class QuanLiMonAn extends javax.swing.JPanel {
         if (tbMonAn.getColumnModel().getColumnCount() > 0) {
             tbMonAn.getColumnModel().getColumn(0).setPreferredWidth(20);
             tbMonAn.getColumnModel().getColumn(0).setMaxWidth(20);
+            tbMonAn.getColumnModel().getColumn(1).setPreferredWidth(170);
+            tbMonAn.getColumnModel().getColumn(1).setMaxWidth(170);
+            tbMonAn.getColumnModel().getColumn(2).setPreferredWidth(200);
+            tbMonAn.getColumnModel().getColumn(2).setMaxWidth(200);
         }
 
         panelBackground5.add(jScrollPane2, java.awt.BorderLayout.CENTER);

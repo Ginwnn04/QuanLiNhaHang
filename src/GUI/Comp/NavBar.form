@@ -63,7 +63,7 @@
                           <Component id="imageAvatar2" min="-2" pref="100" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="29" max="32767" attributes="0"/>
+                  <EmptySpace pref="173" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -77,7 +77,7 @@
                   <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                   <Component id="lbRole" min="-2" pref="17" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                  <Component id="pnMenuItem" max="32767" attributes="0"/>
+                  <Component id="pnMenuItem" pref="17" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jSeparator2" min="-2" pref="10" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -91,7 +91,7 @@
         <Container class="GUI.Comp.Menu.ImageAvatar" name="imageAvatar2">
           <Properties>
             <Property name="image" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/GUI/Comp/Icon/cross-circle.png"/>
+              <Image iconType="3" name="/GUI/Comp/Icon/385514898_1350252949206356_5905706099619149463_n.jpg"/>
             </Property>
           </Properties>
 

@@ -41,6 +41,34 @@ public class DetailsRecipeDAO {
         return list;
     }
     
+    public DetailsRecipeDTO findDetailsByIngreNItem(long ingreid, long itemid) {
+     
+        String query = "SELECT * FROM tb_detail_recipe WHERE ingredientid = ? AND itemid = ? AND isdeleted = ?";
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
+            pstm.setLong(1, ingreid);
+            pstm.setLong(2, itemid);
+            pstm.setBoolean(3, false);
+            
+            ResultSet rs = pstm.executeQuery();
+            if (rs.next()) {
+                DetailsRecipeDTO detailRecipe = new DetailsRecipeDTO();
+                detailRecipe.setId(rs.getLong("id"));
+                detailRecipe.setQuantity(rs.getInt("quantity"));
+                detailRecipe.setUnit(rs.getString("unit"));
+                detailRecipe.setIngredientID(rs.getLong("ingredientid"));
+                detailRecipe.setItemid(rs.getLong("itemid"));
+                detailRecipe.setIsDelete(rs.getBoolean("isdeleted"));
+                return detailRecipe;
+            }
+            
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    
     public boolean update(DetailsRecipeDTO x) {
         String query = "UPDATE tb_detail_recipe SET quantity = ?, unit = ?, ingredientid = ?, isdeleted = ?, itemid = ? WHERE id = ?";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
