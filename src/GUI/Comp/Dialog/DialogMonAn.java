@@ -16,9 +16,11 @@ import DTO.MenuItemDTO;
 import DTO.MenuItemStatusDTO;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
@@ -47,7 +49,8 @@ public class DialogMonAn extends javax.swing.JDialog {
     private String pathSource = "";
     private boolean isUpdate = false;
     private boolean isDeleted = false;
-    private boolean isCrateNew = false;
+
+    private boolean isValid = true;
     
     public DialogMonAn(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -258,7 +261,6 @@ public class DialogMonAn extends javax.swing.JDialog {
         lbAnh = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1090, 500));
 
         pnContainer.setBackground(new java.awt.Color(30, 30, 30));
         pnContainer.setLayout(new java.awt.BorderLayout());
@@ -632,6 +634,11 @@ public class DialogMonAn extends javax.swing.JDialog {
         panelBackground68.add(jLabel10, java.awt.BorderLayout.LINE_START);
 
         txtSoLuong.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        txtSoLuong.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSoLuongKeyReleased(evt);
+            }
+        });
         panelBackground68.add(txtSoLuong, java.awt.BorderLayout.CENTER);
 
         panelBackground63.add(panelBackground68, java.awt.BorderLayout.CENTER);
@@ -984,6 +991,11 @@ public class DialogMonAn extends javax.swing.JDialog {
         panelBackground33.add(jLabel3, java.awt.BorderLayout.LINE_START);
 
         txtGiaBan.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        txtGiaBan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtGiaBanKeyReleased(evt);
+            }
+        });
         panelBackground33.add(txtGiaBan, java.awt.BorderLayout.CENTER);
 
         panelBackground28.add(panelBackground33, java.awt.BorderLayout.CENTER);
@@ -1066,6 +1078,11 @@ public class DialogMonAn extends javax.swing.JDialog {
         panelBackground39.add(jLabel4, java.awt.BorderLayout.LINE_START);
 
         txtLoiNhuan.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        txtLoiNhuan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtLoiNhuanKeyReleased(evt);
+            }
+        });
         panelBackground39.add(txtLoiNhuan, java.awt.BorderLayout.CENTER);
 
         panelBackground34.add(panelBackground39, java.awt.BorderLayout.CENTER);
@@ -1410,7 +1427,7 @@ public class DialogMonAn extends javax.swing.JDialog {
             Path destinationFile = Paths.get(System.getProperty("user.dir") + "/src/GUI/ImageProduct/" + nameFile);
 
             try {
-                Files.copy(sourceFile, destinationFile);
+                Files.copy(sourceFile, destinationFile, StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException ex) {
                 Logger.getLogger(DialogMonAn.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1495,7 +1512,7 @@ public class DialogMonAn extends javax.swing.JDialog {
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
-        boolean isValid = true;
+        
         if (txtTenMon.getText().isEmpty()) {
             isValid = false;
         }
@@ -1518,7 +1535,7 @@ public class DialogMonAn extends javax.swing.JDialog {
             isValid = false;
         }
         if (!isValid) {
-            JOptionPane.showMessageDialog(pnContainer, "Vui lòng nhập đầy đủ thông tin");
+            JOptionPane.showMessageDialog(pnContainer, "Dữ liệu thiếu hoặc sai");
             return;
         }
         
@@ -1599,6 +1616,54 @@ public class DialogMonAn extends javax.swing.JDialog {
         
         
     }//GEN-LAST:event_btnLuuActionPerformed
+
+    private void txtGiaBanKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtGiaBanKeyReleased
+        if (txtGiaBan.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(pnContainer, "Giá bán không được để trống", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            isValid = false;
+        }
+        else {
+            try {
+                long price = Long.parseLong(txtGiaBan.getText());
+            }
+            catch(NumberFormatException nfe) {
+                JOptionPane.showMessageDialog(pnContainer, "Giá bán phải là kí tự số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                isValid = false;
+            }
+        }
+    }//GEN-LAST:event_txtGiaBanKeyReleased
+
+    private void txtLoiNhuanKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLoiNhuanKeyReleased
+        if (txtLoiNhuan.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(pnContainer, "Lợi nhuận không được để trống", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            isValid = false;
+        }
+        else {
+            try {
+                long price = Long.parseLong(txtLoiNhuan.getText());
+            }
+            catch(NumberFormatException nfe) {
+                JOptionPane.showMessageDialog(pnContainer, "Lợi nhuận phải là kí tự số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                isValid = false;
+            }
+        }
+    }//GEN-LAST:event_txtLoiNhuanKeyReleased
+
+    private void txtSoLuongKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSoLuongKeyReleased
+        if (txtSoLuong.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(pnContainer, "Số lượng không được để trống", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            isValid = false;
+        }
+        else {
+            try {
+                int quantity = Integer.parseInt(txtSoLuong.getText());
+            }
+            catch(NumberFormatException nfe) {
+                JOptionPane.showMessageDialog(pnContainer, "Số lượng phải là kí tự số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                isValid = false;
+            }
+        }
+    }//GEN-LAST:event_txtSoLuongKeyReleased
 
     /**
      * @param args the command line arguments

@@ -516,51 +516,43 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
     }//GEN-LAST:event_formMouseEntered
 
     private void btnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderActionPerformed
-        if (listTableSelected.size() == 0 || listTableSelected.size() == 0) {
+        if (listTableSelected.size() == 0 || listDetailOrder.size() == 0) {
             JOptionPane.showMessageDialog(pnContainerTable, "Bạn chưa chọn Món Ăn hoặc Bàn");
             return;
         }
         
 //        System.out.println("---------------");
         
-        boolean isValid = true;
-        ArrayList<IngredientsDTO> listIngredient = new ArrayList<>();
-        ArrayList<DetailsRecipeDTO> listDetailRecipe = new DetailsReciptBUS().readByIDItem(listDetailOrder.get(0).getItemID());
 
-        for (DetailsRecipeDTO x : listDetailRecipe) {
-            IngredientsDTO ingre = new IngredientsBUS().getIngredientById(x.getIngredientID());
-            listIngredient.add(ingre);
-            System.out.println(ingre.getId());
-            System.out.println(ingre.getQuantity());
-        }
         
+        
+        ArrayList<DetailsRecipeDTO> listDetailRecipe = new ArrayList<>();
+      
         int size = listTableSelected.size();
-//        System.out.println(listDetailOrder.get(0).getQuantity());
+
+
+        
+
         for (DetailOrderDTO x : listDetailOrder) {
             listDetailRecipe = new DetailsReciptBUS().readByIDItem(x.getItemID());
-            for (int i = 0; i < listDetailRecipe.size(); i++) {
-                if (listDetailRecipe.get(i).getQuantity() * size * x.getQuantity() > listIngredient.get(i).getQuantity()) {
+            for (DetailsRecipeDTO detailRecipe : listDetailRecipe) {
+                IngredientsDTO ingredientsDTO = new IngredientsBUS().getIngredientById(detailRecipe.getIngredientID());
+                if (detailRecipe.getQuantity() * size * x.getQuantity() > ingredientsDTO.getQuantity()) {
                         JOptionPane.showMessageDialog(pnContainer, "Món " + x.getName() + " Không đủ số lượng");
-                        isValid = false;
-                        break;
-                        
+                        return;      
                 }
             }
         }
-        if (!isValid) {
-            return;
-        }
         for (DetailOrderDTO x : listDetailOrder) {
             listDetailRecipe = new DetailsReciptBUS().readByIDItem(x.getItemID());
-            for (int i = 0; i < listDetailRecipe.size(); i++) {
-                int newQuantity = listIngredient.get(i).getQuantity() - (listDetailRecipe.get(i).getQuantity() * size * x.getQuantity());
-                listIngredient.get(i).setQuantity(newQuantity);
-                new IngredientsBUS().updateIngredient(listIngredient.get(i));
+            for (DetailsRecipeDTO detailRecipe : listDetailRecipe) {
+                IngredientsDTO ingredientsDTO = new IngredientsBUS().getIngredientById(detailRecipe.getIngredientID());
+                int newQuantity = ingredientsDTO.getQuantity() - (detailRecipe.getQuantity() * size * x.getQuantity());
+                ingredientsDTO.setQuantity(newQuantity);
+                new IngredientsBUS().updateIngredient(ingredientsDTO);
             }
         }
         
-
-
 
         Date date = new Date();
         

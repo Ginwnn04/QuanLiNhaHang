@@ -344,7 +344,7 @@ public class QuanLiGiamGia extends javax.swing.JPanel {
         jPanel9.add(jPanel5);
 
         txtTenChuongTrinh.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        txtTenChuongTrinh.setMaximumSize(new java.awt.Dimension(150, 25));
+        txtTenChuongTrinh.setMaximumSize(new java.awt.Dimension(150, 30));
         txtTenChuongTrinh.setMinimumSize(new java.awt.Dimension(64, 25));
         txtTenChuongTrinh.setPreferredSize(new java.awt.Dimension(71, 25));
         jPanel9.add(txtTenChuongTrinh);
@@ -391,7 +391,7 @@ public class QuanLiGiamGia extends javax.swing.JPanel {
         jPanel9.add(jPanel6);
 
         txtMoTa.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        txtMoTa.setMaximumSize(new java.awt.Dimension(150, 25));
+        txtMoTa.setMaximumSize(new java.awt.Dimension(150, 30));
         txtMoTa.setMinimumSize(new java.awt.Dimension(64, 25));
         txtMoTa.setPreferredSize(new java.awt.Dimension(71, 25));
         jPanel9.add(txtMoTa);
@@ -438,7 +438,7 @@ public class QuanLiGiamGia extends javax.swing.JPanel {
         jPanel9.add(jPanel23);
 
         txtDieuKien.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        txtDieuKien.setMaximumSize(new java.awt.Dimension(150, 25));
+        txtDieuKien.setMaximumSize(new java.awt.Dimension(150, 30));
         txtDieuKien.setMinimumSize(new java.awt.Dimension(64, 25));
         txtDieuKien.setPreferredSize(new java.awt.Dimension(71, 25));
         jPanel9.add(txtDieuKien);
@@ -490,7 +490,7 @@ public class QuanLiGiamGia extends javax.swing.JPanel {
         jPanel13.add(jPanel15);
 
         txtSoLuong.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        txtSoLuong.setMaximumSize(new java.awt.Dimension(150, 25));
+        txtSoLuong.setMaximumSize(new java.awt.Dimension(150, 30));
         txtSoLuong.setMinimumSize(new java.awt.Dimension(64, 25));
         txtSoLuong.setPreferredSize(new java.awt.Dimension(71, 25));
         jPanel13.add(txtSoLuong);
@@ -536,8 +536,10 @@ public class QuanLiGiamGia extends javax.swing.JPanel {
 
         jPanel13.add(jPanel17);
 
+        cbxLoaiGiam.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         cbxLoaiGiam.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "currency", "percent" }));
-        cbxLoaiGiam.setMaximumSize(new java.awt.Dimension(90, 25));
+        cbxLoaiGiam.setMaximumSize(new java.awt.Dimension(100, 30));
+        cbxLoaiGiam.setPreferredSize(new java.awt.Dimension(90, 30));
         jPanel13.add(cbxLoaiGiam);
 
         jPanel8.setBackground(new java.awt.Color(35, 35, 35));
@@ -605,7 +607,7 @@ public class QuanLiGiamGia extends javax.swing.JPanel {
         jPanel20.add(jPanel18);
 
         txtGiaTri.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        txtGiaTri.setMaximumSize(new java.awt.Dimension(150, 25));
+        txtGiaTri.setMaximumSize(new java.awt.Dimension(150, 30));
         txtGiaTri.setMinimumSize(new java.awt.Dimension(64, 25));
         txtGiaTri.setPreferredSize(new java.awt.Dimension(71, 25));
         jPanel20.add(txtGiaTri);
@@ -652,7 +654,7 @@ public class QuanLiGiamGia extends javax.swing.JPanel {
         jPanel20.add(jPanel22);
 
         txtDate.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        txtDate.setMaximumSize(new java.awt.Dimension(150, 25));
+        txtDate.setMaximumSize(new java.awt.Dimension(150, 30));
         txtDate.setMinimumSize(new java.awt.Dimension(64, 25));
         txtDate.setPreferredSize(new java.awt.Dimension(71, 25));
         jPanel20.add(txtDate);
@@ -943,8 +945,21 @@ public class QuanLiGiamGia extends javax.swing.JPanel {
         if (txtDate.getText().isEmpty()) {
             isValid = false;
         }
+        
+        try {
+            int value = Integer.parseInt(txtGiaTri.getText());
+            int quantity = Integer.parseInt(txtSoLuong.getText());
+            long condition = Long.parseLong(txtDieuKien.getText());
+            if (value <= 0 || quantity <= 0 || condition <= 0) {
+                isValid = false;
+            }
+        }
+        catch(NumberFormatException nfe) {
+            isValid = false;
+        }
+        
         if (!isValid) {
-            JOptionPane.showMessageDialog(pnContainer, "Vui lòng điền đủ thông tin", "Cảnh báo", HEIGHT);
+            JOptionPane.showMessageDialog(pnContainer, "Vui lòng nhập đẩy đủ dữ liệu, định dạng", "Cảnh báo", HEIGHT);
             return;
         }
         DiscountDTO discount = new DiscountDTO();

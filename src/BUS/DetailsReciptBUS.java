@@ -23,6 +23,10 @@ public class DetailsReciptBUS {
         return detailsRecipeDAO.findDetailsByIngreNItem(ingreid, itemid);
     }
     
+    public ArrayList<DetailsRecipeDTO> findRecipeByItemid(String listItemID) {
+        return detailsRecipeDAO.findRecipeByItemid(listItemID);
+    }
+    
     public boolean updateDetail(DetailsRecipeDTO x) {
         return detailsRecipeDAO.update(x);
     }
@@ -30,5 +34,6 @@ public class DetailsReciptBUS {
     public boolean insertDetail(DetailsRecipeDTO x) {
         return detailsRecipeDAO.insert(x);
     }
+    
     
 }

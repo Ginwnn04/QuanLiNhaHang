@@ -5,8 +5,12 @@
 package GUI.Comp.Dialog;
 
 import BUS.DetailOrderBUS;
+import BUS.DetailsReciptBUS;
+import BUS.IngredientsBUS;
 import BUS.OrderBUS;
 import DTO.DetailOrderDTO;
+import DTO.DetailsRecipeDTO;
+import DTO.IngredientsDTO;
 import DTO.OrderDTO;
 import java.util.ArrayList;
 import javax.swing.JLabel;
@@ -26,7 +30,7 @@ public class DetailsOrder extends javax.swing.JDialog {
     private ArrayList<DetailOrderDTO> listDetailsOrder;
     private int row;
     private boolean isValid = true;
-    
+    private int distance = 0;
     
     public DetailsOrder(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -780,6 +784,20 @@ public class DetailsOrder extends javax.swing.JDialog {
         OrderDTO order = orderBUS.findOrderByID(orderID);
         order.setTotal(total);
         
+        // Cập nhật lại nguyên liệu
+        if (distance > 0) {
+            System.out.println("xcxcx");
+            DetailOrderDTO detail = new DetailOrderDTO();
+            detail = listDetailsOrder.get(row);
+            ArrayList<DetailsRecipeDTO> listDetailRecipe = new DetailsReciptBUS().readByIDItem(detail.getItemID());
+            for (DetailsRecipeDTO detailRecipe : listDetailRecipe) {
+                IngredientsDTO ingredientsDTO = new IngredientsBUS().getIngredientById(detailRecipe.getIngredientID());
+                int newQuantity = ingredientsDTO.getQuantity() + distance;
+                ingredientsDTO.setQuantity(newQuantity);
+                System.out.println(new IngredientsBUS().updateIngredient(ingredientsDTO));
+            }
+        }
+        
         if (orderBUS.updateTotal(order) && cnt == listDetailsOrder.size()) {
             JOptionPane.showMessageDialog(pnContainer, "Đã lưu thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             
@@ -821,12 +839,20 @@ public class DetailsOrder extends javax.swing.JDialog {
         if (isValid) {
             DetailOrderDTO detail = new DetailOrderDTO();
             detail = listDetailsOrder.get(row);
-            int quantity = Integer.parseInt(txtSoLuong.getText());
-            detail.setQuantity(quantity);
-            detail.setTotal(quantity * detail.getPrice());
+            int quantityNew = Integer.parseInt(txtSoLuong.getText());
+            if (quantityNew <= 0) {
+                JOptionPane.showMessageDialog(pnContainer, "Số lượng phải > 0");
+                return;
+            }
+            if (quantityNew < detail.getQuantity()) {
+                distance = detail.getQuantity() - quantityNew;
+            }
+            detail.setQuantity(quantityNew);
+            detail.setTotal(quantityNew * detail.getPrice());
             listDetailsOrder.set(row, detail);
             refresh();
             render(false);
+            
             
         }
         else {

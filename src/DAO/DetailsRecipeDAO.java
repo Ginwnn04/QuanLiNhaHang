@@ -41,6 +41,33 @@ public class DetailsRecipeDAO {
         return list;
     }
     
+    public ArrayList<DetailsRecipeDTO> findRecipeByItemid(String listItemID) {
+        ArrayList<DetailsRecipeDTO> list = new ArrayList<>();
+        String query = "SELECT * FROM tb_detail_recipe WHERE isdeleted = ? AND itemid IN (" + listItemID + ")";
+        try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
+            pstm.setBoolean(1, false);
+            
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                DetailsRecipeDTO detailRecipe = new DetailsRecipeDTO();
+                detailRecipe.setId(rs.getLong("id"));
+                detailRecipe.setQuantity(rs.getInt("quantity"));
+                detailRecipe.setUnit(rs.getString("unit"));
+                detailRecipe.setIngredientID(rs.getLong("ingredientid"));
+                detailRecipe.setItemid(rs.getLong("itemid"));
+                detailRecipe.setIsDelete(rs.getBoolean("isdeleted"));
+                list.add(detailRecipe);
+            }
+            return list;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    
+    
     public DetailsRecipeDTO findDetailsByIngreNItem(long ingreid, long itemid) {
      
         String query = "SELECT * FROM tb_detail_recipe WHERE ingredientid = ? AND itemid = ? AND isdeleted = ?";
