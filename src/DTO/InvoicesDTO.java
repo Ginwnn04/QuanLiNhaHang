@@ -4,7 +4,6 @@ package DTO;
 import java.util.Date;
 import java.util.Random;
 
-
 public class InvoicesDTO {
     private long id;
     private long amount;
@@ -13,7 +12,8 @@ public class InvoicesDTO {
     private Date createTime;
     private String discountID;
     private boolean isDelete;
- 
+    private OrderDTO orderDTO;
+
     public InvoicesDTO(long amount, long total, Date createTime, boolean isDelete) {
         createID();
         this.amount = amount;
@@ -22,7 +22,8 @@ public class InvoicesDTO {
         this.isDelete = isDelete;
     }
 
-    public InvoicesDTO(long id, long amount, long discount, long total, Date createTime, String discountID, boolean isDelete) {
+    public InvoicesDTO(long id, long amount, long discount, long total, Date createTime, String discountID,
+            boolean isDelete) {
         this.id = id;
         this.amount = amount;
         this.discount = discount;
@@ -34,8 +35,6 @@ public class InvoicesDTO {
 
     public InvoicesDTO() {
     }
-    
-    
 
     public long createID() {
         this.id = System.currentTimeMillis();
@@ -47,8 +46,7 @@ public class InvoicesDTO {
         this.discount = discount;
         total = amount - discount;
     }
-    
-    
+
     public long getId() {
         return id;
     }
@@ -89,8 +87,6 @@ public class InvoicesDTO {
         this.createTime = createTime;
     }
 
-    
-
     public String getDiscountID() {
         return discountID;
     }
@@ -106,6 +102,20 @@ public class InvoicesDTO {
     public void setIsDelete(boolean isDelete) {
         this.isDelete = isDelete;
     }
-    
-    
+
+    public OrderDTO getOrderDTO() {
+        return orderDTO;
+    }
+
+    public void setOrderDTO(OrderDTO orderDTO) {
+        this.orderDTO = orderDTO;
+    }
+
+    public boolean isIsSelected() {
+        return isDelete;
+    }
+
+    public void setIsSelected(boolean isDelete) {
+        this.isDelete = isDelete;
+    }
 }

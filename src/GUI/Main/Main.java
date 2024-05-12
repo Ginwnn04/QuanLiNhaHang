@@ -28,6 +28,7 @@ import DTO.StaffDTO;
 import GUI.Comp.Panel.PanelStatistic;
 import GUI.Comp.Panel.QuanLiMonAn;
 import GUI.Comp.Panel.QuanLiSupplier;
+import GUI.Comp.Panel.QuanLiHoaDon;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -67,7 +68,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
         setTitle("PHẦN MỀM QUẢN LÍ NHÀ HÀNG");
         Helper.ConnectDB.getInstance().openConnect();
         showForm(new PanelDashbroad());
-        
+
         FlatMacDarkLaf.registerCustomDefaultsSource("style");
         UIManager.put("TextField.font", style.MyFont.fontText);
         UIManager.put("Label.font", style.MyFont.fontText);
@@ -77,7 +78,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
         UIManager.put("TableHeader.background", new Color(35, 35, 35));
         UIManager.put("TableHeader.hoverBackground", new Color(35, 35, 35));
 
-//        UIManager.put("Table.alternateRowColor", new Color(53, 53, 53));        
+        // UIManager.put("Table.alternateRowColor", new Color(53, 53, 53));
         UIManager.put("TableHeader.separatorColor", new Color(0, 0, 0, 0));
         UIManager.put("TableHeader.pressedBackground", new Color(0, 0, 0, 0));
         UIManager.put("TableHeader.height", 30);
@@ -95,7 +96,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
         if (evt.getPropertyName().equals("ItemMenu")) {
             System.out.println(evt.getOldValue() + " " + evt.getNewValue());
             int index = (int) evt.getNewValue();
-       
+
             switch (index) {
                 case 0:
                     showForm(new PanelDashbroad());
@@ -116,7 +117,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
                         Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                break;
+                    break;
 
                 case 5: {
                     try {
@@ -125,7 +126,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
                         Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                break;
+                    break;
 
                 case 6:
 
@@ -136,7 +137,7 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
                     showForm(new QuanLiGiamGia());
                     break;
                 case 8:
-//                    hoa don
+                    showForm(new QuanLiHoaDon());
                     break;
                 case 9:
                     showForm(new PanelStatistic());
@@ -147,12 +148,10 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
                 case 11:
                     showForm(new QuanLi_Staff());
                     break;
-                    
 
             }
         }
-       
-       
+
     }
 
     public void showForm(JPanel com) {
@@ -170,12 +169,13 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
                 new Login().setVisible(true);
                 System.out.println("zzscsdsd");
             }
-        
+
         });
     }
-    
+
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         body1 = new GUI.Comp.Swing.PanelBackground();
@@ -202,13 +202,12 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBackground, javax.swing.GroupLayout.DEFAULT_SIZE, 1445, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(panelBackground, javax.swing.GroupLayout.DEFAULT_SIZE, 1445, Short.MAX_VALUE));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBackground, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(panelBackground, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -216,7 +215,6 @@ public class Main extends javax.swing.JFrame implements PropertyChangeListener {
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private GUI.Comp.Swing.PanelBackground body;

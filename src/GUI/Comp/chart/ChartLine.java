@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.List;
+import java.util.Map;
 
 public class ChartLine extends javax.swing.JPanel {
 
@@ -27,12 +28,15 @@ public class ChartLine extends javax.swing.JPanel {
 
     private void initData() {
         panelChartLine.removeAllData();
+        panelData.removeAll();
+        panelData.repaint();
         if (model != null) {
             for (ModelChartLine data : model) {
                 panelChartLine.addItem(data);
                 panelData.add(new ItemChartLine(data));
             }
         }
+        panelData.updateUI();
     }
 
     @Override

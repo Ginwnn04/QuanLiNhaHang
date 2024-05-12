@@ -10,12 +10,16 @@ import BUS.InvoicesBUS;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -24,9 +28,40 @@ import javax.swing.table.DefaultTableModel;
  */
 public class PanelStatistic extends javax.swing.JPanel {
 
-    public List<InvoicesDTO> listInvoice = new ArrayList<>();
-    public InvoicesBUS invoicesBUS = new InvoicesBUS();
-    public long[] arrLine = new long[7];
+    private List<InvoicesDTO> listInvoice = new ArrayList<>();
+    private InvoicesBUS invoicesBUS = new InvoicesBUS();
+    private List<ModelChartPie> listPie = new ArrayList<>();
+
+    public void filter(List<ModelChartPie> arr) {
+        while (arr.size() > 6) {
+            long min = (long) 1e9;
+            int index = -1;
+            for (var i : arr) {
+                if (i.getValue() < min) {
+                    index = arr.indexOf(i);
+                    min = (long) i.getValue();
+                }
+            }
+            arr.remove(index);
+        }
+    }
+
+    public int compareDay(String date1Str, String date2Str) {
+        LocalDate date1 = LocalDate.parse(date1Str, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        LocalDate date2 = LocalDate.parse(date2Str, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+        int dayOfWeek1 = date1.getDayOfWeek().getValue();
+
+        int dayOfWeek2 = date2.getDayOfWeek().getValue();
+
+        int diff = dayOfWeek2 - dayOfWeek1;
+
+        if (diff < 0) {
+            diff += 7;
+        }
+
+        return diff;
+    }
 
     public boolean isDateInWeek(String date1Str, String date2Str) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -44,7 +79,7 @@ public class PanelStatistic extends javax.swing.JPanel {
             if (calendar2.before(calendar1)) {
                 res = false;
             }
-            calendar1.add(Calendar.DAY_OF_WEEK, 6);
+            calendar1.add(Calendar.DAY_OF_WEEK, 7);
             if (calendar2.after(calendar1)) {
                 res = false;
             }
@@ -59,6 +94,9 @@ public class PanelStatistic extends javax.swing.JPanel {
         initComponents();
         initData();
         initInvoice();
+        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) tableInvoices.getTableHeader()
+                .getDefaultRenderer();
+        renderer.setHorizontalAlignment(JLabel.LEFT);
     }
 
     private void initInvoice() {
@@ -80,32 +118,13 @@ public class PanelStatistic extends javax.swing.JPanel {
             Date endDate = weekCalendar.getTime();
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            String weekText = "Tuần " + i + " (" + formatter.format(startDate) + " - " + formatter.format(endDate) + ")";
+            String weekText = "Tuần " + i + " (" + formatter.format(startDate) + " - " + formatter.format(endDate)
+                    + ")";
             comboBoxWeek.addItem(weekText);
         }
         comboBoxWeek.setSelectedIndex(-1);
 
         tableInvoices.fixTable(jScrollPane1);
-        // Test data chart pie
-        List<ModelChartPie> list1 = new ArrayList<>();
-        /*list1.add(new ModelChartPie("Lemon juce", 10, new Color(4, 174, 243)));
-                list1.add(new ModelChartPie("A5", 150, new Color(215, 39, 250)));
-                list1.add(new ModelChartPie("BeefSteak", 80, new Color(44, 88, 236)));
-                list1.add(new ModelChartPie("Thursday", 100, new Color(21, 202, 87)));
-                list1.add(new ModelChartPie("Friday", 125, new Color(127, 63, 255)));
-                list1.add(new ModelChartPie("Saturday", 80, new Color(238, 167, 35)));
-                list1.add(new ModelChartPie("Sunday", 200, new Color(245, 79, 99)));*/
-        chartPie.setModel(list1);
-        // Test data chart line
-        //List<ModelChartLine> list = new ArrayList<>();
-        /*list.add(new ModelChartLine("Monday", 10));
-                list.add(new ModelChartLine("Tuesday", 150));
-                list.add(new ModelChartLine("Wednesday", 80));
-                list.add(new ModelChartLine("Thursday", 100));
-                list.add(new ModelChartLine("Friday", 125));
-                list.add(new ModelChartLine("Saturday", 80));
-                list.add(new ModelChartLine("Sunday", 200));*/
-        //chartLine1.setModel(list);
 
     }
 
@@ -113,7 +132,8 @@ public class PanelStatistic extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         chartPie = new GUI.Comp.chart.ChartPie();
@@ -122,20 +142,24 @@ public class PanelStatistic extends javax.swing.JPanel {
         tableInvoices = new GUI.Comp.chart.Table();
         comboBoxWeek = new javax.swing.JComboBox<>();
 
-        tableInvoices.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+        chartPie.setBackground(new java.awt.Color(35, 35, 35));
 
-            },
-            new String [] {
-                "Time", "ID", "Price", "Discount", "Total"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+        chartLine1.setBackground(new java.awt.Color(35, 35, 35));
+
+        tableInvoices.setBackground(new java.awt.Color(35, 35, 35));
+        tableInvoices.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][] {
+
+                },
+                new String[] {
+                        "Time", "ID", "Price", "Discount", "Total"
+                }) {
+            boolean[] canEdit = new boolean[] {
+                    false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         jScrollPane1.setViewportView(tableInvoices);
@@ -152,59 +176,72 @@ public class PanelStatistic extends javax.swing.JPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(chartLine1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(chartPie, javax.swing.GroupLayout.DEFAULT_SIZE, 515, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(comboBoxWeek, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jScrollPane1)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(chartLine1, javax.swing.GroupLayout.PREFERRED_SIZE, 513,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(chartPie, javax.swing.GroupLayout.DEFAULT_SIZE, 515,
+                                                        Short.MAX_VALUE))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(comboBoxWeek, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addContainerGap()));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(chartPie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(chartLine1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(comboBoxWeek, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(chartPie, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(chartLine1, javax.swing.GroupLayout.PREFERRED_SIZE, 202,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(comboBoxWeek, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 567,
+                                        Short.MAX_VALUE)));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void comboBoxWeekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxWeekActionPerformed
-        //Get the time selected and load data that match to the table
-        if (comboBoxWeek.getSelectedIndex() != -1) {
-            DefaultTableModel model = (DefaultTableModel) tableInvoices.getModel();
-            if (model.getRowCount() > 0) {
-                for (int i = model.getRowCount() - 1; i >= 0; i--) {
-                    model.removeRow(i);
+    private void comboBoxWeekActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_comboBoxWeekActionPerformed
+        // Get the time selected and load data that match to the table
+        long[] arrLine = new long[7];
+        int index = comboBoxWeek.getSelectedIndex();
+        if (index != -1) {
+            DefaultTableModel modelTable = (DefaultTableModel) tableInvoices.getModel();
+            if (modelTable.getRowCount() > 0) {
+                for (int i = modelTable.getRowCount() - 1; i >= 0; i--) {
+                    modelTable.removeRow(i);
                 }
             }
             for (int i = 0; i < 7; i++) {
                 arrLine[i] = 0;
             }
-            model.fireTableDataChanged();
-            chartLine1.repaint();
+            listPie = invoicesBUS.getDetailByTime(index);
+            filter(listPie);
+            chartPie.setModel(listPie);
+            modelTable.fireTableDataChanged();
             String str = comboBoxWeek.getSelectedItem().toString();
             String date = str.substring(str.indexOf('(') + 1, str.indexOf('-') - 1);
-            List<ModelChartPie> listPie = new ArrayList<>();
             List<ModelChartLine> listLine = new ArrayList<>();
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            // Add data table and chart line
             for (var i : listInvoice) {
                 String createTime = dateFormat.format(i.getCreateTime());
                 if (isDateInWeek(date, createTime)) {
-                    model.addRow(new ModelInvoices(i.getCreateTime(), i.getId(), i.getAmount(), i.getDiscount(), i.getTotal()).toDataTable());
-                    int dayInWeek = Integer.valueOf(createTime.substring(0, createTime.indexOf('/') - 1)) - Integer.valueOf(date.substring(0, date.indexOf('/') - 1));
-                    arrLine[dayInWeek] += i.getTotal();
+                    int dayInWeek = compareDay(date, createTime);
+                    long total = i.getTotal();
+                    arrLine[dayInWeek] += total;
+                    modelTable.addRow(new ModelInvoices(i.getCreateTime(), i.getId(), i.getAmount(), i.getDiscount(),
+                            i.getTotal()).toDataTable());
+
                 }
             }
             listLine.add(new ModelChartLine("Monday", arrLine[0]));
@@ -215,8 +252,10 @@ public class PanelStatistic extends javax.swing.JPanel {
             listLine.add(new ModelChartLine("Saturday", arrLine[5]));
             listLine.add(new ModelChartLine("Sunday", arrLine[6]));
             chartLine1.setModel(listLine);
+            // Add data chart pie
+
         }
-    }//GEN-LAST:event_comboBoxWeekActionPerformed
+    }// GEN-LAST:event_comboBoxWeekActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private GUI.Comp.chart.ChartLine chartLine1;
