@@ -22,9 +22,6 @@ public class OrderBUS {
         criteria.setIsDelete(false);
         return orderDAO.read(criteria);
     }
-    public ArrayList<OrderDTO> getOrderByID(long id) {
-        return orderDAO.readByInvoiceID(id);
-    }
     
     
     public boolean insertOrder(OrderDTO order) {
