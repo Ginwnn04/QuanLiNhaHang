@@ -953,6 +953,11 @@ public class QuanLiGiamGia extends javax.swing.JPanel {
             if (value <= 0 || quantity <= 0 || condition <= 0) {
                 isValid = false;
             }
+            if (cbxLoaiGiam.getSelectedItem().toString().equals("percent")) {
+                if (value > 100) {
+                    isValid = false;
+                }
+            }
         }
         catch(NumberFormatException nfe) {
             isValid = false;

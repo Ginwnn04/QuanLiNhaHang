@@ -447,7 +447,8 @@ public class DialogChiTietHoaDon extends javax.swing.JDialog {
             document.open();
             
             
-            
+            BaseFont customBaseFont = BaseFont.createFont("font/Roboto-Italic.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            Font customFont = new Font(customBaseFont, 12);
             
             
             Image image = Image.getInstance("src//GUI//Comp//Icon//logo.jpg");
@@ -502,7 +503,7 @@ public class DialogChiTietHoaDon extends javax.swing.JDialog {
             tbInformation.addCell(new Paragraph(Helper.Format.formatDate.format(new Date()) + ""));
             tbInformation.addCell(new Paragraph("Employee:"));
             String nameStaff = StaffDTO.staffLogging.getLast_name() + " " + StaffDTO.staffLogging.getFirst_name();
-            tbInformation.addCell(new Paragraph(nameStaff));
+            tbInformation.addCell(new Paragraph(nameStaff, customFont));
             tbInformation.addCell(new Paragraph("Table:"));
             tbInformation.addCell(new Paragraph(table.getName()));
             
@@ -519,8 +520,7 @@ public class DialogChiTietHoaDon extends javax.swing.JDialog {
             float[] colDetails = {50f, 15f, 20f, 20f};
             tbDetails.setWidths(colDetails);
             
-            BaseFont customBaseFont = BaseFont.createFont("font/Roboto-Italic.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-            Font customFont = new Font(customBaseFont, 12);
+            
             
             
             PdfPCell cellName = new PdfPCell(new Paragraph("Name"));
