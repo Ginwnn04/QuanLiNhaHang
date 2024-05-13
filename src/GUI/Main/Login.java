@@ -18,7 +18,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -40,8 +39,8 @@ import javax.swing.UIManager;
  * @author vuled
  */
 public class Login extends javax.swing.JFrame {
-    private StaffBUS staffBUS = new StaffBUS();
 
+    private StaffBUS staffBUS = new StaffBUS();
 
     public Login() {
         initComponents();
@@ -49,102 +48,97 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        
+
         Helper.ConnectDB.getInstance().openConnect();
     }
-    
+
     private void LoginLayout() {
         setSize(900, 500);
         setLayout(new BorderLayout());
         JPanel background = new JPanel(new GridLayout(1, 2));
         add(background);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       
-//        getContentPane().setLayout(new GridLayout(1, 2));
 
+//        getContentPane().setLayout(new GridLayout(1, 2));
         JPanel panel_left = new JPanel();
         JPanel panel_right = new JPanel(new BorderLayout());
-        
+
         background.add(panel_left);
         background.add(panel_right);
-        
-        panel_right.setBackground(new Color(35,35,35));
-        
+
+        panel_right.setBackground(new Color(35, 35, 35));
+
         ImageIcon image = new ImageIcon(getClass().getResource("/GUI/Comp/Icon/log.png"));
         JLabel lbImage = new JLabel(image) {
-            public void paintComponent(Graphics g){
+            public void paintComponent(Graphics g) {
                 Dimension size = getSize();
                 g.drawImage(image.getImage(), 0, 0, size.width, size.height, null);
             }
         };
         panel_right.add(lbImage);
-        
-        panel_left.setBackground(new Color(35,35,35));
-        
+
+        panel_left.setBackground(new Color(35, 35, 35));
+
         panel_left.setLayout(new BorderLayout());
-        
+
         JPanel panel_north = new JPanel();
         panel_north.setPreferredSize(new Dimension(400, 50));
-        panel_north.setBackground(new Color(35,35,35));
-        
+        panel_north.setBackground(new Color(35, 35, 35));
+
         JPanel panel_center = new JPanel();
-        
+
         JPanel panel_south = new JPanel();
-        panel_south.setBackground(new Color(35,35,35));
+        panel_south.setBackground(new Color(35, 35, 35));
         panel_south.setPreferredSize(new Dimension(400, 50));
-        
+
         JPanel panel_east = new JPanel();
-        panel_east.setBackground(new Color(35,35,35));
+        panel_east.setBackground(new Color(35, 35, 35));
         panel_east.setPreferredSize(new Dimension(25, 400));
-        
+
         JPanel panel_west = new JPanel();
-        panel_west.setBackground(new Color(35,35,35));
+        panel_west.setBackground(new Color(35, 35, 35));
         panel_west.setPreferredSize(new Dimension(25, 400));
-        
+
         panel_left.add(panel_north, BorderLayout.NORTH);
         panel_left.add(panel_center, BorderLayout.CENTER);
         panel_left.add(panel_south, BorderLayout.SOUTH);
         panel_left.add(panel_east, BorderLayout.EAST);
         panel_left.add(panel_west, BorderLayout.WEST);
-        
+
         JPanel logSection_panel_top = new JPanel();
-        logSection_panel_top.setPreferredSize(new Dimension(350,100));
+        logSection_panel_top.setPreferredSize(new Dimension(350, 100));
         JPanel logSection_panel_mid = new JPanel();
-        logSection_panel_mid.setBackground(new Color(35,35,35));
+        logSection_panel_mid.setBackground(new Color(35, 35, 35));
         JPanel logSection_panel_bot = new JPanel();
-        logSection_panel_bot.setPreferredSize(new Dimension(200,170));
-        logSection_panel_bot.setBackground(new Color(35,35,35));
-        
+        logSection_panel_bot.setPreferredSize(new Dimension(200, 170));
+        logSection_panel_bot.setBackground(new Color(35, 35, 35));
+
         panel_center.setLayout(new BorderLayout());
         panel_center.add(logSection_panel_bot, BorderLayout.SOUTH);
         panel_center.add(logSection_panel_mid, BorderLayout.CENTER);
         panel_center.add(logSection_panel_top, BorderLayout.NORTH);
-        
+
         JLabel usernameLabel = new JLabel("Username:");
         JLabel passwordLabel = new JLabel("Password:");
         usernameLabel.setForeground(Color.WHITE);
         passwordLabel.setForeground(Color.WHITE);
-        JTextField usernameField = new JTextField(20); 
-        usernameField.setBackground(new Color(35,35,35));
-        JPasswordField passwordField = new JPasswordField(20); 
-        passwordField.setBackground(new Color(35,35,35));
-        
+        JTextField usernameField = new JTextField(20);
+        usernameField.setBackground(new Color(35, 35, 35));
+        JPasswordField passwordField = new JPasswordField(20);
+        passwordField.setBackground(new Color(35, 35, 35));
+
         usernameField.setForeground(Color.WHITE);
         passwordField.setForeground(Color.WHITE);
 
         usernameField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Nhập tài khoản");
-        passwordField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Nhập mật khẩu"); 
-        
-       
-      
-        
+        passwordField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Nhập mật khẩu");
+
         usernameField.setPreferredSize(new Dimension(300, 35));
         passwordField.setPreferredSize(new Dimension(300, 35));
 
         logSection_panel_mid.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
-
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -154,7 +148,6 @@ public class Login extends javax.swing.JFrame {
         gbc.gridy = 0;
         logSection_panel_mid.add(usernameField, gbc);
 
-
         gbc.gridx = 0;
         gbc.gridy = 1;
         logSection_panel_mid.add(passwordLabel, gbc);
@@ -162,7 +155,7 @@ public class Login extends javax.swing.JFrame {
         gbc.gridx = 1;
         gbc.gridy = 1;
         logSection_panel_mid.add(passwordField, gbc);
-        
+
         //Login Btn
         JButton loginBtn = new JButton("ĐĂNG NHẬP");
         loginBtn.setPreferredSize(new Dimension(280, 35));
@@ -170,9 +163,9 @@ public class Login extends javax.swing.JFrame {
         loginBtn.setForeground(Color.white);
         loginBtn.setMnemonic(KeyEvent.VK_ENTER);
         logSection_panel_bot.add(loginBtn);
-        
+
         logSection_panel_top.setLayout(new BorderLayout());
-        
+
         loginBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -185,28 +178,24 @@ public class Login extends javax.swing.JFrame {
         login_lbl.setForeground(new Color(50, 168, 82));
 
         logSection_panel_top.add(login_lbl, BorderLayout.SOUTH);
-        logSection_panel_top.setBackground(new Color(35,35,35));
+        logSection_panel_top.setBackground(new Color(35, 35, 35));
     }
-    
+
     private void loginButtonActionPerformed(JTextField usernameField, JTextField passwordField) {
-        String username = usernameField.getText(); 
-        String password = passwordField.getText(); 
+        String username = usernameField.getText();
+        String password = passwordField.getText();
         StaffDTO staff = staffBUS.isExists(username, password);
         if (staff == null) {
             JOptionPane.showMessageDialog(rootPane, "Sai tài khoản hoặc mật khẩu");
             return;
-        }
-        else {
+        } else {
             StaffDTO.staffLogging = staff;
-           
+
             dispose();
             Main main = new Main();
         }
-        
-        
+
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -243,7 +232,7 @@ public class Login extends javax.swing.JFrame {
         UIManager.put("Button.font", style.MyFont.fontText);
         UIManager.put("Table.font", style.MyFont.fontText);
         UIManager.put("PasswordField.font", style.MyFont.fontText);
-        UIManager.put("PasswordField.showRevealButton", true); 
+        UIManager.put("PasswordField.showRevealButton", true);
         UIManager.put("RootPane.background", new Color(35, 35, 35));
         UIManager.put("TitlePane.font", new Font("Roboto", Font.BOLD, 16));
         UIManager.put("TitlePane.centerTitle", true);
