@@ -423,7 +423,8 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
             return;
         }
         TableDTO tableSelected = tableBUS.findTableByName(txtSaveTable.getText());
-        if (!tableSelected.getTableStatusDTO().equals("DANGSUADUNG")) {
+
+        if (!tableSelected.getStatusID().equals("DANGSUDUNG")) {
             JOptionPane.showMessageDialog(pnContainer, "Bàn này là bàn trống. Không thể chuyển");
             return;
         }
@@ -540,7 +541,7 @@ public class PanelDashbroad extends javax.swing.JPanel implements PropertyChange
             return;
         }
         TableDTO tableSelected = tableBUS.findTableByName(txtSaveTable.getText());
-        if (!tableSelected.getTableStatusDTO().equals("DANGSUADUNG")) {
+        if (!tableSelected.getStatusID().equals("DANGSUDUNG")) {
             JOptionPane.showMessageDialog(pnContainer, "Bàn này là bàn trống. Không thể chuyển");
             return;
         }

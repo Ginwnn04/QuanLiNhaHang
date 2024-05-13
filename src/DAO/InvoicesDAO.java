@@ -67,7 +67,7 @@ public class InvoicesDAO {
 
     public List<InvoicesDTO> readData() {
         String query;
-        query = "SELECT tb_invoices.*, customer_code FROM  tb_detail_order JOIN tb_invoices  ON tb_invoices.id = tb_detail_order.invoiceid JOIN tb_orders ON tb_orders.id = tb_detail_order.orderid WHERE tb_invoices.isdeleted = false";
+        query = "SELECT DISTINCT tb_invoices.*, customer_code FROM  tb_detail_order JOIN tb_invoices  ON tb_invoices.id = tb_detail_order.invoiceid JOIN tb_orders ON tb_orders.id = tb_detail_order.orderid WHERE tb_invoices.isdeleted = false";
         List<InvoicesDTO> res = new ArrayList<>();
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             ResultSet rs = pstm.executeQuery();

@@ -111,7 +111,7 @@ public class QuanLiCongThuc extends javax.swing.JPanel {
         for (OrderDTO x : listOrder) {
             x.setIsSelected(isSelectAll);
             TableDTO table = tableBUS.findTableByID(x.getTableID());
-            model.addRow(new Object[] {x.isIsSelected(), x.getId(), table.getName(), x.getCustomerCode(), Helper.FormatNumber.getInstance().getFormat().format( x.getTotal()), Helper.FormatDate.getInstance().getFormat().format(x.getUpdateTime()), Helper.FormatDate.getInstance().getFormat().format(x.getCreateTime())});
+            model.addRow(new Object[] {x.isIsSelected(), x.getId(), table.getName(), x.getCustomerCode(), Helper.Format.formatNumber.format(x.getTotal()), Helper.Format.formatDate.format(x.getUpdateTime()), Helper.Format.formatDate.format(x.getCreateTime())});
         }
         model.fireTableDataChanged();
         tbDatMon.setModel(model);

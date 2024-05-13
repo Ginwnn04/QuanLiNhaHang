@@ -99,7 +99,7 @@ public class QuanLiBan extends javax.swing.JPanel {
         for (TableDTO x : listTable) {
             x.setIsSelected(isSelectAll);
 //            TableStatusDTO statusDTO = new TableStatusBUS().getTableStatusByID(x.getStatusID());
-            model.addRow(new Object[] {isSelectAll, x.getId(), x.getName(), x.getCustomerCode(), x.getTableStatusDTO().getName(), x.getNote(), Helper.FormatDate.getInstance().getFormat().format(x.getUpdateTime()), Helper.FormatDate.getInstance().getFormat().format(x.getCreateTime())});
+            model.addRow(new Object[] {isSelectAll, x.getId(), x.getName(), x.getCustomerCode(), x.getTableStatusDTO().getName(), x.getNote(), Helper.Format.formatDate.format(x.getUpdateTime()), Helper.Format.formatDate.format(x.getCreateTime())});
         }
         model.fireTableDataChanged();
         tbBan.setModel(model);

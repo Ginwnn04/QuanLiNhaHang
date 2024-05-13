@@ -39,7 +39,7 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
         }
         lbNameProduct.setText(nameProduct);
         total = quantity * price;
-        lbTotal.setText(Helper.FormatNumber.getInstance().getFormat().format(total) + "đ");
+        lbTotal.setText(Helper.Format.formatNumber.format(total) + "đ");
         lbQuantity.setText(quantity + "");
     }
     

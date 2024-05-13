@@ -47,7 +47,7 @@ public class Order extends javax.swing.JDialog {
         for (OrderDTO x : listOrder) {
             x.setIsSelected(isSelectAll);
             TableDTO table = tableBUS.findTableByID(x.getTableID());
-            model.addRow(new Object[]{x.getId(), table.getName(), x.getCustomerCode(), Helper.FormatNumber.getInstance().getFormat().format(x.getTotal()), Helper.FormatDate.getInstance().getFormat().format(x.getCreateTime())});
+            model.addRow(new Object[]{x.getId(), table.getName(), x.getCustomerCode(), Helper.Format.formatNumber.format(x.getTotal()), Helper.Format.formatDate.format(x.getCreateTime())});
         }
         model.fireTableDataChanged();
         tbDatMon.setModel(model);

@@ -97,7 +97,7 @@ public class QuanLiMonAn extends javax.swing.JPanel {
 //            CategoriesDTO cate = new CategoriesBUS().findCategoriByID(x.getCategoryID());
 //            MenuItemStatusDTO status = new MenuItemStatusBUS().findItemStatusByID(x.getStatusID());
             
-            model.addRow(new Object[] {x.isIsSelected(), x.getId(), x.getName(), Helper.FormatNumber.getInstance().getFormat().format(x.getPrice()), Helper.FormatNumber.getInstance().getFormat().format(x.getProfit()), x.getMenuItemStatusDTO().getName(), x.getCategoriesDTO().getName(),Helper.FormatDate.getInstance().getFormat().format(x.getUpdateTime()), Helper.FormatDate.getInstance().getFormat().format(x.getCreateTime())});
+            model.addRow(new Object[] {x.isIsSelected(), x.getId(), x.getName(), Helper.Format.formatNumber.format(x.getPrice()), Helper.Format.formatNumber.format(x.getProfit()), x.getMenuItemStatusDTO().getName(), x.getCategoriesDTO().getName(),Helper.Format.formatDate.format(x.getUpdateTime()), Helper.Format.formatDate.format(x.getCreateTime())});
         }
         model.fireTableDataChanged();
         tbMonAn.setModel(model);

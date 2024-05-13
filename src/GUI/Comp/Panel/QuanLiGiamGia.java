@@ -84,7 +84,7 @@ public class QuanLiGiamGia extends javax.swing.JPanel {
         model.setRowCount(0);
         for (DiscountDTO x : listDiscount) {
 
-            model.addRow(new Object[] {x.getId(), x.getName(), x.getDes(), x.getMinimum(), x.getRemaining(), x.getValue(), x.getType(), Helper.FormatDate.getInstance().getFormat().format(x.getExpiredTime()) ,Helper.FormatDate.getInstance().getFormat().format(x.getUpdateTime()), Helper.FormatDate.getInstance().getFormat().format(x.getCreateTime())});
+            model.addRow(new Object[] {x.getId(), x.getName(), x.getDes(), x.getMinimum(), x.getRemaining(), x.getValue(), x.getType(), Helper.Format.formatDate.format(x.getExpiredTime()) ,Helper.Format.formatDate.format(x.getUpdateTime()), Helper.Format.formatDate.format(x.getCreateTime())});
         }
         model.fireTableDataChanged();
         tbDiscount.setModel(model);
@@ -1004,7 +1004,7 @@ public class QuanLiGiamGia extends javax.swing.JPanel {
         txtDieuKien.setText(discountSelected.getMinimum() + "");
         txtGiaTri.setText(discountSelected.getValue() + "");
         txtSoLuong.setText(discountSelected.getRemaining() + "");
-        txtDate.setText(Helper.FormatDate.getInstance().getFormat().format(discountSelected.getExpiredTime()));
+        txtDate.setText(Helper.Format.formatDate.format(discountSelected.getExpiredTime()));
         cbxLoaiGiam.setSelectedIndex(discountSelected.getType().equals("percent") ? 1 : 0);
     }//GEN-LAST:event_tbDiscountMouseClicked
 

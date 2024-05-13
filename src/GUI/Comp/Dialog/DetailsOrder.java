@@ -52,7 +52,7 @@ public class DetailsOrder extends javax.swing.JDialog {
         }
         for (DetailOrderDTO x : listDetailsOrder) {
             if (!x.isIsDelete()) {
-                model.addRow(new Object[] {x.getId(), x.getName(), x.getQuantity(), Helper.FormatNumber.getInstance().getFormat().format(x.getTotal())});
+                model.addRow(new Object[] {x.getId(), x.getName(), x.getQuantity(), Helper.Format.formatNumber.format(x.getTotal())});
             }
         }
     }
@@ -814,7 +814,7 @@ public class DetailsOrder extends javax.swing.JDialog {
         txtIDMonAn.setText(listDetailsOrder.get(row).getId() + "");
         txtTenMon.setText(listDetailsOrder.get(row).getName());
         txtSoLuong.setText(listDetailsOrder.get(row).getQuantity()+ "");
-        lbThanhTien.setText(Helper.FormatNumber.getInstance().getFormat().format(listDetailsOrder.get(row).getTotal()));
+        lbThanhTien.setText(Helper.Format.formatNumber.format(listDetailsOrder.get(row).getTotal()));
     }//GEN-LAST:event_tbMonAnMouseClicked
 
     private void txtSoLuongKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSoLuongKeyReleased
@@ -825,7 +825,7 @@ public class DetailsOrder extends javax.swing.JDialog {
         }
         else {
             try {
-                lbThanhTien.setText(Helper.FormatNumber.getInstance().getFormat().format(Long.parseLong(quantity) * listDetailsOrder.get(row).getPrice()));
+                lbThanhTien.setText(Helper.Format.formatNumber.format(Long.parseLong(quantity) * listDetailsOrder.get(row).getPrice()));
                 isValid = true;
             }
             catch(NumberFormatException nfe) {

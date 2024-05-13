@@ -22,6 +22,10 @@ public class DetailOrderBUS {
         return detailOrderDAO.findDetailByIDOrder(idOrder);
     }
     
+    public ArrayList<DetailOrderDTO> findDetailByInvoice(long idinvoice) {
+        return detailOrderDAO.findDetailByInvoice(idinvoice);
+    }
+    
     public long getInvoiceByOrderID(long orderID) {
         return detailOrderDAO.getInvoiceByID(orderID);
     }
@@ -29,6 +33,12 @@ public class DetailOrderBUS {
     public ArrayList<DetailOrderDTO> mergeDetails(String listOrderId) {
         return detailOrderDAO.mergeDetais(listOrderId);
     }
+    
+     public ArrayList<DetailOrderDTO> mergeDetaisByIDInvoice(String listInvoiceID) {
+        return detailOrderDAO.mergeDetaisByIDInvoice(listInvoiceID);
+    }
+    
+    
     
     public boolean updateDetails(String listOrderID, long invoiceid) {
         return detailOrderDAO.updateDetails(listOrderID, invoiceid);

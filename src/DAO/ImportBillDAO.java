@@ -35,7 +35,7 @@ public class ImportBillDAO {
 
             while (rs.next()) {
                 double total = rs.getDouble("total");
-                String formattedTotal = FormatNumber.getInstance().getFormat().format(total);
+                String formattedTotal = Helper.Format.formatNumber.format(total);
                 java.sql.Date importDate = rs.getDate("import_date");
                 String formattedImportDate = (importDate != null) ? dateFormat.format(importDate) : "";
                 Object[] row = {

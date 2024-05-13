@@ -12,6 +12,7 @@ import DTO.InvoicesDTO;
 import DTO.TableDTO;
 import GUI.Comp.DateChooser.SelectedDate;
 import GUI.Comp.Dialog.DetailsOrder;
+import GUI.Comp.Dialog.DialogChiTietHoaDon;
 import GUI.Comp.Dialog.Order;
 import GUI.Comp.chart.ModelInvoices;
 import com.formdev.flatlaf.FlatClientProperties;
@@ -69,6 +70,7 @@ public class QuanLiHoaDon extends javax.swing.JPanel {
     private String listInvoiceIDSelected = "";
     private DefaultTableModel model;
     private int cntOrderSelected;
+    private String customerCode;
     private boolean isSelectAll = false;
 
     public QuanLiHoaDon() {
@@ -92,14 +94,17 @@ public class QuanLiHoaDon extends javax.swing.JPanel {
 
                     int row1 = e.getFirstRow();
 
-                    listInvoice.get(row1).setIsSelected(!listInvoice.get(row1).isIsSelected());
-                    cntOrderSelected = !listInvoice.get(row1).isIsSelected() ? -1 : 1;
-                    if (cntOrderSelected == 1) {
-                        btnChiTiet.setEnabled(true);
-                    } else {
-                        btnChiTiet.setEnabled(false);
-
+                    listInvoice.get(row1).setIsSelected((boolean)tbInvoice.getValueAt(row1, 0));
+                    if (listInvoice.get(row1).isIsSelected()) {
+                        cntOrderSelected++;
+                        customerCode = listInvoice.get(row1).getOrderDTO().getCustomerCode();
                     }
+                    else {
+                        cntOrderSelected--;
+                        customerCode = "";
+                    }
+//                    System.out.println(customerCode);
+                    
 
                 }
             }
@@ -117,7 +122,7 @@ public class QuanLiHoaDon extends javax.swing.JPanel {
 
             model.addRow(new Object[] { i.isIsSelected(), i.getId(), i.getOrderDTO().getCustomerCode(), i.getAmount(),
                     i.getDiscount(), i.getTotal(),
-                    Helper.FormatDate.getInstance().getFormat().format(i.getCreateTime()) });
+                    Helper.Format.formatDate.format(i.getCreateTime()) });
         }
         model.fireTableDataChanged();
         tbInvoice.setModel(model);
@@ -526,10 +531,12 @@ public class QuanLiHoaDon extends javax.swing.JPanel {
     private void btnChiTietActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnChiTietActionPerformed
         getOrderIDSelected();
         if (!listInvoiceIDSelected.isEmpty()) {
-            Order x = new Order(null, true);
             long invoiceID = Long.parseLong(listInvoiceIDSelected);
-            x.insertInvoiceID(invoiceID);
-            x.render(true);
+            ArrayList<OrderDTO> orderDTO = new OrderBUS().findOrderByCustomerCode(customerCode);
+        
+            TableDTO table = tableBUS.findTableByID(orderDTO.get(0).getTableID());
+            DialogChiTietHoaDon x = new DialogChiTietHoaDon(null, true);
+            x.loadForm(invoiceID, table);
             x.setVisible(true);
             render(false);
         } else {

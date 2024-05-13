@@ -83,6 +83,8 @@ public class TableBUS {
         return tableDAO.read(criteria).size() == 0 ? null : tableDAO.read(criteria).get(0);
     }
     
+
+    
     public TableDTO findTableByID(long idTable) {
         TableCriteria criteria = new TableCriteria();
         criteria.setId(idTable);

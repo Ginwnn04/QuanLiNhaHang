@@ -113,9 +113,9 @@ public class DialogKiemTra extends javax.swing.JDialog {
             amount += x.getTotal();
         }
         total = amount - discountPrice;
-        lbThanhTien.setText(Helper.FormatNumber.getInstance().getFormat().format(amount) + "đ");
-        lbTienGiam.setText(Helper.FormatNumber.getInstance().getFormat().format(discountPrice) + "đ");
-        lbTongTien.setText(Helper.FormatNumber.getInstance().getFormat().format(total) + "đ");
+        lbThanhTien.setText(Helper.Format.formatNumber.format(amount) + "đ");
+        lbTienGiam.setText(Helper.Format.formatNumber.format(discountPrice) + "đ");
+        lbTongTien.setText(Helper.Format.formatNumber.format(total) + "đ");
     }
     
     /////////////////////////////////////////////////////
@@ -125,7 +125,7 @@ public class DialogKiemTra extends javax.swing.JDialog {
         listDetailOrder = new DetailOrderBUS().mergeDetails(listOrderId);
         modelMonAn.setRowCount(0);
         for (DetailOrderDTO x : listDetailOrder) {
-            modelMonAn.addRow(new Object[] {x.getItemID(), x.getName(), Helper.FormatNumber.getInstance().getFormat().format(x.getPrice()), x.getQuantity(), Helper.FormatNumber.getInstance().getFormat().format(x.getTotal())});
+            modelMonAn.addRow(new Object[] {x.getItemID(), x.getName(), Helper.Format.formatNumber.format(x.getPrice()), x.getQuantity(), Helper.Format.formatNumber.format(x.getTotal())});
         }
         modelMonAn.fireTableDataChanged();
         tbMonAn.setModel(modelMonAn);  
@@ -139,10 +139,10 @@ public class DialogKiemTra extends javax.swing.JDialog {
         modelDiscount.setRowCount(0);
         for (DiscountDTO x : listDiscount) {
             if (x.getType().equals("percent")) {
-                modelDiscount.addRow(new Object[] {x.getName(), x.getValue(), x.getType(), Helper.FormatNumber.getInstance().getFormat().format(x.getMinimum()), x.getExpiredTime()});
+                modelDiscount.addRow(new Object[] {x.getName(), x.getValue(), x.getType(), Helper.Format.formatNumber.format(x.getMinimum()), Helper.Format.formatDate.format(x.getExpiredTime())});
             }
             else {
-                modelDiscount.addRow(new Object[] {x.getName(), Helper.FormatNumber.getInstance().getFormat().format(x.getValue()), x.getType(), Helper.FormatNumber.getInstance().getFormat().format(x.getMinimum()), x.getExpiredTime()});
+                modelDiscount.addRow(new Object[] {x.getName(), Helper.Format.formatNumber.format(x.getValue()), x.getType(), Helper.Format.formatNumber.format(x.getMinimum()), Helper.Format.formatDate.format(x.getExpiredTime())});
             }
         }
         modelDiscount.fireTableDataChanged();
@@ -561,9 +561,9 @@ public class DialogKiemTra extends javax.swing.JDialog {
             txtSaveDiscountID.setText(0 + "");
             discountPrice = 0;
             total = amount - discountPrice;
-            lbThanhTien.setText(Helper.FormatNumber.getInstance().getFormat().format(amount) + "đ");
-            lbTienGiam.setText(Helper.FormatNumber.getInstance().getFormat().format(discountPrice) + "đ");
-            lbTongTien.setText(Helper.FormatNumber.getInstance().getFormat().format(total) + "đ");
+            lbThanhTien.setText(Helper.Format.formatNumber.format(amount) + "đ");
+            lbTienGiam.setText(Helper.Format.formatNumber.format(discountPrice) + "đ");
+            lbTongTien.setText(Helper.Format.formatNumber.format(total) + "đ");
         }
         else {
             txtSaveDiscountID.setText(discount.getId());
@@ -575,8 +575,8 @@ public class DialogKiemTra extends javax.swing.JDialog {
                 discountPrice = discount.getValue();
             }
             total = amount - discountPrice;
-            lbTienGiam.setText(Helper.FormatNumber.getInstance().getFormat().format(discountPrice) + "đ");
-            lbTongTien.setText(Helper.FormatNumber.getInstance().getFormat().format(total) + "đ");
+            lbTienGiam.setText(Helper.Format.formatNumber.format(discountPrice) + "đ");
+            lbTongTien.setText(Helper.Format.formatNumber.format(total) + "đ");
         }
     }//GEN-LAST:event_tbDiscountMouseClicked
 
@@ -609,7 +609,7 @@ public class DialogKiemTra extends javax.swing.JDialog {
             
             
             
-            Image image = Image.getInstance("src//GUI//Comp//Icon//logo1.jpg");
+            Image image = Image.getInstance("src//GUI//Comp//Icon//logo.jpg");
             image.scaleToFit(50, 50);
             
             PdfPTable tbHeader = new PdfPTable(3);
@@ -658,7 +658,7 @@ public class DialogKiemTra extends javax.swing.JDialog {
             tbInformation.addCell(new Paragraph("Invoice ID #:"));
             tbInformation.addCell(new Paragraph(invoice.getId() + ""));
             tbInformation.addCell(new Paragraph("Date:"));
-            tbInformation.addCell(new Paragraph(Helper.FormatDate.getInstance().getFormat().format(new Date()) + ""));
+            tbInformation.addCell(new Paragraph(Helper.Format.formatDate.format(new Date()) + ""));
             tbInformation.addCell(new Paragraph("Employee:"));
             String nameStaff = StaffDTO.staffLogging.getLast_name() + " " + StaffDTO.staffLogging.getFirst_name();
             tbInformation.addCell(new Paragraph(nameStaff));
@@ -695,8 +695,8 @@ public class DialogKiemTra extends javax.swing.JDialog {
             for (DetailOrderDTO x : listDetailOrder) {
                 Paragraph name = new Paragraph(x.getName(), customFont);
                 Paragraph quantity = new Paragraph(x.getQuantity() + "", customFont);
-                Paragraph price = new Paragraph(Helper.FormatNumber.getInstance().getFormat().format(x.getPrice()), customFont);
-                Paragraph total = new Paragraph(Helper.FormatNumber.getInstance().getFormat().format(x.getTotal()), customFont);
+                Paragraph price = new Paragraph(Helper.Format.formatNumber.format(x.getPrice()), customFont);
+                Paragraph total = new Paragraph(Helper.Format.formatNumber.format(x.getTotal()), customFont);
                 tbDetails.addCell(name);
                 tbDetails.addCell(quantity);
                 tbDetails.addCell(price);
@@ -719,13 +719,13 @@ public class DialogKiemTra extends javax.swing.JDialog {
             // Add content to the table
             tbPay.addCell(new Paragraph(""));
             tbPay.addCell(new Paragraph("Sub total:"));
-            tbPay.addCell(new Paragraph(Helper.FormatNumber.getInstance().getFormat().format(amount)));
+            tbPay.addCell(new Paragraph(Helper.Format.formatNumber.format(amount)));
             tbPay.addCell(new Paragraph(""));
             tbPay.addCell(new Paragraph("Discount:"));
-            tbPay.addCell(new Paragraph(Helper.FormatNumber.getInstance().getFormat().format(discountPrice)));
+            tbPay.addCell(new Paragraph(Helper.Format.formatNumber.format(discountPrice)));
             tbPay.addCell(new Paragraph(""));
             tbPay.addCell(new Paragraph("Total:"));
-            tbPay.addCell(new Paragraph(Helper.FormatNumber.getInstance().getFormat().format(total)));
+            tbPay.addCell(new Paragraph(Helper.Format.formatNumber.format(total)));
             
 
             

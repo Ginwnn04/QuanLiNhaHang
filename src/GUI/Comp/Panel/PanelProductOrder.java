@@ -46,7 +46,7 @@ public class PanelProductOrder extends javax.swing.JPanel {
         this.desc = desc;
         
         lbNameProduct.setText(nameProduct);
-        lbShowPrice.setText(Helper.FormatNumber.getInstance().getFormat().format(price) + "đ");
+        lbShowPrice.setText(Helper.Format.formatNumber.format(price) + "đ");
         lbShowActive.setText(status);
         
        
