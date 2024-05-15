@@ -5,6 +5,7 @@
 package GUI.Comp.Panel;
 
 
+import BUS.MenuItemStatusBUS;
 import GUI.Comp.Dialog.DialogItem;
 import Helper.MyListener;
 import java.awt.Color;
@@ -41,13 +42,14 @@ public class PanelProductOrder extends javax.swing.JPanel {
         });
     }
 
-    public void insertData(int index, String nameProduct, long price, String status, String imagePath, String desc) {
+    public void insertData(int index, String nameProduct, long price, String statusID, String imagePath, String desc, int quantity) {
         this.index = index;
         this.desc = desc;
-        
+        String status = new MenuItemStatusBUS().findItemStatusByID(statusID).getName();
         lbNameProduct.setText(nameProduct);
         lbShowPrice.setText(Helper.Format.formatNumber.format(price) + "đ");
         lbShowActive.setText(status);
+        lbQuantity.setText(quantity + "");
         
        
         
@@ -76,6 +78,8 @@ public class PanelProductOrder extends javax.swing.JPanel {
         lbShowPrice = new javax.swing.JLabel();
         lbShowActive = new javax.swing.JLabel();
         btnModal = new javax.swing.JButton();
+        lbActiveProduct1 = new javax.swing.JLabel();
+        lbQuantity = new javax.swing.JLabel();
 
         pnDetailProduct.setBackground(new java.awt.Color(35, 35, 35));
 
@@ -113,6 +117,14 @@ public class PanelProductOrder extends javax.swing.JPanel {
         btnModal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Comp/Icon/eye.png"))); // NOI18N
         btnModal.setPreferredSize(new java.awt.Dimension(24, 24));
 
+        lbActiveProduct1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        lbActiveProduct1.setForeground(new java.awt.Color(255, 255, 255));
+        lbActiveProduct1.setText("Số lượng");
+
+        lbQuantity.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        lbQuantity.setForeground(new java.awt.Color(255, 255, 255));
+        lbQuantity.setText("0");
+
         javax.swing.GroupLayout pnDetailProductLayout = new javax.swing.GroupLayout(pnDetailProduct);
         pnDetailProduct.setLayout(pnDetailProductLayout);
         pnDetailProductLayout.setHorizontalGroup(
@@ -131,9 +143,13 @@ public class PanelProductOrder extends javax.swing.JPanel {
                                 .addGap(59, 59, 59)
                                 .addComponent(lbShowPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(pnDetailProductLayout.createSequentialGroup()
-                                .addComponent(lbActiveProduct)
+                                .addGroup(pnDetailProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbActiveProduct)
+                                    .addComponent(lbActiveProduct1))
                                 .addGap(18, 18, 18)
-                                .addComponent(lbShowActive)))
+                                .addGroup(pnDetailProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lbShowActive, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lbQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(18, 18, 18)
                         .addComponent(btnModal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -147,20 +163,26 @@ public class PanelProductOrder extends javax.swing.JPanel {
                 .addGroup(pnDetailProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(avatarProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnDetailProductLayout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(lbPrice)
-                        .addGap(10, 10, 10)
-                        .addGroup(pnDetailProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lbActiveProduct)
-                            .addComponent(lbShowActive)))
-                    .addGroup(pnDetailProductLayout.createSequentialGroup()
-                        .addComponent(lbNameProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnDetailProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbShowPrice)
-                            .addComponent(btnSelection, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnModal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(6, 6, 6))
+                            .addGroup(pnDetailProductLayout.createSequentialGroup()
+                                .addGap(34, 34, 34)
+                                .addComponent(lbPrice)
+                                .addGap(10, 10, 10)
+                                .addGroup(pnDetailProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lbActiveProduct)
+                                    .addComponent(lbShowActive)))
+                            .addGroup(pnDetailProductLayout.createSequentialGroup()
+                                .addComponent(lbNameProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pnDetailProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbShowPrice)
+                                    .addComponent(btnSelection, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnModal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pnDetailProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbActiveProduct1)
+                            .addComponent(lbQuantity))))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -171,10 +193,7 @@ public class PanelProductOrder extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(pnDetailProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(pnDetailProduct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -188,8 +207,10 @@ public class PanelProductOrder extends javax.swing.JPanel {
     private javax.swing.JButton btnModal;
     public javax.swing.JButton btnSelection;
     private javax.swing.JLabel lbActiveProduct;
+    private javax.swing.JLabel lbActiveProduct1;
     private javax.swing.JLabel lbNameProduct;
     private javax.swing.JLabel lbPrice;
+    private javax.swing.JLabel lbQuantity;
     private javax.swing.JLabel lbShowActive;
     private javax.swing.JLabel lbShowPrice;
     private GUI.Comp.Swing.PanelBackground pnDetailProduct;

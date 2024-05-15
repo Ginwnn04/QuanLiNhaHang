@@ -161,7 +161,12 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         pnOrder.setPreferredSize(new Dimension(width, height));
         for (int i = 0; i < listMenuItem.size(); i++) {
             MenuItemDTO item = listMenuItem.get(i);
+            String status = item.getStatusID();
             pnOrder.add(item.createCart(i));
+            String statusNew = item.getStatusID();
+            if (!status.equals(statusNew)) {
+                menuItemBUS.updateData(item);
+            }
         }
     }
 
@@ -322,7 +327,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         panelBackground5.setLayout(panelBackground5Layout);
         panelBackground5Layout.setHorizontalGroup(
             panelBackground5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 897, Short.MAX_VALUE)
+            .addGap(0, 970, Short.MAX_VALUE)
         );
         panelBackground5Layout.setVerticalGroup(
             panelBackground5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -338,7 +343,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         panelBackground6.setLayout(panelBackground6Layout);
         panelBackground6Layout.setHorizontalGroup(
             panelBackground6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 897, Short.MAX_VALUE)
+            .addGap(0, 970, Short.MAX_VALUE)
         );
         panelBackground6Layout.setVerticalGroup(
             panelBackground6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -355,7 +360,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         jScrollPane2.setPreferredSize(new java.awt.Dimension(400, 700));
 
         pnOrder.setBackground(new java.awt.Color(35, 35, 35));
-        pnOrder.setPreferredSize(new java.awt.Dimension(400, 580));
+        pnOrder.setPreferredSize(new java.awt.Dimension(450, 580));
         pnOrder.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 10));
         jScrollPane2.setViewportView(pnOrder);
 
@@ -467,14 +472,14 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
             .addGroup(panelBackground2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelBackground2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
                     .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelBackground2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(lbTotalSelected)
-                        .addGap(32, 303, Short.MAX_VALUE)))
+                        .addGap(32, 339, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelBackground2Layout.setVerticalGroup(
@@ -501,7 +506,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 897, Short.MAX_VALUE)
+            .addComponent(pnContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 970, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

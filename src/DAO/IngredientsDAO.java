@@ -19,7 +19,7 @@ import java.sql.SQLException;
 public class IngredientsDAO {
 
     public IngredientsDTO getIngredientById(long id) {
-        String query = "SELECT id, name, des, quantity, unit, isDeleted FROM tb_ingredients WHERE id=?";
+        String query = "SELECT id, name, des, quantity, unit, isDeleted FROM tb_ingredients WHERE id=? AND isdeleted = false";
         try (PreparedStatement pstm = Helper.ConnectDB.getInstance().getConnection().prepareStatement(query)) {
             pstm.setLong(1, id);
             try (ResultSet rs = pstm.executeQuery()) {

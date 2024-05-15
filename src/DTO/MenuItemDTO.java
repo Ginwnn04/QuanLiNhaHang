@@ -65,7 +65,30 @@ public class MenuItemDTO {
         
         
         MenuItemStatusDTO menuItemStatusDTO = new MenuItemStatusBUS().findItemStatusByID(statusID);
-        panelProductOrder.insertData(index, name, price, menuItemStatusDTO.getName(), image, description);
+        
+        int quantity = Integer.MAX_VALUE;
+        
+        ArrayList<DetailsRecipeDTO>listDetailRecipe = new DetailsReciptBUS().readByIDItem(id);
+        for (DetailsRecipeDTO detailRecipe : listDetailRecipe) {
+            IngredientsDTO ingredientsDTO = new IngredientsBUS().getIngredientById(detailRecipe.getIngredientID());
+            if (ingredientsDTO == null) {
+                continue;
+            }
+            int quantityNew = ingredientsDTO.getQuantity() / detailRecipe.getQuantity();
+            if (quantityNew < quantity) {
+                quantity = quantityNew;
+            }
+        }
+        if (quantity == 0) {
+            statusID = "TAMHET";
+        }
+        else {
+            statusID = "SANSANG";
+
+        }
+
+        
+        panelProductOrder.insertData(index, name, price, statusID, image, description, quantity);
 //        System.out.println(description + " " + ingredient + " 1");
         
         return panelProductOrder;
