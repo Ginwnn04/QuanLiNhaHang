@@ -55,24 +55,43 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         if (evt.getPropertyName().equals("Quantity0")) {
             String nameProduct = (String) evt.getNewValue();
             check(nameProduct);
-            lbShowTien.setText(totalPrice + " đ");
-        }
-        if (evt.getPropertyName().equals("Order")) {            
-            totalPrice += (Long)evt.getNewValue();
             lbShowTien.setText(Helper.Format.formatNumber.format(totalPrice) + "đ");
+        }
+//        if (evt.getPropertyName().equals("Order")) {            
+//            totalPrice += (Long)evt.getNewValue();
+//            lbShowTien.setText(Helper.Format.formatNumber.format(totalPrice) + "đ");
+//            for (DetailOrderDTO x : listDetailOrder) {
+//                if (x.getName().equals(evt.getOldValue())) {
+//                    if ((long)evt.getNewValue() > 0) {
+//                        x.setQuantity(x.getQuantity() + 1);
+//                    }
+//                    else {
+//                        x.setQuantity(x.getQuantity() - 1);
+//                        
+//                    }
+//                    System.out.println(evt.getOldValue() + " " + x.getQuantity());
+//                }
+//            }
+//        }
+
+          if (evt.getPropertyName().equals("Order")) {            
+            totalPrice = 0;
             for (DetailOrderDTO x : listDetailOrder) {
                 if (x.getName().equals(evt.getOldValue())) {
-                    if ((long)evt.getNewValue() > 0) {
-                        x.setQuantity(x.getQuantity() + 1);
-                    }
-                    else {
-                        x.setQuantity(x.getQuantity() - 1);
-                        
-                    }
-                    System.out.println(evt.getOldValue() + " " + x.getQuantity());
+                    x.setQuantity((Integer)evt.getNewValue());
+                    x.setTotal(x.getQuantity() * x.getPrice());
+                    
+                    System.out.println(evt.getOldValue() + " " + x.getQuantity() + " " + x.getTotal());
                 }
+                totalPrice += x.getTotal();
+                
             }
-        }
+            lbShowTien.setText(Helper.Format.formatNumber.format(totalPrice) + "đ");
+        }  
+            
+
+
+
         if (evt.getPropertyName().equals("SelectedTable")) {
             TableDTO table = listTable.get(getTable((String)evt.getOldValue()));
             PanelTableBooking pnTable = table.getPnTableBooking();
@@ -377,7 +396,7 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         pnCheckout.setBackground(new java.awt.Color(35, 35, 35));
         pnCheckout.setPreferredSize(new java.awt.Dimension(345, 420));
         pnCheckout.setRound(0);
-        java.awt.FlowLayout flowLayout2 = new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 10);
+        java.awt.FlowLayout flowLayout2 = new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10);
         flowLayout2.setAlignOnBaseline(true);
         pnCheckout.setLayout(flowLayout2);
         jScrollPane3.setViewportView(pnCheckout);
@@ -406,9 +425,6 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
         panelBackground1.setLayout(panelBackground1Layout);
         panelBackground1Layout.setHorizontalGroup(
             panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBackground1Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(panelBackground1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -422,9 +438,13 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBackground1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(lbTitleTongTien)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 190, Short.MAX_VALUE)
                 .addComponent(lbShowTien, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
+            .addGroup(panelBackground1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3)
+                .addContainerGap())
         );
         panelBackground1Layout.setVerticalGroup(
             panelBackground1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

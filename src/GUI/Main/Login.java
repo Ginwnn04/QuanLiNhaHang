@@ -48,7 +48,7 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-
+        setMinimumSize(new Dimension(900, 500));
         Helper.ConnectDB.getInstance().openConnect();
     }
 
@@ -123,6 +123,7 @@ public class Login extends javax.swing.JFrame {
         usernameLabel.setForeground(Color.WHITE);
         passwordLabel.setForeground(Color.WHITE);
         JTextField usernameField = new JTextField(20);
+       
         usernameField.setBackground(new Color(35, 35, 35));
         JPasswordField passwordField = new JPasswordField(20);
         passwordField.setBackground(new Color(35, 35, 35));

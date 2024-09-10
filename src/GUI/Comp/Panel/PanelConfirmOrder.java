@@ -4,6 +4,8 @@ import Helper.MyListener;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class PanelConfirmOrder extends javax.swing.JPanel {
    
@@ -15,7 +17,7 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
     
     public PanelConfirmOrder() {
         initComponents();
-        serviceButton();
+        serviceListener();
         setBackground(new Color(0,0,0,0));
         pnContainer.setColor(new Color(53, 53, 53));
     }
@@ -40,37 +42,49 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
         lbNameProduct.setText(nameProduct);
         total = quantity * price;
         lbTotal.setText(Helper.Format.formatNumber.format(total) + "đ");
-        lbQuantity.setText(quantity + "");
+        tfQuantity.setText(quantity + "");
     }
     
-    public void serviceButton() {
+    public void serviceListener() {
         btnDown.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (quantity > 0) {
-                    lbQuantity.setText(--quantity + "");
+                    tfQuantity.setText(--quantity + "");
                     if (quantity == 0) {
                         MyListener.getInstance().firePropertyChange("Quantity0", "", nameProduct);
                     }
                     else {
-                        MyListener.getInstance().firePropertyChange("Order", nameProduct,  price * -1);
+                        MyListener.getInstance().firePropertyChange("Order", nameProduct,  quantity);
                     }
                 }
                 update();
-                
+                System.out.println(quantity + " " + total);
                 
             }
         });
         btnUp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                lbQuantity.setText(++quantity + "");
-                MyListener.getInstance().firePropertyChange("Order", nameProduct, price);
+                tfQuantity.setText(++quantity + "");
+                MyListener.getInstance().firePropertyChange("Order", nameProduct, quantity);
                 update();
+                System.out.println(quantity + " " + total);
             }
             
         });
         
+        tfQuantity.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                quantity = Integer.parseInt(tfQuantity.getText());
+                MyListener.getInstance().firePropertyChange("Order", nameProduct, quantity);
+                update();
+                System.out.println(quantity + " " + total);
+            }
+        
+        
+        });
         
     }
 
@@ -106,7 +120,7 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
         pnSpinner = new GUI.Comp.Swing.PanelBackground();
         btnDown = new javax.swing.JButton();
         btnUp = new javax.swing.JButton();
-        lbQuantity = new javax.swing.JLabel();
+        tfQuantity = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -136,9 +150,11 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
         btnUp.setText("+");
         btnUp.setBorderPainted(false);
 
-        lbQuantity.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        lbQuantity.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbQuantity.setText("1");
+        tfQuantity.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tfQuantity.setText("1");
+        tfQuantity.setMaximumSize(new java.awt.Dimension(2147483647, 24));
+        tfQuantity.setMinimumSize(new java.awt.Dimension(64, 24));
+        tfQuantity.setPreferredSize(new java.awt.Dimension(64, 24));
 
         javax.swing.GroupLayout pnSpinnerLayout = new javax.swing.GroupLayout(pnSpinner);
         pnSpinner.setLayout(pnSpinnerLayout);
@@ -147,22 +163,27 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
             .addGroup(pnSpinnerLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnDown, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(lbQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addGap(10, 10, 10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnUp, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         pnSpinnerLayout.setVerticalGroup(
             pnSpinnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnSpinnerLayout.createSequentialGroup()
-                .addGap(5, 5, 5)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnSpinnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDown)
-                    .addComponent(btnUp)
-                    .addComponent(lbQuantity))
-                .addGap(5, 5, 5))
+                    .addComponent(btnUp))
+                .addGap(7, 7, 7))
+            .addGroup(pnSpinnerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(tfQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        tfQuantity.getAccessibleContext().setAccessibleName("");
 
         javax.swing.GroupLayout pnContainerLayout = new javax.swing.GroupLayout(pnContainer);
         pnContainer.setLayout(pnContainerLayout);
@@ -206,9 +227,9 @@ public class PanelConfirmOrder extends javax.swing.JPanel {
     private javax.swing.JButton btnDown;
     private javax.swing.JButton btnUp;
     private javax.swing.JLabel lbNameProduct;
-    private javax.swing.JLabel lbQuantity;
     private javax.swing.JLabel lbTotal;
     private GUI.Comp.Swing.PanelBackground pnContainer;
     private GUI.Comp.Swing.PanelBackground pnSpinner;
+    private javax.swing.JTextField tfQuantity;
     // End of variables declaration//GEN-END:variables
 }
