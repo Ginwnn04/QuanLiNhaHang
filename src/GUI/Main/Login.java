@@ -48,7 +48,7 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setMinimumSize(new Dimension(900, 500));
+        setMinimumSize(new Dimension(920, 500));
         Helper.ConnectDB.getInstance().openConnect();
     }
 
@@ -72,6 +72,7 @@ public class Login extends javax.swing.JFrame {
         JLabel lbImage = new JLabel(image) {
             public void paintComponent(Graphics g) {
                 Dimension size = getSize();
+                System.out.println(size.width + " " + size.height);
                 g.drawImage(image.getImage(), 0, 0, size.width, size.height, null);
             }
         };

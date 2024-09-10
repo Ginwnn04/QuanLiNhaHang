@@ -46,6 +46,7 @@ public class PanelProductOrder extends javax.swing.JPanel {
         this.index = index;
         this.desc = desc;
         String status = new MenuItemStatusBUS().findItemStatusByID(statusID).getName();
+
         lbNameProduct.setText(nameProduct);
         lbShowPrice.setText(Helper.Format.formatNumber.format(price) + "đ");
         lbShowActive.setText(status);

@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 public class ConnectDB {
     private static ConnectDB instance;
-    private String connectionUrl = "jdbc:postgresql://localhost:5432/manager-restaurant?user=postgres&password=123456";
+    private String connectionUrl = "jdbc:postgresql://localhost:5432/?user=postgres&password=123456";
     private Connection con;
     
     private ConnectDB() {

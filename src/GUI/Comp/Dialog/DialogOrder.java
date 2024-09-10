@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.apache.logging.log4j.message.Message;
 
 public class DialogOrder extends javax.swing.JDialog implements PropertyChangeListener {
     private long totalPrice = 0;
@@ -175,18 +176,22 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
     }
     public void addMenuItem() {
         listMenuItem = menuItemBUS.getAllData();
-        int height = 125 * listMenuItem.size();
+        int height = 135 * listMenuItem.size();
         int width = pnOrder.getWidth();
         pnOrder.setPreferredSize(new Dimension(width, height));
         for (int i = 0; i < listMenuItem.size(); i++) {
             MenuItemDTO item = listMenuItem.get(i);
-            String status = item.getStatusID();
+//            System.out.println(item.getName() + " " + item.getStatusID());
+            String statusOld = item.getStatusID();
             pnOrder.add(item.createCart(i));
             String statusNew = item.getStatusID();
-            if (!status.equals(statusNew)) {
+            if (!statusOld.equals(statusNew)) {
                 menuItemBUS.updateData(item);
             }
+           
         }
+        
+        System.out.println(listMenuItem.size());
     }
 
     public void updatePrice() {
@@ -234,7 +239,11 @@ public class DialogOrder extends javax.swing.JDialog implements PropertyChangeLi
     public void test(int index) {
         boolean isExists = false;
         MenuItemDTO item = listMenuItem.get(index);
-
+        if (item.getStatusID().equals("TAMHET")) {
+           
+            JOptionPane.showMessageDialog(rootPane, "Sản phẩm tạm hết vui lòng chọn món khác !");
+            return;
+        }
         for (DetailOrderDTO x : listDetailOrder) {
             x.rerender();
             if (x.getName().equals(item.getName())) {
